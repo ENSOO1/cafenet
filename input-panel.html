@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>پنل ورودی | کافی‌نت جانا</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+min-height:100vh;
+font-family:Tahoma,Arial,sans-serif;
+color:#fff;
+background:
+radial-gradient(circle at 15% 15%,rgba(0,255,100,.10),transparent 30%),
+radial-gradient(circle at 85% 85%,rgba(0,130,255,.13),transparent 30%),
+#020202;
+padding:25px;
+}
+
+.container{
+max-width:1150px;
+margin:auto;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+h1{
+font-size:28px;
+margin:0;
+}
+
+h1 span{
+color:#00ff66;
+text-shadow:0 0 15px rgba(0,255,100,.5);
+}
+
+.back{
+text-decoration:none;
+color:white;
+padding:12px 20px;
+border-radius:14px;
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.12);
+backdrop-filter:blur(20px);
+transition:.3s;
+}
+
+.back:hover{
+border-color:#00ff66;
+box-shadow:0 0 25px rgba(0,255,100,.2);
+}
+
+.panel{
+padding:25px;
+margin-bottom:25px;
+border-radius:24px;
+background:rgba(255,255,255,.045);
+border:1px solid rgba(255,255,255,.1);
+backdrop-filter:blur(25px);
+box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+
+.form{
+display:grid;
+grid-template-columns:1fr 1fr 1fr auto;
+gap:12px;
+}
+
+input,select{
+width:100%;
+height:50px;
+padding:0 15px;
+border-radius:13px;
+border:1px solid rgba(255,255,255,.1);
+background:rgba(0,0,0,.4);
+color:#fff;
+outline:none;
+}
+
+input:focus,select:focus{
+border-color:#00ff66;
+box-shadow:0 0 20px rgba(0,255,100,.1);
+}
+
+button{
+height:50px;
+padding:0 25px;
+border:0;
+border-radius:13px;
+background:#00ff66;
+color:#000;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:translateY(-3px);
+box-shadow:0 0 25px rgba(0,255,100,.3);
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.stat{
+padding:25px;
+border-radius:20px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
+transition:.3s;
+}
+
+.stat:hover{
+transform:translateY(-7px);
+border-color:rgba(0,255,100,.4);
+}
+
+.stat h3{
+color:#888;
+font-size:14px;
+margin-top:0;
+}
+
+.stat strong{
+font-size:23px;
+color:#00ff66;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:14px 10px;
+text-align:center;
+border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+th{
+color:#00ff66;
+}
+
+td{
+color:#ccc;
+}
+
+.delete{
+height:auto;
+padding:8px 12px;
+background:#301010;
+color:#ff5555;
+}
+
+.empty{
+text-align:center;
+padding:35px;
+color:#666;
+}
+
+@media(max-width:800px){
+
+.form{
+grid-template-columns:1fr;
+}
+
+.stats{
+grid-template-columns:1fr;
+}
+
+.header{
+gap:15px;
+align-items:flex-start;
+}
+
+table{
+font-size:12px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>
+ورودی <span>گزارش</span>
+</h1>
+
+<a href="index.html" class="back">
+← بازگشت
+</a>
+
+</div>
+
+
+<div class="panel">
+
+<h2>📝 ثبت تراکنش جدید</h2>
+
+<div class="form">
+
+<input
+id="name"
+type="text"
+placeholder="نام مشتری"
+>
+
+<input
+id="amount"
+type="number"
+placeholder="مبلغ به تومان"
+>
+
+<select id="method">
+
+<option value="pos">
+💳 کارتخوان
+</option>
+
+<option value="cash">
+💵 نقدی
+</option>
+
+<option value="card">
+📱 کارت به کارت
+</option>
+
+</select>
+
+<button onclick="addTransaction()">
+ثبت تراکنش
+</button>
+
+</div>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+
+<h3>💰 درآمد کل</h3>
+
+<strong id="total">
+۰ تومان
+</strong>
+
+</div>
+
+<div class="stat">
+
+<h3>💳 کارتخوان</h3>
+
+<strong id="pos">
+۰ تومان
+</strong>
+
+</div>
+
+<div class="stat">
+
+<h3>💵 نقدی</h3>
+
+<strong id="cash">
+۰ تومان
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="panel" style="margin-top:25px">
+
+<h2>🧾 تراکنش‌ها</h2>
+
+<div style="overflow-x:auto">
+
+<table>
+
+<thead>
+
+<tr>
+<th>مشتری</th>
+<th>مبلغ</th>
+<th>پرداخت</th>
+<th>تاریخ</th>
+<th>عملیات</th>
+</tr>
+
+</thead>
+
+<tbody id="list"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+let transactions =
+JSON.parse(
+localStorage.getItem("cafe_transactions") || "[]"
+);
+
+
+function money(n){
+
+return Number(n || 0)
+.toLocaleString("fa-IR")
++ " تومان";
+
+}
+
+
+function addTransaction(){
+const name =
+document.getElementById("name").value.trim();
+
+const amount =
+Number(
+document.getElementById("amount").value
+);
+
+const method =
+document.getElementById("method").value;
+
+
+if(!amount){
+
+alert("مبلغ را وارد کن.");
+
+return;
+
+}
+
+
+transactions.push({
+
+id:Date.now(),
+
+name:name || "بدون نام",
+
+amount:amount,
+
+method:method,
+
+date:new Date().toLocaleDateString("fa-IR")
+
+});
+
+
+localStorage.setItem(
+"cafe_transactions",
+JSON.stringify(transactions)
+);
+
+
+document.getElementById("name").value="";
+document.getElementById("amount").value="";
+
+
+render();
+
+}
+
+
+function removeTransaction(id){
+
+if(!confirm("این تراکنش حذف شود؟"))
+return;
+
+
+transactions =
+transactions.filter(
+x => x.id !== id
+);
+
+
+localStorage.setItem(
+"cafe_transactions",
+JSON.stringify(transactions)
+);
+
+
+render();
+
+}
+
+
+function render(){
+
+let total=0;
+let pos=0;
+let cash=0;
+
+const list =
+document.getElementById("list");
+
+list.innerHTML="";
+
+
+transactions
+.slice()
+.reverse()
+.forEach(item=>{
+
+total += item.amount;
+
+if(item.method==="pos")
+pos += item.amount;
+
+if(item.method==="cash")
+cash += item.amount;
+
+
+let method="";
+
+if(item.method==="pos")
+method="کارتخوان";
+
+if(item.method==="cash")
+method="نقدی";
+
+if(item.method==="card")
+method="کارت به کارت";
+
+
+const tr =
+document.createElement("tr");
+
+
+tr.innerHTML=
+
+<td>${escapeHTML(item.name)}</td>
+
+<td>${money(item.amount)}</td>
+
+<td>${method}</td>
+
+<td>${item.date}</td>
+
+<td>
+<button
+class="delete"
+onclick="removeTransaction(${item.id})"
+>
+حذف
+</button>
+</td>
+
+;
+
+
+list.appendChild(tr);
+
+});
+
+
+document.getElementById("total")
+.innerText=money(total);
+
+document.getElementById("pos")
+.innerText=money(pos);
+
+document.getElementById("cash")
+.innerText=money(cash);
+
+
+if(transactions.length===0){
+
+list.innerHTML=
+<tr>
+<td colspan="5" class="empty">
+هنوز تراکنشی ثبت نشده است.
+</td>
+</tr>
+;
+
+}
+
+}
+
+
+function escapeHTML(text){
+
+return String(text)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+render();
+
+</script>
+
+</body>
+</html>
