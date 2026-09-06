@@ -2,909 +2,1593 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>پنل مدیریت کافی‌نت</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>کافی‌نت جانـــــــا</title>
 
 <style>
+
+@font-face{
+font-family:BTitr;
+src:local("B Titr"),local("BTitr");
+}
+
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Tahoma,Arial,sans-serif;
+box-sizing:border-box;
 }
 
 body{
-    background:#08090d;
-    color:#fff;
-    min-height:100vh;
+margin:0;
+background:
+radial-gradient(circle at 20% 20%,#063b2d55,transparent 30%),
+radial-gradient(circle at 80% 80%,#00ff9915,transparent 30%),
+#050708;
+color:#fff;
+font-family:BTitr,Tahoma,sans-serif;
+min-height:100vh;
+overflow-x:hidden;
 }
 
-.container{
-    width:94%;
-    max-width:1200px;
-    margin:auto;
-    padding:25px 0;
+body:before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+linear-gradient(115deg,transparent 40%,#00ff9910 50%,transparent 60%);
+animation:shine 8s infinite linear;
 }
 
-/* Header */
-.header{
-    background:linear-gradient(135deg,#11141c,#0b0d12);
-    border:1px solid #242936;
-    border-radius:22px;
-    padding:22px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-    box-shadow:0 10px 40px rgba(0,0,0,.35);
+@keyframes shine{
+0%{transform:translateX(-100%)}
+100%{transform:translateX(100%)}
+}
+
+button,input,select,textarea{
+font-family:inherit;
+}
+
+.hidden{
+display:none!important;
+}
+
+/* LOGIN */
+
+.login{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.loginBox{
+width:100%;
+max-width:430px;
+padding:35px;
+border:1px solid #ffffff18;
+border-radius:30px;
+background:#101516b8;
+backdrop-filter:blur(25px);
+-webkit-backdrop-filter:blur(25px);
+box-shadow:
+0 0 80px #00ff9910,
+inset 0 0 30px #ffffff05;
+text-align:center;
+position:relative;
+overflow:hidden;
+}
+
+.loginBox:before{
+content:"";
+position:absolute;
+width:180px;
+height:180px;
+background:#00ff9955;
+filter:blur(80px);
+top:-100px;
+right:-80px;
 }
 
 .logo{
-    display:flex;
-    align-items:center;
-    gap:13px;
+font-size:32px;
+font-weight:bold;
+color:#fff;
+text-shadow:0 0 20px #00ff9970;
+margin-bottom:5px;
 }
 
-.logo-icon{
-    width:50px;
-    height:50px;
-    border-radius:15px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,#00e5ff,#0066ff);
-    font-size:24px;
-    box-shadow:0 0 25px rgba(0,180,255,.25);
+.logo span{
+color:#00ff9d;
 }
 
-.logo h1{
-    font-size:21px;
+.sub{
+color:#78847f;
+font-size:13px;
+margin-bottom:30px;
 }
 
-.logo p{
-    color:#858b99;
-    font-size:12px;
-    margin-top:5px;
+.field{
+width:100%;
+padding:15px;
+margin:8px 0;
+border:1px solid #ffffff12;
+border-radius:14px;
+background:#ffffff08;
+color:white;
+outline:none;
+transition:.25s;
 }
 
-.date{
-    color:#8e95a3;
-    font-size:13px;
+.field:focus{
+border-color:#00ff9d;
+box-shadow:0 0 20px #00ff9d20;
 }
 
-/* Stats */
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:25px;
+.loginBtn{
+width:100%;
+padding:15px;
+border:0;
+border-radius:14px;
+background:#00c879;
+color:#00150e;
+font-weight:bold;
+font-size:16px;
+cursor:pointer;
+margin-top:10px;
+box-shadow:0 0 25px #00ff9930;
+transition:.25s;
 }
 
-.card{
-    background:linear-gradient(145deg,#11141b,#0c0e13);
-    border:1px solid #222733;
-    border-radius:20px;
-    padding:20px;
-    transition:.25s;
+.loginBtn:hover{
+transform:translateY(-3px);
+box-shadow:0 0 35px #00ff9970;
 }
 
-.card:hover{
-    transform:translateY(-3px);
-    border-color:#374052;
+.error{
+color:#ff5570;
+font-size:13px;
+margin-top:10px;
 }
 
-.card-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+/* APP */
+
+.app{
+max-width:1250px;
+margin:auto;
+padding:20px;
 }
 
-.card-icon{
-    width:42px;
-    height:42px;
-    border-radius:13px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#171b25;
-    font-size:20px;
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+margin-bottom:20px;
 }
 
-.card-title{
-    color:#858c9b;
-    font-size:13px;
+.brand{
+font-size:22px;
+font-weight:bold;
 }
 
-.card-value{
-    font-size:25px;
-    font-weight:bold;
-    margin-top:16px;
+.brand span{
+color:#00ff9d;
 }
 
-.card-unit{
-    color:#737987;
-    font-size:11px;
-    margin-right:4px;
+.topRight{
+display:flex;
+align-items:center;
+gap:10px;
 }
 
-/* Main */
-.main{
-    display:grid;
-    grid-template-columns:1.4fr .8fr;
-    gap:20px;
+.logout{
+border:1px solid #ffffff12;
+background:#ffffff08;
+color:white;
+padding:10px 15px;
+border-radius:12px;
+cursor:pointer;
 }
 
-.panel{
-    background:#0d1016;
-    border:1px solid #222733;
-    border-radius:22px;
-    padding:22px;
+.glass{
+background:#0e1314cc;
+border:1px solid #ffffff12;
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+border-radius:22px;
+box-shadow:0 10px 40px #00000035;
 }
 
-.panel-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
+.dashboard{
+display:grid;
+grid-template-columns:1.1fr 2fr;
+gap:18px;
+margin-bottom:18px;
 }
 
-.panel-title h2{
-    font-size:17px;
+/* TOTAL */
+
+.total{
+min-height:310px;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+overflow:hidden;
 }
 
-.panel-title span{
-    color:#777f8f;
-    font-size:12px;
+.total:after{
+content:"";
+position:absolute;
+width:220px;
+height:220px;
+border-radius:50%;
+border:1px solid #00ff9935;
+box-shadow:
+0 0 40px #00ff9915,
+inset 0 0 40px #00ff9910;
 }
 
-/* Form */
-.form{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
+.totalCircle{
+width:210px;
+height:210px;
+border-radius:50%;
+border:7px solid #00d986;
+box-shadow:
+0 0 25px #00ff9950,
+inset 0 0 30px #00ff9915;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+position:relative;
+z-index:2;
+background:#07100d;
 }
 
-.input{
-    width:100%;
-    background:#151821;
-    color:white;
-    border:1px solid #292f3c;
-    border-radius:13px;
-    padding:14px;
-    outline:none;
-    font-size:13px;
+.totalCircle small{
+color:#78847f;
 }
 
-.input:focus{
-    border-color:#008cff;
-    box-shadow:0 0 0 3px rgba(0,140,255,.08);
+.totalCircle strong{
+font-size:27px;
+color:#00ff9d;
+margin-top:8px;
 }
 
-.full{
-    grid-column:1/-1;
+/* PAYMENT CARDS */
+
+.payments{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
 }
 
-button{
-    border:0;
-    cursor:pointer;
+.pay{
+padding:20px;
+min-height:145px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+transition:.3s;
+position:relative;
+overflow:hidden;
+}
+.pay:after{
+content:"";
+position:absolute;
+height:3px;
+bottom:0;
+right:15%;
+left:15%;
+background:#00ff9d;
+box-shadow:0 0 20px #00ff9d;
+transform:scaleX(0);
+transition:.3s;
 }
 
-.btn{
-    background:linear-gradient(135deg,#008cff,#005cff);
-    color:#fff;
-    padding:14px;
-    border-radius:13px;
-    font-weight:bold;
-    font-size:14px;
-    width:100%;
-    box-shadow:0 7px 20px rgba(0,100,255,.2);
+.pay:hover{
+transform:translateY(-7px);
+box-shadow:
+0 15px 40px #000,
+0 0 25px #00ff9918;
 }
 
-.btn:hover{
-    filter:brightness(1.15);
+.pay:hover:after{
+transform:scaleX(1);
 }
 
-/* Transactions */
-.search{
-    margin-bottom:15px;
+.payIcon{
+font-size:28px;
 }
 
-.transactions{
-    max-height:390px;
-    overflow-y:auto;
+.pay small{
+color:#7f8b86;
 }
 
-.transaction{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#13161e;
-    border:1px solid #202632;
-    padding:14px;
-    border-radius:15px;
-    margin-bottom:9px;
+.pay strong{
+font-size:20px;
+color:#00ff9d;
 }
 
-.transaction-info{
-    display:flex;
-    align-items:center;
-    gap:12px;
+/* CHART */
+
+.chartBox{
+padding:20px;
+margin-bottom:18px;
 }
 
-.service-icon{
-    width:38px;
-    height:38px;
-    border-radius:11px;
-    background:#1b202b;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.chartHead{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
 }
 
-.service-name{
-    font-size:13px;
+.chartButtons button{
+background:#ffffff08;
+border:1px solid #ffffff10;
+color:#aaa;
+padding:8px 12px;
+border-radius:10px;
+cursor:pointer;
+margin-right:4px;
 }
 
-.transaction-date{
-    color:#707887;
-    font-size:10px;
-    margin-top:5px;
+.chartButtons button.active{
+background:#00ff9d;
+color:#00150e;
 }
 
-.price{
-    color:#00e5a0;
-    font-weight:bold;
-    font-size:13px;
-}
-
-.delete{
-    background:#251419;
-    color:#ff6377;
-    border-radius:8px;
-    padding:7px 9px;
-    margin-right:8px;
-}
-/* Chart */
 .chart{
-    height:230px;
-    display:flex;
-    align-items:end;
-    gap:8px;
-    padding-top:20px;
+height:230px;
+display:flex;
+align-items:end;
+gap:8px;
+padding:20px 5px 0;
+border-bottom:1px solid #ffffff12;
 }
 
 .bar{
-    flex:1;
-    min-height:4px;
-    border-radius:8px 8px 3px 3px;
-    background:linear-gradient(to top,#005cff,#00d9ff);
-    position:relative;
+flex:1;
+min-width:4px;
+background:linear-gradient(to top,#00b873,#00ff9d);
+border-radius:7px 7px 0 0;
+box-shadow:0 0 15px #00ff9930;
+height:20%;
+transition:.5s;
+position:relative;
+}
+
+.bar:hover{
+box-shadow:0 0 25px #00ff99;
 }
 
 .bar span{
-    position:absolute;
-    bottom:-20px;
-    width:100%;
-    text-align:center;
-    color:#687080;
-    font-size:10px;
+position:absolute;
+bottom:100%;
+right:50%;
+transform:translateX(50%);
+font-size:9px;
+color:#78847f;
+white-space:nowrap;
 }
 
-/* Empty */
-.empty{
-    text-align:center;
-    color:#606776;
-    padding:40px 10px;
-    font-size:13px;
+/* SECTIONS */
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
 }
 
-/* Footer */
-.footer{
-    text-align:center;
-    color:#555c69;
-    font-size:11px;
-    margin-top:25px;
+.panel{
+padding:20px;
+margin-bottom:18px;
 }
 
-/* Mobile */
-@media(max-width:800px){
-    .stats{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .main{
-        grid-template-columns:1fr;
-    }
-
-    .header{
-        padding:17px;
-    }
-
-    .logo h1{
-        font-size:17px;
-    }
-
-    .date{
-        display:none;
-    }
+.panelTitle{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
 }
 
-@media(max-width:480px){
-    .container{
-        width:95%;
-        padding-top:15px;
-    }
-
-    .stats{
-        gap:9px;
-    }
-
-    .card{
-        padding:15px;
-        border-radius:17px;
-    }
-
-    .card-value{
-        font-size:19px;
-    }
-
-    .form{
-        grid-template-columns:1fr;
-    }
-
-    .full{
-        grid-column:auto;
-    }
+.panelTitle h3{
+margin:0;
 }
+
+.addBtn{
+background:#00c879;
+border:0;
+color:#00150e;
+padding:10px 14px;
+border-radius:11px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.transactions{
+max-height:450px;
+overflow:auto;
+}
+
+.transaction{
+padding:15px;
+border:1px solid #ffffff09;
+background:#ffffff05;
+border-radius:14px;
+margin-bottom:9px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+transition:.25s;
+}
+
+.transaction:hover{
+background:#ffffff09;
+transform:translateX(-3px);
+}
+
+.tName{
+font-weight:bold;
+}
+
+.tInfo{
+font-size:12px;
+color:#77817d;
+margin-top:5px;
+}
+
+.tPrice{
+color:#00ff9d;
+font-weight:bold;
+white-space:nowrap;
+}
+
+.actions button{
+border:0;
+border-radius:8px;
+padding:6px 9px;
+cursor:pointer;
+margin-right:4px;
+}
+
+.edit{
+background:#18352c;
+color:#00ff9d;
+}
+
+.delete{
+background:#3a1820;
+color:#ff6b80;
+}
+
+/* NOTES */
+
+.note{
+padding:14px;
+background:#ffffff05;
+border:1px solid #ffffff0b;
+border-radius:14px;
+margin-bottom:9px;
+position:relative;
+}
+
+.note.pinned{
+border-color:#00ff9d55;
+box-shadow:0 0 18px #00ff9910;
+}
+
+.pin{
+color:#00ff9d;
+font-size:12px;
+margin-bottom:5px;
+}
+
+.noteText{
+white-space:pre-wrap;
+}
+
+.noteTime{
+font-size:10px;
+color:#69736f;
+margin-top:8px;
+}
+
+/* FORM */
+
+.formGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.full{
+grid-column:1/-1;
+}
+
+textarea.field{
+min-height:100px;
+resize:vertical;
+}
+
+/* CURSOR */
+
+.cursorDot{
+position:fixed;
+width:8px;
+height:8px;
+border-radius:50%;
+background:#00ff9d;
+box-shadow:0 0 15px #00ff9d,0 0 30px #00ff9d;
+pointer-events:none;
+z-index:99999;
+transform:translate(-50%,-50%);
+}
+
+.trail{
+position:fixed;
+width:5px;
+height:5px;
+border-radius:50%;
+background:#00ff9d;
+pointer-events:none;
+z-index:99998;
+opacity:.5;
+}
+
+/* MOBILE */
+
+@media(max-width:850px){
+
+.dashboard{
+grid-template-columns:1fr;
+}
+
+.payments{
+grid-template-columns:1fr 1fr;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:600px){
+
+.app{
+padding:12px;
+}
+
+.top{
+align-items:flex-start;
+}
+
+.brand{
+font-size:18px;
+}
+
+.payments{
+grid-template-columns:1fr 1fr;
+gap:9px;
+}
+
+.pay{
+padding:14px;
+min-height:125px;
+}
+
+.total{
+min-height:280px;
+}
+
+.totalCircle{
+width:190px;
+height:190px;
+}
+
+.totalCircle strong{
+font-size:22px;
+}
+
+.formGrid{
+grid-template-columns:1fr;
+}
+
+.loginBox{
+padding:25px;
+}
+
+.transaction{
+align-items:flex-start;
+flex-direction:column;
+}
+
+.tPrice{
+align-self:flex-start;
+}
+
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+width:6px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#00b873;
+border-radius:20px;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- LOGIN -->
+<div id="login" class="login">
 
-    <!-- HEADER -->
-    <div class="header">
-        <div class="logo">
-            <div class="logo-icon">💻</div>
-            <div>
-                <h1>پنل مدیریت کافی‌نت</h1>
-                <p>سیستم گزارش و مدیریت درآمد</p>
-            </div>
-        </div>
+<div class="loginBox">
 
-        <div class="date" id="today"></div>
-    </div>
+<div class="logo">
+کافی‌نت <span>جانـــــــا</span>
+</div>
 
-    <!-- STATS -->
-    <div class="stats">
+<div class="sub">
+سامانه مدیریت و گزارش کافی‌نت
+</div>
 
-        <div class="card">
-            <div class="card-top">
-                <div class="card-title">درآمد امروز</div>
-                <div class="card-icon">💰</div>
-            </div>
-            <div class="card-value">
-                <span id="todayIncome">0</span>
-                <span class="card-unit">تومان</span>
-            </div>
-        </div>
+<input id="username"
+class="field"
+placeholder="نام کاربری">
 
-        <div class="card">
-            <div class="card-top">
-                <div class="card-title">درآمد ماه</div>
-                <div class="card-icon">📈</div>
-            </div>
-            <div class="card-value">
-                <span id="monthIncome">0</span>
-                <span class="card-unit">تومان</span>
-            </div>
-        </div>
+<input id="password"
+class="field"
+type="password"
+placeholder="رمز عبور">
 
-        <div class="card">
-            <div class="card-top">
-                <div class="card-title">تعداد خدمات</div>
-                <div class="card-icon">🧾</div>
-            </div>
-            <div class="card-value">
-                <span id="serviceCount">0</span>
-                <span class="card-unit">خدمت</span>
-            </div>
-        </div>
+<button class="loginBtn" onclick="login()">
+ورود به سامانه
+</button>
 
-        <div class="card">
-            <div class="card-top">
-                <div class="card-title">میانگین هر خدمت</div>
-                <div class="card-icon">💵</div>
-            </div>
-            <div class="card-value">
-                <span id="averageIncome">0</span>
-                <span class="card-unit">تومان</span>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- MAIN -->
-    <div class="main">
-
-        <!-- LEFT -->
-        <div>
-
-            <!-- ADD SERVICE -->
-            <div class="panel">
-                <div class="panel-title">
-                    <h2>➕ ثبت خدمت جدید</h2>
-                    <span>ثبت درآمد</span>
-                </div>
-
-                <form id="serviceForm" class="form">
-
-                    <select id="service" class="input" required>
-                        <option value="">انتخاب خدمت</option>
-                        <option>پرینت</option>
-                        <option>کپی</option>
-                        <option>ثبت‌نام اینترنتی</option>
-                        <option>خدمات سامانه‌ها</option>
-                        <option>کارت ملی</option>
-<option>خدمات قضایی</option>
-                        <option>خدمات یارانه</option>
-                        <option>خدمات نظام وظیفه</option>
-                        <option>اسکن</option>
-                        <option>تایپ</option>
-                        <option>سایر</option>
-                    </select>
-
-                    <input
-                        id="price"
-                        class="input"
-                        type="number"
-                        placeholder="مبلغ به تومان"
-                        required
-                    >
-
-                    <input
-                        id="customer"
-                        class="input full"
-                        type="text"
-                        placeholder="نام مشتری (اختیاری)"
-                    >
-
-                    <button class="btn full" type="submit">
-                        ثبت تراکنش
-                    </button>
-
-                </form>
-            </div>
-
-            <!-- TRANSACTIONS -->
-            <div class="panel" style="margin-top:20px">
-
-                <div class="panel-title">
-                    <h2>🧾 تراکنش‌ها</h2>
-                    <span id="transactionCount">0 مورد</span>
-                </div>
-
-                <input
-                    id="search"
-                    class="input search"
-                    type="text"
-                    placeholder="🔎 جستجوی خدمت یا مشتری..."
-                >
-
-                <div id="transactions" class="transactions"></div>
-
-            </div>
-
-        </div>
-
-        <!-- RIGHT -->
-        <div>
-
-            <div class="panel">
-
-                <div class="panel-title">
-                    <h2>📊 نمودار درآمد</h2>
-                    <span>۷ روز اخیر</span>
-                </div>
-
-                <div id="chart" class="chart"></div>
-
-            </div>
-
-            <div class="panel" style="margin-top:20px">
-
-                <div class="panel-title">
-                    <h2>⚡ خدمات محبوب</h2>
-                </div>
-
-                <div id="popular"></div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-        پنل مدیریت کافی‌نت • اطلاعات روی همین دستگاه ذخیره می‌شود
-    </div>
+<div id="error" class="error"></div>
 
 </div>
 
+</div>
+
+
+<!-- APP -->
+
+<div id="app" class="app hidden">
+
+<div class="top">
+
+<div class="brand">
+کافی‌نت <span>جانـــــــا</span>
+</div>
+
+<div class="topRight">
+
+<span id="roleText"></span>
+
+<button class="logout" onclick="logout()">
+خروج
+</button>
+
+</div>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<div class="dashboard">
+
+<div class="glass total">
+
+<div class="totalCircle">
+
+<small>درآمد کل</small>
+
+<strong id="totalIncome">
+۰ تومان
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="payments">
+
+<div class="glass pay">
+
+<div class="payIcon">💳</div>
+
+<small>کارتخوان</small>
+
+<strong id="posIncome">۰</strong>
+
+</div>
+
+<div class="glass pay">
+
+<div class="payIcon">💵</div>
+
+<small>نقدی</small>
+
+<strong id="cashIncome">۰</strong>
+
+</div>
+
+<div class="glass pay">
+
+<div class="payIcon">📱</div>
+
+<small>کارت به کارت</small>
+
+<strong id="cardIncome">۰</strong>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CHART -->
+
+<div class="glass chartBox">
+
+<div class="chartHead">
+
+<h3>📈 روند درآمد</h3>
+
+<div class="chartButtons">
+
+<button onclick="changeChart('day',this)" class="active">
+روزانه
+</button>
+
+<button onclick="changeChart('week',this)">
+هفتگی
+</button>
+
+<button onclick="changeChart('month',this)">
+ماهانه
+</button>
+
+</div>
+
+</div>
+
+<div id="chart" class="chart"></div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="grid">
+
+
+<!-- TRANSACTIONS -->
+
+<div class="glass panel">
+
+<div class="panelTitle">
+
+<h3>🧾 جزئیات تراکنش‌ها</h3>
+
+<button
+id="newBtn"
+class="addBtn"
+onclick="openForm()">
++ ثبت
+</button>
+
+</div>
+
+<div id="form" class="hidden">
+
+<div class="formGrid">
+
+<select id="service" class="field">
+
+<option>پرینت</option>
+<option>کپی</option>
+<option>ثبت نام اینترنتی</option>
+<option>خدمات سامانه</option>
+<option>خدمات قضایی</option>
+<option>یارانه</option>
+<option>نظام وظیفه</option>
+<option>اسکن</option>
+<option>تایپ</option>
+<option>سایر</option>
+
+</select>
+
+<select id="payment" class="field">
+
+<option value="pos">کارتخوان</option>
+<option value="cash">نقدی</option>
+<option value="card">کارت به کارت</option>
+
+</select>
+
+<input
+id="customer"
+class="field"
+placeholder="نام مشتری">
+
+<input
+id="price"
+class="field"
+type="number"
+placeholder="مبلغ تومان">
+
+<button
+class="loginBtn full"
+onclick="saveTransaction()">
+ثبت تراکنش
+</button>
+
+</div>
+
+</div>
+
+<div id="transactions"
+class="transactions"></div>
+
+</div>
+
+
+<!-- NOTES -->
+
+<div class="glass panel">
+
+<div class="panelTitle">
+
+<h3>📌 یادداشت‌ها</h3>
+
+<button
+id="noteBtn"
+class="addBtn"
+onclick="newNote()">
++ یادداشت
+</button>
+
+</div>
+
+<div id="noteForm" class="hidden">
+
+<textarea
+id="noteText"
+class="field"
+placeholder="یادداشت خود را بنویسید..."></textarea>
+
+<button
+class="loginBtn"
+onclick="saveNote()">
+ثبت یادداشت
+</button>
+
+</div>
+
+<div id="notes"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
 <script>
 
+/* DATA */
+
 let transactions =
-    JSON.parse(localStorage.getItem("cafenet_transactions")) || [];
+JSON.parse(localStorage.getItem("jana_transactions") || "[]");
 
-/* تاریخ */
-function formatNumber(number){
-    return Number(number).toLocaleString("fa-IR");
+let notes =
+JSON.parse(localStorage.getItem("jana_notes") || "[]");
+
+let editIndex = -1;
+
+let currentRole = "";
+
+
+/* LOGIN */
+
+function login(){
+
+const user =
+document.getElementById("username").value.trim();
+
+const pass =
+document.getElementById("password").value;
+
+if(user==="admin" && pass==="jANA1405"){
+
+currentRole="admin";
+
+showApp();
+
 }
 
-function save(){
-    localStorage.setItem(
-        "cafenet_transactions",
-        JSON.stringify(transactions)
-    );
+else if(user==="dehghan" && pass==="dehghan1405"){
+
+currentRole="dehghan";
+
+showApp();
+
 }
 
-function getDate(){
-    const d = new Date();
+else{
 
-    return d.toLocaleDateString("fa-IR");
+document.getElementById("error").innerText =
+"نام کاربری یا رمز عبور اشتباه است.";
+
 }
 
-document.getElementById("today").innerText =
-    "امروز: " + getDate();
+}
 
 
-/* ثبت */
-document.getElementById("serviceForm")
-.addEventListener("submit",function(e){
+/* SHOW */
 
-    e.preventDefault();
+function showApp(){
 
-    const service =
-        document.getElementById("service").value;
+document.getElementById("login")
+.classList.add("hidden");
 
-    const price =
-        Number(document.getElementById("price").value);
+document.getElementById("app")
+.classList.remove("hidden");
 
-    const customer =
-        document.getElementById("customer").value;
+document.getElementById("roleText").innerText =
+currentRole==="admin"
+? "👑 مدیریت"
+: "👩‍💼 گزارش";
 
-    if(!service || !price){
-        return;
-    }
+if(currentRole==="dehghan"){
+document.getElementById("newBtn")
+.classList.add("hidden");
 
-    transactions.unshift({
+document.getElementById("form")
+.classList.add("hidden");
 
-        id:Date.now(),
+}
 
-        service:service,
+render();
 
-        price:price,
+}
 
-        customer:customer,
 
-        date:new Date().toISOString()
+/* LOGOUT */
 
-    });
+function logout(){
 
-    save();
+currentRole="";
 
-    this.reset();
+document.getElementById("app")
+.classList.add("hidden");
 
-    update();
+document.getElementById("login")
+.classList.remove("hidden");
+
+document.getElementById("username").value="";
+document.getElementById("password").value="";
+
+}
+
+
+/* MONEY */
+
+function money(n){
+
+return Number(n).toLocaleString("fa-IR")+" تومان";
+
+}
+
+
+/* TRANSACTION FORM */
+
+function openForm(){
+
+if(currentRole!=="admin")return;
+
+document.getElementById("form")
+.classList.toggle("hidden");
+
+}
+
+
+/* SAVE TRANSACTION */
+
+function saveTransaction(){
+
+if(currentRole!=="admin")return;
+
+const service =
+document.getElementById("service").value;
+
+const payment =
+document.getElementById("payment").value;
+
+const customer =
+document.getElementById("customer").value.trim()
+||"بدون نام";
+
+const price =
+Number(document.getElementById("price").value);
+
+if(!price || price<=0){
+
+alert("مبلغ را وارد کن.");
+
+return;
+
+}
+
+const item={
+
+service,
+payment,
+customer,
+price,
+date:new Date().toISOString()
+
+};
+
+if(editIndex===-1){
+
+transactions.unshift(item);
+
+}else{
+
+transactions[editIndex]=item;
+
+editIndex=-1;
+
+}
+
+localStorage.setItem(
+"jana_transactions",
+JSON.stringify(transactions)
+);
+
+document.getElementById("customer").value="";
+document.getElementById("price").value="";
+
+document.getElementById("form")
+.classList.add("hidden");
+
+render();
+
+}
+
+
+/* DELETE */
+
+function deleteTransaction(i){
+
+if(currentRole!=="admin")return;
+
+if(!confirm("این تراکنش حذف شود؟"))return;
+
+transactions.splice(i,1);
+
+localStorage.setItem(
+"jana_transactions",
+JSON.stringify(transactions)
+);
+
+render();
+
+}
+
+
+/* EDIT */
+
+function editTransaction(i){
+
+if(currentRole!=="admin")return;
+
+const x=transactions[i];
+
+document.getElementById("service").value=x.service;
+document.getElementById("payment").value=x.payment;
+document.getElementById("customer").value=x.customer;
+document.getElementById("price").value=x.price;
+
+editIndex=i;
+
+document.getElementById("form")
+.classList.remove("hidden");
+
+window.scrollTo({
+top:document.getElementById("form").offsetTop,
+behavior:"smooth"
+});
+
+}
+
+
+/* TRANSACTIONS */
+
+function renderTransactions(){
+
+const box=
+document.getElementById("transactions");
+
+if(!transactions.length){
+
+box.innerHTML=
+"<div style='color:#68736f'>هنوز تراکنشی ثبت نشده.</div>";
+
+return;
+
+}
+
+box.innerHTML=
+transactions.map((x,i)=>{
+
+const icon =
+x.payment==="pos" ? "💳" :
+x.payment==="cash" ? "💵" : "📱";
+
+const date =
+new Date(x.date).toLocaleString("fa-IR");
+
+return 
+
+<div class="transaction">
+
+<div>
+
+<div class="tName">
+${icon} ${x.service}
+</div>
+
+<div class="tInfo">
+👤 ${x.customer}
+<br>
+${date}
+</div>
+
+</div>
+
+<div>
+
+<div class="tPrice">
+${money(x.price)}
+</div>
+
+${
+currentRole==="admin"
+?
+
+<div class="actions">
+
+<button
+class="edit"
+onclick="editTransaction(${i})">
+ویرایش
+</button>
+
+<button
+class="delete"
+onclick="deleteTransaction(${i})">
+حذف
+</button>
+
+</div>
+
+
+:""
+
+}
+
+</div>
+
+</div>
+
+;
+
+}).join("");
+
+}
+
+
+/* STATS */
+
+function stats(){
+
+let total=0;
+let pos=0;
+let cash=0;
+let card=0;
+
+transactions.forEach(x=>{
+
+total+=Number(x.price);
+
+if(x.payment==="pos")pos+=x.price;
+if(x.payment==="cash")cash+=x.price;
+if(x.payment==="card")card+=x.price;
 
 });
 
+document.getElementById("totalIncome")
+.innerText=money(total);
 
-/* حذف */
-function deleteTransaction(id){
+document.getElementById("posIncome")
+.innerText=money(pos);
 
-    if(!confirm("این تراکنش حذف شود؟")){
-        return;
-    }
+document.getElementById("cashIncome")
+.innerText=money(cash);
 
-    transactions =
-        transactions.filter(x => x.id !== id);
-
-    save();
-
-    update();
-}
-
-
-/* رندر تراکنش‌ها */
-function renderTransactions(){
-
-    const box =
-        document.getElementById("transactions");
-
-    const search =
-        document.getElementById("search")
-        .value
-        .toLowerCase();
-
-    const filtered =
-        transactions.filter(x =>
-
-            x.service.toLowerCase().includes(search) ||
-
-            (x.customer || "")
-            .toLowerCase()
-            .includes(search)
-
-        );
-
-    document.getElementById("transactionCount")
-        .innerText =
-        formatNumber(filtered.length) + " مورد";
-if(filtered.length === 0){
-
-        box.innerHTML =
-            <div class="empty">
-                هنوز تراکنشی ثبت نشده است
-            </div>;
-
-        return;
-    }
-
-    box.innerHTML = filtered.map(x => {
-
-        const date =
-            new Date(x.date)
-            .toLocaleString("fa-IR");
-
-        return 
-
-        <div class="transaction">
-
-            <div class="transaction-info">
-
-                <div class="service-icon">
-                    🧾
-                </div>
-
-                <div>
-
-                    <div class="service-name">
-                        ${x.service}
-                    </div>
-
-                    <div class="transaction-date">
-                        ${x.customer ? x.customer + " • " : ""}
-                        ${date}
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div>
-
-                <span class="price">
-                    ${formatNumber(x.price)}
-                    تومان
-                </span>
-
-                <button
-                    class="delete"
-                    onclick="deleteTransaction(${x.id})">
-                    حذف
-                </button>
-
-            </div>
-
-        </div>
-
-        ;
-
-    }).join("");
+document.getElementById("cardIncome")
+.innerText=money(card);
 
 }
 
 
-/* آمار */
-function updateStats(){
+/* NOTES */
 
-    const now = new Date();
+function newNote(){
 
-    const today =
-        transactions.filter(x => {
-
-            const d = new Date(x.date);
-
-            return d.toDateString() ===
-                   now.toDateString();
-
-        });
-
-    const month =
-        transactions.filter(x => {
-
-            const d = new Date(x.date);
-
-            return d.getMonth() === now.getMonth()
-                && d.getFullYear() === now.getFullYear();
-
-        });
-
-    const todayIncome =
-        today.reduce((sum,x)=>sum+x.price,0);
-
-    const monthIncome =
-        month.reduce((sum,x)=>sum+x.price,0);
-
-    const total =
-        transactions.reduce((sum,x)=>sum+x.price,0);
-
-    const average =
-        transactions.length ?
-        total / transactions.length : 0;
-
-    document.getElementById("todayIncome")
-        .innerText = formatNumber(todayIncome);
-
-    document.getElementById("monthIncome")
-        .innerText = formatNumber(monthIncome);
-
-    document.getElementById("serviceCount")
-        .innerText = formatNumber(transactions.length);
-
-    document.getElementById("averageIncome")
-        .innerText = formatNumber(Math.round(average));
+document.getElementById("noteForm")
+.classList.toggle("hidden");
 
 }
 
 
-/* نمودار */
-function renderChart(){
+function saveNote(){
 
-    const chart =
-        document.getElementById("chart");
+const text=
+document.getElementById("noteText")
+.value.trim();
 
-    const days = [];
+if(!text)return;
 
-    for(let i=6;i>=0;i--){
+notes.unshift({
 
-        const d = new Date();
+text,
+pinned:false,
+date:new Date().toISOString()
 
-        d.setDate(d.getDate()-i);
+});
 
-        const income =
-            transactions
-            .filter(x => {
+localStorage.setItem(
+"jana_notes",
+JSON.stringify(notes)
+);
 
-                const tx =
-                    new Date(x.date);
+document.getElementById("noteText").value="";
 
-                return tx.toDateString()
-                    === d.toDateString();
+document.getElementById("noteForm")
+.classList.add("hidden");
 
-            })
-            .reduce((sum,x)=>sum+x.price,0);
-
-        days.push({
-
-            label:
-                d.toLocaleDateString(
-                    "fa-IR",
-                    {weekday:"short"}
-                ),
-
-            income:income
-
-        });
-
-    }
-
-    const max =
-        Math.max(...days.map(x=>x.income),1);
-
-    chart.innerHTML =
-        days.map(x => {
-
-            const height =
-                Math.max(
-                    (x.income/max)*180,
-                    5
-                );
-
-            return 
-
-            <div
-                class="bar"
-                style="height:${height}px"
-                title="${formatNumber(x.income)} تومان">
-
-                <span>${x.label}</span>
-
-            </div>
-
-            ;
-
-        }).join("");
+renderNotes();
 
 }
 
 
-/* خدمات محبوب */
-function renderPopular(){
+function pinNote(i){
+notes[i].pinned=!notes[i].pinned;
 
-    const box =
-        document.getElementById("popular");
+notes.sort((a,b)=>
+Number(b.pinned)-Number(a.pinned)
+);
 
-    const counts = {};
+localStorage.setItem(
+"jana_notes",
+JSON.stringify(notes)
+);
 
-    transactions.forEach(x=>{
-
-        counts[x.service] =
-            (counts[x.service] || 0) + 1;
-
-    });
-
-    const list =
-        Object.entries(counts)
-        .sort((a,b)=>b[1]-a[1])
-        .slice(0,5);
-
-    if(!list.length){
-box.innerHTML =
-            <div class="empty">
-                هنوز داده‌ای وجود ندارد
-            </div>;
-
-        return;
-    }
-
-    box.innerHTML =
-        list.map((x,index)=>
-
-        <div class="transaction">
-
-            <div class="transaction-info">
-
-                <div class="service-icon">
-                    ${index+1}
-                </div>
-
-                <div class="service-name">
-                    ${x[0]}
-                </div>
-
-            </div>
-
-            <div class="price">
-                ${formatNumber(x[1])} بار
-            </div>
-
-        </div>
-
-        ).join("");
+renderNotes();
 
 }
 
 
-/* آپدیت */
-function update(){
+function deleteNote(i){
 
-    updateStats();
+if(!confirm("یادداشت حذف شود؟"))return;
 
-    renderTransactions();
+notes.splice(i,1);
 
-    renderChart();
+localStorage.setItem(
+"jana_notes",
+JSON.stringify(notes)
+);
 
-    renderPopular();
+renderNotes();
 
 }
 
-document.getElementById("search")
-.addEventListener("input",renderTransactions);
 
-update();
+function renderNotes(){
+
+const box=document.getElementById("notes");
+
+if(!notes.length){
+
+box.innerHTML=
+"<div style='color:#68736f'>یادداشتی وجود ندارد.</div>";
+
+return;
+
+}
+
+box.innerHTML=
+notes.map((x,i)=>
+
+<div class="note ${x.pinned?"pinned":""}">
+
+${x.pinned
+?<div class="pin">📌 پین شده</div>
+:""}
+
+<div class="noteText">
+${escapeHTML(x.text)}
+</div>
+
+<div class="noteTime">
+
+${new Date(x.date).toLocaleString("fa-IR")}
+
+<br><br>
+
+<button
+class="edit"
+onclick="pinNote(${i})">
+${x.pinned?"برداشتن پین":"📌 پین"}
+</button>
+
+${
+currentRole==="admin"
+?<button
+class="delete"
+onclick="deleteNote(${i})">
+حذف
+</button>
+:""
+}
+
+</div>
+
+</div>
+
+).join("");
+
+}
+
+
+/* CHART */
+
+function changeChart(type,btn){
+
+document.querySelectorAll(".chartButtons button")
+.forEach(x=>x.classList.remove("active"));
+
+btn.classList.add("active");
+
+let values=[];
+
+if(type==="day"){
+
+for(let i=6;i>=0;i--){
+
+let d=new Date();
+
+d.setDate(d.getDate()-i);
+
+let total=transactions
+.filter(x=>{
+let z=new Date(x.date);
+
+return z.toDateString()===d.toDateString();
+
+})
+.reduce((a,x)=>a+x.price,0);
+
+values.push({
+label:d.toLocaleDateString("fa-IR",{weekday:"short"}),
+value:total
+});
+
+}
+
+}
+
+if(type==="week"){
+
+for(let i=6;i>=0;i--){
+
+let total=0;
+
+let d=new Date();
+
+d.setDate(d.getDate()-i);
+
+transactions.forEach(x=>{
+
+let z=new Date(x.date);
+
+let diff=
+Math.floor((d-z)/(1000*60*60*24));
+
+if(diff>=0 && diff<7)
+total+=x.price;
+
+});
+
+values.push({
+label:"هفته "+(7-i),
+value:total
+});
+
+}
+
+}
+
+if(type==="month"){
+
+for(let i=5;i>=0;i--){
+
+let d=new Date();
+
+d.setMonth(d.getMonth()-i);
+
+let total=transactions
+.filter(x=>{
+
+let z=new Date(x.date);
+
+return z.getMonth()===d.getMonth()
+&&
+z.getFullYear()===d.getFullYear();
+
+})
+.reduce((a,x)=>a+x.price,0);
+
+values.push({
+
+label:d.toLocaleDateString(
+"fa-IR",
+{month:"short"}
+),
+
+value:total
+
+});
+
+}
+
+}
+
+const max=
+Math.max(...values.map(x=>x.value),1);
+
+document.getElementById("chart").innerHTML=
+values.map(x=>
+
+<div
+class="bar"
+style="height:${Math.max(5,(x.value/max)*100)}%"
+title="${money(x.value)}">
+
+<span>${x.label}</span>
+
+</div>
+
+).join("");
+
+}
+
+
+/* RENDER */
+
+function render(){
+
+stats();
+
+renderTransactions();
+
+renderNotes();
+
+changeChart(
+"day",
+document.querySelector(".chartButtons button")
+);
+
+}
+
+
+/* HTML SAFE */
+
+function escapeHTML(str){
+
+return str
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+/* CURSOR */
+
+let mouseX=0;
+let mouseY=0;
+
+document.addEventListener("mousemove",e=>{
+
+mouseX=e.clientX;
+mouseY=e.clientY;
+
+});
+
+const dot=document.createElement("div");
+
+dot.className="cursorDot";
+
+document.body.appendChild(dot);
+
+let trails=[];
+
+for(let i=0;i<12;i++){
+
+const t=document.createElement("div");
+
+t.className="trail";
+
+document.body.appendChild(t);
+
+trails.push({
+el:t,
+x:0,
+y:0
+});
+
+}
+
+function cursor(){
+
+dot.style.left=mouseX+"px";
+dot.style.top=mouseY+"px";
+
+let x=mouseX;
+let y=mouseY;
+
+trails.forEach((t,i)=>{
+
+t.x+=(x-t.x)*(.25-(i*.012));
+t.y+=(y-t.y)*(.25-(i*.012));
+
+t.el.style.left=t.x+"px";
+t.el.style.top=t.y+"px";
+
+x=t.x;
+y=t.y;
+
+});
+
+requestAnimationFrame(cursor);
+
+}
+
+cursor();
+
 
 </script>
 
