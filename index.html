@@ -2,105 +2,909 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>پنل کافی نت</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پنل مدیریت کافی‌نت</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;background:#07090d;color:white;font-family:tahoma}.box{max-width:1000px;margin:auto;padding:20px}.head,.card,.panel{background:#10131a;border:1px solid #252b38;border-radius:18px;padding:20px;margin-bottom:15px}.head{display:flex;justify-content:space-between}.head b{font-size:20px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{margin:0}.card small{color:#89919f}.card h2{color:#00e5a0}.main{display:grid;grid-template-columns:1fr 1fr;gap:15px}.input,button{width:100%;padding:13px;margin:6px 0;border-radius:11px;border:1px solid #303746;background:#171b24;color:white}button{background:#006cff;border:0;font-weight:bold;cursor:pointer}.item{background:#171b24;padding:12px;border-radius:10px;margin:7px 0}.del{background:#421923;width:auto;padding:7px;float:left}@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.main{grid-template-columns:1fr}}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Tahoma,Arial,sans-serif;
+}
+
+body{
+    background:#08090d;
+    color:#fff;
+    min-height:100vh;
+}
+
+.container{
+    width:94%;
+    max-width:1200px;
+    margin:auto;
+    padding:25px 0;
+}
+
+/* Header */
+.header{
+    background:linear-gradient(135deg,#11141c,#0b0d12);
+    border:1px solid #242936;
+    border-radius:22px;
+    padding:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    box-shadow:0 10px 40px rgba(0,0,0,.35);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.logo-icon{
+    width:50px;
+    height:50px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#00e5ff,#0066ff);
+    font-size:24px;
+    box-shadow:0 0 25px rgba(0,180,255,.25);
+}
+
+.logo h1{
+    font-size:21px;
+}
+
+.logo p{
+    color:#858b99;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.date{
+    color:#8e95a3;
+    font-size:13px;
+}
+
+/* Stats */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.card{
+    background:linear-gradient(145deg,#11141b,#0c0e13);
+    border:1px solid #222733;
+    border-radius:20px;
+    padding:20px;
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+    border-color:#374052;
+}
+
+.card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.card-icon{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#171b25;
+    font-size:20px;
+}
+
+.card-title{
+    color:#858c9b;
+    font-size:13px;
+}
+
+.card-value{
+    font-size:25px;
+    font-weight:bold;
+    margin-top:16px;
+}
+
+.card-unit{
+    color:#737987;
+    font-size:11px;
+    margin-right:4px;
+}
+
+/* Main */
+.main{
+    display:grid;
+    grid-template-columns:1.4fr .8fr;
+    gap:20px;
+}
+
+.panel{
+    background:#0d1016;
+    border:1px solid #222733;
+    border-radius:22px;
+    padding:22px;
+}
+
+.panel-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.panel-title h2{
+    font-size:17px;
+}
+
+.panel-title span{
+    color:#777f8f;
+    font-size:12px;
+}
+
+/* Form */
+.form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.input{
+    width:100%;
+    background:#151821;
+    color:white;
+    border:1px solid #292f3c;
+    border-radius:13px;
+    padding:14px;
+    outline:none;
+    font-size:13px;
+}
+
+.input:focus{
+    border-color:#008cff;
+    box-shadow:0 0 0 3px rgba(0,140,255,.08);
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+button{
+    border:0;
+    cursor:pointer;
+}
+
+.btn{
+    background:linear-gradient(135deg,#008cff,#005cff);
+    color:#fff;
+    padding:14px;
+    border-radius:13px;
+    font-weight:bold;
+    font-size:14px;
+    width:100%;
+    box-shadow:0 7px 20px rgba(0,100,255,.2);
+}
+
+.btn:hover{
+    filter:brightness(1.15);
+}
+
+/* Transactions */
+.search{
+    margin-bottom:15px;
+}
+
+.transactions{
+    max-height:390px;
+    overflow-y:auto;
+}
+
+.transaction{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#13161e;
+    border:1px solid #202632;
+    padding:14px;
+    border-radius:15px;
+    margin-bottom:9px;
+}
+
+.transaction-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.service-icon{
+    width:38px;
+    height:38px;
+    border-radius:11px;
+    background:#1b202b;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.service-name{
+    font-size:13px;
+}
+
+.transaction-date{
+    color:#707887;
+    font-size:10px;
+    margin-top:5px;
+}
+
+.price{
+    color:#00e5a0;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.delete{
+    background:#251419;
+    color:#ff6377;
+    border-radius:8px;
+    padding:7px 9px;
+    margin-right:8px;
+}
+/* Chart */
+.chart{
+    height:230px;
+    display:flex;
+    align-items:end;
+    gap:8px;
+    padding-top:20px;
+}
+
+.bar{
+    flex:1;
+    min-height:4px;
+    border-radius:8px 8px 3px 3px;
+    background:linear-gradient(to top,#005cff,#00d9ff);
+    position:relative;
+}
+
+.bar span{
+    position:absolute;
+    bottom:-20px;
+    width:100%;
+    text-align:center;
+    color:#687080;
+    font-size:10px;
+}
+
+/* Empty */
+.empty{
+    text-align:center;
+    color:#606776;
+    padding:40px 10px;
+    font-size:13px;
+}
+
+/* Footer */
+.footer{
+    text-align:center;
+    color:#555c69;
+    font-size:11px;
+    margin-top:25px;
+}
+
+/* Mobile */
+@media(max-width:800px){
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .header{
+        padding:17px;
+    }
+
+    .logo h1{
+        font-size:17px;
+    }
+
+    .date{
+        display:none;
+    }
+}
+
+@media(max-width:480px){
+    .container{
+        width:95%;
+        padding-top:15px;
+    }
+
+    .stats{
+        gap:9px;
+    }
+
+    .card{
+        padding:15px;
+        border-radius:17px;
+    }
+
+    .card-value{
+        font-size:19px;
+    }
+
+    .form{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+}
 </style>
 </head>
+
 <body>
 
-<div class="box">
+<div class="container">
 
-<div class="head">
-<b>💻 پنل مدیریت کافی‌نت</b>
-<span id="date"></span>
-</div>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">💻</div>
+            <div>
+                <h1>پنل مدیریت کافی‌نت</h1>
+                <p>سیستم گزارش و مدیریت درآمد</p>
+            </div>
+        </div>
 
-<div class="stats">
-<div class="card"><small>💰 امروز</small><h2 id="today">0</h2></div>
-<div class="card"><small>📈 ماه</small><h2 id="month">0</h2></div>
-<div class="card"><small>🧾 خدمات</small><h2 id="count">0</h2></div>
-<div class="card"><small>💵 میانگین</small><h2 id="avg">0</h2></div>
-</div>
+        <div class="date" id="today"></div>
+    </div>
 
-<div class="main">
+    <!-- STATS -->
+    <div class="stats">
 
-<div class="panel">
-<h3>➕ ثبت خدمت</h3>
+        <div class="card">
+            <div class="card-top">
+                <div class="card-title">درآمد امروز</div>
+                <div class="card-icon">💰</div>
+            </div>
+            <div class="card-value">
+                <span id="todayIncome">0</span>
+                <span class="card-unit">تومان</span>
+            </div>
+        </div>
 
-<select id="service" class="input">
-<option>پرینت</option>
-<option>کپی</option>
-<option>ثبت نام اینترنتی</option>
-<option>خدمات سامانه</option>
+        <div class="card">
+            <div class="card-top">
+                <div class="card-title">درآمد ماه</div>
+                <div class="card-icon">📈</div>
+            </div>
+            <div class="card-value">
+                <span id="monthIncome">0</span>
+                <span class="card-unit">تومان</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-top">
+                <div class="card-title">تعداد خدمات</div>
+                <div class="card-icon">🧾</div>
+            </div>
+            <div class="card-value">
+                <span id="serviceCount">0</span>
+                <span class="card-unit">خدمت</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-top">
+                <div class="card-title">میانگین هر خدمت</div>
+                <div class="card-icon">💵</div>
+            </div>
+            <div class="card-value">
+                <span id="averageIncome">0</span>
+                <span class="card-unit">تومان</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <!-- LEFT -->
+        <div>
+
+            <!-- ADD SERVICE -->
+            <div class="panel">
+                <div class="panel-title">
+                    <h2>➕ ثبت خدمت جدید</h2>
+                    <span>ثبت درآمد</span>
+                </div>
+
+                <form id="serviceForm" class="form">
+
+                    <select id="service" class="input" required>
+                        <option value="">انتخاب خدمت</option>
+                        <option>پرینت</option>
+                        <option>کپی</option>
+                        <option>ثبت‌نام اینترنتی</option>
+                        <option>خدمات سامانه‌ها</option>
+                        <option>کارت ملی</option>
 <option>خدمات قضایی</option>
-<option>یارانه</option>
-<option>نظام وظیفه</option>
-<option>اسکن</option>
-<option>تایپ</option>
-<option>سایر</option>
-</select>
+                        <option>خدمات یارانه</option>
+                        <option>خدمات نظام وظیفه</option>
+                        <option>اسکن</option>
+                        <option>تایپ</option>
+                        <option>سایر</option>
+                    </select>
 
-<input id="price" class="input" type="number" placeholder="مبلغ تومان">
-<input id="name" class="input" placeholder="نام مشتری">
+                    <input
+                        id="price"
+                        class="input"
+                        type="number"
+                        placeholder="مبلغ به تومان"
+                        required
+                    >
 
-<button onclick="add()">ثبت تراکنش</button>
-</div>
+                    <input
+                        id="customer"
+                        class="input full"
+                        type="text"
+                        placeholder="نام مشتری (اختیاری)"
+                    >
 
-<div class="panel">
-<h3>🧾 تراکنش‌ها</h3>
-<div id="list"></div>
-</div>
+                    <button class="btn full" type="submit">
+                        ثبت تراکنش
+                    </button>
 
-</div>
+                </form>
+            </div>
+
+            <!-- TRANSACTIONS -->
+            <div class="panel" style="margin-top:20px">
+
+                <div class="panel-title">
+                    <h2>🧾 تراکنش‌ها</h2>
+                    <span id="transactionCount">0 مورد</span>
+                </div>
+
+                <input
+                    id="search"
+                    class="input search"
+                    type="text"
+                    placeholder="🔎 جستجوی خدمت یا مشتری..."
+                >
+
+                <div id="transactions" class="transactions"></div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div>
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    <h2>📊 نمودار درآمد</h2>
+                    <span>۷ روز اخیر</span>
+                </div>
+
+                <div id="chart" class="chart"></div>
+
+            </div>
+
+            <div class="panel" style="margin-top:20px">
+
+                <div class="panel-title">
+                    <h2>⚡ خدمات محبوب</h2>
+                </div>
+
+                <div id="popular"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        پنل مدیریت کافی‌نت • اطلاعات روی همین دستگاه ذخیره می‌شود
+    </div>
+
 </div>
 
 <script>
-let data=JSON.parse(localStorage.data||"[]");
 
-date.innerText=new Date().toLocaleDateString("fa-IR");
+let transactions =
+    JSON.parse(localStorage.getItem("cafenet_transactions")) || [];
 
-function money(x){return x.toLocaleString("fa-IR")}
-
-function add(){
-let s=service.value,p=+price.value,n=name.value;
-if(!p)return alert("مبلغ را وارد کن");
-data.unshift({s,p,n,d:new Date()});
-localStorage.data=JSON.stringify(data);
-price.value=name.value="";
-show();
+/* تاریخ */
+function formatNumber(number){
+    return Number(number).toLocaleString("fa-IR");
 }
 
-function del(i){
-data.splice(i,1);
-localStorage.data=JSON.stringify(data);
-show();
+function save(){
+    localStorage.setItem(
+        "cafenet_transactions",
+        JSON.stringify(transactions)
+    );
 }
 
-function show(){
-let now=new Date(),t=0,m=0;
-data.forEach(x=>{
-let d=new Date(x.d);
-if(d.toDateString()==now.toDateString())t+=x.p;
-if(d.getMonth()==now.getMonth()&&d.getFullYear()==now.getFullYear())m+=x.p;
+function getDate(){
+    const d = new Date();
+
+    return d.toLocaleDateString("fa-IR");
+}
+
+document.getElementById("today").innerText =
+    "امروز: " + getDate();
+
+
+/* ثبت */
+document.getElementById("serviceForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const service =
+        document.getElementById("service").value;
+
+    const price =
+        Number(document.getElementById("price").value);
+
+    const customer =
+        document.getElementById("customer").value;
+
+    if(!service || !price){
+        return;
+    }
+
+    transactions.unshift({
+
+        id:Date.now(),
+
+        service:service,
+
+        price:price,
+
+        customer:customer,
+
+        date:new Date().toISOString()
+
+    });
+
+    save();
+
+    this.reset();
+
+    update();
+
 });
 
-today.innerText=money(t);
-month.innerText=money(m);
-count.innerText=money(data.length);
-avg.innerText=money(data.length?Math.round(data.reduce((a,x)=>a+x.p,0)/data.length):0);
 
-list.innerHTML=data.map((x,i)=>
-<div class="item">
-<b>${x.s}</b><br>
-${x.n||"بدون نام"}<br>
-💰 ${money(x.p)} تومان
-<button class="del" onclick="del(${i})">حذف</button>
-</div>).join("")||"هنوز تراکنشی ثبت نشده";
+/* حذف */
+function deleteTransaction(id){
+
+    if(!confirm("این تراکنش حذف شود؟")){
+        return;
+    }
+
+    transactions =
+        transactions.filter(x => x.id !== id);
+
+    save();
+
+    update();
 }
 
-show();
+
+/* رندر تراکنش‌ها */
+function renderTransactions(){
+
+    const box =
+        document.getElementById("transactions");
+
+    const search =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    const filtered =
+        transactions.filter(x =>
+
+            x.service.toLowerCase().includes(search) ||
+
+            (x.customer || "")
+            .toLowerCase()
+            .includes(search)
+
+        );
+
+    document.getElementById("transactionCount")
+        .innerText =
+        formatNumber(filtered.length) + " مورد";
+if(filtered.length === 0){
+
+        box.innerHTML =
+            <div class="empty">
+                هنوز تراکنشی ثبت نشده است
+            </div>;
+
+        return;
+    }
+
+    box.innerHTML = filtered.map(x => {
+
+        const date =
+            new Date(x.date)
+            .toLocaleString("fa-IR");
+
+        return 
+
+        <div class="transaction">
+
+            <div class="transaction-info">
+
+                <div class="service-icon">
+                    🧾
+                </div>
+
+                <div>
+
+                    <div class="service-name">
+                        ${x.service}
+                    </div>
+
+                    <div class="transaction-date">
+                        ${x.customer ? x.customer + " • " : ""}
+                        ${date}
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div>
+
+                <span class="price">
+                    ${formatNumber(x.price)}
+                    تومان
+                </span>
+
+                <button
+                    class="delete"
+                    onclick="deleteTransaction(${x.id})">
+                    حذف
+                </button>
+
+            </div>
+
+        </div>
+
+        ;
+
+    }).join("");
+
+}
+
+
+/* آمار */
+function updateStats(){
+
+    const now = new Date();
+
+    const today =
+        transactions.filter(x => {
+
+            const d = new Date(x.date);
+
+            return d.toDateString() ===
+                   now.toDateString();
+
+        });
+
+    const month =
+        transactions.filter(x => {
+
+            const d = new Date(x.date);
+
+            return d.getMonth() === now.getMonth()
+                && d.getFullYear() === now.getFullYear();
+
+        });
+
+    const todayIncome =
+        today.reduce((sum,x)=>sum+x.price,0);
+
+    const monthIncome =
+        month.reduce((sum,x)=>sum+x.price,0);
+
+    const total =
+        transactions.reduce((sum,x)=>sum+x.price,0);
+
+    const average =
+        transactions.length ?
+        total / transactions.length : 0;
+
+    document.getElementById("todayIncome")
+        .innerText = formatNumber(todayIncome);
+
+    document.getElementById("monthIncome")
+        .innerText = formatNumber(monthIncome);
+
+    document.getElementById("serviceCount")
+        .innerText = formatNumber(transactions.length);
+
+    document.getElementById("averageIncome")
+        .innerText = formatNumber(Math.round(average));
+
+}
+
+
+/* نمودار */
+function renderChart(){
+
+    const chart =
+        document.getElementById("chart");
+
+    const days = [];
+
+    for(let i=6;i>=0;i--){
+
+        const d = new Date();
+
+        d.setDate(d.getDate()-i);
+
+        const income =
+            transactions
+            .filter(x => {
+
+                const tx =
+                    new Date(x.date);
+
+                return tx.toDateString()
+                    === d.toDateString();
+
+            })
+            .reduce((sum,x)=>sum+x.price,0);
+
+        days.push({
+
+            label:
+                d.toLocaleDateString(
+                    "fa-IR",
+                    {weekday:"short"}
+                ),
+
+            income:income
+
+        });
+
+    }
+
+    const max =
+        Math.max(...days.map(x=>x.income),1);
+
+    chart.innerHTML =
+        days.map(x => {
+
+            const height =
+                Math.max(
+                    (x.income/max)*180,
+                    5
+                );
+
+            return 
+
+            <div
+                class="bar"
+                style="height:${height}px"
+                title="${formatNumber(x.income)} تومان">
+
+                <span>${x.label}</span>
+
+            </div>
+
+            ;
+
+        }).join("");
+
+}
+
+
+/* خدمات محبوب */
+function renderPopular(){
+
+    const box =
+        document.getElementById("popular");
+
+    const counts = {};
+
+    transactions.forEach(x=>{
+
+        counts[x.service] =
+            (counts[x.service] || 0) + 1;
+
+    });
+
+    const list =
+        Object.entries(counts)
+        .sort((a,b)=>b[1]-a[1])
+        .slice(0,5);
+
+    if(!list.length){
+box.innerHTML =
+            <div class="empty">
+                هنوز داده‌ای وجود ندارد
+            </div>;
+
+        return;
+    }
+
+    box.innerHTML =
+        list.map((x,index)=>
+
+        <div class="transaction">
+
+            <div class="transaction-info">
+
+                <div class="service-icon">
+                    ${index+1}
+                </div>
+
+                <div class="service-name">
+                    ${x[0]}
+                </div>
+
+            </div>
+
+            <div class="price">
+                ${formatNumber(x[1])} بار
+            </div>
+
+        </div>
+
+        ).join("");
+
+}
+
+/* آپدیت */
+function update(){
+
+    updateStats();
+
+    renderTransactions();
+
+    renderChart();
+
+    renderPopular();
+
+}
+
+document.getElementById("search")
+.addEventListener("input",renderTransactions);
+
+update();
+
 </script>
 
 </body>
