@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>پنل ورودی | کافی‌نت جانا</title>
+<title>ورود به ورودی گزارش</title>
 
 <style>
 *{box-sizing:border-box}
@@ -11,512 +11,224 @@
 body{
 margin:0;
 min-height:100vh;
-font-family:Tahoma,Arial,sans-serif;
-color:#fff;
-background:
-radial-gradient(circle at 15% 15%,rgba(0,255,100,.10),transparent 30%),
-radial-gradient(circle at 85% 85%,rgba(0,130,255,.13),transparent 30%),
-#020202;
-padding:25px;
-}
-
-.container{
-max-width:1150px;
-margin:auto;
-}
-
-.header{
 display:flex;
-justify-content:space-between;
 align-items:center;
-margin-bottom:30px;
+justify-content:center;
+font-family:Tahoma,Arial,sans-serif;
+background:#020303;
+color:#fff;
+overflow:hidden;
+}
+
+body:before{
+content:"";
+position:fixed;
+width:500px;
+height:500px;
+background:rgba(0,110,255,.13);
+filter:blur(130px);
+border-radius:50%;
+top:-180px;
+left:-150px;
+}
+
+body:after{
+content:"";
+position:fixed;
+width:400px;
+height:400px;
+background:rgba(0,255,120,.07);
+filter:blur(120px);
+border-radius:50%;
+bottom:-180px;
+right:-100px;
+}
+
+.box{
+width:min(440px,90%);
+padding:45px 35px;
+border-radius:30px;
+background:rgba(255,255,255,.045);
+border:1px solid rgba(255,255,255,.09);
+backdrop-filter:blur(30px);
+-webkit-backdrop-filter:blur(30px);
+box-shadow:
+0 30px 100px rgba(0,0,0,.7),
+0 0 40px rgba(0,100,255,.08);
+text-align:center;
+position:relative;
+z-index:2;
+transition:.4s;
+}
+
+.box:hover{
+border-color:rgba(0,130,255,.65);
+box-shadow:
+0 30px 100px rgba(0,0,0,.8),
+0 0 35px rgba(0,130,255,.25);
+}
+
+.icon{
+font-size:55px;
+margin-bottom:20px;
 }
 
 h1{
-font-size:28px;
-margin:0;
+margin:0 0 10px;
+font-size:25px;
 }
 
-h1 span{
-color:#00ff66;
-text-shadow:0 0 15px rgba(0,255,100,.5);
+.desc{
+color:#888;
+font-size:13px;
+margin-bottom:30px;
 }
 
-.back{
-text-decoration:none;
+.passwordBox{
+position:relative;
+}
+
+input{
+width:100%;
+padding:17px 50px 17px 18px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,.1);
+outline:none;
+background:rgba(0,0,0,.35);
 color:white;
-padding:12px 20px;
-border-radius:14px;
-background:rgba(255,255,255,.06);
-border:1px solid rgba(255,255,255,.12);
-backdrop-filter:blur(20px);
+font-size:18px;
+text-align:center;
 transition:.3s;
 }
 
-.back:hover{
-border-color:#00ff66;
-box-shadow:0 0 25px rgba(0,255,100,.2);
+input:focus{
+border-color:#087dff;
+box-shadow:0 0 25px rgba(0,125,255,.18);
 }
 
-.panel{
-padding:25px;
-margin-bottom:25px;
-border-radius:24px;
-background:rgba(255,255,255,.045);
-border:1px solid rgba(255,255,255,.1);
-backdrop-filter:blur(25px);
-box-shadow:0 20px 60px rgba(0,0,0,.35);
+.eye{
+position:absolute;
+right:14px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+font-size:20px;
+opacity:.7;
+transition:.2s;
 }
 
-.form{
-display:grid;
-grid-template-columns:1fr 1fr 1fr auto;
-gap:12px;
-}
-
-input,select{
-width:100%;
-height:50px;
-padding:0 15px;
-border-radius:13px;
-border:1px solid rgba(255,255,255,.1);
-background:rgba(0,0,0,.4);
-color:#fff;
-outline:none;
-}
-
-input:focus,select:focus{
-border-color:#00ff66;
-box-shadow:0 0 20px rgba(0,255,100,.1);
+.eye:hover{
+opacity:1;
 }
 
 button{
-height:50px;
-padding:0 25px;
-border:0;
-border-radius:13px;
-background:#00ff66;
-color:#000;
+width:100%;
+margin-top:20px;
+padding:16px;
+border-radius:16px;
+border:1px solid rgba(0,255,136,.25);
+background:rgba(0,255,136,.07);
+color:#00ff88;
+font-size:16px;
 font-weight:bold;
 cursor:pointer;
-transition:.3s;
+transition:.35s;
 }
 
 button:hover{
-transform:translateY(-3px);
-box-shadow:0 0 25px rgba(0,255,100,.3);
+transform:translateY(-4px);
+background:rgba(0,255,136,.13);
+border-color:#00ff88;
+box-shadow:0 0 30px rgba(0,255,136,.2);
 }
 
-.stats{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
+#error{
+height:25px;
+margin-top:15px;
+color:#ff4d6d;
+font-size:13px;
 }
 
-.stat{
-padding:25px;
-border-radius:20px;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.08);
-transition:.3s;
-}
-
-.stat:hover{
-transform:translateY(-7px);
-border-color:rgba(0,255,100,.4);
-}
-
-.stat h3{
-color:#888;
-font-size:14px;
-margin-top:0;
-}
-
-.stat strong{
-font-size:23px;
-color:#00ff66;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-th,td{
-padding:14px 10px;
-text-align:center;
-border-bottom:1px solid rgba(255,255,255,.07);
-}
-
-th{
-color:#00ff66;
-}
-
-td{
-color:#ccc;
-}
-
-.delete{
-height:auto;
-padding:8px 12px;
-background:#301010;
-color:#ff5555;
-}
-
-.empty{
-text-align:center;
-padding:35px;
-color:#666;
-}
-
-@media(max-width:800px){
-
-.form{
-grid-template-columns:1fr;
-}
-
-.stats{
-grid-template-columns:1fr;
-}
-
-.header{
-gap:15px;
-align-items:flex-start;
-}
-
-table{
+.back{
+display:inline-block;
+margin-top:18px;
+color:#777;
+text-decoration:none;
 font-size:12px;
 }
 
+.back:hover{
+color:white;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="box">
 
-<div class="header">
+<div class="icon">🔐</div>
 
-<h1>
-ورودی <span>گزارش</span>
-</h1>
+<h1>ورودی گزارش</h1>
 
-<a href="index.html" class="back">
-← بازگشت
-</a>
-
+<div class="desc">
+برای ورود رمز عبور را وارد کنید
 </div>
 
-
-<div class="panel">
-
-<h2>📝 ثبت تراکنش جدید</h2>
-
-<div class="form">
+<div class="passwordBox">
 
 <input
-id="name"
-type="text"
-placeholder="نام مشتری"
+id="password"
+type="password"
+placeholder="رمز عبور"
+maxlength="20"
 >
 
-<input
-id="amount"
-type="number"
-placeholder="مبلغ به تومان"
->
-
-<select id="method">
-
-<option value="pos">
-💳 کارتخوان
-</option>
-
-<option value="cash">
-💵 نقدی
-</option>
-
-<option value="card">
-📱 کارت به کارت
-</option>
-
-</select>
-
-<button onclick="addTransaction()">
-ثبت تراکنش
-</button>
+<span class="eye" id="eye" onclick="togglePassword()">👁</span>
 
 </div>
 
-</div>
+<button onclick="login()">ورود به پنل ثبت</button>
 
+<div id="error"></div>
 
-<div class="stats">
-
-<div class="stat">
-
-<h3>💰 درآمد کل</h3>
-
-<strong id="total">
-۰ تومان
-</strong>
+<a class="back" href="index.html">← بازگشت به صفحه اصلی</a>
 
 </div>
-
-<div class="stat">
-
-<h3>💳 کارتخوان</h3>
-
-<strong id="pos">
-۰ تومان
-</strong>
-
-</div>
-
-<div class="stat">
-
-<h3>💵 نقدی</h3>
-
-<strong id="cash">
-۰ تومان
-</strong>
-
-</div>
-
-</div>
-
-
-<div class="panel" style="margin-top:25px">
-
-<h2>🧾 تراکنش‌ها</h2>
-
-<div style="overflow-x:auto">
-
-<table>
-
-<thead>
-
-<tr>
-<th>مشتری</th>
-<th>مبلغ</th>
-<th>پرداخت</th>
-<th>تاریخ</th>
-<th>عملیات</th>
-</tr>
-
-</thead>
-
-<tbody id="list"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
 
 <script>
 
-let transactions =
-JSON.parse(
-localStorage.getItem("cafe_transactions") || "[]"
-);
+function togglePassword(){
 
+const input=document.getElementById("password");
+const eye=document.getElementById("eye");
 
-function money(n){
-
-return Number(n || 0)
-.toLocaleString("fa-IR")
-+ " تومان";
+if(input.type==="password"){
+input.type="text";
+eye.innerText="🙈";
+}else{
+input.type="password";
+eye.innerText="👁";
+}
 
 }
 
+function login(){
 
-function addTransaction(){
-const name =
-document.getElementById("name").value.trim();
+const password=document.getElementById("password").value;
+const error=document.getElementById("error");
 
-const amount =
-Number(
-document.getElementById("amount").value
-);
-
-const method =
-document.getElementById("method").value;
-
-
-if(!amount){
-
-alert("مبلغ را وارد کن.");
-
-return;
+if(password==="0000"){
+window.location.href="input-panel.html";
+}else{
+error.innerText="رمز عبور اشتباه است";
+}
 
 }
 
-
-transactions.push({
-
-id:Date.now(),
-
-name:name || "بدون نام",
-
-amount:amount,
-
-method:method,
-
-date:new Date().toLocaleDateString("fa-IR")
-
+document.getElementById("password").addEventListener("keydown",function(e){
+if(e.key==="Enter") login();
 });
-
-
-localStorage.setItem(
-"cafe_transactions",
-JSON.stringify(transactions)
-);
-
-
-document.getElementById("name").value="";
-document.getElementById("amount").value="";
-
-
-render();
-
-}
-
-
-function removeTransaction(id){
-
-if(!confirm("این تراکنش حذف شود؟"))
-return;
-
-
-transactions =
-transactions.filter(
-x => x.id !== id
-);
-
-
-localStorage.setItem(
-"cafe_transactions",
-JSON.stringify(transactions)
-);
-
-
-render();
-
-}
-
-
-function render(){
-
-let total=0;
-let pos=0;
-let cash=0;
-
-const list =
-document.getElementById("list");
-
-list.innerHTML="";
-
-
-transactions
-.slice()
-.reverse()
-.forEach(item=>{
-
-total += item.amount;
-
-if(item.method==="pos")
-pos += item.amount;
-
-if(item.method==="cash")
-cash += item.amount;
-
-
-let method="";
-
-if(item.method==="pos")
-method="کارتخوان";
-
-if(item.method==="cash")
-method="نقدی";
-
-if(item.method==="card")
-method="کارت به کارت";
-
-
-const tr =
-document.createElement("tr");
-
-
-tr.innerHTML=
-
-<td>${escapeHTML(item.name)}</td>
-
-<td>${money(item.amount)}</td>
-
-<td>${method}</td>
-
-<td>${item.date}</td>
-
-<td>
-<button
-class="delete"
-onclick="removeTransaction(${item.id})"
->
-حذف
-</button>
-</td>
-
-;
-
-
-list.appendChild(tr);
-
-});
-
-
-document.getElementById("total")
-.innerText=money(total);
-
-document.getElementById("pos")
-.innerText=money(pos);
-
-document.getElementById("cash")
-.innerText=money(cash);
-
-
-if(transactions.length===0){
-
-list.innerHTML=
-<tr>
-<td colspan="5" class="empty">
-هنوز تراکنشی ثبت نشده است.
-</td>
-</tr>
-;
-
-}
-
-}
-
-
-function escapeHTML(text){
-
-return String(text)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-
-}
-
-
-render();
 
 </script>
 
