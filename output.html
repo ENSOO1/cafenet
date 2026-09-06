@@ -1,1 +1,892 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>خروجی گزارش | کافی‌نت جانا</title>
+
+<script src="./data.js"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    background:#020508;
+    color:#fff;
+    font-family:Tahoma,Arial,sans-serif;
+    overflow-x:hidden;
+}
+
+/* Background */
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    width:450px;
+    height:450px;
+    border-radius:50%;
+    filter:blur(130px);
+    opacity:.16;
+    pointer-events:none;
+    z-index:0;
+}
+
+body::before{
+    background:#008cff;
+    top:-220px;
+    right:-160px;
+}
+
+body::after{
+    background:#0066ff;
+    bottom:-230px;
+    left:-160px;
+}
+
+/* Mouse glow */
+.mouseGlow{
+    position:fixed;
+    width:320px;
+    height:320px;
+    border-radius:50%;
+    pointer-events:none;
+    background:radial-gradient(
+        circle,
+        rgba(0,140,255,.16),
+        rgba(0,100,255,.06) 35%,
+        transparent 72%
+    );
+    transform:translate(-50%,-50%);
+    z-index:1;
+}
+
+.cursorDot{
+    position:fixed;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#35aaff;
+    box-shadow:
+        0 0 8px #008cff,
+        0 0 18px #008cff,
+        0 0 30px rgba(0,140,255,.8);
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    z-index:9999;
+}
+
+/* Main */
+.container{
+    position:relative;
+    z-index:5;
+    width:min(1200px,94%);
+    margin:auto;
+    padding:35px 0 50px;
+}
+
+/* Header */
+.header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.title h1{
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.title p{
+    color:#7290aa;
+    font-size:13px;
+}
+
+.back{
+    text-decoration:none;
+    color:#83bfff;
+    border:1px solid rgba(0,140,255,.2);
+    background:rgba(255,255,255,.04);
+    padding:12px 18px;
+    border-radius:13px;
+    transition:.3s;
+}
+
+.back:hover{
+    background:rgba(0,140,255,.1);
+    border-color:#168cff;
+}
+
+/* Stats */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:25px;
+}
+
+.stat{
+    min-height:130px;
+    padding:22px;
+    border-radius:22px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.09);
+    backdrop-filter:blur(18px);
+    box-shadow:0 20px 50px rgba(0,0,0,.3);
+    transition:.3s;
+}
+
+.stat:hover{
+    transform:translateY(-5px);
+    border-color:rgba(0,140,255,.35);
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.4),
+        0 0 25px rgba(0,140,255,.06);
+}
+
+.stat small{
+    color:#70869b;
+    font-size:12px;
+}
+
+.stat strong{
+    display:block;
+    margin-top:15px;
+    font-size:24px;
+    color:#49adff;
+}
+
+/* Glass sections */
+.panel{
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:25px;
+    padding:25px;
+    backdrop-filter:blur(20px);
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+    margin-bottom:22px;
+}
+
+.panelTitle{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.panelTitle h2{
+    font-size:19px;
+}
+
+.panelTitle span{
+    color:#66829c;
+    font-size:12px;
+}
+
+/* Filters */
+.filters{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.filters button{
+    border:1px solid rgba(0,140,255,.2);
+    background:rgba(0,100,255,.05);
+    color:#8fcaff;
+    padding:10px 17px;
+    border-radius:11px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.filters button:hover,
+.filters button.active{
+    background:rgba(0,130,255,.16);
+    border-color:#168cff;
+    box-shadow:0 0 18px rgba(0,140,255,.08);
+}
+
+/* Table */
+.tableWrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th,
+td{
+    padding:15px 12px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+    text-align:right;
+    font-size:13px;
+}
+
+th{
+    color:#6f91ae;
+    font-weight:normal;
+}
+
+td{
+    color:#dcecff;
+}
+.amount{
+    color:#48adff;
+    font-weight:bold;
+}
+
+.method{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:8px;
+    background:rgba(0,140,255,.08);
+    color:#71bdff;
+    font-size:11px;
+}
+
+/* Empty */
+.empty{
+    text-align:center;
+    padding:50px 20px;
+    color:#647789;
+}
+
+.emptyIcon{
+    font-size:38px;
+    margin-bottom:15px;
+}
+
+/* Notes */
+.notes{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.note{
+    padding:18px;
+    border-radius:17px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.noteText{
+    color:#c8d9e8;
+    line-height:1.9;
+    font-size:13px;
+}
+
+.noteDate{
+    margin-top:12px;
+    color:#5d7891;
+    font-size:10px;
+}
+
+/* Responsive */
+@media(max-width:850px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .notes{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:92%;
+        padding-top:25px;
+    }
+
+    .header{
+        align-items:flex-start;
+    }
+
+    .title h1{
+        font-size:23px;
+    }
+
+    .back{
+        font-size:11px;
+        padding:10px 12px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .stat{
+        min-height:110px;
+        padding:16px;
+    }
+
+    .stat strong{
+        font-size:19px;
+    }
+
+    .notes{
+        grid-template-columns:1fr;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="mouseGlow" id="mouseGlow"></div>
+<div class="cursorDot" id="cursorDot"></div>
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="title">
+            <h1>📊 خروجی گزارش</h1>
+            <p>کافی‌نت جانا • گزارش مالی</p>
+        </div>
+
+        <a href="./index.html" class="back">
+            ← صفحه اصلی
+        </a>
+
+    </div>
+
+
+    <!-- Stats -->
+    <div class="stats">
+
+        <div class="stat">
+            <small>کل درآمد</small>
+            <strong id="totalIncome">۰ تومان</strong>
+        </div>
+
+        <div class="stat">
+            <small>تعداد تراکنش</small>
+            <strong id="transactionCount">۰</strong>
+        </div>
+
+        <div class="stat">
+            <small>کارتخوان</small>
+            <strong id="posTotal">۰</strong>
+        </div>
+
+        <div class="stat">
+            <small>نقدی</small>
+            <strong id="cashTotal">۰</strong>
+        </div>
+
+    </div>
+
+
+    <!-- Transactions -->
+    <section class="panel">
+
+        <div class="panelTitle">
+
+            <h2>تراکنش‌ها</h2>
+
+            <span id="reportDate">
+                گزارش مالی
+            </span>
+
+        </div>
+
+
+        <div class="filters">
+
+            <button
+                class="active"
+                onclick="filterData('all',this)">
+                همه
+            </button>
+
+            <button
+                onclick="filterData('کارتخوان',this)">
+                کارتخوان
+            </button>
+
+            <button
+                onclick="filterData('نقدی',this)">
+                نقدی
+            </button>
+
+            <button
+                onclick="filterData('کارت به کارت',this)">
+                کارت به کارت
+            </button>
+
+        </div>
+
+
+        <div class="tableWrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>تاریخ</th>
+                        <th>ساعت</th>
+                        <th>مشتری</th>
+                        <th>خدمت</th>
+                        <th>مبلغ</th>
+                        <th>روش پرداخت</th>
+                        <th>توضیحات</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="transactionsBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- Notes -->
+    <section class="panel">
+
+        <div class="panelTitle">
+
+            <h2>📝 یادداشت‌ها</h2>
+
+            <span>
+                یادداشت‌های ثبت شده
+            </span>
+
+        </div>
+
+        <div
+            class="notes"
+            id="notesContainer">
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+/* =========================================
+   Data
+========================================= */
+
+let allTransactions = [];
+
+let currentFilter = "all";
+
+
+/* =========================================
+   بررسی data.js
+========================================= */
+
+if(typeof cafeData !== "undefined"){
+
+    allTransactions =
+        Array.isArray(cafeData.transactions)
+        ? cafeData.transactions
+        : [];
+
+}else{
+
+    console.warn("data.js پیدا نشد.");
+
+}
+
+
+/* =========================================
+   تبدیل عدد به فارسی
+========================================= */
+
+function faNumber(number){
+
+    return Number(number || 0)
+        .toLocaleString("fa-IR");
+
+}
+
+
+/* =========================================
+   فرمت مبلغ
+========================================= */
+
+function money(number){
+
+    return faNumber(number) + " تومان";
+
+}
+
+
+/* =========================================
+   نمایش آمار
+========================================= */
+
+function updateStats(){
+
+    const transactions =
+        currentFilter === "all"
+        ? allTransactions
+        : allTransactions.filter(
+            item =>
+                item.method === currentFilter
+        );
+
+
+    let total = 0;
+    let pos = 0;
+    let cash = 0;
+
+
+    transactions.forEach(item => {
+
+        const amount =
+            Number(item.amount || 0);
+
+        total += amount;
+
+
+        if(item.method === "کارتخوان"){
+            pos += amount;
+        }
+
+
+        if(item.method === "نقدی"){
+            cash += amount;
+        }
+
+    });
+
+
+    document.getElementById("totalIncome")
+        .textContent = money(total);
+
+
+    document.getElementById("transactionCount")
+        .textContent =
+        faNumber(transactions.length);
+
+
+    document.getElementById("posTotal")
+        .textContent = money(pos);
+
+
+    document.getElementById("cashTotal")
+        .textContent = money(cash);
+
+}
+
+
+/* =========================================
+   نمایش تراکنش‌ها
+========================================= */
+
+function renderTransactions(){
+
+    const body =
+        document.getElementById(
+            "transactionsBody"
+        );
+
+
+    body.innerHTML = "";
+
+
+    const transactions =
+        currentFilter === "all"
+        ? allTransactions
+        : allTransactions.filter(
+            item =>
+                item.method === currentFilter
+        );
+
+
+    if(!transactions.length){
+
+        body.innerHTML = 
+            <tr>
+                <td colspan="7">
+
+                    <div class="empty">
+
+                        <div class="emptyIcon">
+                            📭
+                        </div>
+
+                        هنوز تراکنشی ثبت نشده است.
+
+                    </div>
+
+                </td>
+            </tr>
+        ;
+
+        return;
+    }
+
+
+    transactions.forEach(item => {
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = 
+
+            <td>
+                ${item.date || "-"}
+            </td>
+
+            <td>
+                ${item.time || "-"}
+            </td>
+
+            <td>
+                ${item.customer || "-"}
+            </td>
+
+            <td>
+                ${item.service || "-"}
+            </td>
+
+            <td class="amount">
+                ${money(item.amount)}
+            </td>
+
+            <td>
+                <span class="method">
+                    ${item.method || "-"}
+                </span>
+            </td>
+
+            <td>
+                ${item.description || "-"}
+            </td>
+
+        ;
+
+
+        body.appendChild(row);
+
+    });
+
+}
+
+
+/* =========================================
+   فیلتر
+========================================= */
+
+function filterData(filter,button){
+
+    currentFilter = filter;
+
+
+    document.querySelectorAll(
+        ".filters button"
+    ).forEach(btn => {
+
+        btn.classList.remove("active");
+
+    });
+
+
+    button.classList.add("active");
+
+
+    updateStats();
+
+    renderTransactions();
+
+}
+
+
+/* =========================================
+   یادداشت‌ها
+========================================= */
+
+function renderNotes(){
+const container =
+        document.getElementById(
+            "notesContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const notes =
+        typeof cafeData !== "undefined" &&
+        Array.isArray(cafeData.notes)
+        ? cafeData.notes
+        : [];
+
+
+    if(!notes.length){
+
+        container.innerHTML = 
+            <div class="empty"
+                 style="grid-column:1/-1">
+
+                <div class="emptyIcon">
+                    📝
+                </div>
+
+                هنوز یادداشتی ثبت نشده است.
+
+            </div>
+        ;
+
+        return;
+    }
+
+
+    notes.forEach(note => {
+
+        const div =
+            document.createElement("div");
+
+
+        div.className = "note";
+
+
+        div.innerHTML = 
+
+            <div class="noteText">
+                ${note.text || ""}
+            </div>
+
+            <div class="noteDate">
+                ${note.date || ""}
+            </div>
+
+        ;
+
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================================
+   تاریخ گزارش
+========================================= */
+
+function showDate(){
+
+    const today =
+        new Date();
+
+
+    document.getElementById(
+        "reportDate"
+    ).textContent =
+        "آخرین بروزرسانی: " +
+        today.toLocaleDateString("fa-IR");
+
+}
+
+
+/* =========================================
+   Mouse
+========================================= */
+
+const mouseGlow =
+    document.getElementById("mouseGlow");
+
+const cursorDot =
+    document.getElementById("cursorDot");
+
+
+let mouseX =
+    window.innerWidth / 2;
+
+let mouseY =
+    window.innerHeight / 2;
+
+let glowX = mouseX;
+let glowY = mouseY;
+
+
+document.addEventListener(
+    "mousemove",
+    function(e){
+
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+
+        cursorDot.style.left =
+            mouseX + "px";
+
+        cursorDot.style.top =
+            mouseY + "px";
+
+    }
+);
+
+
+function animateGlow(){
+
+    glowX +=
+        (mouseX - glowX) * .08;
+
+    glowY +=
+        (mouseY - glowY) * .08;
+
+
+    mouseGlow.style.left =
+        glowX + "px";
+
+    mouseGlow.style.top =
+        glowY + "px";
+
+
+    requestAnimationFrame(
+        animateGlow
+    );
+
+}
+
+
+animateGlow();
+
+
+/* =========================================
+   اجرا
+========================================= */
+
+updateStats();
+
+renderTransactions();
+
+renderNotes();
+
+showDate();
+
+</script>
+
+</body>
+</html>
