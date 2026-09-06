@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050505">
-
-<title>ورود به ورودی گزارش | کافی‌نت جانا</title>
+<title>ورودی گزارش | کافی‌نت جانا</title>
 
 <style>
 *{
@@ -14,243 +12,126 @@
     padding:0;
 }
 
-html,body{
-    width:100%;
-    min-height:100%;
-}
-
 body{
-    font-family:Tahoma, Arial, sans-serif;
-    background:
-        radial-gradient(circle at 20% 20%, rgba(0,255,140,.08), transparent 30%),
-        radial-gradient(circle at 80% 80%, rgba(0,110,255,.10), transparent 30%),
-        #030303;
-    color:#fff;
+    min-height:100vh;
+    font-family:Tahoma,Arial,sans-serif;
+    color:white;
+    background:#020202;
+    display:flex;
+    justify-content:center;
+    align-items:center;
     overflow:hidden;
 }
 
-/* =========================
-   BACKGROUND LIGHT
-========================= */
-
-.bg{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    overflow:hidden;
-}
-
-.bg::before,
-.bg::after{
+/* پس‌زمینه */
+body::before{
     content:"";
-    position:absolute;
-    border-radius:50%;
-    filter:blur(90px);
-    opacity:.25;
-}
-
-.bg::before{
-    width:300px;
-    height:300px;
-    background:#00ff88;
-    top:-100px;
-    left:-100px;
-    animation:float1 8s ease-in-out infinite;
-}
-
-.bg::after{
+    position:fixed;
     width:350px;
     height:350px;
-    background:#0066ff;
-    right:-130px;
-    bottom:-130px;
-    animation:float2 10s ease-in-out infinite;
+    background:#00ff88;
+    opacity:.08;
+    filter:blur(100px);
+    top:-120px;
+    right:-100px;
 }
 
-@keyframes float1{
-    0%,100%{transform:translate(0,0)}
-    50%{transform:translate(70px,50px)}
-}
-
-@keyframes float2{
-    0%,100%{transform:translate(0,0)}
-    50%{transform:translate(-60px,-50px)}
-}
-
-/* =========================
-   MOUSE GLOW
-========================= */
-
-.mouseGlow{
+body::after{
+    content:"";
     position:fixed;
-    width:280px;
-    height:280px;
+    width:350px;
+    height:350px;
+    background:#0077ff;
+    opacity:.10;
+    filter:blur(100px);
+    bottom:-120px;
+    left:-100px;
+}
+
+/* نور موس */
+#mouseGlow{
+    position:fixed;
+    width:260px;
+    height:260px;
     border-radius:50%;
     pointer-events:none;
     background:radial-gradient(
         circle,
-        rgba(0,255,140,.10),
-        rgba(0,100,255,.04),
+        rgba(0,255,136,.12),
         transparent 70%
     );
     transform:translate(-50%,-50%);
-    z-index:1;
-    transition:opacity .3s;
+    z-index:0;
 }
 
-/* =========================
-   CURSOR TRAIL
-========================= */
-
-.cursorDot{
-    position:fixed;
-    width:6px;
-    height:6px;
-    border-radius:50%;
-    background:#00ff88;
-    box-shadow:
-        0 0 8px #00ff88,
-        0 0 18px rgba(0,255,136,.7);
-    pointer-events:none;
-    z-index:9999;
-    transform:translate(-50%,-50%);
-    opacity:.8;
-}
-
-/* =========================
-   MAIN
-========================= */
-
-.wrapper{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:25px;
+/* کارت */
+.card{
     position:relative;
     z-index:2;
-}
+    width:min(420px,90%);
+    padding:40px 30px;
 
-/* =========================
-   LOGIN CARD
-========================= */
-
-.loginCard{
-    width:min(430px,100%);
-    padding:42px 35px;
-    position:relative;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.10),
-            rgba(255,255,255,.025)
-        );
-
+    background:rgba(255,255,255,.055);
     border:1px solid rgba(255,255,255,.12);
-
     border-radius:28px;
 
     backdrop-filter:blur(25px);
     -webkit-backdrop-filter:blur(25px);
 
     box-shadow:
-        0 25px 80px rgba(0,0,0,.75),
-        inset 0 1px 0 rgba(255,255,255,.10);
+        0 30px 80px rgba(0,0,0,.7),
+        inset 0 1px 0 rgba(255,255,255,.08);
 
-    animation:cardFloat 5s ease-in-out infinite;
-    transition:
-        transform .4s ease,
-        border-color .4s ease,
-        box-shadow .4s ease;
+    animation:float 5s ease-in-out infinite;
 }
 
-.loginCard:hover{
-    transform:translateY(-7px);
-    border-color:rgba(0,255,136,.35);
-
-    box-shadow:
-        0 35px 100px rgba(0,0,0,.85),
-        0 0 35px rgba(0,255,136,.08),
-        inset 0 1px 0 rgba(255,255,255,.13);
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-8px)}
 }
 
-@keyframes cardFloat{
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-7px);
-    }
-}
-
-/* =========================
-   TOP ICON
-========================= */
-
-.logo{
-    width:82px;
-    height:82px;
-    margin:0 auto 22px;
+.icon{
+    width:75px;
+    height:75px;
+    margin:auto;
+    margin-bottom:20px;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    border-radius:24px;
+    border-radius:22px;
 
-    background:
-        linear-gradient(
-            145deg,
-            rgba(0,255,136,.13),
-            rgba(0,100,255,.10)
-        );
+    background:rgba(0,255,136,.08);
+    border:1px solid rgba(0,255,136,.2);
 
-    border:1px solid rgba(255,255,255,.13);
-
-    box-shadow:
-        0 0 30px rgba(0,255,136,.10),
-        inset 0 0 20px rgba(255,255,255,.03);
-
-    font-size:36px;
+    font-size:32px;
 }
-/* =========================
-   TEXT
-========================= */
 
 h1{
     text-align:center;
-    font-size:25px;
+    font-size:24px;
     margin-bottom:10px;
-    letter-spacing:.3px;
 }
 
-.subtitle{
-    text-align:center;
-    color:#9d9d9d;
-    font-size:13px;
-    margin-bottom:32px;
-}
-
-.green{
+h1 span{
     color:#00ff88;
-    text-shadow:0 0 12px rgba(0,255,136,.35);
+    text-shadow:0 0 15px rgba(0,255,136,.3);
 }
 
-/* =========================
-   INPUT GROUP
-========================= */
-
-.field{
-    margin-bottom:18px;
+.sub{
+    text-align:center;
+    color:#888;
+    font-size:12px;
+    margin-bottom:30px;
 }
 
+/* ورودی */
 label{
     display:block;
-    margin-bottom:8px;
-    color:#cfcfcf;
     font-size:13px;
+    color:#ccc;
+    margin-bottom:9px;
 }
 
 .inputBox{
@@ -261,242 +142,260 @@ input{
     width:100%;
     height:56px;
 
-    padding:0 17px 0 52px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.12);
 
-    border-radius:17px;
+    background:rgba(0,0,0,.45);
 
-    border:1px solid rgba(255,255,255,.11);
+    color:white;
 
     outline:none;
 
-    background:
-        rgba(0,0,0,.42);
+    padding:0 17px 0 55px;
 
-    color:#fff;
+    font-size:17px;
 
-    font-size:16px;
-
-    transition:
-        .3s ease;
-
-    box-shadow:
-        inset 0 0 15px rgba(0,0,0,.3);
-}
-
-input::placeholder{
-    color:#666;
+    transition:.25s;
 }
 
 input:focus{
-    border-color:rgba(0,255,136,.65);
-
-    box-shadow:
-        0 0 20px rgba(0,255,136,.10),
-        inset 0 0 15px rgba(0,255,136,.025);
+    border-color:#00ff88;
+    box-shadow:0 0 20px rgba(0,255,136,.1);
 }
 
-/* =========================
-   CLASSIC EYE
-========================= */
-
-.eyeBtn{
+/* دکمه چشم */
+#eye{
     position:absolute;
-
-    left:13px;
+    left:12px;
     top:50%;
-
-    width:32px;
-    height:32px;
-
     transform:translateY(-50%);
+
+    width:38px;
+    height:38px;
+
+    border:none;
+    background:transparent;
+
+    cursor:pointer;
+
+    color:#888;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    border:none;
-    background:transparent;
-
-    color:#777;
-
-    cursor:pointer;
-
     padding:0;
-
-    transition:
-        color .25s ease,
-        transform .25s ease;
 }
 
-.eyeBtn:hover{
+#eye:hover{
     color:#00ff88;
-    transform:translateY(-50%) scale(1.08);
 }
 
-.eyeBtn svg{
-    width:22px;
-    height:22px;
+#eye svg{
+    width:24px;
+    height:24px;
+
     stroke:currentColor;
     fill:none;
+
     stroke-width:1.7;
+
     stroke-linecap:round;
     stroke-linejoin:round;
 }
 
-/* =========================
-   LOGIN BUTTON
-========================= */
-
-.loginBtn{
+/* دکمه ورود */
+button.login{
     width:100%;
-    height:57px;
+    height:56px;
 
-    margin-top:8px;
+    margin-top:20px;
 
     border:none;
-    border-radius:17px;
+    border-radius:16px;
 
-    cursor:pointer;
+    background:linear-gradient(
+        135deg,
+        #00ff88,
+        #00d878
+    );
 
-    color:#00150c;
+    color:#001b0d;
 
     font-size:15px;
     font-weight:bold;
 
-    background:
-        linear-gradient(
-            135deg,
-            #00ff88,
-            #00d978
-        );
+    cursor:pointer;
+
+    transition:.25s;
 
     box-shadow:
-        0 0 25px rgba(0,255,136,.16);
-
-    position:relative;
-    overflow:hidden;
-
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease;
+        0 0 25px rgba(0,255,136,.15);
 }
 
-.loginBtn::before{
-    content:"";
-    position:absolute;
-    inset:0;
-
-    background:
-        linear-gradient(
-            110deg,
-            transparent 20%,
-            rgba(255,255,255,.35) 50%,
-            transparent 80%
-        );
-
-    transform:translateX(-120%);
-    transition:transform .6s ease;
-}
-
-.loginBtn:hover{
+button.login:hover{
     transform:translateY(-3px);
 
     box-shadow:
-        0 10px 35px rgba(0,255,136,.25),
-        0 0 20px rgba(0,255,136,.15);
+        0 10px 35px rgba(0,255,136,.25);
 }
 
-.loginBtn:hover::before{
-    transform:translateX(120%);
-}
-
-.loginBtn:active{
+button.login:active{
     transform:scale(.97);
 }
 
-/* =========================
-   ERROR
-========================= */
-
-.error{
-    min-height:22px;
+#error{
     text-align:center;
-
-    color:#ff5d72;
-
+    color:#ff536b;
     font-size:12px;
 
-    margin-top:14px;
-
-    opacity:0;
-
-    transform:translateY(-5px);
-
-    transition:.3s ease;
+    min-height:20px;
+    margin-top:12px;
 }
-
-.error.show{
-    opacity:1;
-    transform:translateY(0);
-}
-
-/* =========================
-   FOOTER
-========================= */
 
 .footer{
     text-align:center;
-
     margin-top:25px;
-
-    color:#555;
-
-    font-size:10px;
-
+    color:#444;
+    font-size:9px;
     letter-spacing:1px;
 }
 
-/* =========================
-   MOBILE
-========================= */
-
+/* موبایل */
 @media(max-width:600px){
 
-    body{
-        overflow:hidden;
-    }
-
-    .wrapper{
-        padding:18px;
-    }
-
-    .loginCard{
-        padding:35px 22px;
-        border-radius:24px;
+    .card{
+        padding:32px 20px;
     }
 
     h1{
-        font-size:22px;
-    }
-
-    .logo{
-        width:72px;
-        height:72px;
-        border-radius:20px;
-    }
-
-    input,
-    .loginBtn{
-        height:55px;
+        font-size:21px;
     }
 }
+</style>
+</head>
+<body>
 
-/* =========================
-   REDUCED MOTION
-========================= */
+<div id="mouseGlow"></div>
 
-@media(prefers-reduced-motion:reduce){
-eyeBtn.addEventListener("click", function(){
+<div class="card">
+
+    <div class="icon">
+        🔐
+    </div>
+
+    <h1>
+        ورود به <span>ورودی گزارش</span>
+    </h1>
+
+    <div class="sub">
+        کافی‌نت جانا • دسترسی مدیریت
+    </div>
+
+    <label>رمز عبور</label>
+
+    <div class="inputBox">
+
+        <input
+            id="password"
+            type="password"
+            placeholder="رمز عبور را وارد کنید"
+            autocomplete="off"
+        >
+
+        <button
+            id="eye"
+            type="button"
+            aria-label="نمایش رمز"
+        >
+
+            <!-- چشم خط‌خورده -->
+            <svg id="eyeOff"
+                 viewBox="0 0 24 24">
+
+                <path d="M2.5 12
+                         C4.5 8
+                         8 6
+                         12 6
+                         C16 6
+                         19.5 8
+                         21.5 12
+                         C19.5 16
+                         16 18
+                         12 18
+                         C8 18
+                         4.5 16
+                         2.5 12Z"/>
+
+                <circle cx="12" cy="12" r="2.5"/>
+
+                <!-- خط روی چشم -->
+                <path d="M4 4 L20 20"/>
+
+            </svg>
+
+            <!-- چشم باز -->
+            <svg id="eyeOn"
+                 viewBox="0 0 24 24"
+                 style="display:none">
+
+                <path d="M2.5 12
+                         C4.5 8
+                         8 6
+                         12 6
+                         C16 6
+                         19.5 8
+                         21.5 12
+                         C19.5 16
+                         16 18
+                         12 18
+                         C8 18
+                         4.5 16
+                         2.5 12Z"/>
+
+                <circle cx="12" cy="12" r="2.5"/>
+
+            </svg>
+
+        </button>
+
+    </div>
+
+    <button
+        class="login"
+        id="loginButton"
+        type="button"
+    >
+        ورود به سامانه
+    </button>
+
+    <div id="error"></div>
+
+    <div class="footer">
+        JANA CYBER CAFE
+    </div>
+
+</div>
+
+<script>
+
+/* ==========================
+   چشم
+========================== */
+
+const password =
+    document.getElementById("password");
+
+const eye =
+    document.getElementById("eye");
+
+const eyeOff =
+    document.getElementById("eyeOff");
+
+const eyeOn =
+    document.getElementById("eyeOn");
+
+eye.onclick = function(){
 
     if(password.type === "password"){
 
@@ -505,11 +404,6 @@ eyeBtn.addEventListener("click", function(){
         eyeOff.style.display = "none";
         eyeOn.style.display = "block";
 
-        eyeBtn.setAttribute(
-            "aria-label",
-            "مخفی کردن رمز"
-        );
-
     }else{
 
         password.type = "password";
@@ -517,271 +411,90 @@ eyeBtn.addEventListener("click", function(){
         eyeOff.style.display = "block";
         eyeOn.style.display = "none";
 
-        eyeBtn.setAttribute(
-            "aria-label",
-            "نمایش رمز"
-        );
-
     }
 
-});
+};
 
 
-/* =========================
-   MOUSE EFFECT
-========================= */
+/* ==========================
+   ورود
+========================== */
 
-const mouseGlow =
-    document.getElementById("mouseGlow");
+const loginButton =
+    document.getElementById("loginButton");
 
-const cursorDot =
-    document.getElementById("cursorDot");
+const error =
+    document.getElementById("error");
 
-let mouseX = window.innerWidth / 2;
-let mouseY = window.innerHeight / 2;
+function login(){
 
-let glowX = mouseX;
-let glowY = mouseY;
+    const pass =
+        password.value.trim();
 
-document.addEventListener("mousemove", function(e){
+    if(pass === "0000"){
 
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+        error.textContent = "";
 
-    cursorDot.style.left = mouseX + "px";
-    cursorDot.style.top = mouseY + "px";
+        /*
+          انتقال مستقیم به فایل
+        */
 
-});
-
-
-function animateMouse(){
-
-    glowX += (mouseX - glowX) * .08;
-    glowY += (mouseY - glowY) * .08;
-
-    mouseGlow.style.left = glowX + "px";
-    mouseGlow.style.top = glowY + "px";
-
-    requestAnimationFrame(animateMouse);
-
-}
-
-animateMouse();
-
-
-/* =========================
-   TOUCH EFFECT
-========================= */
-
-document.addEventListener(
-    "touchstart",
-    function(){
-
-        mouseGlow.style.opacity = ".8";
-
-    },
-    {passive:true}
-);
-
-document.addEventListener(
-    "touchend",
-    function(){
-
-        mouseGlow.style.opacity = ".3";
-
-    },
-    {passive:true}
-);
-
-
-/* =========================
-   ENTER FOCUS
-========================= */
-
-window.addEventListener("load", function(){
-
-    password.focus();
-
-});
-
-</script>
-
-</body>
-</html>
-*,
-    *::before,
-    *::after{
-        animation:none !important;
-        transition:none !important;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="bg"></div>
-
-<div class="mouseGlow" id="mouseGlow"></div>
-
-<div class="cursorDot" id="cursorDot"></div>
-
-<div class="wrapper">
-
-    <div class="loginCard">
-
-        <div class="logo">
-            🔐
-        </div>
-
-        <h1>
-            ورود به <span class="green">ورودی گزارش</span>
-        </h1>
-
-        <div class="subtitle">
-            کافی‌نت جانا • مدیریت اطلاعات
-        </div>
-
-        <form id="loginForm">
-
-            <div class="field">
-
-                <label>
-                    رمز عبور
-                </label>
-
-                <div class="inputBox">
-
-                    <input
-                        id="password"
-                        type="password"
-                        inputmode="numeric"
-                        maxlength="20"
-                        autocomplete="off"
-                        placeholder="رمز عبور را وارد کنید"
-                    >
-
-                    <button
-                        type="button"
-                        class="eyeBtn"
-                        id="eyeBtn"
-                        aria-label="نمایش رمز"
-                    >
-
-                        <!-- چشم خط‌خورده -->
-                        <svg
-                            id="eyeOff"
-                            viewBox="0 0 24 24"
-                        >
-                            <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/>
-                            <circle cx="12" cy="12" r="2.5"/>
-                            <path d="M4 4l16 16"/>
-                        </svg>
-
-                        <!-- چشم باز -->
-                        <svg
-                            id="eyeOn"
-                            viewBox="0 0 24 24"
-                            style="display:none"
-                        >
-                            <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/>
-                            <circle cx="12" cy="12" r="2.5"/>
-                        </svg>
-
-                    </button>
-
-                </div>
-
-            </div>
-
-            <button
-                type="submit"
-                class="loginBtn"
-            >
-                ورود به سامانه
-            </button>
-
-            <div
-                class="error"
-                id="error"
-            >
-                رمز عبور اشتباه است
-            </div>
-
-        </form>
-
-        <div class="footer">
-            JANA CYBER CAFE • SECURE ACCESS
-        </div>
-
-    </div>
-
-</div>
-
-<script>
-
-/* =========================
-   PASSWORD LOGIN
-========================= */
-
-const form = document.getElementById("loginForm");
-const password = document.getElementById("password");
-const error = document.getElementById("error");
-
-form.addEventListener("submit", function(e){
-
-    e.preventDefault();
-
-    const value = password.value.trim();
-
-    if(value === "0000"){
-
-        error.classList.remove("show");
-
-        // افکت کوتاه قبل از ورود
-        document.querySelector(".loginCard").style.transform =
-            "scale(.97)";
-
-        setTimeout(function(){
-
-            window.location.href = "input-panel.html";
-
-        },180);
+        window.location.href =
+            "./input-panel.html";
 
     }else{
 
-        error.classList.add("show");
+        error.textContent =
+            "رمز عبور اشتباه است";
 
         password.value = "";
 
         password.focus();
 
-        // لرزش کارت
-        const card = document.querySelector(".loginCard");
-
-        card.animate(
-            [
-                {transform:"translateX(0)"},
-                {transform:"translateX(-8px)"},
-                {transform:"translateX(8px)"},
-                {transform:"translateX(-5px)"},
-                {transform:"translateX(5px)"},
-                {transform:"translateX(0)"}
-            ],
-            {
-                duration:350
-            }
-        );
-
     }
 
-});
+}
+
+loginButton.onclick = login;
 
 
-/* =========================
-   EYE SHOW / HIDE
-========================= */
+/* ==========================
+   ENTER
+========================== */
 
-const eyeBtn = document.getElementById("eyeBtn");
-const eyeOff = document.getElementById("eyeOff");
-const eyeOn = document.getElementById("eyeOn");
+password.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+            login();
+        }
+
+    }
+);
+
+
+/* ==========================
+   نور دنبال‌کننده موس
+========================== */
+
+const mouseGlow =
+    document.getElementById("mouseGlow");
+
+document.addEventListener(
+    "mousemove",
+    function(event){
+
+        mouseGlow.style.left =
+            event.clientX + "px";
+
+        mouseGlow.style.top =
+            event.clientY + "px";
+
+    }
+);
+
+</script>
+
+</body>
+</html>
