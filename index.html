@@ -8,169 +8,190 @@
 <style>
 *{box-sizing:border-box}
 
-body{
+html,body{
 margin:0;
-min-height:100vh;
+min-height:100%;
 font-family:Tahoma,Arial,sans-serif;
-color:#fff;
-background:
-radial-gradient(circle at 15% 20%,rgba(0,255,100,.12),transparent 30%),
-radial-gradient(circle at 85% 80%,rgba(0,120,255,.13),transparent 30%),
-#020202;
+background:#020303;
+color:white;
+}
+
+body{
+min-height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
-overflow:hidden;
+overflow-x:hidden;
+position:relative;
+}
+
+body:before{
+content:"";
+position:fixed;
+width:500px;
+height:500px;
+background:rgba(0,120,255,.10);
+filter:blur(120px);
+border-radius:50%;
+top:-180px;
+left:-150px;
+pointer-events:none;
+}
+
+body:after{
+content:"";
+position:fixed;
+width:450px;
+height:450px;
+background:rgba(0,255,100,.06);
+filter:blur(130px);
+border-radius:50%;
+bottom:-200px;
+right:-120px;
+pointer-events:none;
 }
 
 .container{
-width:92%;
-max-width:950px;
+width:min(1100px,92%);
 text-align:center;
+position:relative;
+z-index:2;
 }
 
 .logo{
+font-size:clamp(30px,6vw,58px);
+font-weight:900;
+letter-spacing:2px;
+margin-bottom:12px;
+text-shadow:0 0 25px rgba(255,255,255,.15);
+}
+
+.logo span{
+color:#00ff88;
+text-shadow:0 0 20px rgba(0,255,136,.6);
+}
+
+.subtitle{
+color:#aaa;
 margin-bottom:55px;
-}
-
-.logo h1{
-font-size:42px;
-margin:0 0 15px;
-text-shadow:
-0 0 10px rgba(0,255,100,.4),
-0 0 35px rgba(0,255,100,.15);
-}
-
-.logo p{
-color:#777;
 font-size:15px;
 }
 
 .cards{
-display:flex;
-justify-content:center;
-gap:35px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:28px;
 }
 
 .card{
 position:relative;
-width:390px;
-height:280px;
+min-height:300px;
+padding:45px 30px;
+border:1px solid rgba(255,255,255,.08);
+border-radius:30px;
+background:rgba(255,255,255,.045);
+backdrop-filter:blur(25px);
+-webkit-backdrop-filter:blur(25px);
+box-shadow:
+0 25px 70px rgba(0,0,0,.55),
+inset 0 1px rgba(255,255,255,.08);
+text-decoration:none;
+color:white;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-text-decoration:none;
-color:white;
-border-radius:32px;
-background:rgba(255,255,255,.055);
-border:1px solid rgba(255,255,255,.12);
-backdrop-filter:blur(28px);
--webkit-backdrop-filter:blur(28px);
-box-shadow:
-0 25px 70px rgba(0,0,0,.6),
-inset 0 0 30px rgba(255,255,255,.025);
-transition:.45s;
 overflow:hidden;
+transition:.45s cubic-bezier(.2,.8,.2,1);
 }
 
 .card:before{
 content:"";
 position:absolute;
-width:230px;
-height:230px;
-border-radius:50%;
-filter:blur(90px);
-opacity:.2;
-transition:.5s;
+inset:0;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(0,130,255,.10),
+transparent
+);
+transform:translateX(-100%);
+transition:.6s;
 }
 
-.input:before{background:#00ff66}
-.output:before{background:#008cff}
-
-.card:hover{
-transform:translateY(-16px) scale(1.035);
-border-color:#00ff66;
-box-shadow:
-0 35px 90px rgba(0,0,0,.75),
-0 0 40px rgba(0,255,100,.14);
-}
-
-.output:hover{
-border-color:#008cff;
-box-shadow:
-0 35px 90px rgba(0,0,0,.75),
-0 0 45px rgba(0,140,255,.18);
-}
-
-.card:hover:before{
-transform:scale(1.6);
-opacity:.32;
-}
-
-.icon{
-position:relative;
-width:90px;
-height:90px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:43px;
-border-radius:27px;
-background:rgba(255,255,255,.06);
-border:1px solid rgba(255,255,255,.13);
-margin-bottom:23px;
-box-shadow:inset 0 0 25px rgba(255,255,255,.04);
-}
-
-.card h2{
-position:relative;
-margin:0 0 12px;
-font-size:27px;
-}
-
-.card p{
-position:relative;
-margin:0;
-color:#888;
-font-size:14px;
-}
-
-.line{
-position:relative;
-width:0;
-height:3px;
-margin-top:22px;
-border-radius:20px;
-background:#00ff66;
-box-shadow:0 0 18px #00ff66;
+.card:after{
+content:"";
+position:absolute;
+bottom:0;
+right:12%;
+left:12%;
+height:2px;
+background:#00ff88;
+box-shadow:0 0 20px #00ff88;
+transform:scaleX(0);
 transition:.4s;
 }
 
-.output .line{
-background:#008cff;
-box-shadow:0 0 18px #008cff;
+.card:hover{
+transform:translateY(-14px) scale(1.025);
+border-color:#168cff;
+box-shadow:
+0 30px 90px rgba(0,0,0,.7),
+0 0 30px rgba(0,130,255,.35),
+inset 0 1px rgba(255,255,255,.15);
 }
 
-.card:hover .line{
-width:95px;
+.card:hover:before{
+transform:translateX(100%);
 }
 
-@media(max-width:750px){
-body{
-overflow:auto;
-padding:40px 0;
+.card:hover:after{
+transform:scaleX(1);
 }
+
+.icon{
+font-size:65px;
+margin-bottom:25px;
+filter:drop-shadow(0 0 15px rgba(0,150,255,.3));
+}
+
+.card h2{
+margin:0 0 12px;
+font-size:25px;
+}
+
+.card p{
+margin:0;
+color:#aaa;
+line-height:2;
+font-size:14px;
+}
+
+.badge{
+margin-top:25px;
+padding:9px 18px;
+border-radius:50px;
+background:rgba(0,255,136,.08);
+border:1px solid rgba(0,255,136,.2);
+color:#00ff88;
+font-size:12px;
+}
+
+.footer{
+margin-top:45px;
+color:#555;
+font-size:12px;
+}
+
+@media(max-width:700px){
 .cards{
-flex-direction:column;
-align-items:center;
+grid-template-columns:1fr;
 }
 .card{
-width:100%;
-max-width:390px;
+min-height:230px;
 }
-.logo h1{
-font-size:30px;
+.subtitle{
+margin-bottom:30px;
 }
 }
 </style>
@@ -181,36 +202,33 @@ font-size:30px;
 <div class="container">
 
 <div class="logo">
-<h1>کافی‌نت جانـــــــا</h1>
-<p>سامانه مدیریت و گزارش کافی‌نت</p>
+کافی‌نت <span>جانـــــــا</span>
+</div>
+
+<div class="subtitle">
+سامانه مدیریت و گزارش مالی
 </div>
 
 <div class="cards">
 
-<a href="input.html" class="card input">
-
-<div class="icon">📝</div>
-
+<a class="card" href="input.html">
+<div class="icon">📥</div>
 <h2>ورودی گزارش</h2>
-
-<p>ثبت و مدیریت اطلاعات</p>
-
-<div class="line"></div>
-
+<p>ثبت و مدیریت تراکنش‌ها، درآمدها و اطلاعات مالی</p>
+<div class="badge">ورود به بخش ثبت</div>
 </a>
 
-<a href="output.html" class="card output">
-
+<a class="card" href="output.html">
 <div class="icon">📊</div>
-
 <h2>خروجی گزارش</h2>
-
-<p>مشاهده گزارش‌ها</p>
-
-<div class="line"></div>
-
+<p>مشاهده درآمد، آمار، نمودار و گزارش تراکنش‌ها</p>
+<div class="badge">مشاهده گزارش</div>
 </a>
 
+</div>
+
+<div class="footer">
+JANA CYBER CAFE • MANAGEMENT SYSTEM
 </div>
 
 </div>
