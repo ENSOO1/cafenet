@@ -2,228 +2,177 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>کافی‌نت جانا</title>
 
 <style>
-
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-    margin:0;
-    min-height:100vh;
-
-    font-family:Tahoma,Arial,sans-serif;
-
-    color:#fff;
-
-    background:
-        radial-gradient(
-            circle at 15% 20%,
-            rgba(0,255,100,.10),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 85% 80%,
-            rgba(0,140,255,.10),
-            transparent 30%
-        ),
-        #020202;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    overflow:hidden;
+margin:0;
+min-height:100vh;
+font-family:Tahoma,Arial,sans-serif;
+color:#fff;
+background:
+radial-gradient(circle at 15% 20%,rgba(0,255,100,.12),transparent 30%),
+radial-gradient(circle at 85% 80%,rgba(0,120,255,.13),transparent 30%),
+#020202;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
 }
 
 .container{
-    width:92%;
-    max-width:950px;
-    text-align:center;
+width:92%;
+max-width:950px;
+text-align:center;
 }
 
 .logo{
-    margin-bottom:55px;
+margin-bottom:55px;
 }
 
 .logo h1{
-    font-size:42px;
-    margin:0 0 15px;
-
-    text-shadow:
-        0 0 10px rgba(0,255,100,.35),
-        0 0 35px rgba(0,255,100,.15);
+font-size:42px;
+margin:0 0 15px;
+text-shadow:
+0 0 10px rgba(0,255,100,.4),
+0 0 35px rgba(0,255,100,.15);
 }
 
 .logo p{
-    color:#777;
-    font-size:15px;
+color:#777;
+font-size:15px;
 }
 
 .cards{
-    display:flex;
-    justify-content:center;
-    gap:35px;
+display:flex;
+justify-content:center;
+gap:35px;
 }
 
 .card{
-    position:relative;
-
-    width:390px;
-    height:270px;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-    text-decoration:none;
-    color:#fff;
-
-    border-radius:32px;
-
-    background:rgba(255,255,255,.055);
-
-    border:1px solid rgba(255,255,255,.12);
-
-    backdrop-filter:blur(25px);
-    -webkit-backdrop-filter:blur(25px);
-
-    box-shadow:
-        0 25px 70px rgba(0,0,0,.55),
-        inset 0 0 30px rgba(255,255,255,.025);
-
-    transition:.4s ease;
-
-    overflow:hidden;
+position:relative;
+width:390px;
+height:280px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+color:white;
+border-radius:32px;
+background:rgba(255,255,255,.055);
+border:1px solid rgba(255,255,255,.12);
+backdrop-filter:blur(28px);
+-webkit-backdrop-filter:blur(28px);
+box-shadow:
+0 25px 70px rgba(0,0,0,.6),
+inset 0 0 30px rgba(255,255,255,.025);
+transition:.45s;
+overflow:hidden;
 }
 
 .card:before{
-    content:"";
-
-    position:absolute;
-
-    width:220px;
-    height:220px;
-
-    border-radius:50%;
-
-    filter:blur(90px);
-
-    opacity:.15;
-
-    transition:.5s;
+content:"";
+position:absolute;
+width:230px;
+height:230px;
+border-radius:50%;
+filter:blur(90px);
+opacity:.2;
+transition:.5s;
 }
 
-.input:before{
-    background:#00ff66;
-}
-
-.output:before{
-    background:#008cff;
-}
+.input:before{background:#00ff66}
+.output:before{background:#008cff}
 
 .card:hover{
-    transform:translateY(-15px) scale(1.03);
+transform:translateY(-16px) scale(1.035);
+border-color:#00ff66;
+box-shadow:
+0 35px 90px rgba(0,0,0,.75),
+0 0 40px rgba(0,255,100,.14);
+}
 
-    border-color:#00ff66;
-
-    box-shadow:
-        0 35px 90px rgba(0,0,0,.7),
-        0 0 35px rgba(0,255,100,.12);
+.output:hover{
+border-color:#008cff;
+box-shadow:
+0 35px 90px rgba(0,0,0,.75),
+0 0 45px rgba(0,140,255,.18);
 }
 
 .card:hover:before{
-    transform:scale(1.5);
-    opacity:.3;
+transform:scale(1.6);
+opacity:.32;
 }
 
 .icon{
-    position:relative;
-
-    width:85px;
-    height:85px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:42px;
-
-    border-radius:25px;
-
-    background:rgba(255,255,255,.06);
-
-    border:1px solid rgba(255,255,255,.12);
-
-    margin-bottom:22px;
+position:relative;
+width:90px;
+height:90px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:43px;
+border-radius:27px;
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.13);
+margin-bottom:23px;
+box-shadow:inset 0 0 25px rgba(255,255,255,.04);
 }
 
 .card h2{
-    position:relative;
-
-    margin:0 0 12px;
-
-    font-size:27px;
+position:relative;
+margin:0 0 12px;
+font-size:27px;
 }
 
 .card p{
-    position:relative;
-
-    margin:0;
-
-    color:#888;
-
-    font-size:14px;
+position:relative;
+margin:0;
+color:#888;
+font-size:14px;
 }
 
 .line{
-    position:relative;
+position:relative;
+width:0;
+height:3px;
+margin-top:22px;
+border-radius:20px;
+background:#00ff66;
+box-shadow:0 0 18px #00ff66;
+transition:.4s;
+}
 
-    width:0;
-    height:3px;
-
-    margin-top:22px;
-
-    border-radius:20px;
-
-    background:#00ff66;
-
-    box-shadow:0 0 18px #00ff66;
-
-    transition:.4s;
+.output .line{
+background:#008cff;
+box-shadow:0 0 18px #008cff;
 }
 
 .card:hover .line{
-    width:90px;
+width:95px;
 }
 
 @media(max-width:750px){
-
-    body{
-        overflow:auto;
-        padding:40px 0;
-    }
-
-    .cards{
-        flex-direction:column;
-        align-items:center;
-    }
-
-    .card{
-        width:100%;
-        max-width:390px;
-    }
-
-    .logo h1{
-        font-size:30px;
-    }
+body{
+overflow:auto;
+padding:40px 0;
 }
-
+.cards{
+flex-direction:column;
+align-items:center;
+}
+.card{
+width:100%;
+max-width:390px;
+}
+.logo h1{
+font-size:30px;
+}
+}
 </style>
 </head>
 
@@ -231,59 +180,38 @@ body{
 
 <div class="container">
 
-    <div class="logo">
+<div class="logo">
+<h1>کافی‌نت جانـــــــا</h1>
+<p>سامانه مدیریت و گزارش کافی‌نت</p>
+</div>
 
-        <h1>
-            کافی‌نت جانـــــــا
-        </h1>
+<div class="cards">
 
-        <p>
-            سامانه مدیریت و گزارش کافی‌نت
-        </p>
+<a href="input.html" class="card input">
 
-    </div>
+<div class="icon">📝</div>
 
+<h2>ورودی گزارش</h2>
 
-    <div class="cards">
+<p>ثبت و مدیریت اطلاعات</p>
 
-        <a href="input.html" class="card input">
+<div class="line"></div>
 
-            <div class="icon">
-                📝
-            </div>
+</a>
 
-            <h2>
-                ورودی گزارش
-            </h2>
+<a href="output.html" class="card output">
 
-            <p>
-                ثبت و مدیریت اطلاعات
-            </p>
+<div class="icon">📊</div>
 
-            <div class="line"></div>
+<h2>خروجی گزارش</h2>
 
-        </a>
+<p>مشاهده گزارش‌ها</p>
 
+<div class="line"></div>
 
-        <a href="output.html" class="card output">
+</a>
 
-            <div class="icon">
-                📊
-            </div>
-
-            <h2>
-                خروجی گزارش
-            </h2>
-
-            <p>
-                مشاهده گزارش‌ها
-            </p>
-
-            <div class="line"></div>
-
-        </a>
-
-    </div>
+</div>
 
 </div>
 
