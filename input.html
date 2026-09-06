@@ -1,126 +1,138 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>ورودی گزارش | کافی‌نت جانا</title>
 
 <style>
 
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
 min-height:100vh;
-
 font-family:Tahoma,Arial,sans-serif;
-
-color:white;
+color:#fff;
 
 background:
-radial-gradient(circle at 20% 20%,
-rgba(0,255,100,.10),
-transparent 30%),
+radial-gradient(circle at 20% 20%,rgba(0,255,100,.11),transparent 30%),
+radial-gradient(circle at 80% 80%,rgba(0,120,255,.13),transparent 30%),
+#020202;
 
-radial-gradient(circle at 80% 80%,
-rgba(0,120,255,.10),
-transparent 30%),
-
-#030303;
-
-padding:25px;
-}
-
-.container{
-max-width:1100px;
-margin:auto;
-}
-
-.header{
 display:flex;
-justify-content:space-between;
 align-items:center;
+justify-content:center;
 
-margin-bottom:30px;
+overflow:hidden;
 }
 
-h1{
-font-size:28px;
+.login{
+width:92%;
+max-width:430px;
+padding:35px;
+
+border-radius:30px;
+
+background:rgba(255,255,255,.055);
+
+border:1px solid rgba(255,255,255,.13);
+
+backdrop-filter:blur(30px);
+-webkit-backdrop-filter:blur(30px);
+
+box-shadow:
+0 30px 90px rgba(0,0,0,.7),
+0 0 40px rgba(0,255,100,.08);
+
+text-align:center;
 }
 
-h1 span{
+.logo{
+font-size:27px;
+margin-bottom:10px;
+}
+
+.logo span{
 color:#00ff66;
 }
 
-.back{
-text-decoration:none;
-color:white;
+.subtitle{
+color:#777;
+font-size:13px;
+margin-bottom:30px;
+}
 
-padding:12px 20px;
+.passwordBox{
+position:relative;
+}
 
-border-radius:13px;
+input{
+width:100%;
+height:52px;
 
-background:rgba(255,255,255,.06);
+padding:0 18px 0 52px;
+
+border-radius:14px;
 
 border:1px solid rgba(255,255,255,.12);
 
-backdrop-filter:blur(15px);
-}
+background:rgba(0,0,0,.35);
 
-.panel{
-padding:25px;
+color:#fff;
 
-border-radius:22px;
-
-background:rgba(255,255,255,.045);
-
-border:1px solid rgba(255,255,255,.1);
-
-backdrop-filter:blur(20px);
-
-margin-bottom:25px;
-}
-
-.panel h2{
-margin-top:0;
-}
-
-.form{
-display:grid;
-grid-template-columns:1fr 1fr 1fr auto;
-gap:12px;
-}
-
-input,
-select{
-width:100%;
-
-padding:14px;
-
-border-radius:12px;
-
-border:1px solid rgba(255,255,255,.1);
-
-background:#111;
-
-color:white;
+font-size:17px;
 
 outline:none;
+
+direction:ltr;
+
+text-align:center;
 }
 
-button{
-padding:14px 22px;
+input:focus{
+border-color:#00ff66;
+box-shadow:0 0 20px rgba(0,255,100,.1);
+}
+
+.eye{
+position:absolute;
+
+left:10px;
+top:8px;
+
+width:36px;
+height:36px;
 
 border:0;
 
-border-radius:12px;
+background:rgba(255,255,255,.06);
+
+color:#aaa;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-size:18px;
+}
+
+.eye:hover{
+color:#00ff66;
+}
+
+.loginBtn{
+width:100%;
+
+margin-top:15px;
+
+height:52px;
+
+border:0;
+
+border-radius:14px;
 
 background:#00ff66;
 
@@ -128,28 +140,44 @@ color:#000;
 
 font-weight:bold;
 
+font-size:16px;
+
 cursor:pointer;
+
+transition:.3s;
 }
 
-.info{
-text-align:center;
+.loginBtn:hover{
+transform:translateY(-3px);
 
-padding:40px;
+box-shadow:
+0 0 30px rgba(0,255,100,.3);
+}
+
+.back{
+display:block;
+
+margin-top:20px;
 
 color:#777;
+
+text-decoration:none;
+
+font-size:13px;
 }
 
-@media(max-width:750px){
-
-.form{
-grid-template-columns:1fr;
+.back:hover{
+color:#fff;
 }
 
-.header{
-align-items:flex-start;
-gap:15px;
-}
+.error{
+height:20px;
 
+margin-top:12px;
+
+color:#ff5555;
+
+font-size:13px;
 }
 
 </style>
@@ -158,80 +186,119 @@ gap:15px;
 
 <body>
 
-<div class="container">
+<div class="login">
 
-<div class="header">
+<div class="logo">
+کافی‌نت <span>جانا</span>
+</div>
 
-<h1>
-ورودی <span>گزارش</span>
-</h1>
+<div class="subtitle">
+ورود به بخش ورودی گزارش
+</div>
 
-<a href="index.html" class="back">
+<div class="passwordBox">
+
+<input
+id="password"
+type="password"
+placeholder="رمز ورود"
+autocomplete="off"
+>
+
+<button
+class="eye"
+id="eye"
+type="button"
+onclick="togglePassword()"
+>
+👁
+</button>
+
+</div>
+
+<div
+class="error"
+id="error"
+></div>
+
+<button
+class="loginBtn"
+onclick="login()"
+>
+ورود به پنل
+</button>
+
+<a
+href="index.html"
+class="back"
+>
 ← بازگشت
 </a>
 
 </div>
 
 
-<div class="panel">
+<script>
 
-<h2>
-📝 ثبت گزارش جدید
-</h2>
+function togglePassword(){
 
-<div class="form">
+const input =
+document.getElementById("password");
 
-<input
-type="text"
-placeholder="نام مشتری"
->
+const eye =
+document.getElementById("eye");
 
-<input
-type="number"
-placeholder="مبلغ"
->
+if(input.type === "password"){
 
-<select>
+input.type = "text";
 
-<option>
-کارتخوان
-</option>
+eye.innerText = "🙈";
 
-<option>
-نقدی
-</option>
+}else{
 
-<option>
-کارت به کارت
-</option>
+input.type = "password";
 
-</select>
+eye.innerText = "👁";
 
-<button>
-ثبت
-</button>
+}
 
-</div>
-
-</div>
+}
 
 
-<div class="panel">
+function login(){
 
-<h2>
-🧾 تراکنش‌ها
-</h2>
+const password =
+document.getElementById("password").value;
 
-<div class="info">
+const error =
+document.getElementById("error");
 
-هنوز گزارشی ثبت نشده است.
 
-</div>
+if(password === "0000"){
 
-</div>
+window.location.href = "input-panel.html";
 
-</div>
+}else{
+
+error.innerText =
+"رمز عبور اشتباه است";
+
+}
+
+}
+
+
+document
+.getElementById("password")
+.addEventListener("keydown",function(e){
+
+if(e.key === "Enter"){
+login();
+}
+
+});
+
+</script>
 
 </body>
-
 </html>
