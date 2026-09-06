@@ -2,702 +2,1252 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>خروجی گزارش - کافی‌نت جانا</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>خروجی گزارش | کافی‌نت جانا</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+}
 
 body{
-margin:0;
-padding:25px;
-background:#020303;
-color:#fff;
-font-family:Tahoma,Arial,sans-serif;
-min-height:100vh;
+    min-height:100vh;
+
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    color:#fff;
+
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(0,140,255,.10),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            rgba(0,40,255,.12),
+            transparent 32%
+        ),
+        #020202;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
 }
 
-body:before{
-content:"";
-position:fixed;
-width:550px;
-height:550px;
-background:rgba(0,100,255,.13);
-filter:blur(150px);
-border-radius:50%;
-top:-220px;
-left:-150px;
-pointer-events:none;
+
+/* =====================================================
+   BACKGROUND ORBS
+===================================================== */
+
+body::before{
+    content:"";
+
+    position:fixed;
+
+    width:360px;
+    height:360px;
+
+    background:#008cff;
+
+    opacity:.10;
+
+    filter:blur(110px);
+
+    top:-140px;
+    right:-100px;
+
+    border-radius:50%;
+
+    animation:
+        blueOrb 9s ease-in-out infinite;
+
+    pointer-events:none;
 }
 
-body:after{
-content:"";
-position:fixed;
-width:500px;
-height:500px;
-background:rgba(0,255,130,.06);
-filter:blur(150px);
-border-radius:50%;
-bottom:-220px;
-right:-150px;
-pointer-events:none;
+body::after{
+    content:"";
+
+    position:fixed;
+
+    width:380px;
+    height:380px;
+
+    background:#0044ff;
+
+    opacity:.10;
+
+    filter:blur(115px);
+
+    bottom:-150px;
+    left:-110px;
+
+    border-radius:50%;
+
+    animation:
+        blueOrb2 11s ease-in-out infinite;
+
+    pointer-events:none;
 }
 
-.container{
-max-width:1300px;
-margin:auto;
-position:relative;
-z-index:2;
+@keyframes blueOrb{
+
+    0%,100%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(-50px,60px);
+    }
+
 }
 
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:28px;
+@keyframes blueOrb2{
+
+    0%,100%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(60px,-50px);
+    }
+
 }
 
-h1{
-margin:0;
-font-size:30px;
+
+/* =====================================================
+   MOUSE GLOW
+===================================================== */
+
+#mouseGlow{
+
+    position:fixed;
+
+    width:280px;
+    height:280px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,140,255,.18) 0%,
+            rgba(0,100,255,.07) 25%,
+            transparent 70%
+        );
+
+    transform:
+        translate(-50%,-50%);
+
+    z-index:1;
+
+    filter:blur(2px);
+
+    transition:
+        opacity .25s ease;
+
 }
 
-.subtitle{
-color:#777;
-font-size:13px;
-margin-top:10px;
+
+/* =====================================================
+   MOUSE CURSOR DOT
+===================================================== */
+
+#cursorDot{
+
+    position:fixed;
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#008cff;
+
+    box-shadow:
+        0 0 7px #008cff,
+        0 0 18px rgba(0,140,255,.85);
+
+    pointer-events:none;
+
+    z-index:9999;
+
+    transform:
+        translate(-50%,-50%);
+
 }
 
-.back,
-.print{
-text-decoration:none;
-border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.04);
-color:#aaa;
-padding:12px 18px;
-border-radius:14px;
-cursor:pointer;
-transition:.3s;
-}
 
-.back:hover,
-.print:hover{
-color:white;
-border-color:#087dff;
-box-shadow:0 0 25px rgba(0,125,255,.25);
-}
-
-.stats{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:16px;
-margin-bottom:22px;
-}
+/* =====================================================
+   MAIN CARD
+===================================================== */
 
 .card{
-background:rgba(255,255,255,.045);
-border:1px solid rgba(255,255,255,.08);
-border-radius:23px;
-padding:24px;
-backdrop-filter:blur(28px);
--webkit-backdrop-filter:blur(28px);
-transition:.4s;
-position:relative;
-overflow:hidden;
+
+    position:relative;
+
+    z-index:2;
+
+    width:min(420px,90%);
+
+    padding:
+        40px 30px 30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.025)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.13);
+
+    border-radius:28px;
+
+    backdrop-filter:
+        blur(28px);
+
+    -webkit-backdrop-filter:
+        blur(28px);
+
+    box-shadow:
+
+        0 30px 90px
+        rgba(0,0,0,.75),
+
+        inset 0 1px 0
+        rgba(255,255,255,.10);
+
+    overflow:hidden;
+
+    animation:
+        cardFloat 5s ease-in-out infinite;
+
+    transition:
+        border-color .35s ease,
+        box-shadow .35s ease,
+        transform .35s ease;
+
 }
 
-.card:after{
-content:"";
-position:absolute;
-bottom:0;
-right:10%;
-left:10%;
-height:2px;
-background:#00ff88;
-box-shadow:0 0 18px #00ff88;
-transform:scaleX(0);
-transition:.4s;
+
+/* نور دنبال‌کننده روی کارت */
+
+.card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:190px;
+    height:190px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    left:var(--mx,50%);
+    top:var(--my,50%);
+
+    transform:
+        translate(-50%,-50%);
+background:
+        radial-gradient(
+            circle,
+            rgba(0,140,255,.20),
+            rgba(0,100,255,.06) 35%,
+            transparent 72%
+        );
+
+    opacity:0;
+
+    transition:
+        opacity .25s ease;
+
 }
+
+.card:hover::before{
+    opacity:1;
+}
+
+
+/* نور آبی دور کارت */
 
 .card:hover{
-transform:translateY(-8px);
-border-color:#087dff;
-box-shadow:
-0 20px 60px rgba(0,0,0,.6),
-0 0 35px rgba(0,125,255,.25);
+
+    border-color:
+        rgba(0,140,255,.48);
+
+    box-shadow:
+
+        0 35px 100px
+        rgba(0,0,0,.82),
+
+        0 0 25px
+        rgba(0,140,255,.18),
+
+        0 0 70px
+        rgba(0,100,255,.09),
+
+        inset 0 1px 0
+        rgba(255,255,255,.12);
+
 }
 
-.card:hover:after{
-transform:scaleX(1);
+@keyframes cardFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-7px);
+    }
+
 }
 
-.card small{
-display:block;
-color:#777;
-margin-bottom:12px;
+
+/* =====================================================
+   ICON
+===================================================== */
+
+.icon{
+
+    width:76px;
+    height:76px;
+
+    margin:
+        0 auto 20px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:23px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0,140,255,.14),
+            rgba(0,50,255,.08)
+        );
+
+    border:
+        1px solid
+        rgba(0,140,255,.25);
+
+    box-shadow:
+
+        0 0 25px
+        rgba(0,140,255,.10),
+
+        inset 0 0 20px
+        rgba(255,255,255,.025);
+
+    font-size:32px;
+
+    position:relative;
+
+    z-index:2;
+
 }
 
-.card strong{
-font-size:22px;
-color:#00ff88;
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+h1{
+
+    text-align:center;
+
+    font-size:24px;
+
+    margin-bottom:10px;
+
+    position:relative;
+
+    z-index:2;
+
 }
 
-.blue{
-color:#42a5ff!important;
+h1 span{
+
+    color:#008cff;
+
+    text-shadow:
+        0 0 15px
+        rgba(0,140,255,.45);
+
 }
 
-.tools{
-display:flex;
-gap:12px;
-margin-bottom:20px;
+
+/* =====================================================
+   SUBTITLE
+===================================================== */
+
+.sub{
+
+    text-align:center;
+
+    color:#888;
+
+    font-size:12px;
+
+    margin-bottom:30px;
+
+    position:relative;
+
+    z-index:2;
+
 }
 
-input,select{
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.09);
-border-radius:14px;
-padding:14px;
-color:white;
-outline:none;
-font-family:inherit;
+
+/* =====================================================
+   LABEL
+===================================================== */
+
+label{
+
+    display:block;
+
+    font-size:13px;
+
+    color:#ccc;
+
+    margin-bottom:9px;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+
+/* =====================================================
+   INPUT
+===================================================== */
+
+.inputBox{
+
+    position:relative;
+
+    z-index:2;
+
 }
 
 input{
-flex:1;
-}
 
-input:focus,
-select:focus{
-border-color:#087dff;
-box-shadow:0 0 25px rgba(0,125,255,.18);
-}
+    width:100%;
 
-select option{
-background:#111;
-}
+    height:56px;
 
-.report{
-background:rgba(255,255,255,.045);
-border:1px solid rgba(255,255,255,.08);
-border-radius:25px;
-padding:25px;
-backdrop-filter:blur(28px);
--webkit-backdrop-filter:blur(28px);
-overflow:hidden;
-}
+    border-radius:16px;
 
-.reportTitle{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-}
+    border:
+        1px solid
+        rgba(255,255,255,.12);
 
-.reportTitle h2{
-margin:0;
-}
+    background:
+        rgba(0,0,0,.48);
 
-.tableWrap{
-overflow-x:auto;
-}
+    color:#fff;
 
-table{
-width:100%;
-border-collapse:collapse;
-min-width:800px;
-}
+    outline:none;
 
-th{
-color:#777;
-font-size:12px;
-font-weight:normal;
-padding:16px;
-border-bottom:1px solid rgba(255,255,255,.08);
-}
+    padding:
+        0 17px 0 55px;
 
-td{
-padding:17px 12px;
-border-bottom:1px solid rgba(255,255,255,.05);
-font-size:13px;
-}
+    font-size:17px;
 
-.amount{
-color:#00ff88;
-font-weight:bold;
-}
-
-.method{
-color:#42a5ff;
-}
-
-.empty{
-padding:60px;
-text-align:center;
-color:#555;
-}
-
-.note{
-margin-top:20px;
-color:#666;
-font-size:11px;
-text-align:center;
-}
-
-@media(max-width:1050px){
-.stats{
-grid-template-columns:repeat(3,1fr);
-}
-}
-
-@media(max-width:650px){
-body{
-padding:15px;
-}
-
-.header{
-align-items:flex-start;
-gap:15px;
-}
-
-h1{
-font-size:22px;
-}
-
-.stats{
-grid-template-columns:1fr 1fr;
-}
-
-.tools{
-flex-direction:column;
-}
-
-.report{
-padding:15px;
-}
-}
-
-@media print{
-
-body{
-background:white;
-color:black;
-padding:0;
-}
-
-body:before,
-body:after{
-display:none;
-}
-
-.header .back,
-.print,
-.tools{
-display:none;
-}
-
-.card,
-.report{
-background:white;
-border:1px solid #ddd;
-box-shadow:none;
-color:black;
-}
-
-.card small,
-.subtitle,
-.note{
-color:#555;
-}
-
-.card strong,
-.amount{
-color:#000!important;
-}
-
-table{
-color:#000;
-}
-
-th{
-color:#333;
-}
-
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="header">
-document.getElementById("pos").innerText=money(pos);
-document.getElementById("cash").innerText=money(cash);
-document.getElementById("card").innerText=money(card);
-
-document.getElementById("count").innerText=money(count);
-document.getElementById("average").innerText=money(Math.round(avg));
-document.getElementById("max").innerText=money(max);
+    transition:
+        .3s ease;
 
 }
 
-function render(){
+input::placeholder{
+    color:#666;
+}
 
-transactions=
-JSON.parse(localStorage.getItem("cafe_transactions")||"[]");
+input:focus{
 
-const search=
-document.getElementById("search").value
-.trim()
-.toLowerCase();
+    border-color:
+        rgba(0,140,255,.75);
 
-const filter=
-document.getElementById("filter").value;
+    box-shadow:
 
-const method=
-document.getElementById("methodFilter").value;
+        0 0 20px
+        rgba(0,140,255,.12),
 
-let list=transactions.filter(x=>{
+        inset 0 0 15px
+        rgba(0,100,255,.03);
 
-const text=
-(
-x.customer+" "+
-x.service+" "+
-x.method+" "+
-(x.description||"")
-).toLowerCase();
+}
 
-if(search && !text.includes(search))
-return false;
 
-if(method!=="all" && x.method!==method)
-return false;
+/* =====================================================
+   CLASSIC EYE BUTTON
+===================================================== */
 
-if(filter==="today" && !isToday(x.date))
-return false;
+#eye{
 
-if(filter==="week" && !isThisWeek(x.date))
-return false;
+    position:absolute;
 
-if(filter==="month" && !isThisMonth(x.date))
-return false;
+    left:12px;
+    top:50%;
 
-return true;
+    transform:
+        translateY(-50%);
 
-});
+    width:38px;
+    height:38px;
 
-const body=document.getElementById("tableBody");
+    border:none;
 
-if(list.length===0){
+    background:transparent;
 
-body.innerHTML=
-<tr>
-<td colspan="6">
-<div class="empty">
-📭<br><br>
-اطلاعاتی برای نمایش وجود ندارد
+    cursor:pointer;
+
+    color:#777;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+
+    transition:
+        color .25s ease,
+        transform .25s ease;
+
+}
+
+#eye:hover{
+
+    color:#008cff;
+
+    transform:
+        translateY(-50%)
+        scale(1.08);
+
+}
+
+#eye:active{
+
+    transform:
+        translateY(-50%)
+        scale(.92);
+
+}
+
+#eye svg{
+
+    width:24px;
+    height:24px;
+
+    stroke:currentColor;
+
+    fill:none;
+
+    stroke-width:1.7;
+
+    stroke-linecap:round;
+
+    stroke-linejoin:round;
+
+}
+
+
+/* =====================================================
+   LOGIN BUTTON
+===================================================== */
+
+button.login{
+
+    width:100%;
+
+    height:56px;
+
+    margin-top:20px;
+
+    border:none;
+
+    border-radius:16px;
+<input
+            id="password"
+            type="password"
+            placeholder="رمز عبور را وارد کنید"
+            autocomplete="off"
+        >
+
+
+        <button
+            id="eye"
+            type="button"
+            aria-label="نمایش رمز"
+        >
+
+            <svg
+                id="eyeOff"
+                viewBox="0 0 24 24"
+            >
+
+                <path
+                    d="
+                    M2.5 12
+                    C4.5 8
+                    8 6
+                    12 6
+                    C16 6
+                    19.5 8
+                    21.5 12
+                    C19.5 16
+                    16 18
+                    12 18
+                    C8 18
+                    4.5 16
+                    2.5 12Z
+                    "
+                />
+
+                <circle
+                    cx="12"
+                    cy="12"
+                    r="2.5"
+                />
+
+                <path
+                    d="M4 4 L20 20"
+                />
+
+            </svg>
+
+
+            <svg
+                id="eyeOn"
+                viewBox="0 0 24 24"
+                style="display:none"
+            >
+
+                <path
+                    d="
+                    M2.5 12
+                    C4.5 8
+                    8 6
+                    12 6
+                    C16 6
+                    19.5 8
+                    21.5 12
+                    C19.5 16
+                    16 18
+                    12 18
+                    C8 18
+                    4.5 16
+                    2.5 12Z
+                    "
+                />
+
+                <circle
+                    cx="12"
+                    cy="12"
+                    r="2.5"
+                />
+
+            </svg>
+
+        </button>
+
+    </div>
+
+
+    <button
+        class="login"
+        id="loginButton"
+        type="button"
+    >
+        ورود به گزارش
+    </button>
+
+
+    <a
+        href="index.html"
+        class="backBtn"
+    >
+        ← بازگشت به صفحه اصلی
+    </a>
+
+
+    <div id="error"></div>
+
+
+    <div class="footer">
+        JANA CYBER CAFE • SECURE REPORT ACCESS
+    </div>
+
+
 </div>
-</td>
-</tr>
-;
 
-}else{
 
-body.innerHTML=list.map(x=>
+<script>
 
-<tr>
+const password =
+    document.getElementById("password");
 
-<td>
-${formatDate(x.date)}
-<br>
-<small style="color:#555">
-${formatTime(x.date)}
-</small>
-</td>
+const eye =
+    document.getElementById("eye");
 
-<td>${escapeHTML(x.customer)}</td>
+const eyeOff =
+    document.getElementById("eyeOff");
 
-<td>${escapeHTML(x.service)}</td>
+const eyeOn =
+    document.getElementById("eyeOn");
 
-<td class="amount">
-${money(x.amount)}
-</td>
+const loginButton =
+    document.getElementById("loginButton");
 
-<td class="method">
-${escapeHTML(x.method)}
-</td>
+const error =
+    document.getElementById("error");
 
-<td>
-${escapeHTML(x.description||"—")}
-</td>
+const card =
+    document.querySelector(".card");
 
-</tr>
+const mouseGlow =
+    document.getElementById("mouseGlow");
 
-).join("");
+const cursorDot =
+    document.getElementById("cursorDot");
+
+
+/* نمایش / مخفی کردن رمز */
+
+eye.addEventListener(
+    "click",
+    function(){
+
+        if(password.type === "password"){
+
+            password.type = "text";
+
+            eyeOff.style.display = "none";
+            eyeOn.style.display = "block";
+
+            eye.setAttribute(
+                "aria-label",
+                "مخفی کردن رمز"
+            );
+
+        }else{
+
+            password.type = "password";
+
+            eyeOff.style.display = "block";
+            eyeOn.style.display = "none";
+
+            eye.setAttribute(
+                "aria-label",
+                "نمایش رمز"
+            );
+
+        }
+
+    }
+);
+
+
+/* ورود */
+
+function login(){
+
+    const pass =
+        password.value.trim();
+
+    if(pass === "1111"){
+
+        error.textContent = "";
+
+        card.style.transform =
+            "scale(.97)";
+
+        setTimeout(
+            function(){
+
+                /* نمایش خروجی گزارش */
+
+                window.location.href =
+                    "./output.html?show=1";
+
+            },
+            150
+        );
+
+    }else{
+
+        error.textContent =
+            "رمز عبور اشتباه است";
+
+        password.value = "";
+
+        password.focus();
+card.animate(
+            [
+                {transform:"translateX(0)"},
+                {transform:"translateX(-7px)"},
+                {transform:"translateX(7px)"},
+                {transform:"translateX(-5px)"},
+                {transform:"translateX(5px)"},
+                {transform:"translateX(0)"}
+            ],
+            {
+                duration:350
+            }
+        );
+
+    }
 
 }
 
-updateStats();
 
-}
+loginButton.addEventListener(
+    "click",
+    login
+);
 
-function escapeHTML(text){
 
-return String(text)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+/* Enter */
 
-}
+password.addEventListener(
+    "keydown",
+    function(event){
 
-render();
+        if(event.key === "Enter"){
+            login();
+        }
 
-setInterval(render,3000);
+    }
+);
+
+
+/* نور موس */
+
+document.addEventListener(
+    "mousemove",
+    function(event){
+
+        const x = event.clientX;
+        const y = event.clientY;
+
+        mouseGlow.style.left =
+            x + "px";
+
+        mouseGlow.style.top =
+            y + "px";
+
+        cursorDot.style.left =
+            x + "px";
+
+        cursorDot.style.top =
+            y + "px";
+
+
+        const rect =
+            card.getBoundingClientRect();
+
+        card.style.setProperty(
+            "--mx",
+            (x - rect.left) + "px"
+        );
+
+        card.style.setProperty(
+            "--my",
+            (y - rect.top) + "px"
+        );
+
+    }
+);
+
+
+/* Touch */
+
+document.addEventListener(
+    "touchstart",
+    function(){
+
+        mouseGlow.style.opacity = ".9";
+
+    },
+    {
+        passive:true
+    }
+);
+
+document.addEventListener(
+    "touchend",
+    function(){
+
+        mouseGlow.style.opacity = ".25";
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+/* فوکوس */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        password.focus();
+
+    }
+);
 
 </script>
 
 </body>
 </html>
-<div>
-<h1>📊 خروجی گزارش</h1>
-<div class="subtitle">
-گزارش مالی کافی‌نت جانا
-</div>
-</div>
+background:
+        linear-gradient(
+            135deg,
+            #008cff,
+            #0055ff
+        );
 
-<div style="display:flex;gap:10px">
+    color:#fff;
 
-<button class="print" onclick="window.print()">
-🖨 چاپ
-</button>
+    font-size:15px;
 
-<a class="back" href="index.html">
-← اصلی
-</a>
+    font-weight:bold;
 
-</div>
+    cursor:pointer;
 
-</div>
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
 
-<div class="stats">
+    box-shadow:
+        0 0 25px
+        rgba(0,140,255,.18);
 
-<div class="card">
-<small>درآمد کل</small>
-<strong id="total">0</strong>
-</div>
+    position:relative;
 
-<div class="card">
-<small>امروز</small>
-<strong id="today">0</strong>
-</div>
+    overflow:hidden;
 
-<div class="card">
-<small>این هفته</small>
-<strong id="week">0</strong>
-</div>
-
-<div class="card">
-<small>این ماه</small>
-<strong id="month">0</strong>
-</div>
-
-<div class="card">
-<small>تعداد تراکنش</small>
-<strong class="blue" id="count">0</strong>
-</div>
-
-</div>
-
-<div class="stats">
-
-<div class="card">
-<small>💳 کارتخوان</small>
-<strong class="blue" id="pos">0</strong>
-</div>
-
-<div class="card">
-<small>💵 نقدی</small>
-<strong class="blue" id="cash">0</strong>
-</div>
-
-<div class="card">
-<small>📱 کارت‌به‌کارت</small>
-<strong class="blue" id="card">0</strong>
-</div>
-
-<div class="card">
-<small>📈 میانگین</small>
-<strong id="average">0</strong>
-</div>
-
-<div class="card">
-<small>🏆 بیشترین تراکنش</small>
-<strong id="max">0</strong>
-</div>
-
-</div>
-
-<div class="report">
-
-<div class="reportTitle">
-<h2>لیست تراکنش‌ها</h2>
-</div>
-
-<div class="tools">
-
-<input
-id="search"
-placeholder="جستجو در گزارش..."
-oninput="render()"
->
-
-<select id="filter" onchange="render()">
-<option value="all">همه</option>
-<option value="today">امروز</option>
-<option value="week">این هفته</option>
-<option value="month">این ماه</option>
-</select>
-
-<select id="methodFilter" onchange="render()">
-<option value="all">همه پرداخت‌ها</option>
-<option value="کارتخوان">کارتخوان</option>
-<option value="نقدی">نقدی</option>
-<option value="کارت‌به‌کارت">کارت‌به‌کارت</option>
-</select>
-
-</div>
-
-<div class="tableWrap">
-
-<table>
-
-<thead>
-
-<tr>
-<th>تاریخ</th>
-<th>مشتری</th>
-<th>خدمت</th>
-<th>مبلغ</th>
-<th>روش پرداخت</th>
-<th>توضیحات</th>
-</tr>
-
-</thead>
-
-<tbody id="tableBody"></tbody>
-
-</table>
-
-</div>
-
-<div class="note">
-این گزارش از اطلاعات ثبت‌شده در پنل ورودی ساخته شده است.
-</div>
-
-</div>
-
-</div>
-
-<script>
-
-let transactions=
-JSON.parse(localStorage.getItem("cafe_transactions")||"[]");
-
-function money(n){
-
-return Number(n||0).toLocaleString("en-US");
+    z-index:2;
 
 }
 
-function isToday(date){
+button.login::before{
 
-const d=new Date(date);
-const now=new Date();
+    content:"";
 
-return d.toDateString()===now.toDateString();
+    position:absolute;
 
-}
+    top:0;
+    left:-120%;
 
-function isThisWeek(date){
+    width:80%;
+    height:100%;
 
-const d=new Date(date);
-const now=new Date();
+    background:
+        linear-gradient(
+            100deg,
+            transparent,
+            rgba(255,255,255,.38),
+            transparent
+        );
 
-const day=now.getDay()||7;
+    transform:skewX(-20deg);
 
-const start=new Date(now);
-start.setHours(0,0,0,0);
-start.setDate(now.getDate()-day+1);
-
-return d>=start;
-
-}
-
-function isThisMonth(date){
-
-const d=new Date(date);
-const now=new Date();
-
-return d.getMonth()===now.getMonth() &&
-d.getFullYear()===now.getFullYear();
+    transition:
+        left .6s ease;
 
 }
 
-function formatDate(date){
+button.login:hover{
 
-return new Date(date).toLocaleDateString("fa-IR");
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+
+        0 10px 35px
+        rgba(0,140,255,.28),
+
+        0 0 25px
+        rgba(0,100,255,.15);
 
 }
 
-function formatTime(date){
+button.login:hover::before{
+    left:140%;
+}
 
-return new Date(date).toLocaleTimeString("fa-IR",{
-hour:"2-digit",
-minute:"2-digit"
-});
+button.login:active{
+
+    transform:
+        scale(.97);
 
 }
 
-function updateStats(){
 
-const total=transactions.reduce(
-(s,x)=>s+Number(x.amount),0
-);
+/* =====================================================
+   BACK BUTTON
+===================================================== */
 
-const today=transactions
-.filter(x=>isToday(x.date))
-.reduce((s,x)=>s+Number(x.amount),0);
+.backBtn{
 
-const week=transactions
-.filter(x=>isThisWeek(x.date))
-.reduce((s,x)=>s+Number(x.amount),0);
+    width:100%;
 
-const month=transactions
-.filter(x=>isThisMonth(x.date))
-.reduce((s,x)=>s+Number(x.amount),0);
+    height:46px;
 
-const pos=transactions
-.filter(x=>x.method==="کارتخوان")
-.reduce((s,x)=>s+Number(x.amount),0);
+    margin-top:12px;
 
-const cash=transactions
-.filter(x=>x.method==="نقدی")
-.reduce((s,x)=>s+Number(x.amount),0);
+    display:flex;
 
-const card=transactions
-.filter(x=>x.method==="کارت‌به‌کارت")
-.reduce((s,x)=>s+Number(x.amount),0);
+    align-items:center;
+    justify-content:center;
 
-const count=transactions.length;
+    text-decoration:none;
 
-const avg=count?total/count:0;
+    color:#aaa;
 
-const max=count?
-Math.max(...transactions.map(x=>Number(x.amount))):0;
+    font-size:13px;
 
-document.getElementById("total").innerText=money(total);
-document.getElementById("today").innerText=money(today);
-document.getElementById("week").innerText=money(week);
-document.getElementById("month").innerText=money(month);
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:14px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    transition:
+        .3s ease;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.backBtn:hover{
+
+    color:#008cff;
+
+    border-color:
+        rgba(0,140,255,.40);
+
+    background:
+        rgba(0,100,255,.05);
+
+    box-shadow:
+        0 0 20px
+        rgba(0,140,255,.10);
+
+    transform:
+        translateY(-2px);
+
+}
+
+.backBtn:active{
+
+    transform:
+        scale(.97);
+
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+#error{
+
+    text-align:center;
+
+    color:#ff536b;
+
+    font-size:12px;
+
+    min-height:20px;
+
+    margin-top:12px;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer{
+
+    text-align:center;
+
+    margin-top:22px;
+
+    color:#444;
+
+    font-size:9px;
+
+    letter-spacing:1px;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px){
+
+    body{
+        overflow:hidden;
+    }
+
+    .card{
+
+        width:
+            calc(100% - 30px);
+
+        padding:
+            32px 20px 25px;
+
+        border-radius:24px;
+
+    }
+
+    h1{
+        font-size:21px;
+    }
+
+    .icon{
+
+        width:70px;
+        height:70px;
+
+        border-radius:20px;
+
+    }
+
+    input,
+    button.login{
+
+        height:55px;
+
+    }
+
+}
+
+
+/* =====================================================
+   TOUCH
+===================================================== */
+
+@media(hover:none){
+
+    .card{
+        animation:
+            cardFloat 5s ease-in-out infinite;
+    }
+
+    .card:active{
+
+        border-color:
+            rgba(0,140,255,.50);
+
+        box-shadow:
+
+            0 0 30px
+            rgba(0,140,255,.18);
+
+    }
+
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation:none !important;
+
+        transition:none !important;
+
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="mouseGlow"></div>
+
+<div id="cursorDot"></div>
+
+
+<div class="card">
+
+
+    <div class="icon">
+        📊
+    </div>
+
+
+    <h1>
+        ورود به
+        <span>خروجی گزارش</span>
+    </h1>
+
+
+    <div class="sub">
+        کافی‌نت جانا • مشاهده گزارش مالی
+    </div>
+
+
+    <label>
+        رمز عبور
+    </label>
+
+
+    <div class="inputBox">
