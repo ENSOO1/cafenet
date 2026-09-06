@@ -1,66 +1,85 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>ورودی گزارش | کافی‌نت جانا</title>
+<title>ورود به ورودی گزارش</title>
 
 <style>
-
 *{box-sizing:border-box}
 
 body{
 margin:0;
 min-height:100vh;
-font-family:Tahoma,Arial,sans-serif;
-color:#fff;
-
-background:
-radial-gradient(circle at 20% 20%,rgba(0,255,100,.11),transparent 30%),
-radial-gradient(circle at 80% 80%,rgba(0,120,255,.13),transparent 30%),
-#020202;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
+font-family:Tahoma,Arial,sans-serif;
+background:#020303;
+color:#fff;
 overflow:hidden;
 }
 
-.login{
-width:92%;
-max-width:430px;
-padding:35px;
+body:before{
+content:"";
+position:fixed;
+width:500px;
+height:500px;
+background:rgba(0,110,255,.13);
+filter:blur(130px);
+border-radius:50%;
+top:-180px;
+left:-150px;
+}
 
+body:after{
+content:"";
+position:fixed;
+width:400px;
+height:400px;
+background:rgba(0,255,120,.07);
+filter:blur(120px);
+border-radius:50%;
+bottom:-180px;
+right:-100px;
+}
+
+.box{
+width:min(440px,90%);
+padding:45px 35px;
 border-radius:30px;
-
-background:rgba(255,255,255,.055);
-
-border:1px solid rgba(255,255,255,.13);
-
+background:rgba(255,255,255,.045);
+border:1px solid rgba(255,255,255,.09);
 backdrop-filter:blur(30px);
 -webkit-backdrop-filter:blur(30px);
-
 box-shadow:
-0 30px 90px rgba(0,0,0,.7),
-0 0 40px rgba(0,255,100,.08);
-
+0 30px 100px rgba(0,0,0,.7),
+0 0 40px rgba(0,100,255,.08);
 text-align:center;
+position:relative;
+z-index:2;
+transition:.4s;
 }
 
-.logo{
-font-size:27px;
-margin-bottom:10px;
+.box:hover{
+border-color:rgba(0,130,255,.65);
+box-shadow:
+0 30px 100px rgba(0,0,0,.8),
+0 0 35px rgba(0,130,255,.25);
 }
 
-.logo span{
-color:#00ff66;
+.icon{
+font-size:55px;
+margin-bottom:20px;
 }
 
-.subtitle{
-color:#777;
+h1{
+margin:0 0 10px;
+font-size:25px;
+}
+
+.desc{
+color:#888;
 font-size:13px;
 margin-bottom:30px;
 }
@@ -71,129 +90,89 @@ position:relative;
 
 input{
 width:100%;
-height:52px;
-
-padding:0 18px 0 52px;
-
-border-radius:14px;
-
-border:1px solid rgba(255,255,255,.12);
-
-background:rgba(0,0,0,.35);
-
-color:#fff;
-
-font-size:17px;
-
+padding:17px 50px 17px 18px;
+border-radius:16px;
+border:1px solid rgba(255,255,255,.1);
 outline:none;
-
-direction:ltr;
-
+background:rgba(0,0,0,.35);
+color:white;
+font-size:18px;
 text-align:center;
+transition:.3s;
 }
 
 input:focus{
-border-color:#00ff66;
-box-shadow:0 0 20px rgba(0,255,100,.1);
+border-color:#087dff;
+box-shadow:0 0 25px rgba(0,125,255,.18);
 }
 
 .eye{
 position:absolute;
-
-left:10px;
-top:8px;
-
-width:36px;
-height:36px;
-
-border:0;
-
-background:rgba(255,255,255,.06);
-
-color:#aaa;
-
-border-radius:10px;
-
+right:14px;
+top:50%;
+transform:translateY(-50%);
 cursor:pointer;
-
-font-size:18px;
+font-size:20px;
+opacity:.7;
+transition:.2s;
 }
 
 .eye:hover{
-color:#00ff66;
+opacity:1;
 }
 
-.loginBtn{
+button{
 width:100%;
-
-margin-top:15px;
-
-height:52px;
-
-border:0;
-
-border-radius:14px;
-
-background:#00ff66;
-
-color:#000;
-
-font-weight:bold;
-
+margin-top:20px;
+padding:16px;
+border-radius:16px;
+border:1px solid rgba(0,255,136,.25);
+background:rgba(0,255,136,.07);
+color:#00ff88;
 font-size:16px;
-
+font-weight:bold;
 cursor:pointer;
-
-transition:.3s;
+transition:.35s;
 }
 
-.loginBtn:hover{
-transform:translateY(-3px);
+button:hover{
+transform:translateY(-4px);
+background:rgba(0,255,136,.13);
+border-color:#00ff88;
+box-shadow:0 0 30px rgba(0,255,136,.2);
+}
 
-box-shadow:
-0 0 30px rgba(0,255,100,.3);
+#error{
+height:25px;
+margin-top:15px;
+color:#ff4d6d;
+font-size:13px;
 }
 
 .back{
-display:block;
-
-margin-top:20px;
-
+display:inline-block;
+margin-top:18px;
 color:#777;
-
 text-decoration:none;
-
-font-size:13px;
+font-size:12px;
 }
 
 .back:hover{
-color:#fff;
+color:white;
 }
-
-.error{
-height:20px;
-
-margin-top:12px;
-
-color:#ff5555;
-
-font-size:13px;
-}
-
 </style>
-
 </head>
 
 <body>
 
-<div class="login">
+<div class="box">
 
-<div class="logo">
-کافی‌نت <span>جانا</span>
-</div>
+<div class="icon">🔐</div>
 
-<div class="subtitle">
-ورود به بخش ورودی گزارش
+<h1>ورودی گزارش</h1>
+
+<div class="desc">
+برای ورود رمز عبور را وارد کنید
 </div>
 
 <div class="passwordBox">
@@ -201,101 +180,54 @@ font-size:13px;
 <input
 id="password"
 type="password"
-placeholder="رمز ورود"
-autocomplete="off"
+placeholder="رمز عبور"
+maxlength="20"
 >
 
-<button
-class="eye"
-id="eye"
-type="button"
-onclick="togglePassword()"
->
-👁
-</button>
+<span class="eye" id="eye" onclick="togglePassword()">👁</span>
 
 </div>
 
-<div
-class="error"
-id="error"
-></div>
+<button onclick="login()">ورود به پنل ثبت</button>
 
-<button
-class="loginBtn"
-onclick="login()"
->
-ورود به پنل
-</button>
+<div id="error"></div>
 
-<a
-href="index.html"
-class="back"
->
-← بازگشت
-</a>
+<a class="back" href="index.html">← بازگشت به صفحه اصلی</a>
 
 </div>
-
 
 <script>
 
 function togglePassword(){
 
-const input =
-document.getElementById("password");
+const input=document.getElementById("password");
+const eye=document.getElementById("eye");
 
-const eye =
-document.getElementById("eye");
-
-if(input.type === "password"){
-
-input.type = "text";
-
-eye.innerText = "🙈";
-
+if(input.type==="password"){
+input.type="text";
+eye.innerText="🙈";
 }else{
-
-input.type = "password";
-
-eye.innerText = "👁";
-
+input.type="password";
+eye.innerText="👁";
 }
 
 }
-
 
 function login(){
 
-const password =
-document.getElementById("password").value;
+const password=document.getElementById("password").value;
+const error=document.getElementById("error");
 
-const error =
-document.getElementById("error");
-
-
-if(password === "0000"){
-
-window.location.href = "input-panel.html";
-
+if(password==="0000"){
+window.location.href="input-panel.html";
 }else{
-
-error.innerText =
-"رمز عبور اشتباه است";
-
+error.innerText="رمز عبور اشتباه است";
 }
 
 }
 
-
-document
-.getElementById("password")
-.addEventListener("keydown",function(e){
-
-if(e.key === "Enter"){
-login();
-}
-
+document.getElementById("password").addEventListener("keydown",function(e){
+if(e.key==="Enter") login();
 });
 
 </script>
