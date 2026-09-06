@@ -1,49 +1,111 @@
+```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#020303">
+
 <title>پنل ثبت - کافی‌نت جانا</title>
 
 <style>
+
 *{
 box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
 }
 
 body{
 margin:0;
 font-family:Tahoma,Arial,sans-serif;
-background:#020303;
-color:white;
+background:
+radial-gradient(circle at 15% 10%,rgba(0,125,255,.10),transparent 28%),
+radial-gradient(circle at 85% 90%,rgba(0,255,136,.08),transparent 30%),
+#020303;
+color:#fff;
 min-height:100vh;
 padding:25px;
+overflow-x:hidden;
 }
 
-body:before{
-content:"";
-position:fixed;
-width:500px;
-height:500px;
-background:rgba(0,120,255,.08);
-filter:blur(140px);
-border-radius:50%;
-top:-200px;
-left:-150px;
-pointer-events:none;
-}
+/* =========================
+   BACKGROUND LIGHTS
+========================= */
 
+body:before,
 body:after{
 content:"";
 position:fixed;
-width:450px;
-height:450px;
-background:rgba(0,255,130,.06);
-filter:blur(140px);
 border-radius:50%;
-bottom:-200px;
-right:-150px;
 pointer-events:none;
+z-index:0;
 }
+
+body:before{
+width:550px;
+height:550px;
+top:-250px;
+left:-180px;
+background:rgba(0,120,255,.12);
+filter:blur(150px);
+animation:floatBlue 9s ease-in-out infinite alternate;
+}
+
+body:after{
+width:500px;
+height:500px;
+bottom:-250px;
+right:-180px;
+background:rgba(0,255,130,.09);
+filter:blur(150px);
+animation:floatGreen 11s ease-in-out infinite alternate;
+}
+
+@keyframes floatBlue{
+from{
+transform:translate3d(0,0,0);
+}
+to{
+transform:translate3d(80px,60px,0);
+}
+}
+
+@keyframes floatGreen{
+from{
+transform:translate3d(0,0,0);
+}
+to{
+transform:translate3d(-70px,-50px,0);
+}
+}
+
+/* =========================
+   MOUSE GLOW
+========================= */
+
+.mouseGlow{
+position:fixed;
+width:280px;
+height:280px;
+border-radius:50%;
+background:radial-gradient(
+circle,
+rgba(0,255,136,.10),
+rgba(0,125,255,.04) 35%,
+transparent 70%
+);
+transform:translate(-50%,-50%);
+pointer-events:none;
+z-index:1;
+mix-blend-mode:screen;
+}
+
+/* =========================
+   MAIN
+========================= */
 
 .container{
 max-width:1250px;
@@ -51,6 +113,10 @@ margin:auto;
 position:relative;
 z-index:2;
 }
+
+/* =========================
+   HEADER
+========================= */
 
 .header{
 display:flex;
@@ -63,6 +129,7 @@ margin-bottom:30px;
 .title h1{
 margin:0;
 font-size:30px;
+text-shadow:0 0 25px rgba(255,255,255,.08);
 }
 
 .title p{
@@ -74,18 +141,32 @@ font-size:13px;
 .back{
 text-decoration:none;
 color:#aaa;
-padding:12px 18px;
-border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.04);
-border-radius:14px;
-transition:.3s;
+padding:13px 20px;
+border:1px solid rgba(255,255,255,.09);
+background:rgba(255,255,255,.045);
+border-radius:15px;
+
+backdrop-filter:blur(25px);
+-webkit-backdrop-filter:blur(25px);
+
+transition:.35s;
+box-shadow:
+inset 0 1px rgba(255,255,255,.06),
+0 10px 35px rgba(0,0,0,.25);
 }
 
 .back:hover{
 color:white;
-border-color:#087dff;
-box-shadow:0 0 25px rgba(0,125,255,.2);
+transform:translateY(-4px);
+border-color:rgba(0,125,255,.65);
+box-shadow:
+0 15px 40px rgba(0,0,0,.45),
+0 0 30px rgba(0,125,255,.20);
 }
+
+/* =========================
+   STATS
+========================= */
 
 .stats{
 display:grid;
@@ -96,35 +177,68 @@ margin-bottom:25px;
 
 .stat{
 padding:25px;
-border-radius:22px;
-background:rgba(255,255,255,.045);
-border:1px solid rgba(255,255,255,.07);
-backdrop-filter:blur(25px);
--webkit-backdrop-filter:blur(25px);
-transition:.4s;
+border-radius:24px;
+
+background:
+linear-gradient(
+135deg,
+rgba(255,255,255,.075),
+rgba(255,255,255,.025)
+);
+
+border:1px solid rgba(255,255,255,.09);
+
+backdrop-filter:blur(32px);
+-webkit-backdrop-filter:blur(32px);
+
+box-shadow:
+inset 0 1px rgba(255,255,255,.07),
+0 20px 55px rgba(0,0,0,.45);
+
+transition:
+transform .45s cubic-bezier(.2,.8,.2,1),
+box-shadow .45s,
+border-color .45s;
+
 position:relative;
 overflow:hidden;
+}
+
+.stat:before{
+content:"";
+position:absolute;
+width:130px;
+height:130px;
+top:-70px;
+right:-60px;
+border-radius:50%;
+background:rgba(0,255,136,.08);
+filter:blur(30px);
+pointer-events:none;
 }
 
 .stat:after{
 content:"";
 position:absolute;
 bottom:0;
-right:10%;
-left:10%;
+right:12%;
+left:12%;
 height:2px;
 background:#00ff88;
-box-shadow:0 0 15px #00ff88;
+box-shadow:0 0 18px #00ff88;
 transform:scaleX(0);
-transition:.4s;
+transition:.45s;
 }
 
 .stat:hover{
-transform:translateY(-7px);
-border-color:#087dff;
+transform:translateY(-9px) scale(1.015);
+
+border-color:rgba(0,255,136,.35);
+
 box-shadow:
-0 15px 45px rgba(0,0,0,.5),
-0 0 25px rgba(0,125,255,.2);
+inset 0 1px rgba(255,255,255,.09),
+0 25px 65px rgba(0,0,0,.60),
+0 0 35px rgba(0,255,136,.10);
 }
 
 .stat:hover:after{
@@ -140,36 +254,82 @@ margin-bottom:12px;
 .stat strong{
 font-size:25px;
 color:#00ff88;
+text-shadow:0 0 20px rgba(0,255,136,.20);
 }
+
+/* =========================
+   MAIN PANELS
+========================= */
 
 .main{
 display:grid;
 grid-template-columns:380px 1fr;
 gap:22px;
+align-items:start;
 }
 
 .panel{
-background:rgba(255,255,255,.045);
-border:1px solid rgba(255,255,255,.08);
-border-radius:25px;
+background:
+linear-gradient(
+135deg,
+rgba(255,255,255,.065),
+rgba(255,255,255,.022)
+);
+
+border:1px solid rgba(255,255,255,.09);
+border-radius:28px;
 padding:28px;
-backdrop-filter:blur(28px);
--webkit-backdrop-filter:blur(28px);
-box-shadow:0 25px 70px rgba(0,0,0,.5);
-transition:.4s;
+
+backdrop-filter:blur(35px);
+-webkit-backdrop-filter:blur(35px);
+
+box-shadow:
+inset 0 1px rgba(255,255,255,.07),
+0 25px 75px rgba(0,0,0,.55);
+
+transition:
+transform .45s cubic-bezier(.2,.8,.2,1),
+border-color .4s,
+box-shadow .4s;
+
+position:relative;
+overflow:hidden;
+}
+
+.panel:before{
+content:"";
+position:absolute;
+top:-150px;
+left:-150px;
+width:300px;
+height:300px;
+border-radius:50%;
+background:rgba(0,125,255,.055);
+filter:blur(50px);
+pointer-events:none;
 }
 
 .panel:hover{
-border-color:rgba(0,130,255,.55);
+transform:translateY(-5px);
+
+border-color:rgba(0,130,255,.38);
+
 box-shadow:
-0 25px 70px rgba(0,0,0,.6),
-0 0 30px rgba(0,130,255,.12);
+inset 0 1px rgba(255,255,255,.08),
+0 30px 80px rgba(0,0,0,.65),
+0 0 35px rgba(0,130,255,.09);
 }
 
 .panel h2{
 margin-top:0;
 font-size:20px;
+position:relative;
+z-index:1;
 }
+
+/* =========================
+   FORM
+========================= */
 
 label{
 display:block;
@@ -178,31 +338,66 @@ color:#999;
 margin:18px 0 8px;
 }
 
-input,select,textarea{
+input,
+select,
+textarea{
 width:100%;
-padding:14px;
-background:rgba(0,0,0,.35);
+padding:14px 15px;
+
+background:
+rgba(0,0,0,.38);
+
 border:1px solid rgba(255,255,255,.09);
-border-radius:13px;
+border-radius:14px;
+
 color:white;
 outline:none;
+
 font-family:inherit;
-transition:.3s;
+
+backdrop-filter:blur(15px);
+-webkit-backdrop-filter:blur(15px);
+
+transition:
+border-color .3s,
+box-shadow .3s,
+transform .3s,
+background .3s;
+}
+
+input:hover,
+select:hover,
+textarea:hover{
+background:rgba(255,255,255,.045);
+border-color:rgba(255,255,255,.15);
 }
 
 input:focus,
 select:focus,
 textarea:focus{
 border-color:#087dff;
-box-shadow:0 0 22px rgba(0,125,255,.16);
+
+background:rgba(0,20,35,.45);
+
+box-shadow:
+0 0 0 3px rgba(0,125,255,.06),
+0 0 28px rgba(0,125,255,.16);
+
+transform:translateY(-1px);
+}
+
+input::placeholder,
+textarea::placeholder{
+color:#555;
 }
 
 select option{
 background:#111;
+color:white;
 }
 
 textarea{
-min-height:80px;
+min-height:85px;
 resize:vertical;
 }
 
@@ -210,7 +405,16 @@ resize:vertical;
 font-size:20px;
 font-weight:bold;
 letter-spacing:1px;
+color:#00ff88;
 }
+
+.amount::placeholder{
+color:#555;
+}
+
+/* =========================
+   BUTTONS
+========================= */
 
 button{
 font-family:inherit;
@@ -221,31 +425,79 @@ cursor:pointer;
 width:100%;
 margin-top:22px;
 padding:16px;
-border-radius:15px;
+
+border-radius:16px;
+
 border:1px solid rgba(0,255,136,.35);
-background:rgba(0,255,136,.08);
+
+background:
+linear-gradient(
+135deg,
+rgba(0,255,136,.13),
+rgba(0,255,136,.045)
+);
+
 color:#00ff88;
+
 font-size:16px;
 font-weight:bold;
-transition:.35s;
+
+backdrop-filter:blur(15px);
+-webkit-backdrop-filter:blur(15px);
+
+transition:
+transform .35s,
+box-shadow .35s,
+background .35s;
 }
 
 .save:hover{
-transform:translateY(-5px);
+transform:translateY(-5px) scale(1.01);
+
+background:
+linear-gradient(
+135deg,
+rgba(0,255,136,.20),
+rgba(0,255,136,.06)
+);
+
 border-color:#00ff88;
-box-shadow:0 0 30px rgba(0,255,136,.2);
+
+box-shadow:
+0 15px 40px rgba(0,0,0,.4),
+0 0 35px rgba(0,255,136,.20);
+}
+
+.save:active{
+transform:translateY(-1px) scale(.99);
 }
 
 .cancel{
 width:100%;
 margin-top:10px;
 padding:12px;
+
 border-radius:15px;
+
 border:1px solid rgba(255,255,255,.08);
-background:rgba(255,255,255,.03);
+background:rgba(255,255,255,.035);
+
 color:#999;
+
 display:none;
+
+transition:.3s;
 }
+
+.cancel:hover{
+color:white;
+border-color:rgba(255,255,255,.2);
+transform:translateY(-2px);
+}
+
+/* =========================
+   TOOLBAR
+========================= */
 
 .toolbar{
 display:flex;
@@ -259,14 +511,32 @@ flex:1;
 
 .clear{
 padding:0 18px;
+
 border-radius:13px;
+
 border:1px solid rgba(255,255,255,.08);
+
 background:rgba(255,255,255,.04);
+
 color:#aaa;
+
+transition:.3s;
 }
+
+.clear:hover{
+color:white;
+border-color:#087dff;
+background:rgba(0,125,255,.08);
+box-shadow:0 0 20px rgba(0,125,255,.10);
+}
+
+/* =========================
+   TABLE
+========================= */
 
 .tableWrap{
 overflow-x:auto;
+border-radius:16px;
 }
 
 table{
@@ -280,24 +550,51 @@ color:#777;
 font-size:12px;
 font-weight:normal;
 padding:15px;
+
 border-bottom:1px solid rgba(255,255,255,.08);
 }
+
 td{
 padding:16px 12px;
+
 border-bottom:1px solid rgba(255,255,255,.05);
+
 font-size:13px;
+
+transition:.25s;
+}
+
+tbody tr{
+transition:.3s;
+}
+
+tbody tr:hover{
+background:rgba(255,255,255,.025);
+}
+
+tbody tr:hover td{
+border-bottom-color:rgba(0,255,136,.10);
 }
 
 .amountCell{
 color:#00ff88;
 font-weight:bold;
+text-shadow:0 0 15px rgba(0,255,136,.12);
 }
 
 .method{
+display:inline-block;
+
 padding:6px 10px;
+
 border-radius:30px;
+
 background:rgba(0,130,255,.08);
+
+border:1px solid rgba(0,130,255,.10);
+
 color:#4da3ff;
+
 font-size:11px;
 }
 
@@ -308,21 +605,37 @@ gap:7px;
 
 .action{
 border:1px solid rgba(255,255,255,.08);
+
 background:rgba(255,255,255,.04);
+
 border-radius:9px;
+
 padding:7px 10px;
+
 color:#aaa;
+
+transition:.3s;
 }
 
 .action:hover{
 border-color:#087dff;
 color:white;
+
+transform:translateY(-2px);
+
+box-shadow:0 0 18px rgba(0,125,255,.12);
 }
 
 .delete:hover{
 border-color:#ff4968;
 color:#ff4968;
+
+box-shadow:0 0 18px rgba(255,73,104,.12);
 }
+
+/* =========================
+   EMPTY
+========================= */
 
 .empty{
 text-align:center;
@@ -330,59 +643,162 @@ padding:60px 20px;
 color:#555;
 }
 
+/* =========================
+   SUCCESS
+========================= */
+
 .success{
 position:fixed;
+
 left:50%;
 top:25px;
-transform:translateX(-50%) translateY(-100px);
+
+transform:
+translateX(-50%)
+translateY(-120px);
+
 padding:14px 25px;
-border-radius:15px;
-background:rgba(0,255,136,.09);
+
+border-radius:16px;
+
+background:
+rgba(0,255,136,.10);
+
 border:1px solid rgba(0,255,136,.35);
+
 color:#00ff88;
-backdrop-filter:blur(20px);
-transition:.4s;
+
+backdrop-filter:blur(25px);
+-webkit-backdrop-filter:blur(25px);
+
+box-shadow:
+0 20px 50px rgba(0,0,0,.45),
+0 0 30px rgba(0,255,136,.12);
+
+transition:.45s cubic-bezier(.2,.8,.2,1);
+
 z-index:20;
 }
 
 .success.show{
-transform:translateX(-50%) translateY(0);
+transform:
+translateX(-50%)
+translateY(0);
 }
 
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media(max-width:950px){
+
 .main{
 grid-template-columns:1fr;
 }
+
 .stats{
 grid-template-columns:repeat(2,1fr);
 }
+
+.panel:hover{
+transform:none;
+}
+
 }
 
 @media(max-width:550px){
+
 body{
 padding:15px;
 }
+
 .header{
 align-items:flex-start;
 }
+
+.title h1{
+font-size:23px;
+}
+
+.title p{
+font-size:11px;
+}
+
+.back{
+padding:10px 13px;
+font-size:12px;
+}
+
 .stats{
 grid-template-columns:1fr 1fr;
 gap:10px;
 }
+
 .stat{
-padding:18px;
+padding:18px 15px;
+border-radius:19px;
 }
+
 .stat strong{
 font-size:18px;
 }
+
+.stat small{
+font-size:10px;
+}
+
 .panel{
-padding:20px;
+padding:20px 16px;
+border-radius:22px;
 }
+
+.panel:hover{
+transform:none;
 }
+
+.toolbar{
+flex-direction:column;
+}
+
+.clear{
+height:45px;
+padding:0;
+}
+
+input,
+select,
+textarea{
+font-size:14px;
+}
+
+.tableWrap{
+margin:0 -5px;
+}
+
+}
+
+/* =========================
+   REDUCE MOTION
+========================= */
+
+@media(prefers-reduced-motion:reduce){
+
+*,
+*::before,
+*::after{
+animation:none!important;
+transition:none!important;
+scroll-behavior:auto!important;
+}
+
+}
+
 </style>
 </head>
 
 <body>
+
+<div class="mouseGlow" id="mouseGlow"></div>
 
 <div id="success" class="success">
 تراکنش با موفقیت ثبت شد ✓
@@ -397,7 +813,9 @@ padding:20px;
 <p>کافی‌نت جانا • مدیریت تراکنش‌ها</p>
 </div>
 
-<a class="back" href="index.html">← صفحه اصلی</a>
+<a class="back" href="index.html">
+← صفحه اصلی
+</a>
 
 </div>
 
@@ -432,11 +850,19 @@ padding:20px;
 <h2 id="formTitle">➕ ثبت تراکنش</h2>
 
 <label>نام مشتری</label>
-<input id="customer" placeholder="مثلاً علی رضایی">
+
+<input
+id="customer"
+placeholder="مثلاً علی رضایی"
+autocomplete="off"
+>
 
 <label>نوع خدمت</label>
+
 <select id="service">
+
 <option value="">انتخاب خدمت</option>
+
 <option>پرینت</option>
 <option>کافی‌نت</option>
 <option>ثبت‌نام</option>
@@ -445,35 +871,54 @@ padding:20px;
 <option>اسکن</option>
 <option>خدمات اداری</option>
 <option>سایر</option>
+
 </select>
 
 <label>مبلغ</label>
+
 <input
 id="amount"
 class="amount"
 inputmode="numeric"
+autocomplete="off"
 placeholder="مثلاً 1,500,000"
 >
 
 <label>روش پرداخت</label>
+
 <select id="method">
+
 <option value="کارتخوان">کارتخوان</option>
 <option value="نقدی">نقدی</option>
 <option value="کارت‌به‌کارت">کارت‌به‌کارت</option>
+
 </select>
 
 <label>توضیحات</label>
-<textarea id="description" placeholder="توضیحات اختیاری"></textarea>
 
-<button class="save" onclick="saveTransaction()" id="saveBtn">
+<textarea
+id="description"
+placeholder="توضیحات اختیاری"
+></textarea>
+
+<button
+class="save"
+onclick="saveTransaction()"
+id="saveBtn"
+>
 ثبت تراکنش
 </button>
 
-<button class="cancel" onclick="cancelEdit()" id="cancelBtn">
+<button
+class="cancel"
+onclick="cancelEdit()"
+id="cancelBtn"
+>
 لغو ویرایش
 </button>
 
 </div>
+
 
 <div class="panel">
 
@@ -484,11 +929,16 @@ placeholder="مثلاً 1,500,000"
 <input
 class="search"
 id="search"
-placeholder="جستجوی مشتری یا خدمت..."
+placeholder="جستجوی مشتری، خدمت یا روش پرداخت..."
 oninput="render()"
 >
 
-<button class="clear" onclick="clearSearch()">پاک</button>
+<button
+class="clear"
+onclick="clearSearch()"
+>
+پاک
+</button>
 
 </div>
 
@@ -497,6 +947,7 @@ oninput="render()"
 <table>
 
 <thead>
+
 <tr>
 <th>تاریخ</th>
 <th>مشتری</th>
@@ -505,6 +956,7 @@ oninput="render()"
 <th>پرداخت</th>
 <th>عملیات</th>
 </tr>
+
 </thead>
 
 <tbody id="tableBody"></tbody>
@@ -519,41 +971,90 @@ oninput="render()"
 
 </div>
 
+
 <script>
 
-let transactions=
-JSON.parse(localStorage.getItem("cafe_transactions")||"[]");
+/* =========================
+   DATA
+========================= */
 
-let editId=null;
+let transactions =
+JSON.parse(
+localStorage.getItem("cafe_transactions") || "[]"
+);
 
-const amountInput=document.getElementById("amount");
+let editId = null;
 
-amountInput.addEventListener("input",function(){
 
-let value=this.value.replace(/\D/g,"");
+/* =========================
+   MOUSE GLOW
+========================= */
 
-if(!value){
-this.value="";
-return;
-}
+const mouseGlow =
+document.getElementById("mouseGlow");
 
-this.value=Number(value).toLocaleString("en-US");
+document.addEventListener("mousemove",(e)=>{
+
+mouseGlow.style.left =
+e.clientX + "px";
+
+mouseGlow.style.top =
+e.clientY + "px";
 
 });
+
+
+/* =========================
+   AMOUNT FORMAT
+========================= */
+
+const amountInput =
+document.getElementById("amount");
+
+amountInput.addEventListener(
+"input",
+function(){
+
+let value =
+this.value.replace(/\D/g,"");
+
+if(!value){
+
+this.value="";
+
+return;
+
+}
+
+this.value =
+Number(value).toLocaleString("en-US");
+
+});
+
 
 function rawAmount(){
 
 return Number(
-document.getElementById("amount").value.replace(/,/g,"")
+document
+.getElementById("amount")
+.value
+.replace(/,/g,"")
 )||0;
 
 }
 
+
 function money(value){
 
-return Number(value||0).toLocaleString("en-US");
+return Number(value||0)
+.toLocaleString("en-US");
 
 }
+
+
+/* =========================
+   SAVE DATA
+========================= */
 
 function saveData(){
 
@@ -564,31 +1065,74 @@ JSON.stringify(transactions)
 
 }
 
+
+/* =========================
+   SAVE TRANSACTION
+========================= */
+
 function saveTransaction(){
-const customer=document.getElementById("customer").value.trim();
-const service=document.getElementById("service").value;
-const amount=rawAmount();
-const method=document.getElementById("method").value;
-const description=document.getElementById("description").value.trim();
+
+const customer =
+document
+.getElementById("customer")
+.value
+.trim();
+
+const service =
+document
+.getElementById("service")
+.value;
+
+const amount =
+rawAmount();
+
+const method =
+document
+.getElementById("method")
+.value;
+
+const description =
+document
+.getElementById("description")
+.value
+.trim();
+
 
 if(!customer){
+
 alert("نام مشتری را وارد کنید");
+
 return;
+
 }
+
 
 if(!service){
+
 alert("نوع خدمت را انتخاب کنید");
+
 return;
+
 }
 
+
 if(amount<=0){
+
 alert("مبلغ را وارد کنید");
+
 return;
+
 }
+
+
+/* EDIT */
 
 if(editId!==null){
 
-const item=transactions.find(x=>x.id===editId);
+const item =
+transactions.find(
+x=>x.id===editId
+);
 
 if(item){
 
@@ -602,161 +1146,351 @@ item.description=description;
 
 editId=null;
 
-document.getElementById("formTitle").innerText="➕ ثبت تراکنش";
-document.getElementById("saveBtn").innerText="ثبت تراکنش";
-document.getElementById("cancelBtn").style.display="none";
+document
+.getElementById("formTitle")
+.innerText="➕ ثبت تراکنش";
 
-}else{
+document
+.getElementById("saveBtn")
+.innerText="ثبت تراکنش";
+
+document
+.getElementById("cancelBtn")
+.style.display="none";
+
+}
+
+
+/* NEW */
+
+else{
 
 transactions.unshift({
 
 id:Date.now(),
 
 customer,
+
 service,
+
 amount,
+
 method,
+
 description,
 
-date:new Date().toISOString(),
+date:new Date().toISOString()
 
 });
 
 }
 
+
 saveData();
+
 clearForm();
+
 render();
+
 showSuccess();
 
 }
 
+
+/* =========================
+   CLEAR FORM
+========================= */
+
 function clearForm(){
 
-document.getElementById("customer").value="";
-document.getElementById("service").value="";
-document.getElementById("amount").value="";
-document.getElementById("description").value="";
+document
+.getElementById("customer")
+.value="";
+
+document
+.getElementById("service")
+.value="";
+
+document
+.getElementById("amount")
+.value="";
+
+document
+.getElementById("description")
+.value="";
 
 }
+
+
+/* =========================
+   EDIT
+========================= */
 
 function editTransaction(id){
 
-const item=transactions.find(x=>x.id===id);
+const item =
+transactions.find(
+x=>x.id===id
+);
 
 if(!item)return;
 
-document.getElementById("customer").value=item.customer;
-document.getElementById("service").value=item.service;
-document.getElementById("amount").value=money(item.amount);
-document.getElementById("method").value=item.method;
-document.getElementById("description").value=item.description||"";
+
+document
+.getElementById("customer")
+.value=item.customer;
+
+document
+.getElementById("service")
+.value=item.service;
+
+document
+.getElementById("amount")
+.value=money(item.amount);
+
+document
+.getElementById("method")
+.value=item.method;
+
+document
+.getElementById("description")
+.value=item.description||"";
+
 
 editId=id;
 
-document.getElementById("formTitle").innerText="✏️ ویرایش تراکنش";
-document.getElementById("saveBtn").innerText="ذخیره تغییرات";
-document.getElementById("cancelBtn").style.display="block";
 
-window.scrollTo({top:0,behavior:"smooth"});
+document
+.getElementById("formTitle")
+.innerText="✏️ ویرایش تراکنش";
 
-}
+document
+.getElementById("saveBtn")
+.innerText="ذخیره تغییرات";
 
-function cancelEdit(){
+document
+.getElementById("cancelBtn")
+.style.display="block";
 
-editId=null;
-clearForm();
 
-document.getElementById("formTitle").innerText="➕ ثبت تراکنش";
-document.getElementById("saveBtn").innerText="ثبت تراکنش";
-document.getElementById("cancelBtn").style.display="none";
-
-}
-
-function deleteTransaction(id){
-
-if(!confirm("این تراکنش حذف شود؟"))return;
-
-transactions=transactions.filter(x=>x.id!==id);
-
-saveData();
-render();
-
-}
-
-function clearSearch(){
-
-document.getElementById("search").value="";
-render();
-
-}
-
-function formatDate(date){
-
-return new Date(date).toLocaleDateString("fa-IR");
-
-}
-
-function formatTime(date){
-
-return new Date(date).toLocaleTimeString("fa-IR",{
-hour:"2-digit",
-minute:"2-digit"
+window.scrollTo({
+top:0,
+behavior:"smooth"
 });
 
 }
 
+
+/* =========================
+   CANCEL EDIT
+========================= */
+
+function cancelEdit(){
+
+editId=null;
+
+clearForm();
+
+document
+.getElementById("formTitle")
+.innerText="➕ ثبت تراکنش";
+
+document
+.getElementById("saveBtn")
+.innerText="ثبت تراکنش";
+
+document
+.getElementById("cancelBtn")
+.style.display="none";
+
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+function deleteTransaction(id){
+
+if(!confirm(
+"این تراکنش حذف شود؟"
+))return;
+
+
+transactions =
+transactions.filter(
+x=>x.id!==id
+);
+
+saveData();
+
+render();
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function clearSearch(){
+
+document
+.getElementById("search")
+.value="";
+
+render();
+
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+function formatDate(date){
+
+return new Date(date)
+.toLocaleDateString("fa-IR");
+
+}
+
+
+function formatTime(date){
+
+return new Date(date)
+.toLocaleTimeString(
+"fa-IR",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
 function render(){
 
-const body=document.getElementById("tableBody");
-
-const search=
-document.getElementById("search").value.trim().toLowerCase();
-
-const filtered=transactions.filter(x=>
-x.customer.toLowerCase().includes(search)||
-x.service.toLowerCase().includes(search)||
-x.method.toLowerCase().includes(search)
+const body =
+document.getElementById(
+"tableBody"
 );
+
+const search =
+document
+.getElementById("search")
+.value
+.trim()
+.toLowerCase();
+
+
+const filtered =
+transactions.filter(x=>
+
+String(x.customer)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(x.service)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(x.method)
+.toLowerCase()
+.includes(search)
+
+);
+
 
 if(filtered.length===0){
 
-body.innerHTML=
+body.innerHTML=`
+
 <tr>
+
 <td colspan="6">
+
 <div class="empty">
-📭<br><br>
+
+📭
+
+<br><br>
+
 هنوز تراکنشی ثبت نشده
+
 </div>
+
 </td>
+
 </tr>
-;
 
-}else{
+`;
 
-body.innerHTML=filtered.map(x=>
+}
+
+else{
+
+body.innerHTML=
+
+filtered.map(x=>`
 
 <tr>
 
 <td>
+
 ${formatDate(x.date)}
+
 <br>
-<small style="color:#555">${formatTime(x.date)}</small>
+
+<small style="color:#555">
+
+${formatTime(x.date)}
+
+</small>
+
 </td>
 
-<td>${escapeHTML(x.customer)}</td>
 
-<td>${escapeHTML(x.service)}</td>
+<td>
+
+${escapeHTML(x.customer)}
+
+</td>
+
+
+<td>
+
+${escapeHTML(x.service)}
+
+</td>
+
 
 <td class="amountCell">
+
 ${money(x.amount)}
+
 </td>
 
+
 <td>
+
 <span class="method">
+
 ${escapeHTML(x.method)}
+
 </span>
+
 </td>
+
 
 <td>
 
@@ -764,13 +1498,17 @@ ${escapeHTML(x.method)}
 
 <button
 class="action"
-onclick="editTransaction(${x.id})">
+onclick="editTransaction(${x.id})"
+title="ویرایش"
+>
 ✏️
 </button>
 
 <button
 class="action delete"
-onclick="deleteTransaction(${x.id})">
+onclick="deleteTransaction(${x.id})"
+title="حذف"
+>
 🗑
 </button>
 
@@ -780,59 +1518,142 @@ onclick="deleteTransaction(${x.id})">
 
 </tr>
 
-).join("");
+`).join("");
 
 }
+
 
 updateStats();
 
 }
 
+
+/* =========================
+   STATS
+========================= */
+
 function updateStats(){
 
-const total=transactions.reduce(
-(sum,x)=>sum+Number(x.amount),0
+const total =
+transactions.reduce(
+(sum,x)=>
+sum+Number(x.amount),
+0
 );
 
-const todayStart=new Date();
-todayStart.setHours(0,0,0,0);
 
-const todayTotal=transactions
-.filter(x=>new Date(x.date)>=todayStart)
-.reduce((sum,x)=>sum+Number(x.amount),0);
+const todayStart =
+new Date();
 
-const count=transactions.length;
+todayStart.setHours(
+0,0,0,0
+);
 
-const avg=count?total/count:0;
-document.getElementById("total").innerText=money(total);
-document.getElementById("today").innerText=money(todayTotal);
-document.getElementById("count").innerText=money(count);
-document.getElementById("average").innerText=money(Math.round(avg));
+
+const todayTotal =
+transactions
+.filter(
+x=>new Date(x.date)>=todayStart
+)
+.reduce(
+(sum,x)=>
+sum+Number(x.amount),
+0
+);
+
+
+const count =
+transactions.length;
+
+
+const avg =
+count
+? total/count
+: 0;
+
+
+document
+.getElementById("total")
+.innerText=money(total);
+
+document
+.getElementById("today")
+.innerText=money(todayTotal);
+
+document
+.getElementById("count")
+.innerText=money(count);
+
+document
+.getElementById("average")
+.innerText=
+money(Math.round(avg));
 
 }
 
+
+/* =========================
+   SUCCESS
+========================= */
+
 function showSuccess(){
 
-const box=document.getElementById("success");
+const box =
+document.getElementById(
+"success"
+);
 
 box.classList.add("show");
 
+
 setTimeout(()=>{
+
 box.classList.remove("show");
+
 },1800);
 
 }
 
+
+/* =========================
+   SECURITY
+========================= */
+
 function escapeHTML(text){
 
 return String(text)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+
+.replaceAll(
+"&",
+"&amp;"
+)
+
+.replaceAll(
+"<",
+"&lt;"
+)
+
+.replaceAll(
+">",
+"&gt;"
+)
+
+.replaceAll(
+'"',
+"&quot;"
+)
+
+.replaceAll(
+"'",
+"&#039;"
+);
 
 }
+
+
+/* =========================
+   INITIAL RENDER
+========================= */
 
 render();
 
@@ -840,3 +1661,4 @@ render();
 
 </body>
 </html>
+```
