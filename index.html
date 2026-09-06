@@ -4,10 +4,59 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>پنل کافی نت</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;background:#07090d;color:white;font-family:tahoma}.box{max-width:1000px;margin:auto;padding:20px}.head,.card,.panel{background:#10131a;border:1px solid #252b38;border-radius:18px;padding:20px;margin-bottom:15px}.head{display:flex;justify-content:space-between}.head b{font-size:20px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{margin:0}.card small{color:#89919f}.card h2{color:#00e5a0}.main{display:grid;grid-template-columns:1fr 1fr;gap:15px}.input,button{width:100%;padding:13px;margin:6px 0;border-radius:11px;border:1px solid #303746;background:#171b24;color:white}button{background:#006cff;border:0;font-weight:bold;cursor:pointer}.item{background:#171b24;padding:12px;border-radius:10px;margin:7px 0}.del{background:#421923;width:auto;padding:7px;float:left}@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.main{grid-template-columns:1fr}}
+*{box-sizing:border-box}
+body{margin:0;background:#07090d;color:#fff;font-family:tahoma}
+.box{max-width:1000px;margin:auto;padding:20px}
+.head,.card,.panel{
+background:#10131a;
+border:1px solid #252b38;
+border-radius:18px;
+padding:20px;
+margin-bottom:15px
+}
+.head{display:flex;justify-content:space-between}
+.head b{font-size:20px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{margin:0}
+.card small{color:#89919f}
+.card h2{color:#00e5a0}
+.main{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.input,button{
+width:100%;
+padding:13px;
+margin:6px 0;
+border-radius:11px;
+border:1px solid #303746;
+background:#171b24;
+color:white
+}
+button{
+background:#006cff;
+border:0;
+font-weight:bold;
+cursor:pointer
+}
+.item{
+background:#171b24;
+padding:12px;
+border-radius:10px;
+margin:7px 0
+}
+.del{
+background:#421923;
+width:auto;
+padding:7px;
+float:left
+}
+@media(max-width:700px){
+.stats{grid-template-columns:1fr 1fr}
+.main{grid-template-columns:1fr}
+}
 </style>
 </head>
+
 <body>
 
 <div class="box">
@@ -18,15 +67,33 @@
 </div>
 
 <div class="stats">
-<div class="card"><small>💰 امروز</small><h2 id="today">0</h2></div>
-<div class="card"><small>📈 ماه</small><h2 id="month">0</h2></div>
-<div class="card"><small>🧾 خدمات</small><h2 id="count">0</h2></div>
-<div class="card"><small>💵 میانگین</small><h2 id="avg">0</h2></div>
+
+<div class="card">
+<small>💰 امروز</small>
+<h2 id="today">0</h2>
+</div>
+
+<div class="card">
+<small>📈 ماه</small>
+<h2 id="month">0</h2>
+</div>
+
+<div class="card">
+<small>🧾 خدمات</small>
+<h2 id="count">0</h2>
+</div>
+
+<div class="card">
+<small>💵 میانگین</small>
+<h2 id="avg">0</h2>
+</div>
+
 </div>
 
 <div class="main">
 
 <div class="panel">
+
 <h3>➕ ثبت خدمت</h3>
 
 <select id="service" class="input">
@@ -43,64 +110,161 @@
 </select>
 
 <input id="price" class="input" type="number" placeholder="مبلغ تومان">
+
 <input id="name" class="input" placeholder="نام مشتری">
 
-<button onclick="add()">ثبت تراکنش</button>
+<button id="addBtn">ثبت تراکنش</button>
+
 </div>
 
 <div class="panel">
+
 <h3>🧾 تراکنش‌ها</h3>
+
 <div id="list"></div>
+
 </div>
 
 </div>
+
 </div>
 
 <script>
-let data=JSON.parse(localStorage.data||"[]");
 
-date.innerText=new Date().toLocaleDateString("fa-IR");
+const serviceEl = document.getElementById("service");
+const priceEl = document.getElementById("price");
+const nameEl = document.getElementById("name");
+const listEl = document.getElementById("list");
+const dateEl = document.getElementById("date");
 
-function money(x){return x.toLocaleString("fa-IR")}
+const todayEl = document.getElementById("today");
+const monthEl = document.getElementById("month");
+const countEl = document.getElementById("count");
+const avgEl = document.getElementById("avg");
 
-function add(){
-let s=service.value,p=+price.value,n=name.value;
-if(!p)return alert("مبلغ را وارد کن");
-data.unshift({s,p,n,d:new Date()});
-localStorage.data=JSON.stringify(data);
-price.value=name.value="";
-show();
+let data = JSON.parse(localStorage.getItem("cafinet_data") || "[]");
+
+dateEl.innerText = new Date().toLocaleDateString("fa-IR");
+
+function money(x){
+return Number(x).toLocaleString("fa-IR");
 }
 
-function del(i){
-data.splice(i,1);
-localStorage.data=JSON.stringify(data);
+document.getElementById("addBtn").addEventListener("click", function(){
+
+const s = serviceEl.value;
+const p = Number(priceEl.value);
+const n = nameEl.value.trim();
+
+if(!p || p <= 0){
+alert("⚠️ مبلغ را وارد کن");
+priceEl.focus();
+return;
+}
+
+const transaction = {
+service:s,
+price:p,
+name:n || "بدون نام",
+date:new Date().toISOString()
+};
+
+data.unshift(transaction);
+
+localStorage.setItem("cafinet_data", JSON.stringify(data));
+
+priceEl.value = "";
+nameEl.value = "";
+
 show();
+
+alert("✅ تراکنش با موفقیت ثبت شد!");
+
+});
+
+function del(i){
+
+if(confirm("این تراکنش حذف شود؟")){
+
+data.splice(i,1);
+
+localStorage.setItem("cafinet_data", JSON.stringify(data));
+
+show();
+
+}
+
 }
 
 function show(){
-let now=new Date(),t=0,m=0;
+
+const now = new Date();
+
+let today = 0;
+let month = 0;
+let total = 0;
+
 data.forEach(x=>{
-let d=new Date(x.d);
-if(d.toDateString()==now.toDateString())t+=x.p;
-if(d.getMonth()==now.getMonth()&&d.getFullYear()==now.getFullYear())m+=x.p;
+
+const d = new Date(x.date);
+
+total += Number(x.price);
+
+if(
+d.getDate() === now.getDate() &&
+d.getMonth() === now.getMonth() &&
+d.getFullYear() === now.getFullYear()
+){
+today += Number(x.price);
+}
+
+if(
+d.getMonth() === now.getMonth() &&
+d.getFullYear() === now.getFullYear()
+){
+month += Number(x.price);
+}
+
 });
 
-today.innerText=money(t);
-month.innerText=money(m);
-count.innerText=money(data.length);
-avg.innerText=money(data.length?Math.round(data.reduce((a,x)=>a+x.p,0)/data.length):0);
+todayEl.innerText = money(today) + " تومان";
+monthEl.innerText = money(month) + " تومان";
+countEl.innerText = money(data.length);
+avgEl.innerText =
+money(data.length ? Math.round(total/data.length) : 0) + " تومان";
 
-list.innerHTML=data.map((x,i)=>
+if(data.length === 0){
+
+listEl.innerHTML = "هنوز تراکنشی ثبت نشده";
+
+return;
+
+}
+
+listEl.innerHTML = data.map((x,i)=>
+
 <div class="item">
-<b>${x.s}</b><br>
-${x.n||"بدون نام"}<br>
-💰 ${money(x.p)} تومان
-<button class="del" onclick="del(${i})">حذف</button>
-</div>).join("")||"هنوز تراکنشی ثبت نشده";
+
+<b>${x.service}</b><br>
+
+👤 ${x.name}<br>
+
+💰 ${money(x.price)} تومان
+
+<button class="del" onclick="del(${i})">
+حذف
+</button>
+
+<div style="clear:both"></div>
+
+</div>
+
+).join("");
+
 }
 
 show();
+
 </script>
 
 </body>
