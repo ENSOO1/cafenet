@@ -15,139 +15,198 @@
 body{
     margin:0;
     min-height:100vh;
-    background:#030303;
-    color:white;
+
     font-family:Tahoma,Arial,sans-serif;
 
+    color:#fff;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(0,255,100,.10),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(0,140,255,.10),
+            transparent 30%
+        ),
+        #020202;
+
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
 
     overflow:hidden;
 }
 
-body:before{
-    content:"";
-    position:fixed;
-    width:500px;
-    height:500px;
-    background:#00ff66;
-    opacity:.08;
-    filter:blur(150px);
-    border-radius:50%;
-    top:-150px;
-    right:-100px;
-}
-
-body:after{
-    content:"";
-    position:fixed;
-    width:400px;
-    height:400px;
-    background:#0088ff;
-    opacity:.07;
-    filter:blur(150px);
-    border-radius:50%;
-    bottom:-150px;
-    left:-100px;
-}
-
 .container{
-    width:90%;
-    max-width:900px;
+    width:92%;
+    max-width:950px;
     text-align:center;
 }
 
-h1{
-    font-size:38px;
-    margin-bottom:10px;
-    text-shadow:0 0 25px rgba(0,255,100,.4);
+.logo{
+    margin-bottom:55px;
 }
 
-.subtitle{
+.logo h1{
+    font-size:42px;
+    margin:0 0 15px;
+
+    text-shadow:
+        0 0 10px rgba(0,255,100,.35),
+        0 0 35px rgba(0,255,100,.15);
+}
+
+.logo p{
     color:#777;
-    margin-bottom:50px;
+    font-size:15px;
 }
 
 .cards{
     display:flex;
-    gap:30px;
     justify-content:center;
+    gap:35px;
 }
 
 .card{
-    width:350px;
-    height:250px;
+    position:relative;
+
+    width:390px;
+    height:270px;
 
     display:flex;
     flex-direction:column;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
 
-    border-radius:30px;
+    text-decoration:none;
+    color:#fff;
 
-    background:rgba(255,255,255,.06);
+    border-radius:32px;
+
+    background:rgba(255,255,255,.055);
 
     border:1px solid rgba(255,255,255,.12);
 
     backdrop-filter:blur(25px);
     -webkit-backdrop-filter:blur(25px);
 
-    cursor:pointer;
-
-    transition:all .35s ease;
-
     box-shadow:
-        0 20px 60px rgba(0,0,0,.5);
+        0 25px 70px rgba(0,0,0,.55),
+        inset 0 0 30px rgba(255,255,255,.025);
+
+    transition:.4s ease;
+
+    overflow:hidden;
+}
+
+.card:before{
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+    height:220px;
+
+    border-radius:50%;
+
+    filter:blur(90px);
+
+    opacity:.15;
+
+    transition:.5s;
+}
+
+.input:before{
+    background:#00ff66;
+}
+
+.output:before{
+    background:#008cff;
 }
 
 .card:hover{
-    transform:translateY(-12px) scale(1.03);
+    transform:translateY(-15px) scale(1.03);
 
     border-color:#00ff66;
 
     box-shadow:
-        0 25px 70px rgba(0,0,0,.7),
-        0 0 30px rgba(0,255,100,.15);
+        0 35px 90px rgba(0,0,0,.7),
+        0 0 35px rgba(0,255,100,.12);
+}
+
+.card:hover:before{
+    transform:scale(1.5);
+    opacity:.3;
 }
 
 .icon{
-    font-size:55px;
-    margin-bottom:20px;
+    position:relative;
+
+    width:85px;
+    height:85px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:42px;
+
+    border-radius:25px;
+
+    background:rgba(255,255,255,.06);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    margin-bottom:22px;
 }
 
 .card h2{
+    position:relative;
+
     margin:0 0 12px;
-    font-size:25px;
+
+    font-size:27px;
 }
 
 .card p{
+    position:relative;
+
     margin:0;
+
     color:#888;
+
     font-size:14px;
 }
 
-#dashboard{
-    display:none;
-    width:100%;
-    min-height:100vh;
-    padding:30px;
+.line{
+    position:relative;
+
+    width:0;
+    height:3px;
+
+    margin-top:22px;
+
+    border-radius:20px;
+
+    background:#00ff66;
+
+    box-shadow:0 0 18px #00ff66;
+
+    transition:.4s;
 }
 
-.back{
-    background:rgba(255,255,255,.07);
-    color:white;
-    border:1px solid rgba(255,255,255,.15);
-    padding:12px 22px;
-    border-radius:12px;
-    cursor:pointer;
+.card:hover .line{
+    width:90px;
 }
 
-@media(max-width:700px){
+@media(max-width:750px){
 
     body{
         overflow:auto;
-        padding:30px 0;
+        padding:40px 0;
     }
 
     .cards{
@@ -157,13 +216,12 @@ h1{
 
     .card{
         width:100%;
-        max-width:350px;
+        max-width:390px;
     }
 
-    h1{
+    .logo h1{
         font-size:30px;
     }
-
 }
 
 </style>
@@ -171,135 +229,63 @@ h1{
 
 <body>
 
-<div id="home">
+<div class="container">
 
-    <div class="container">
+    <div class="logo">
 
         <h1>
             کافی‌نت جانـــــــا
         </h1>
 
-        <div class="subtitle">
-            سامانه مدیریت گزارش
-        </div>
-
-        <div class="cards">
-
-            <div class="card" id="inputBtn">
-
-                <div class="icon">
-                    📝
-                </div>
-
-                <h2>
-                    ورودی گزارش
-                </h2>
-
-                <p>
-                    ثبت و مدیریت اطلاعات
-                </p>
-
-            </div>
-
-
-            <div class="card" id="outputBtn">
-
-                <div class="icon">
-                    📊
-                </div>
-
-                <h2>
-                    خروجی گزارش
-                </h2>
-
-                <p>
-                    مشاهده گزارش‌ها
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<div id="dashboard">
-
-    <button class="back" id="backBtn">
-        ← بازگشت
-    </button>
-
-    <div class="container" style="margin:80px auto">
-
-        <h1 id="dashboardTitle">
-            گزارش
-        </h1>
-
-        <p class="subtitle" id="dashboardText">
-            پنل گزارش کافی‌نت جانا
+        <p>
+            سامانه مدیریت و گزارش کافی‌نت
         </p>
 
     </div>
 
+
+    <div class="cards">
+
+        <a href="input.html" class="card input">
+
+            <div class="icon">
+                📝
+            </div>
+
+            <h2>
+                ورودی گزارش
+            </h2>
+
+            <p>
+                ثبت و مدیریت اطلاعات
+            </p>
+
+            <div class="line"></div>
+
+        </a>
+
+
+        <a href="output.html" class="card output">
+
+            <div class="icon">
+                📊
+            </div>
+
+            <h2>
+                خروجی گزارش
+            </h2>
+
+            <p>
+                مشاهده گزارش‌ها
+            </p>
+
+            <div class="line"></div>
+
+        </a>
+
+    </div>
+
 </div>
-
-
-<script>
-
-document.addEventListener("DOMContentLoaded", function(){
-
-    const home = document.getElementById("home");
-    const dashboard = document.getElementById("dashboard");
-
-    const inputBtn = document.getElementById("inputBtn");
-    const outputBtn = document.getElementById("outputBtn");
-
-    const backBtn = document.getElementById("backBtn");
-const title = document.getElementById("dashboardTitle");
-    const text = document.getElementById("dashboardText");
-
-
-    inputBtn.addEventListener("click", function(){
-
-        home.style.display = "none";
-
-        dashboard.style.display = "block";
-
-        title.innerText = "ورودی گزارش";
-
-        text.innerText =
-            "اینجا پنل ثبت و مدیریت گزارش قرار می‌گیرد.";
-
-    });
-
-
-    outputBtn.addEventListener("click", function(){
-
-        home.style.display = "none";
-
-        dashboard.style.display = "block";
-
-        title.innerText = "خروجی گزارش";
-
-        text.innerText =
-            "اینجا گزارش‌های کافی‌نت نمایش داده می‌شود.";
-
-    });
-
-
-    backBtn.addEventListener("click", function(){
-
-        dashboard.style.display = "none";
-
-        home.style.display = "flex";
-
-    });
-
-});
-
-</script>
 
 </body>
 </html>
