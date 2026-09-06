@@ -2,236 +2,2778 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>کافی‌نت جانا</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>خروجی گزارش | کافی‌نت جانا</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
 html,body{
-margin:0;
-min-height:100%;
-font-family:Tahoma,Arial,sans-serif;
-background:#020303;
-color:white;
+    width:100%;
+    min-height:100%;
 }
 
 body{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow-x:hidden;
-position:relative;
+    min-height:100vh;
+
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    color:#fff;
+
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(0,140,255,.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            rgba(0,100,255,.10),
+            transparent 32%
+        ),
+        #020202;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
 }
 
-body:before{
-content:"";
-position:fixed;
-width:500px;
-height:500px;
-background:rgba(0,120,255,.10);
-filter:blur(120px);
-border-radius:50%;
-top:-180px;
-left:-150px;
-pointer-events:none;
+
+/* =====================================================
+   BACKGROUND ORBS
+===================================================== */
+
+body::before{
+    content:"";
+
+    position:fixed;
+
+    width:360px;
+    height:360px;
+
+    background:#008cff;
+
+    opacity:.07;
+
+    filter:blur(110px);
+
+    top:-140px;
+    right:-100px;
+
+    border-radius:50%;
+
+    animation:
+        blueOrb 9s ease-in-out infinite;
+
+    pointer-events:none;
 }
 
-body:after{
-content:"";
-position:fixed;
-width:450px;
-height:450px;
-background:rgba(0,255,100,.06);
-filter:blur(130px);
-border-radius:50%;
-bottom:-200px;
-right:-120px;
-pointer-events:none;
+body::after{
+    content:"";
+
+    position:fixed;
+
+    width:380px;
+    height:380px;
+
+    background:#004cff;
+
+    opacity:.09;
+
+    filter:blur(115px);
+
+    bottom:-150px;
+    left:-110px;
+
+    border-radius:50%;
+
+    animation:
+        blueOrb2 11s ease-in-out infinite;
+
+    pointer-events:none;
 }
 
-.container{
-width:min(1100px,92%);
-text-align:center;
-position:relative;
-z-index:2;
+@keyframes blueOrb{
+
+    0%,100%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(-50px,60px);
+    }
+
 }
 
-.logo{
-font-size:clamp(30px,6vw,58px);
-font-weight:900;
-letter-spacing:2px;
-margin-bottom:12px;
-text-shadow:0 0 25px rgba(255,255,255,.15);
+@keyframes blueOrb2{
+
+    0%,100%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(60px,-50px);
+    }
+
 }
 
-.logo span{
-color:#00ff88;
-text-shadow:0 0 20px rgba(0,255,136,.6);
+
+/* =====================================================
+   MOUSE GLOW
+===================================================== */
+
+#mouseGlow{
+
+    position:fixed;
+
+    width:280px;
+    height:280px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,140,255,.14) 0%,
+            rgba(0,140,255,.06) 25%,
+            transparent 70%
+        );
+
+    transform:
+        translate(-50%,-50%);
+
+    z-index:1;
+
+    filter:blur(2px);
+
+    transition:
+        opacity .25s ease;
+
 }
 
-.subtitle{
-color:#aaa;
-margin-bottom:55px;
-font-size:15px;
+
+/* =====================================================
+   MOUSE CURSOR DOT
+===================================================== */
+
+#cursorDot{
+
+    position:fixed;
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#008cff;
+
+    box-shadow:
+        0 0 7px #008cff,
+        0 0 18px rgba(0,140,255,.75);
+
+    pointer-events:none;
+
+    z-index:9999;
+
+    transform:
+        translate(-50%,-50%);
+
 }
 
-.cards{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:28px;
-}
+
+/* =====================================================
+   MAIN CARD
+===================================================== */
 
 .card{
-position:relative;
-min-height:300px;
-padding:45px 30px;
-border:1px solid rgba(255,255,255,.08);
-border-radius:30px;
-background:rgba(255,255,255,.045);
-backdrop-filter:blur(25px);
--webkit-backdrop-filter:blur(25px);
-box-shadow:
-0 25px 70px rgba(0,0,0,.55),
-inset 0 1px rgba(255,255,255,.08);
-text-decoration:none;
-color:white;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-overflow:hidden;
-transition:.45s cubic-bezier(.2,.8,.2,1);
+
+    position:relative;
+
+    z-index:2;
+
+    width:min(420px,90%);
+
+    padding:
+        40px 30px 30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.025)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.13);
+
+    border-radius:28px;
+
+    backdrop-filter:
+        blur(28px);
+
+    -webkit-backdrop-filter:
+        blur(28px);
+
+    box-shadow:
+
+        0 30px 90px
+        rgba(0,0,0,.75),
+
+        inset 0 1px 0
+        rgba(255,255,255,.10);
+
+    overflow:hidden;
+
+    animation:
+        cardFloat 5s ease-in-out infinite;
+
+    transition:
+        border-color .35s ease,
+        box-shadow .35s ease,
+        transform .35s ease;
+
 }
 
-.card:before{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(
-120deg,
-transparent,
-rgba(0,130,255,.10),
-transparent
-);
-transform:translateX(-100%);
-transition:.6s;
+
+/* نور دنبال‌کننده روی خود کارت */
+
+.card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:190px;
+    height:190px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    left:var(--mx,50%);
+    top:var(--my,50%);
+
+    transform:
+        translate(-50%,-50%);
+background:
+        radial-gradient(
+            circle,
+            rgba(0,140,255,.18),
+            rgba(0,140,255,.05) 35%,
+            transparent 72%
+        );
+
+    opacity:0;
+
+    transition:
+        opacity .25s ease;
+
 }
 
-.card:after{
-content:"";
-position:absolute;
-bottom:0;
-right:12%;
-left:12%;
-height:2px;
-background:#00ff88;
-box-shadow:0 0 20px #00ff88;
-transform:scaleX(0);
-transition:.4s;
+.card:hover::before{
+    opacity:1;
 }
+
+
+/* نور آبی دور کارت */
 
 .card:hover{
-transform:translateY(-14px) scale(1.025);
-border-color:#168cff;
-box-shadow:
-0 30px 90px rgba(0,0,0,.7),
-0 0 30px rgba(0,130,255,.35),
-inset 0 1px rgba(255,255,255,.15);
+
+    border-color:
+        rgba(0,140,255,.42);
+
+    box-shadow:
+
+        0 35px 100px
+        rgba(0,0,0,.82),
+
+        0 0 25px
+        rgba(0,140,255,.16),
+
+        0 0 70px
+        rgba(0,140,255,.07),
+
+        inset 0 1px 0
+        rgba(255,255,255,.12);
+
 }
 
-.card:hover:before{
-transform:translateX(100%);
+@keyframes cardFloat{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-7px);
+    }
+
 }
 
-.card:hover:after{
-transform:scaleX(1);
-}
+
+/* =====================================================
+   ICON
+===================================================== */
 
 .icon{
-font-size:65px;
-margin-bottom:25px;
-filter:drop-shadow(0 0 15px rgba(0,150,255,.3));
+
+    width:76px;
+    height:76px;
+
+    margin:
+        0 auto 20px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:23px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0,140,255,.12),
+            rgba(0,70,255,.07)
+        );
+
+    border:
+        1px solid
+        rgba(0,140,255,.20);
+
+    box-shadow:
+
+        0 0 25px
+        rgba(0,140,255,.07),
+
+        inset 0 0 20px
+        rgba(255,255,255,.025);
+
+    font-size:32px;
+
+    position:relative;
+
+    z-index:2;
+
 }
 
-.card h2{
-margin:0 0 12px;
-font-size:25px;
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+h1{
+
+    text-align:center;
+
+    font-size:24px;
+
+    margin-bottom:10px;
+
+    position:relative;
+
+    z-index:2;
+
 }
 
-.card p{
-margin:0;
-color:#aaa;
-line-height:2;
-font-size:14px;
+h1 span{
+
+    color:#008cff;
+
+    text-shadow:
+        0 0 15px
+        rgba(0,140,255,.40);
+
 }
 
-.badge{
-margin-top:25px;
-padding:9px 18px;
-border-radius:50px;
-background:rgba(0,255,136,.08);
-border:1px solid rgba(0,255,136,.2);
-color:#00ff88;
-font-size:12px;
+
+/* =====================================================
+   SUBTITLE
+===================================================== */
+
+.sub{
+
+    text-align:center;
+
+    color:#888;
+
+    font-size:12px;
+
+    margin-bottom:30px;
+
+    position:relative;
+
+    z-index:2;
+
 }
+
+
+/* =====================================================
+   LABEL
+===================================================== */
+
+label{
+
+    display:block;
+
+    font-size:13px;
+
+    color:#ccc;
+
+    margin-bottom:9px;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+
+/* =====================================================
+   INPUT
+===================================================== */
+
+.inputBox{
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+input{
+
+    width:100%;
+
+    height:56px;
+
+    border-radius:16px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    background:
+        rgba(0,0,0,.48);
+
+    color:#fff;
+
+    outline:none;
+
+    padding:
+        0 17px 0 55px;
+
+    font-size:17px;
+
+    transition:
+        .3s ease;
+
+}
+
+input::placeholder{
+    color:#666;
+}
+
+input:focus{
+
+    border-color:
+        rgba(0,140,255,.70);
+
+    box-shadow:
+
+        0 0 20px
+        rgba(0,140,255,.10),
+
+        inset 0 0 15px
+        rgba(0,140,255,.025);
+
+}
+
+
+/* =====================================================
+   CLASSIC EYE BUTTON
+===================================================== */
+
+#eye{
+
+    position:absolute;
+
+    left:12px;
+    top:50%;
+
+    transform:
+        translateY(-50%);
+
+    width:38px;
+    height:38px;
+
+    border:none;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    color:#777;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+
+    transition:
+        color .25s ease,
+        transform .25s ease;
+
+}
+
+#eye:hover{
+
+    color:#008cff;
+
+    transform:
+        translateY(-50%)
+        scale(1.08);
+
+}
+
+#eye:active{
+
+    transform:
+        translateY(-50%)
+        scale(.92);
+
+}
+
+#eye svg{
+
+    width:24px;
+    height:24px;
+
+    stroke:currentColor;
+
+    fill:none;
+
+    stroke-width:1.7;
+
+    stroke-linecap:round;
+
+    stroke-linejoin:round;
+
+}
+
+
+/* =====================================================
+   LOGIN BUTTON
+===================================================== */
+
+button.login{
+
+    width:100%;
+
+    height:56px;
+
+    margin-top:20px;
+
+    border:none;
+
+    border-radius:16px;
+background:
+        linear-gradient(
+            135deg,
+            #008cff,
+            #0055ff
+        );
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+    box-shadow:
+        0 0 25px
+        rgba(0,140,255,.15);
+
+    position:relative;
+
+    overflow:hidden;
+
+    z-index:2;
+
+}
+
+button.login::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-120%;
+
+    width:80%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            100deg,
+            transparent,
+            rgba(255,255,255,.35),
+            transparent
+        );
+
+    transform:skewX(-20deg);
+
+    transition:
+        left .6s ease;
+
+}
+
+button.login:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+
+        0 10px 35px
+        rgba(0,140,255,.25),
+
+        0 0 25px
+        rgba(0,140,255,.12);
+
+}
+
+button.login:hover::before{
+    left:140%;
+}
+
+button.login:active{
+
+    transform:
+        scale(.97);
+
+}
+
+
+/* =====================================================
+   BACK BUTTON
+===================================================== */
+
+.backBtn{
+
+    width:100%;
+
+    height:46px;
+
+    margin-top:12px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    text-decoration:none;
+
+    color:#aaa;
+
+    font-size:13px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    border-radius:14px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    transition:
+        .3s ease;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.backBtn:hover{
+
+    color:#008cff;
+
+    border-color:
+        rgba(0,140,255,.35);
+
+    background:
+        rgba(0,140,255,.045);
+
+    box-shadow:
+        0 0 20px
+        rgba(0,140,255,.08);
+
+    transform:
+        translateY(-2px);
+
+}
+
+.backBtn:active{
+
+    transform:
+        scale(.97);
+
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+#error{
+
+    text-align:center;
+
+    color:#ff536b;
+
+    font-size:12px;
+
+    min-height:20px;
+
+    margin-top:12px;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
 
 .footer{
-margin-top:45px;
-color:#555;
-font-size:12px;
+
+    text-align:center;
+
+    margin-top:22px;
+
+    color:#444;
+
+    font-size:9px;
+
+    letter-spacing:1px;
+
+    position:relative;
+
+    z-index:2;
+
 }
 
-@media(max-width:700px){
-.cards{
-grid-template-columns:1fr;
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px){
+
+    body{
+        overflow:hidden;
+    }
+
+    .card{
+
+        width:
+            calc(100% - 30px);
+
+        padding:
+            32px 20px 25px;
+
+        border-radius:24px;
+
+    }
+
+    h1{
+        font-size:21px;
+    }
+
+    .icon{
+
+        width:70px;
+        height:70px;
+
+        border-radius:20px;
+
+    }
+
+    input,
+    button.login{
+
+        height:55px;
+
+    }
+
 }
-.card{
-min-height:230px;
+
+
+/* =====================================================
+   TOUCH
+===================================================== */
+
+@media(hover:none){
+
+    .card{
+        animation:
+            cardFloat 5s ease-in-out infinite;
+    }
+
+    .card:active{
+
+        border-color:
+            rgba(0,140,255,.45);
+
+        box-shadow:
+
+            0 0 30px
+            rgba(0,140,255,.16);
+
+    }
+
 }
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation:none !important;
+
+        transition:none !important;
+
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div id="mouseGlow"></div>
+
+<div id="cursorDot"></div>
+
+
+<div class="card">
+
+
+    <div class="icon">
+        📊
+    </div>
+
+
+    <h1>
+        ورود به
+        <span>خروجی گزارش</span>
+    </h1>
+
+
+    <div class="sub">
+        کافی‌نت جانا • مشاهده گزارش مالی
+    </div>
+
+
+    <label>
+        رمز عبور
+    </label>
+
+
+    <div class="inputBox">
+<input
+            id="password"
+            type="password"
+            placeholder="رمز عبور را وارد کنید"
+            autocomplete="off"
+        >
+
+
+        <button
+            id="eye"
+            type="button"
+            aria-label="نمایش رمز"
+        >
+
+            <svg
+                id="eyeOff"
+                viewBox="0 0 24 24"
+            >
+
+                <path
+                    d="
+                    M2.5 12
+                    C4.5 8
+                    8 6
+                    12 6
+                    C16 6
+                    19.5 8
+                    21.5 12
+                    C19.5 16
+                    16 18
+                    12 18
+                    C8 18
+                    4.5 16
+                    2.5 12Z
+                    "
+                />
+
+                <circle
+                    cx="12"
+                    cy="12"
+                    r="2.5"
+                />
+
+                <path
+                    d="M4 4 L20 20"
+                />
+
+            </svg>
+
+
+            <svg
+                id="eyeOn"
+                viewBox="0 0 24 24"
+                style="display:none"
+            >
+
+                <path
+                    d="
+                    M2.5 12
+                    C4.5 8
+                    8 6
+                    12 6
+                    C16 6
+                    19.5 8
+                    21.5 12
+                    C19.5 16
+                    16 18
+                    12 18
+                    C8 18
+                    4.5 16
+                    2.5 12Z
+                    "
+                />
+
+                <circle
+                    cx="12"
+                    cy="12"
+                    r="2.5"
+                />
+
+            </svg>
+
+        </button>
+
+    </div>
+
+
+    <button
+        class="login"
+        id="loginButton"
+        type="button"
+    >
+        ورود به گزارش
+    </button>
+
+
+    <a
+        href="index.html"
+        class="backBtn"
+    >
+        ← بازگشت به صفحه اصلی
+    </a>
+
+
+    <div id="error"></div>
+
+
+    <div class="footer">
+        JANA CYBER CAFE • SECURE REPORT ACCESS
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const password =
+    document.getElementById("password");
+
+const eye =
+    document.getElementById("eye");
+
+const eyeOff =
+    document.getElementById("eyeOff");
+
+const eyeOn =
+    document.getElementById("eyeOn");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const error =
+    document.getElementById("error");
+
+const card =
+    document.querySelector(".card");
+
+const mouseGlow =
+    document.getElementById("mouseGlow");
+
+const cursorDot =
+    document.getElementById("cursorDot");
+
+
+/* =====================================================
+   SHOW / HIDE PASSWORD
+===================================================== */
+
+eye.addEventListener(
+    "click",
+    function(){
+
+        if(
+            password.type ===
+            "password"
+        ){
+
+            password.type =
+                "text";
+
+            eyeOff.style.display =
+                "none";
+
+            eyeOn.style.display =
+                "block";
+
+            eye.setAttribute(
+                "aria-label",
+                "مخفی کردن رمز"
+            );
+
+        }else{
+
+            password.type =
+                "password";
+
+            eyeOff.style.display =
+                "block";
+
+            eyeOn.style.display =
+                "none";
+
+            eye.setAttribute(
+                "aria-label",
+                "نمایش رمز"
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function login(){
+
+    const pass =
+        password.value.trim();
+
+
+    if(pass === "1111"){
+
+        error.textContent = "";
+
+        card.style.transform =
+            "scale(.97)";
+
+
+        setTimeout(
+            function(){
+
+                window.location.href =
+                    "./output.html";
+},
+            150
+        );
+
+
+    }else{
+
+        error.textContent =
+            "رمز عبور اشتباه است";
+
+
+        password.value = "";
+
+
+        password.focus();
+
+
+        card.animate(
+            [
+                {
+                    transform:
+                        "translateX(0)"
+                },
+
+                {
+                    transform:
+                        "translateX(-7px)"
+                },
+
+                {
+                    transform:
+                        "translateX(7px)"
+                },
+
+                {
+                    transform:
+                        "translateX(-5px)"
+                },
+
+                {
+                    transform:
+                        "translateX(5px)"
+                },
+
+                {
+                    transform:
+                        "translateX(0)"
+                }
+            ],
+            {
+                duration:350
+            }
+        );
+
+    }
+
+}
+
+
+loginButton.addEventListener(
+    "click",
+    login
+);
+
+
+/* =====================================================
+   ENTER
+===================================================== */
+
+password.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key ===
+            "Enter"
+        ){
+
+            login();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   MOUSE POSITION
+===================================================== */
+
+document.addEventListener(
+    "mousemove",
+    function(event){
+
+        const x =
+            event.clientX;
+
+        const y =
+            event.clientY;
+
+
+        mouseGlow.style.left =
+            x + "px";
+
+        mouseGlow.style.top =
+            y + "px";
+
+
+        cursorDot.style.left =
+            x + "px";
+
+        cursorDot.style.top =
+            y + "px";
+
+
+        const rect =
+            card.getBoundingClientRect();
+
+
+        const insideX =
+            x - rect.left;
+
+        const insideY =
+            y - rect.top;
+
+
+        card.style.setProperty(
+            "--mx",
+            insideX + "px"
+        );
+
+        card.style.setProperty(
+            "--my",
+            insideY + "px"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   TOUCH
+===================================================== */
+
+document.addEventListener(
+    "touchstart",
+    function(){
+
+        mouseGlow.style.opacity =
+            ".9";
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+document.addEventListener(
+    "touchend",
+    function(){
+
+        mouseGlow.style.opacity =
+            ".25";
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+/* =====================================================
+   INITIAL FOCUS
+===================================================== */
+
+window.addEventListener(
+    "load",
+    function(){
+
+        password.focus();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خروجی گزارش | کافی‌نت جانا</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    background:#020508;
+    color:white;
+    font-family:Tahoma,Arial,sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+/* پس زمینه */
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    width:420px;
+    height:420px;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:.22;
+    pointer-events:none;
+}
+
+body::before{
+    background:#0077ff;
+    top:-180px;
+    right:-100px;
+}
+
+body::after{
+    background:#00aaff;
+    bottom:-200px;
+    left:-100px;
+}
+
+/* نور دنبال کننده موس */
+.mouseGlow{
+    position:fixed;
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    pointer-events:none;
+    background:radial-gradient(
+        circle,
+        rgba(0,140,255,.18) 0%,
+        rgba(0,100,255,.08) 35%,
+        transparent 70%
+    );
+    transform:translate(-50%,-50%);
+    z-index:1;
+}
+
+/* نقطه موس */
+.cursorDot{
+    position:fixed;
+    width:7px;
+    height:7px;
+    background:#38aaff;
+    border-radius:50%;
+    box-shadow:
+        0 0 8px #008cff,
+        0 0 18px #008cff,
+        0 0 30px rgba(0,140,255,.8);
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    z-index:9999;
+}
+
+/* کارت */
+.loginBox{
+    position:relative;
+    z-index:5;
+    width:min(420px,90%);
+    padding:38px 32px;
+    border-radius:25px;
+
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(80,170,255,.22);
+
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.55),
+        inset 0 0 35px rgba(0,130,255,.035);
+
+    text-align:center;
+    transition:.35s ease;
+}
+
+.loginBox:hover{
+    transform:translateY(-5px);
+    border-color:rgba(40,150,255,.45);
+    box-shadow:
+        0 30px 90px rgba(0,0,0,.6),
+        0 0 35px rgba(0,120,255,.08);
+}
+
+/* آیکون */
+.icon{
+    width:76px;
+    height:76px;
+    margin:0 auto 18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:22px;
+
+    background:rgba(0,120,255,.09);
+    border:1px solid rgba(50,160,255,.25);
+
+    font-size:34px;
+
+    box-shadow:
+        0 0 25px rgba(0,130,255,.12);
+}
+
+/* عنوان */
+h1{
+    font-size:25px;
+    margin-bottom:10px;
+    letter-spacing:.3px;
+}
+
 .subtitle{
-margin-bottom:30px;
+    color:#8fb9df;
+    font-size:13px;
+    margin-bottom:28px;
 }
+
+/* ورودی */
+.inputBox{
+    position:relative;
+    margin-bottom:18px;
+}
+
+input{
+    width:100%;
+    height:56px;
+    padding:0 18px 0 52px;
+
+    border-radius:15px;
+    border:1px solid rgba(100,180,255,.2);
+
+    outline:none;
+
+    background:rgba(0,0,0,.28);
+    color:white;
+
+    font-size:18px;
+    text-align:center;
+
+    transition:.3s;
+}
+
+input:focus{
+    border-color:#168cff;
+    box-shadow:
+        0 0 0 3px rgba(0,130,255,.08),
+        0 0 25px rgba(0,130,255,.1);
+}
+
+input::placeholder{
+    color:#6f8192;
+}
+
+/* چشم */
+.eye{
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+
+    width:27px;
+    height:27px;
+
+    cursor:pointer;
+
+    opacity:.7;
+    transition:.25s;
+}
+
+.eye:hover{
+    opacity:1;
+    filter:drop-shadow(0 0 6px #008cff);
+}
+
+.eye svg{
+    width:100%;
+    height:100%;
+    fill:none;
+    stroke:#4faeff;
+    stroke-width:1.8;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+/* دکمه */
+.loginBtn{
+    width:100%;
+    height:56px;
+
+    border:none;
+    border-radius:15px;
+
+    background:linear-gradient(
+        135deg,
+        #006eff,
+        #00a2ff
+    );
+
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 10px 30px rgba(0,110,255,.18);
+
+    transition:.3s;
+}
+
+.loginBtn:hover{
+    transform:translateY(-2px);
+    box-shadow:
+        0 15px 40px rgba(0,130,255,.3);
+}
+
+.loginBtn:active{
+    transform:scale(.98);
+}
+/* برگشت */
+.back{
+    display:inline-block;
+    margin-top:22px;
+
+    color:#729bc1;
+    text-decoration:none;
+    font-size:13px;
+
+    transition:.25s;
+}
+
+.back:hover{
+    color:#38aaff;
+    text-shadow:0 0 10px rgba(0,140,255,.5);
+}
+
+/* خطا */
+.error{
+    color:#ff5d5d;
+    font-size:13px;
+    margin-top:14px;
+    min-height:18px;
+}
+
+.shake{
+    animation:shake .35s ease;
+}
+
+@keyframes shake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-8px)}
+    50%{transform:translateX(8px)}
+    75%{transform:translateX(-5px)}
+}
+
+/* موبایل */
+@media(max-width:500px){
+    .loginBox{
+        padding:32px 22px;
+    }
+
+    h1{
+        font-size:22px;
+    }
+}
+
+/* کاهش حرکت */
+@media(prefers-reduced-motion:reduce){
+    *{
+        animation:none!important;
+        transition:none!important;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="mouseGlow" id="mouseGlow"></div>
+<div class="cursorDot" id="cursorDot"></div>
 
-<div class="logo">
-کافی‌نت <span>جانـــــــا</span>
+<div class="loginBox" id="loginBox">
+
+    <div class="icon">📊</div>
+
+    <h1>ورود به خروجی گزارش</h1>
+
+    <div class="subtitle">
+        کافی‌نت جانا • مشاهده گزارش مالی
+    </div>
+
+    <div class="inputBox">
+
+        <input
+            id="password"
+            type="password"
+            placeholder="رمز ورود"
+            autocomplete="off"
+        >
+
+        <div class="eye" id="eye">
+
+            <svg viewBox="0 0 24 24">
+                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+
+        </div>
+
+    </div>
+
+    <button class="loginBtn" id="loginBtn">
+        ورود به گزارش
+    </button>
+
+    <div class="error" id="error"></div>
+
+    <a class="back" href="./index.html">
+        ← بازگشت به صفحه اصلی
+    </a>
+
 </div>
 
-<div class="subtitle">
-سامانه مدیریت و گزارش مالی
+<script>
+
+/* =========================
+   ورود
+========================= */
+
+const password = document.getElementById("password");
+const loginBtn = document.getElementById("loginBtn");
+const error = document.getElementById("error");
+const loginBox = document.getElementById("loginBox");
+
+function login(){
+
+    if(password.value === "1111"){
+
+        error.textContent = "";
+
+        window.location.href = "./output.html";
+
+    }else{
+
+        error.textContent = "رمز ورود اشتباه است";
+
+        loginBox.classList.remove("shake");
+
+        void loginBox.offsetWidth;
+
+        loginBox.classList.add("shake");
+
+        password.value = "";
+        password.focus();
+    }
+}
+
+loginBtn.addEventListener("click", login);
+
+password.addEventListener("keydown", function(e){
+
+    if(e.key === "Enter"){
+        login();
+    }
+
+});
+
+
+/* =========================
+   نمایش / مخفی کردن رمز
+========================= */
+
+const eye = document.getElementById("eye");
+
+eye.addEventListener("click", function(){
+
+    if(password.type === "password"){
+
+        password.type = "text";
+
+    }else{
+
+        password.type = "password";
+
+    }
+
+});
+
+
+/* =========================
+   نشانگر موس
+========================= */
+
+const mouseGlow = document.getElementById("mouseGlow");
+const cursorDot = document.getElementById("cursorDot");
+
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+
+let glowX = mouseX;
+let glowY = mouseY;
+
+document.addEventListener("mousemove", function(e){
+
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    cursorDot.style.left = mouseX + "px";
+    cursorDot.style.top = mouseY + "px";
+
+});
+
+
+function animateGlow(){
+
+    glowX += (mouseX - glowX) * 0.09;
+    glowY += (mouseY - glowY) * 0.09;
+
+    mouseGlow.style.left = glowX + "px";
+    mouseGlow.style.top = glowY + "px";
+
+    requestAnimationFrame(animateGlow);
+}
+
+animateGlow();
+
+
+/* =========================
+   لمس موبایل
+========================= */
+
+document.addEventListener("touchmove", function(e){
+
+    if(e.touches.length){
+
+        const touch = e.touches[0];
+
+        mouseX = touch.clientX;
+        mouseY = touch.clientY;
+
+        cursorDot.style.left = mouseX + "px";
+        cursorDot.style.top = mouseY + "px";
+    }
+
+},{passive:true});
+
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>کافی‌نت جانا</title>
+
+<!-- پشتیبانی از data.js -->
+<script src="./data.js"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+}
+
+body{
+
+    min-height:100vh;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(0,255,140,.07),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(0,120,255,.07),
+            transparent 30%
+        ),
+        #020505;
+
+    color:#fff;
+
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+
+}
+
+
+/* =========================================
+   پس زمینه
+========================================= */
+
+.bgOrb{
+
+    position:fixed;
+
+    width:420px;
+    height:420px;
+
+    border-radius:50%;
+
+    filter:blur(110px);
+
+    opacity:.15;
+
+    pointer-events:none;
+
+    z-index:0;
+
+}
+
+.orbGreen{
+
+    background:#00ff88;
+
+    top:-220px;
+    right:-150px;
+
+}
+
+.orbBlue{
+
+    background:#008cff;
+
+    bottom:-220px;
+    left:-150px;
+
+}
+
+
+/* =========================================
+   نور دنبال کننده موس
+========================================= */
+
+.mouseGlow{
+
+    position:fixed;
+
+    width:320px;
+    height:320px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,255,150,.14) 0%,
+            rgba(0,170,255,.08) 35%,
+            transparent 72%
+        );
+
+    transform:translate(-50%,-50%);
+
+    z-index:1;
+
+}
+
+
+/* =========================================
+   نقطه موس
+========================================= */
+
+.cursorDot{
+
+    position:fixed;
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#31ff9b;
+
+    box-shadow:
+
+        0 0 7px #00ff88,
+        0 0 16px #00ff88,
+        0 0 30px rgba(0,255,140,.8);
+
+    pointer-events:none;
+
+    transform:translate(-50%,-50%);
+
+    z-index:9999;
+
+}
+
+
+/* =========================================
+   کانتینر اصلی
+========================================= */
+
+.main{
+
+    position:relative;
+
+    z-index:5;
+
+    width:min(900px,92%);
+
+    text-align:center;
+
+}
+
+
+/* =========================================
+   عنوان
+========================================= */
+
+.logo{
+
+    margin-bottom:55px;
+
+}
+
+.logo h1{
+
+    font-size:clamp(28px,6vw,52px);
+
+    font-weight:bold;
+
+    letter-spacing:1px;
+
+    text-shadow:
+
+        0 0 10px rgba(0,255,140,.15),
+        0 0 30px rgba(0,255,140,.08);
+
+}
+
+.logo h1 span{
+
+    color:#20ff91;
+
+}
+
+.logo p{
+
+    margin-top:12px;
+
+    color:#81958d;
+
+    font-size:14px;
+
+}
+
+
+/* =========================================
+   کارت ها
+========================================= */
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:28px;
+
+}
+
+
+/* =========================================
+   کارت اصلی
+========================================= */
+
+.card{
+
+    position:relative;
+
+    min-height:260px;
+
+    border-radius:30px;
+
+    padding:35px;
+
+    text-decoration:none;
+
+    color:#fff;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    overflow:hidden;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.07),
+            rgba(255,255,255,.025)
+        );
+
+    border:1px solid rgba(255,255,255,.10);
+
+    backdrop-filter:blur(22px);
+
+    -webkit-backdrop-filter:blur(22px);
+
+    box-shadow:
+
+        0 25px 70px rgba(0,0,0,.45),
+
+        inset 0 0 30px
+        rgba(255,255,255,.015);
+
+    transition:
+
+        transform .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
+
+}
+
+
+/* نور داخل کارت */
+
+.card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    border-radius:50%;
+
+    filter:blur(70px);
+
+    opacity:.15;
+
+    transition:.4s;
+
+}
+/* خط نور پایین */
+
+.card::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:15%;
+
+    right:15%;
+
+    bottom:0;
+
+    height:2px;
+
+    border-radius:100%;
+
+    opacity:.5;
+
+    transition:.35s;
+
+}
+
+
+/* =========================================
+   کارت ورودی
+========================================= */
+
+.inputCard::before{
+
+    background:#00ff88;
+
+    top:-80px;
+    right:-70px;
+
+}
+
+.inputCard::after{
+
+    background:#00ff88;
+
+    box-shadow:
+
+        0 0 12px #00ff88,
+        0 0 30px rgba(0,255,136,.6);
+
+}
+
+
+/* =========================================
+   کارت خروجی
+========================================= */
+
+.outputCard::before{
+
+    background:#008cff;
+
+    bottom:-80px;
+    left:-70px;
+
+}
+
+.outputCard::after{
+
+    background:#168cff;
+
+    box-shadow:
+
+        0 0 12px #168cff,
+        0 0 30px rgba(0,140,255,.6);
+
+}
+
+
+/* =========================================
+   Hover
+========================================= */
+
+.card:hover{
+
+    transform:
+        translateY(-10px)
+        scale(1.015);
+
+}
+
+.inputCard:hover{
+
+    border-color:
+        rgba(0,255,136,.4);
+
+    box-shadow:
+
+        0 35px 90px rgba(0,0,0,.55),
+
+        0 0 35px rgba(0,255,136,.08);
+
+}
+
+.outputCard:hover{
+
+    border-color:
+        rgba(0,140,255,.4);
+
+    box-shadow:
+
+        0 35px 90px rgba(0,0,0,.55),
+
+        0 0 35px rgba(0,140,255,.08);
+
+}
+
+.card:hover::before{
+
+    opacity:.25;
+
+}
+
+.card:hover::after{
+
+    left:8%;
+    right:8%;
+
+    opacity:1;
+
+}
+
+
+/* =========================================
+   آیکون
+========================================= */
+
+.icon{
+
+    width:85px;
+    height:85px;
+
+    border-radius:25px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:38px;
+
+    margin-bottom:22px;
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid rgba(255,255,255,.10);
+
+    backdrop-filter:blur(10px);
+
+    transition:.35s;
+
+}
+
+
+.inputCard:hover .icon{
+
+    transform:
+        translateY(-4px)
+        rotate(-2deg);
+
+    box-shadow:
+        0 0 30px rgba(0,255,136,.15);
+
+}
+
+.outputCard:hover .icon{
+
+    transform:
+        translateY(-4px)
+        rotate(2deg);
+
+    box-shadow:
+        0 0 30px rgba(0,140,255,.15);
+
+}
+
+
+/* =========================================
+   عنوان کارت
+========================================= */
+
+.card h2{
+
+    font-size:25px;
+
+    margin-bottom:10px;
+
+}
+
+
+.inputCard h2{
+
+    color:#39ff9d;
+
+}
+
+.outputCard h2{
+
+    color:#46aaff;
+
+}
+
+
+/* =========================================
+   توضیح کارت
+========================================= */
+
+.card p{
+
+    color:#84918d;
+
+    font-size:13px;
+
+    line-height:1.8;
+
+}
+
+
+/* =========================================
+   فلش
+========================================= */
+
+.arrow{
+
+    margin-top:18px;
+
+    font-size:22px;
+
+    opacity:.55;
+
+    transition:.3s;
+
+}
+
+.card:hover .arrow{
+
+    opacity:1;
+
+    transform:
+        translateX(-6px);
+
+}
+
+
+/* =========================================
+   پایین صفحه
+========================================= */
+
+.footer{
+
+    margin-top:45px;
+
+    color:#4e5b57;
+
+    font-size:11px;
+
+}
+
+.footer span{
+
+    color:#1c9e66;
+
+}
+
+
+/* =========================================
+   موبایل
+========================================= */
+
+@media(max-width:650px){
+
+    body{
+
+        overflow:auto;
+
+    }
+
+    .main{
+
+        padding:
+            45px 0;
+
+    }
+
+    .logo{
+
+        margin-bottom:35px;
+
+    }
+
+    .cards{
+
+        grid-template-columns:1fr;
+
+        gap:18px;
+
+    }
+
+    .card{
+
+        min-height:220px;
+
+        padding:28px;
+
+    }
+
+    .icon{
+
+        width:70px;
+        height:70px;
+
+        font-size:30px;
+
+        margin-bottom:17px;
+
+    }
+
+    .card h2{
+
+        font-size:22px;
+
+    }
+
+}
+
+
+/* =========================================
+   کاهش حرکت
+========================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    *{
+
+        animation:none!important;
+
+        transition:none!important;
+
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- پس زمینه -->
+
+<div class="bgOrb orbGreen"></div>
+<div class="bgOrb orbBlue"></div>
+
+
+<!-- نور موس -->
+<div
+    class="mouseGlow"
+    id="mouseGlow">
 </div>
 
-<div class="cards">
 
-<a class="card" href="input.html">
-<div class="icon">📥</div>
-<h2>ورودی گزارش</h2>
-<p>ثبت و مدیریت تراکنش‌ها، درآمدها و اطلاعات مالی</p>
-<div class="badge">ورود به بخش ثبت</div>
-</a>
+<!-- نقطه موس -->
 
-<a class="card" href="output.html">
-<div class="icon">📊</div>
-<h2>خروجی گزارش</h2>
-<p>مشاهده درآمد، آمار، نمودار و گزارش تراکنش‌ها</p>
-<div class="badge">مشاهده گزارش</div>
-</a>
-
+<div
+    class="cursorDot"
+    id="cursorDot">
 </div>
 
-<div class="footer">
-JANA CYBER CAFE • MANAGEMENT SYSTEM
-</div>
 
-</div>
+
+<main class="main">
+
+
+    <!-- عنوان -->
+
+    <div class="logo">
+
+        <h1>
+            کافی‌نت
+            <span>جانـــــــا</span>
+        </h1>
+
+        <p>
+            سامانه مدیریت و گزارش کافی‌نت
+        </p>
+
+    </div>
+
+
+
+    <!-- کارت ها -->
+
+    <div class="cards">
+
+
+        <!-- =========================
+             ورودی گزارش
+        ========================== -->
+
+        <a
+            href="./input.html"
+            class="card inputCard"
+        >
+
+            <div class="icon">
+                📝
+            </div>
+
+            <h2>
+                ورودی گزارش
+            </h2>
+
+            <p>
+                ثبت و مدیریت اطلاعات،
+                تراکنش‌ها و گزارش‌های روزانه
+            </p>
+
+            <div class="arrow">
+                ←
+            </div>
+
+        </a>
+
+
+
+        <!-- =========================
+             خروجی گزارش
+        ========================== -->
+
+        <a
+            href="./output-login.html"
+            class="card outputCard"
+        >
+
+            <div class="icon">
+                📊
+            </div>
+
+            <h2>
+                خروجی گزارش
+            </h2>
+
+            <p>
+                مشاهده درآمد،
+                تراکنش‌ها و گزارش‌های مالی
+            </p>
+
+            <div class="arrow">
+                ←
+            </div>
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- فوتر -->
+
+    <div class="footer">
+
+        کافی‌نت جانا
+        <span>•</span>
+        سیستم مدیریت گزارش
+
+    </div>
+
+
+</main>
+
+
+
+<script>
+
+/* =========================================
+   اطلاعات data.js
+========================================= */
+
+/*
+   این بخش فقط برای اطمینان است که
+   data.js بدون خطا لود شده.
+
+   بعداً output.html از cafeData
+   استفاده خواهد کرد.
+*/
+
+if(typeof cafeData !== "undefined"){
+
+    console.log(
+        "Cafe data loaded:",
+        cafeData
+    );
+
+}else{
+
+    console.warn(
+        "data.js پیدا نشد یا cafeData تعریف نشده است."
+    );
+
+}
+
+
+/* =========================================
+   نشانگر موس
+========================================= */
+
+const mouseGlow =
+    document.getElementById("mouseGlow");
+
+const cursorDot =
+    document.getElementById("cursorDot");
+
+
+let mouseX =
+    window.innerWidth / 2;
+
+let mouseY =
+    window.innerHeight / 2;
+
+
+let glowX =
+    mouseX;
+
+let glowY =
+    mouseY;
+
+
+
+document.addEventListener(
+    "mousemove",
+    function(e){
+
+        mouseX = e.clientX;
+
+        mouseY = e.clientY;
+
+
+        cursorDot.style.left =
+            mouseX + "px";
+
+        cursorDot.style.top =
+            mouseY + "px";
+
+    }
+);
+
+
+
+function animateGlow(){
+
+    glowX +=
+        (mouseX - glowX) * .08;
+
+    glowY +=
+        (mouseY - glowY) * .08;
+
+
+    mouseGlow.style.left =
+        glowX + "px";
+
+    mouseGlow.style.top =
+        glowY + "px";
+
+
+    requestAnimationFrame(
+        animateGlow
+    );
+
+}
+
+
+animateGlow();
+
+
+
+/* =========================================
+   پشتیبانی لمس موبایل
+========================================= */
+
+document.addEventListener(
+    "touchmove",
+    function(e){
+
+        if(!e.touches.length)
+            return;
+
+
+        const touch =
+            e.touches[0];
+
+
+        mouseX =
+            touch.clientX;
+
+        mouseY =
+            touch.clientY;
+
+
+        cursorDot.style.left =
+            mouseX + "px";
+
+        cursorDot.style.top =
+            mouseY + "px";
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+
+/* =========================================
+   افکت ورود کارت ها
+========================================= */
+
+const cards =
+    document.querySelectorAll(".card");
+
+
+cards.forEach(function(card,index){
+
+    card.style.opacity = "0";
+
+    card.style.transform =
+        "translateY(20px)";
+
+
+    setTimeout(function(){
+
+        card.style.transition =
+            "opacity .6s ease, transform .6s ease";
+
+        card.style.opacity = "1";
+
+        card.style.transform =
+            "translateY(0)";
+
+    },150 + (index * 150));
+
+});
+
+</script>
 
 </body>
 </html>
