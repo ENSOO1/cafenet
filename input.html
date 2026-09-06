@@ -1,1 +1,237 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>ورودی گزارش | کافی‌نت جانا</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+min-height:100vh;
+
+font-family:Tahoma,Arial,sans-serif;
+
+color:white;
+
+background:
+radial-gradient(circle at 20% 20%,
+rgba(0,255,100,.10),
+transparent 30%),
+
+radial-gradient(circle at 80% 80%,
+rgba(0,120,255,.10),
+transparent 30%),
+
+#030303;
+
+padding:25px;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+margin-bottom:30px;
+}
+
+h1{
+font-size:28px;
+}
+
+h1 span{
+color:#00ff66;
+}
+
+.back{
+text-decoration:none;
+color:white;
+
+padding:12px 20px;
+
+border-radius:13px;
+
+background:rgba(255,255,255,.06);
+
+border:1px solid rgba(255,255,255,.12);
+
+backdrop-filter:blur(15px);
+}
+
+.panel{
+padding:25px;
+
+border-radius:22px;
+
+background:rgba(255,255,255,.045);
+
+border:1px solid rgba(255,255,255,.1);
+
+backdrop-filter:blur(20px);
+
+margin-bottom:25px;
+}
+
+.panel h2{
+margin-top:0;
+}
+
+.form{
+display:grid;
+grid-template-columns:1fr 1fr 1fr auto;
+gap:12px;
+}
+
+input,
+select{
+width:100%;
+
+padding:14px;
+
+border-radius:12px;
+
+border:1px solid rgba(255,255,255,.1);
+
+background:#111;
+
+color:white;
+
+outline:none;
+}
+
+button{
+padding:14px 22px;
+
+border:0;
+
+border-radius:12px;
+
+background:#00ff66;
+
+color:#000;
+
+font-weight:bold;
+
+cursor:pointer;
+}
+
+.info{
+text-align:center;
+
+padding:40px;
+
+color:#777;
+}
+
+@media(max-width:750px){
+
+.form{
+grid-template-columns:1fr;
+}
+
+.header{
+align-items:flex-start;
+gap:15px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>
+ورودی <span>گزارش</span>
+</h1>
+
+<a href="index.html" class="back">
+← بازگشت
+</a>
+
+</div>
+
+
+<div class="panel">
+
+<h2>
+📝 ثبت گزارش جدید
+</h2>
+
+<div class="form">
+
+<input
+type="text"
+placeholder="نام مشتری"
+>
+
+<input
+type="number"
+placeholder="مبلغ"
+>
+
+<select>
+
+<option>
+کارتخوان
+</option>
+
+<option>
+نقدی
+</option>
+
+<option>
+کارت به کارت
+</option>
+
+</select>
+
+<button>
+ثبت
+</button>
+
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<h2>
+🧾 تراکنش‌ها
+</h2>
+
+<div class="info">
+
+هنوز گزارشی ثبت نشده است.
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
