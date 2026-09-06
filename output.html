@@ -30,10 +30,10 @@ rgba(0,255,100,.08),
 transparent 30%),
 
 radial-gradient(circle at 80% 80%,
-rgba(0,120,255,.10),
+rgba(0,120,255,.16),
 transparent 30%),
 
-#030303;
+#020202;
 
 padding:25px;
 }
@@ -47,7 +47,6 @@ margin:auto;
 display:flex;
 justify-content:space-between;
 align-items:center;
-
 margin-bottom:30px;
 }
 
@@ -56,7 +55,10 @@ font-size:28px;
 }
 
 h1 span{
-color:#00aaff;
+color:#008cff;
+
+text-shadow:
+0 0 15px rgba(0,140,255,.6);
 }
 
 .back{
@@ -71,17 +73,81 @@ background:rgba(255,255,255,.06);
 
 border:1px solid rgba(255,255,255,.12);
 
-backdrop-filter:blur(15px);
+backdrop-filter:blur(20px);
+
+transition:.3s;
+}
+
+.back:hover{
+border-color:#008cff;
+
+box-shadow:
+0 0 25px rgba(0,140,255,.2);
+}
+
+.total{
+display:flex;
+justify-content:center;
+margin-bottom:30px;
+}
+
+.circle{
+width:240px;
+height:240px;
+
+border-radius:50%;
+
+display:flex;
+flex-direction:column;
+
+justify-content:center;
+align-items:center;
+
+border:1px solid rgba(0,140,255,.45);
+
+background:
+radial-gradient(
+circle,
+rgba(0,140,255,.16),
+rgba(255,255,255,.025)
+);
+
+box-shadow:
+0 0 30px rgba(0,140,255,.12),
+inset 0 0 40px rgba(0,140,255,.06);
+
+animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+
+0%,100%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-8px);
+}
+
+}
+
+.circle small{
+color:#888;
+margin-bottom:12px;
+}
+
+.circle strong{
+font-size:27px;
+color:#00aaff;
+
+text-shadow:
+0 0 15px rgba(0,170,255,.5);
 }
 
 .cards{
 display:grid;
-
-grid-template-columns:
-repeat(3,1fr);
-
+grid-template-columns:repeat(3,1fr);
 gap:20px;
-
 margin-bottom:25px;
 }
 
@@ -94,67 +160,28 @@ background:rgba(255,255,255,.045);
 
 border:1px solid rgba(255,255,255,.1);
 
-backdrop-filter:blur(20px);
+backdrop-filter:blur(22px);
 
-transition:.3s;
+transition:.35s;
 }
 
 .card:hover{
-transform:translateY(-7px);
+transform:translateY(-8px);
 
-border-color:#00aaff;
+border-color:#008cff;
+
+box-shadow:
+0 15px 40px rgba(0,0,0,.5),
+0 0 25px rgba(0,140,255,.12);
 }
 
 .card h3{
 color:#888;
-
 font-size:15px;
 }
 
 .card strong{
-font-size:25px;
-}
-
-.total{
-display:flex;
-justify-content:center;
-
-margin-bottom:25px;
-}
-
-.circle{
-width:230px;
-height:230px;
-
-border-radius:50%;
-
-display:flex;
-flex-direction:column;
-
-justify-content:center;
-align-items:center;
-
-border:1px solid rgba(0,170,255,.4);
-
-background:
-radial-gradient(
-circle,
-rgba(0,170,255,.12),
-rgba(255,255,255,.02)
-);
-
-box-shadow:
-0 0 50px rgba(0,170,255,.08);
-}
-
-.circle small{
-color:#888;
-margin-bottom:10px;
-}
-
-.circle strong{
-font-size:26px;
-color:#00aaff;
+font-size:23px;
 }
 
 .panel{
@@ -166,14 +193,12 @@ background:rgba(255,255,255,.04);
 
 border:1px solid rgba(255,255,255,.1);
 
-backdrop-filter:blur(20px);
+backdrop-filter:blur(22px);
 }
 
 .info{
 text-align:center;
-
 padding:40px;
-
 color:#777;
 }
 
@@ -204,7 +229,10 @@ gap:15px;
 خروجی <span>گزارش</span>
 </h1>
 
-<a href="index.html" class="back">
+<a
+href="index.html"
+class="back"
+>
 ← بازگشت
 </a>
 
@@ -232,9 +260,7 @@ gap:15px;
 
 <div class="card">
 
-<h3>
-💳 کارتخوان
-</h3>
+<h3>💳 کارتخوان</h3>
 
 <strong>
 ۰ تومان
@@ -245,9 +271,7 @@ gap:15px;
 
 <div class="card">
 
-<h3>
-💵 نقدی
-</h3>
+<h3>💵 نقدی</h3>
 
 <strong>
 ۰ تومان
@@ -258,9 +282,7 @@ gap:15px;
 
 <div class="card">
 
-<h3>
-📱 کارت به کارت
-</h3>
+<h3>📱 کارت به کارت</h3>
 
 <strong>
 ۰ تومان
