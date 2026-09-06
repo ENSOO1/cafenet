@@ -120,6 +120,10 @@ outline:none;
 transition:.25s;
 }
 
+.field::placeholder{
+color:#68736f;
+}
+
 .field:focus{
 border-color:#00ff9d;
 box-shadow:0 0 20px #00ff9d20;
@@ -143,6 +147,10 @@ transition:.25s;
 .loginBtn:hover{
 transform:translateY(-3px);
 box-shadow:0 0 35px #00ff9970;
+}
+
+.loginBtn:active{
+transform:scale(.98);
 }
 
 .error{
@@ -255,6 +263,7 @@ color:#78847f;
 font-size:27px;
 color:#00ff9d;
 margin-top:8px;
+text-align:center;
 }
 
 /* PAYMENT CARDS */
@@ -515,31 +524,6 @@ min-height:100px;
 resize:vertical;
 }
 
-/* CURSOR */
-
-.cursorDot{
-position:fixed;
-width:8px;
-height:8px;
-border-radius:50%;
-background:#00ff9d;
-box-shadow:0 0 15px #00ff9d,0 0 30px #00ff9d;
-pointer-events:none;
-z-index:99999;
-transform:translate(-50%,-50%);
-}
-
-.trail{
-position:fixed;
-width:5px;
-height:5px;
-border-radius:50%;
-background:#00ff9d;
-pointer-events:none;
-z-index:99998;
-opacity:.5;
-}
-
 /* MOBILE */
 
 @media(max-width:850px){
@@ -603,13 +587,10 @@ grid-template-columns:1fr;
 padding:25px;
 }
 
-.transaction{
+.chartHead{
 align-items:flex-start;
+gap:10px;
 flex-direction:column;
-}
-
-.tPrice{
-align-self:flex-start;
 }
 
 }
@@ -631,6 +612,7 @@ border-radius:20px;
 <body>
 
 <!-- LOGIN -->
+
 <div id="login" class="login">
 
 <div class="loginBox">
@@ -643,18 +625,28 @@ border-radius:20px;
 سامانه مدیریت و گزارش کافی‌نت
 </div>
 
-<input id="username"
-class="field"
-placeholder="نام کاربری">
+<form id="loginForm">
 
-<input id="password"
+<input
+id="username"
+class="field"
+type="text"
+autocomplete="username"
+placeholder="نام کاربری"
+required>
+<input
+id="password"
 class="field"
 type="password"
-placeholder="رمز عبور">
+autocomplete="current-password"
+placeholder="رمز عبور"
+required>
 
-<button class="loginBtn" onclick="login()">
+<button class="loginBtn" type="submit">
 ورود به سامانه
 </button>
+
+</form>
 
 <div id="error" class="error"></div>
 
@@ -677,7 +669,7 @@ placeholder="رمز عبور">
 
 <span id="roleText"></span>
 
-<button class="logout" onclick="logout()">
+<button id="logoutBtn" class="logout" type="button">
 خروج
 </button>
 
@@ -713,7 +705,7 @@ placeholder="رمز عبور">
 
 <small>کارتخوان</small>
 
-<strong id="posIncome">۰</strong>
+<strong id="posIncome">۰ تومان</strong>
 
 </div>
 
@@ -723,7 +715,7 @@ placeholder="رمز عبور">
 
 <small>نقدی</small>
 
-<strong id="cashIncome">۰</strong>
+<strong id="cashIncome">۰ تومان</strong>
 
 </div>
 
@@ -733,7 +725,7 @@ placeholder="رمز عبور">
 
 <small>کارت به کارت</small>
 
-<strong id="cardIncome">۰</strong>
+<strong id="cardIncome">۰ تومان</strong>
 
 </div>
 
@@ -752,15 +744,15 @@ placeholder="رمز عبور">
 
 <div class="chartButtons">
 
-<button onclick="changeChart('day',this)" class="active">
+<button type="button" data-chart="day" class="active">
 روزانه
 </button>
 
-<button onclick="changeChart('week',this)">
+<button type="button" data-chart="week">
 هفتگی
 </button>
 
-<button onclick="changeChart('month',this)">
+<button type="button" data-chart="month">
 ماهانه
 </button>
 
@@ -789,7 +781,7 @@ placeholder="رمز عبور">
 <button
 id="newBtn"
 class="addBtn"
-onclick="openForm()">
+type="button">
 + ثبت
 </button>
 
@@ -834,8 +826,9 @@ type="number"
 placeholder="مبلغ تومان">
 
 <button
+id="saveTransactionBtn"
 class="loginBtn full"
-onclick="saveTransaction()">
+type="button">
 ثبت تراکنش
 </button>
 
@@ -843,8 +836,7 @@ onclick="saveTransaction()">
 
 </div>
 
-<div id="transactions"
-class="transactions"></div>
+<div id="transactions" class="transactions"></div>
 
 </div>
 
@@ -860,7 +852,7 @@ class="transactions"></div>
 <button
 id="noteBtn"
 class="addBtn"
-onclick="newNote()">
+type="button">
 + یادداشت
 </button>
 
@@ -874,8 +866,9 @@ class="field"
 placeholder="یادداشت خود را بنویسید..."></textarea>
 
 <button
+id="saveNoteBtn"
 class="loginBtn"
-onclick="saveNote()">
+type="button">
 ثبت یادداشت
 </button>
 
@@ -892,20 +885,34 @@ onclick="saveNote()">
 
 <script>
 
-/* DATA */
+/* =========================
+   DATA
+========================= */
 
-let transactions =
+let transactions = [];
+let notes = [];
+
+try{
+transactions =
 JSON.parse(localStorage.getItem("jana_transactions") || "[]");
+}catch(e){
+transactions=[];
+}
 
-let notes =
+try{
+notes =
 JSON.parse(localStorage.getItem("jana_notes") || "[]");
+}catch(e){
+notes=[];
+}
 
 let editIndex = -1;
-
 let currentRole = "";
 
 
-/* LOGIN */
+/* =========================
+   LOGIN
+========================= */
 
 function login(){
 
@@ -913,35 +920,38 @@ const user =
 document.getElementById("username").value.trim();
 
 const pass =
-document.getElementById("password").value;
+document.getElementById("password").value.trim();
 
-if(user==="admin" && pass==="jANA1405"){
+const error =
+document.getElementById("error");
 
-currentRole="admin";
+error.innerText = "";
+
+
+/*
+نام کاربری و رمز اصلی
+هر دو 0000
+*/
+
+if(user === "0000" && pass === "0000"){
+
+currentRole = "admin";
 
 showApp();
 
-}
-
-else if(user==="dehghan" && pass==="dehghan1405"){
-
-currentRole="dehghan";
-
-showApp();
+return;
 
 }
 
-else{
-
-document.getElementById("error").innerText =
+error.innerText =
 "نام کاربری یا رمز عبور اشتباه است.";
 
 }
 
-}
 
-
-/* SHOW */
+/* =========================
+   SHOW APP
+========================= */
 
 function showApp(){
 
@@ -950,31 +960,27 @@ document.getElementById("login")
 
 document.getElementById("app")
 .classList.remove("hidden");
+document.getElementById("roleText")
+.innerText = "👑 مدیریت";
 
-document.getElementById("roleText").innerText =
-currentRole==="admin"
-? "👑 مدیریت"
-: "👩‍💼 گزارش";
-
-if(currentRole==="dehghan"){
 document.getElementById("newBtn")
-.classList.add("hidden");
+.classList.remove("hidden");
 
-document.getElementById("form")
-.classList.add("hidden");
-
-}
+document.getElementById("noteBtn")
+.classList.remove("hidden");
 
 render();
 
 }
 
 
-/* LOGOUT */
+/* =========================
+   LOGOUT
+========================= */
 
 function logout(){
 
-currentRole="";
+currentRole = "";
 
 document.getElementById("app")
 .classList.add("hidden");
@@ -982,26 +988,31 @@ document.getElementById("app")
 document.getElementById("login")
 .classList.remove("hidden");
 
-document.getElementById("username").value="";
-document.getElementById("password").value="";
+document.getElementById("username").value = "";
+document.getElementById("password").value = "";
+document.getElementById("error").innerText = "";
 
 }
 
 
-/* MONEY */
+/* =========================
+   MONEY
+========================= */
 
 function money(n){
 
-return Number(n).toLocaleString("fa-IR")+" تومان";
+return Number(n || 0).toLocaleString("fa-IR") + " تومان";
 
 }
 
 
-/* TRANSACTION FORM */
+/* =========================
+   TRANSACTION FORM
+========================= */
 
 function openForm(){
 
-if(currentRole!=="admin")return;
+if(currentRole !== "admin") return;
 
 document.getElementById("form")
 .classList.toggle("hidden");
@@ -1009,11 +1020,13 @@ document.getElementById("form")
 }
 
 
-/* SAVE TRANSACTION */
+/* =========================
+   SAVE TRANSACTION
+========================= */
 
 function saveTransaction(){
 
-if(currentRole!=="admin")return;
+if(currentRole !== "admin") return;
 
 const service =
 document.getElementById("service").value;
@@ -1023,12 +1036,12 @@ document.getElementById("payment").value;
 
 const customer =
 document.getElementById("customer").value.trim()
-||"بدون نام";
+|| "بدون نام";
 
 const price =
 Number(document.getElementById("price").value);
 
-if(!price || price<=0){
+if(!price || price <= 0){
 
 alert("مبلغ را وارد کن.");
 
@@ -1036,25 +1049,24 @@ return;
 
 }
 
-const item={
+const item = {
 
-service,
-payment,
-customer,
-price,
+service:service,
+payment:payment,
+customer:customer,
+price:price,
 date:new Date().toISOString()
 
 };
 
-if(editIndex===-1){
+if(editIndex === -1){
 
 transactions.unshift(item);
 
 }else{
 
-transactions[editIndex]=item;
-
-editIndex=-1;
+transactions[editIndex] = item;
+editIndex = -1;
 
 }
 
@@ -1063,8 +1075,8 @@ localStorage.setItem(
 JSON.stringify(transactions)
 );
 
-document.getElementById("customer").value="";
-document.getElementById("price").value="";
+document.getElementById("customer").value = "";
+document.getElementById("price").value = "";
 
 document.getElementById("form")
 .classList.add("hidden");
@@ -1074,13 +1086,15 @@ render();
 }
 
 
-/* DELETE */
+/* =========================
+   DELETE
+========================= */
 
 function deleteTransaction(i){
 
-if(currentRole!=="admin")return;
+if(currentRole !== "admin") return;
 
-if(!confirm("این تراکنش حذف شود؟"))return;
+if(!confirm("این تراکنش حذف شود؟")) return;
 
 transactions.splice(i,1);
 
@@ -1094,54 +1108,62 @@ render();
 }
 
 
-/* EDIT */
+/* =========================
+   EDIT
+========================= */
 
 function editTransaction(i){
 
-if(currentRole!=="admin")return;
+if(currentRole !== "admin") return;
 
-const x=transactions[i];
+const x = transactions[i];
 
-document.getElementById("service").value=x.service;
-document.getElementById("payment").value=x.payment;
-document.getElementById("customer").value=x.customer;
-document.getElementById("price").value=x.price;
+document.getElementById("service").value = x.service;
+document.getElementById("payment").value = x.payment;
+document.getElementById("customer").value = x.customer;
+document.getElementById("price").value = x.price;
 
-editIndex=i;
+editIndex = i;
 
 document.getElementById("form")
 .classList.remove("hidden");
 
-window.scrollTo({
-top:document.getElementById("form").offsetTop,
-behavior:"smooth"
+document.getElementById("form")
+.scrollIntoView({
+behavior:"smooth",
+block:"center"
 });
 
 }
 
 
-/* TRANSACTIONS */
+/* =========================
+   TRANSACTIONS
+========================= */
 
 function renderTransactions(){
 
-const box=
+const box =
 document.getElementById("transactions");
 
 if(!transactions.length){
 
-box.innerHTML=
+box.innerHTML =
 "<div style='color:#68736f'>هنوز تراکنشی ثبت نشده.</div>";
 
 return;
 
 }
 
-box.innerHTML=
+box.innerHTML =
 transactions.map((x,i)=>{
 
 const icon =
-x.payment==="pos" ? "💳" :
-x.payment==="cash" ? "💵" : "📱";
+x.payment === "pos"
+? "💳"
+: x.payment === "cash"
+? "💵"
+: "📱";
 
 const date =
 new Date(x.date).toLocaleString("fa-IR");
@@ -1153,11 +1175,11 @@ return
 <div>
 
 <div class="tName">
-${icon} ${x.service}
+${icon} ${escapeHTML(x.service)}
 </div>
 
 <div class="tInfo">
-👤 ${x.customer}
+👤 ${escapeHTML(x.customer)}
 <br>
 ${date}
 </div>
@@ -1170,30 +1192,23 @@ ${date}
 ${money(x.price)}
 </div>
 
-${
-currentRole==="admin"
-?
-
 <div class="actions">
 
 <button
 class="edit"
-onclick="editTransaction(${i})">
+type="button"
+data-edit="${i}">
 ویرایش
 </button>
 
 <button
 class="delete"
-onclick="deleteTransaction(${i})">
+type="button"
+data-delete="${i}">
 حذف
 </button>
 
 </div>
-
-
-:""
-
-}
 
 </div>
 
@@ -1203,44 +1218,82 @@ onclick="deleteTransaction(${i})">
 
 }).join("");
 
-}
 
+document.querySelectorAll("[data-edit]")
+.forEach(btn=>{
 
-/* STATS */
+btn.addEventListener("click",function(){
 
-function stats(){
-
-let total=0;
-let pos=0;
-let cash=0;
-let card=0;
-
-transactions.forEach(x=>{
-
-total+=Number(x.price);
-
-if(x.payment==="pos")pos+=x.price;
-if(x.payment==="cash")cash+=x.price;
-if(x.payment==="card")card+=x.price;
+editTransaction(Number(this.dataset.edit));
 
 });
 
-document.getElementById("totalIncome")
-.innerText=money(total);
+});
 
-document.getElementById("posIncome")
-.innerText=money(pos);
 
-document.getElementById("cashIncome")
-.innerText=money(cash);
+document.querySelectorAll("[data-delete]")
+.forEach(btn=>{
 
-document.getElementById("cardIncome")
-.innerText=money(card);
+btn.addEventListener("click",function(){
+
+deleteTransaction(Number(this.dataset.delete));
+
+});
+
+});
 
 }
 
 
-/* NOTES */
+/* =========================
+   STATS
+========================= */
+
+function stats(){
+let total = 0;
+let pos = 0;
+let cash = 0;
+let card = 0;
+
+transactions.forEach(x=>{
+
+const value = Number(x.price) || 0;
+
+total += value;
+
+if(x.payment === "pos"){
+pos += value;
+}
+
+if(x.payment === "cash"){
+cash += value;
+}
+
+if(x.payment === "card"){
+card += value;
+}
+
+});
+
+
+document.getElementById("totalIncome")
+.innerText = money(total);
+
+document.getElementById("posIncome")
+.innerText = money(pos);
+
+document.getElementById("cashIncome")
+.innerText = money(cash);
+
+document.getElementById("cardIncome")
+.innerText = money(card);
+
+}
+
+
+/* =========================
+   NOTES
+========================= */
 
 function newNote(){
 
@@ -1252,15 +1305,21 @@ document.getElementById("noteForm")
 
 function saveNote(){
 
-const text=
+const text =
 document.getElementById("noteText")
 .value.trim();
 
-if(!text)return;
+if(!text){
+
+alert("یادداشت را بنویس.");
+
+return;
+
+}
 
 notes.unshift({
 
-text,
+text:text,
 pinned:false,
 date:new Date().toISOString()
 
@@ -1271,7 +1330,7 @@ localStorage.setItem(
 JSON.stringify(notes)
 );
 
-document.getElementById("noteText").value="";
+document.getElementById("noteText").value = "";
 
 document.getElementById("noteForm")
 .classList.add("hidden");
@@ -1282,10 +1341,13 @@ renderNotes();
 
 
 function pinNote(i){
-notes[i].pinned=!notes[i].pinned;
+
+notes[i].pinned =
+!notes[i].pinned;
 
 notes.sort((a,b)=>
-Number(b.pinned)-Number(a.pinned)
+Number(b.pinned) -
+Number(a.pinned)
 );
 
 localStorage.setItem(
@@ -1300,7 +1362,9 @@ renderNotes();
 
 function deleteNote(i){
 
-if(!confirm("یادداشت حذف شود؟"))return;
+if(currentRole !== "admin") return;
+
+if(!confirm("یادداشت حذف شود؟")) return;
 
 notes.splice(i,1);
 
@@ -1316,25 +1380,26 @@ renderNotes();
 
 function renderNotes(){
 
-const box=document.getElementById("notes");
+const box =
+document.getElementById("notes");
 
 if(!notes.length){
 
-box.innerHTML=
+box.innerHTML =
 "<div style='color:#68736f'>یادداشتی وجود ندارد.</div>";
 
 return;
 
 }
 
-box.innerHTML=
+box.innerHTML =
 notes.map((x,i)=>
 
-<div class="note ${x.pinned?"pinned":""}">
+<div class="note ${x.pinned ? "pinned" : ""}">
 
 ${x.pinned
-?<div class="pin">📌 پین شده</div>
-:""}
+? <div class="pin">📌 پین شده</div>
+: ""}
 
 <div class="noteText">
 ${escapeHTML(x.text)}
@@ -1348,18 +1413,22 @@ ${new Date(x.date).toLocaleString("fa-IR")}
 
 <button
 class="edit"
-onclick="pinNote(${i})">
-${x.pinned?"برداشتن پین":"📌 پین"}
+type="button"
+data-pin="${i}">
+${x.pinned ? "برداشتن پین" : "📌 پین"}
 </button>
 
 ${
-currentRole==="admin"
-?<button
+currentRole === "admin"
+?
+<button
 class="delete"
-onclick="deleteNote(${i})">
+type="button"
+data-note-delete="${i}">
 حذف
 </button>
-:""
+:
+""
 }
 
 </div>
@@ -1368,102 +1437,79 @@ onclick="deleteNote(${i})">
 
 ).join("");
 
+
+document.querySelectorAll("[data-pin]")
+.forEach(btn=>{
+
+btn.addEventListener("click",function(){
+
+pinNote(Number(this.dataset.pin));
+
+});
+
+});
+
+
+document.querySelectorAll("[data-note-delete]")
+.forEach(btn=>{
+
+btn.addEventListener("click",function(){
+
+deleteNote(Number(this.dataset.noteDelete));
+
+});
+
+});
+
 }
 
 
-/* CHART */
+/* =========================
+   CHART
+========================= */
 
 function changeChart(type,btn){
 
 document.querySelectorAll(".chartButtons button")
-.forEach(x=>x.classList.remove("active"));
+.forEach(x=>
+x.classList.remove("active")
+);
 
+if(btn){
 btn.classList.add("active");
+}
 
-let values=[];
+let values = [];
 
-if(type==="day"){
+
+/* DAILY */
+
+if(type === "day"){
 
 for(let i=6;i>=0;i--){
 
-let d=new Date();
+let d = new Date();
+
+d.setHours(0,0,0,0);
 
 d.setDate(d.getDate()-i);
 
-let total=transactions
-.filter(x=>{
-let z=new Date(x.date);
-
-return z.toDateString()===d.toDateString();
-
-})
-.reduce((a,x)=>a+x.price,0);
-
-values.push({
-label:d.toLocaleDateString("fa-IR",{weekday:"short"}),
-value:total
-});
-
-}
-
-}
-
-if(type==="week"){
-
-for(let i=6;i>=0;i--){
-
-let total=0;
-
-let d=new Date();
-
-d.setDate(d.getDate()-i);
-
-transactions.forEach(x=>{
-
-let z=new Date(x.date);
-
-let diff=
-Math.floor((d-z)/(1000*60*60*24));
-
-if(diff>=0 && diff<7)
-total+=x.price;
-
-});
-
-values.push({
-label:"هفته "+(7-i),
-value:total
-});
-
-}
-
-}
-
-if(type==="month"){
-
-for(let i=5;i>=0;i--){
-
-let d=new Date();
-
-d.setMonth(d.getMonth()-i);
-
-let total=transactions
+let total = transactions
 .filter(x=>{
 
-let z=new Date(x.date);
+let z = new Date(x.date);
 
-return z.getMonth()===d.getMonth()
-&&
-z.getFullYear()===d.getFullYear();
+return z.toDateString() === d.toDateString();
 
 })
-.reduce((a,x)=>a+x.price,0);
+.reduce((a,x)=>
+a + Number(x.price || 0),0);
 
 values.push({
 
 label:d.toLocaleDateString(
 "fa-IR",
-{month:"short"}
+{weekday:"short"}
 ),
 
 value:total
@@ -1474,123 +1520,69 @@ value:total
 
 }
 
-const max=
-Math.max(...values.map(x=>x.value),1);
 
-document.getElementById("chart").innerHTML=
-values.map(x=>
+/* WEEKLY */
 
-<div
-class="bar"
-style="height:${Math.max(5,(x.value/max)*100)}%"
-title="${money(x.value)}">
+if(type === "week"){
 
-<span>${x.label}</span>
+for(let i=6;i>=0;i--){
 
-</div>
+let d = new Date();
 
-).join("");
+d.setHours(23,59,59,999);
 
-}
+d.setDate(d.getDate()-i*7);
 
+let start = new Date(d);
 
-/* RENDER */
+start.setDate(start.getDate()-6);
+start.setHours(0,0,0,0);
 
-function render(){
+let end = new Date(d);
 
-stats();
+let total = transactions
+.filter(x=>{
 
-renderTransactions();
+let z = new Date(x.date);
 
-renderNotes();
+return z >= start && z <= end;
 
-changeChart(
-"day",
-document.querySelector(".chartButtons button")
-);
+})
+.reduce((a,x)=>
+a + Number(x.price || 0),0);
 
-}
+values.push({
 
+label:"هفته",
 
-/* HTML SAFE */
-
-function escapeHTML(str){
-
-return str
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-
-}
-
-
-/* CURSOR */
-
-let mouseX=0;
-let mouseY=0;
-
-document.addEventListener("mousemove",e=>{
-
-mouseX=e.clientX;
-mouseY=e.clientY;
+value:total
 
 });
 
-const dot=document.createElement("div");
-
-dot.className="cursorDot";
-
-document.body.appendChild(dot);
-
-let trails=[];
-
-for(let i=0;i<12;i++){
-
-const t=document.createElement("div");
-
-t.className="trail";
-
-document.body.appendChild(t);
-
-trails.push({
-el:t,
-x:0,
-y:0
-});
+}
 
 }
 
-function cursor(){
 
-dot.style.left=mouseX+"px";
-dot.style.top=mouseY+"px";
+/* MONTHLY */
 
-let x=mouseX;
-let y=mouseY;
+if(type === "month"){
 
-trails.forEach((t,i)=>{
+for(let i=5;i>=0;i--){
 
-t.x+=(x-t.x)*(.25-(i*.012));
-t.y+=(y-t.y)*(.25-(i*.012));
+let d = new Date();
 
-t.el.style.left=t.x+"px";
-t.el.style.top=t.y+"px";
+d.setDate(1);
 
-x=t.x;
-y=t.y;
+d.setMonth(d.getMonth()-i);
 
-});
+let total = transactions
+.filter(x=>{
 
-requestAnimationFrame(cursor);
+let z = new Date(x.date);
 
-}
+return z.getMonth() === d.getMonth()
+&&
+z.getFullYear() === d.getFullYear();
 
-cursor();
-
-
-</script>
-
-</body>
-</html>
+})
