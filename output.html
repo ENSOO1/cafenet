@@ -1430,12 +1430,46 @@ tbody tr:hover{
 @keyframes popIn{from{opacity:0;transform:scale(.92) translateY(15px)}to{opacity:1;transform:scale(1) translateY(0)}}
 .paymentTop{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.paymentTop h3{font-size:18px}.paymentClose{border:0;background:rgba(255,255,255,.06);color:#9bb1c4;border-radius:10px;width:34px;height:34px;cursor:pointer}
 .paymentInfo{display:grid;gap:9px;margin-bottom:20px}.paymentRow{display:flex;justify-content:space-between;gap:12px;padding:11px 13px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);font-size:12px}.paymentRow span{color:#718ba0}.paymentRow strong{color:#dff1ff}.paymentActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.payDone,.payLater{padding:12px;border-radius:12px;cursor:pointer;font-family:inherit}.payDone{border:1px solid rgba(34,197,94,.45);background:rgba(34,197,94,.12);color:#8ff0b5}.payLater{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#a5b7c6}
-.chatMini{position:fixed;right:20px;bottom:82px;width:58px;height:58px;z-index:9980;border:1px solid rgba(0,140,255,.38);background:rgba(5,18,30,.58);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 35px rgba(0,0,0,.42),0 0 22px rgba(0,140,255,.14);cursor:pointer;transition:.3s}.chatMini:hover{transform:translateY(-3px) scale(1.04);border-color:#168cff;box-shadow:0 14px 42px rgba(0,0,0,.5),0 0 28px rgba(0,140,255,.22)}.chatMiniLine{width:100%;height:100%;display:flex;align-items:center;justify-content:center}.chatMiniIcon{font-size:23px;filter:drop-shadow(0 0 7px rgba(0,140,255,.45))}.chatMiniText{display:none}.chatBadge{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:50%;display:none;align-items:center;justify-content:center;background:#087eff;color:#fff;font-size:9px;border:2px solid rgba(4,14,23,.9);box-shadow:0 0 15px rgba(0,140,255,.55)}.chatBadge.show{display:flex}
-.chatOverlay{position:fixed;inset:0;background:rgba(0,4,10,.7);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:11900;padding:18px}.chatOverlay.show{display:flex}.chatModal{width:min(620px,100%);height:min(720px,90vh);display:flex;flex-direction:column;background:rgba(5,15,25,.94);border:1px solid rgba(0,140,255,.3);border-radius:24px;box-shadow:0 30px 100px rgba(0,0,0,.65);overflow:hidden}.chatHead{display:flex;justify-content:space-between;align-items:center;padding:17px 18px;border-bottom:1px solid rgba(255,255,255,.07)}.chatHead h3{font-size:16px}.chatClose{border:0;background:rgba(255,255,255,.06);color:#a8b8c6;border-radius:10px;width:34px;height:34px;cursor:pointer}.chatMessages{flex:1;overflow-y:auto;padding:15px}.chatMsg{width:fit-content;max-width:72%;margin:7px 0 7px 0;padding:8px 11px;border-radius:15px;background:rgba(0,140,255,.075);border:1px solid rgba(0,140,255,.14);box-shadow:0 7px 24px rgba(0,0,0,.18);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);font-size:11px;line-height:1.75;align-self:flex-start}.chatMsg.mine{margin-left:0;margin-right:0;align-self:flex-end;background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.11)}.chatMsg b{display:none}.chatMsg small{display:block;color:#617a90;font-size:8px;margin-top:4px;text-align:inherit}.chatComposer{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,.07)}.chatComposer input{flex:1;min-width:0;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:#fff;border-radius:12px;padding:11px;font-family:inherit;outline:none}.chatComposer button{border:0;background:#087eff;color:#fff;border-radius:12px;padding:0 18px;cursor:pointer;font-family:inherit}
+.chatMini{position:fixed;right:22px;bottom:82px;width:min(320px,calc(100% - 44px));z-index:9980;border:1px solid rgba(0,140,255,.28);background:rgba(4,14,23,.78);backdrop-filter:blur(20px);border-radius:18px;padding:12px 14px;box-shadow:0 18px 55px rgba(0,0,0,.4);cursor:pointer;transition:.3s}.chatMini:hover{transform:translateY(-3px);border-color:#168cff}.chatMiniLine{display:flex;align-items:center;gap:10px}.chatMiniIcon{font-size:22px}.chatMiniText{flex:1}.chatMiniText strong{display:block;font-size:12px}.chatMiniText span{display:block;color:#70869b;font-size:10px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chatBadge{min-width:22px;height:22px;padding:0 6px;border-radius:50%;display:none;align-items:center;justify-content:center;background:#087eff;color:#fff;font-size:10px;box-shadow:0 0 15px rgba(0,140,255,.5)}.chatBadge.show{display:flex}
+.chatOverlay{position:fixed;inset:0;background:rgba(0,4,10,.7);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:11900;padding:18px}.chatOverlay.show{display:flex}.chatModal{width:min(620px,100%);height:min(720px,90vh);display:flex;flex-direction:column;background:rgba(5,15,25,.94);border:1px solid rgba(0,140,255,.3);border-radius:24px;box-shadow:0 30px 100px rgba(0,0,0,.65);overflow:hidden}.chatHead{display:flex;justify-content:space-between;align-items:center;padding:17px 18px;border-bottom:1px solid rgba(255,255,255,.07)}.chatHead h3{font-size:16px}.chatClose{border:0;background:rgba(255,255,255,.06);color:#a8b8c6;border-radius:10px;width:34px;height:34px;cursor:pointer}.chatMessages{flex:1;overflow-y:auto;padding:15px}.chatMsg{max-width:82%;margin:7px 0;padding:10px 12px;border-radius:14px;background:rgba(0,140,255,.09);border:1px solid rgba(0,140,255,.13);font-size:12px;line-height:1.8}.chatMsg.mine{margin-left:auto;background:rgba(255,255,255,.055)}.chatMsg small{display:block;color:#617a90;font-size:9px;margin-top:5px}.chatComposer{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,.07)}.chatComposer input{flex:1;min-width:0;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:#fff;border-radius:12px;padding:11px;font-family:inherit;outline:none}.chatComposer button{border:0;background:#087eff;color:#fff;border-radius:12px;padding:0 18px;cursor:pointer;font-family:inherit}
 .paymentStatus{display:inline-flex;align-items:center;gap:4px;margin-top:5px;padding:3px 7px;border-radius:7px;font-size:9px;background:rgba(255,170,0,.08);color:#ffcb73}.paymentStatus.paid{background:rgba(34,197,94,.1);color:#8ff0b5}
-@media(max-width:600px){.backTop{right:14px;bottom:92px;width:43px;height:43px}.chatMini{right:14px;bottom:88px;width:52px;height:52px}.chatMiniIcon{font-size:21px}.chatModal{height:86vh;border-radius:20px}.paymentActions{grid-template-columns:1fr}.paymentCard{padding:18px}.statsHeader{align-items:flex-start}.moneyToggle{font-size:10px;padding:8px 10px}.tableWrap{max-height:65vh;overflow:auto;border-radius:12px}.tableWrap table{min-width:0;width:100%;display:block}.tableWrap thead{display:none}.tableWrap tbody{display:block}.tableWrap tr{display:block;padding:12px;margin-bottom:9px;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(255,255,255,.025)}.tableWrap td{display:flex;justify-content:space-between;gap:12px;padding:8px 3px;border:0;font-size:11px}.tableWrap td::before{content:attr(data-label);color:#68839a;flex:0 0 78px}.tableWrap td.amount{display:flex}.tableWrap td.amount::before{content:'مبلغ'}.notes{grid-template-columns:1fr!important}.noteActions button{flex:1;min-width:70px}.chartBars{gap:8px}.chartBarItem{min-width:45px}.chartBar{width:27px}}
- .glassModalOverlay{position:fixed;inset:0;z-index:12100;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,3,9,.68);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}.glassModalOverlay.show{display:flex;animation:glassFadeIn .2s ease}.glassModal{width:min(500px,100%);padding:22px;border:1px solid rgba(0,140,255,.28);border-radius:22px;background:rgba(5,17,28,.78);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 28px 90px rgba(0,0,0,.62),0 0 35px rgba(0,140,255,.09);animation:glassModalIn .22s ease}.glassModal h3{margin:0 0 9px;font-size:16px}.glassModal p{margin:0;color:#91a5b7;font-size:12px;line-height:1.9}.glassModal textarea{width:100%;min-height:150px;margin-top:15px;padding:13px;border:1px solid rgba(255,255,255,.09);border-radius:15px;resize:vertical;background:rgba(255,255,255,.045);color:#fff;outline:none;font-family:inherit;line-height:1.9}.glassModalActions{display:flex;gap:9px;margin-top:15px}.glassModalActions button{flex:1;border:0;border-radius:13px;padding:11px;font-family:inherit;cursor:pointer}.glassPrimary{background:#087eff;color:#fff;box-shadow:0 0 18px rgba(0,140,255,.18)}.glassDanger{background:rgba(255,70,90,.12);color:#ff8796;border:1px solid rgba(255,70,90,.2)!important}.glassCancel{background:rgba(255,255,255,.055);color:#aebdca}.note.powder-out{animation:notePowderOut .42s ease forwards}@keyframes glassFadeIn{from{opacity:0}to{opacity:1}}@keyframes glassModalIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes notePowderOut{0%{opacity:1;transform:scale(1);filter:blur(0)}60%{opacity:.45;transform:scale(.97);filter:blur(1px)}100%{opacity:0;transform:scale(.88) translateY(-5px);filter:blur(7px)}}
+@media(max-width:600px){.backTop{right:14px;bottom:92px;width:43px;height:43px}.chatMini{right:12px;bottom:90px;width:calc(100% - 24px)}.chatModal{height:86vh;border-radius:20px}.paymentActions{grid-template-columns:1fr}.paymentCard{padding:18px}.statsHeader{align-items:flex-start}.moneyToggle{font-size:10px;padding:8px 10px}.tableWrap{max-height:65vh;overflow:auto;border-radius:12px}.tableWrap table{min-width:0;width:100%;display:block}.tableWrap thead{display:none}.tableWrap tbody{display:block}.tableWrap tr{display:block;padding:12px;margin-bottom:9px;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(255,255,255,.025)}.tableWrap td{display:flex;justify-content:space-between;gap:12px;padding:8px 3px;border:0;font-size:11px}.tableWrap td::before{content:attr(data-label);color:#68839a;flex:0 0 78px}.tableWrap td.amount{display:flex}.tableWrap td.amount::before{content:'مبلغ'}.notes{grid-template-columns:1fr!important}.noteActions button{flex:1;min-width:70px}.chartBars{gap:8px}.chartBarItem{min-width:45px}.chartBar{width:27px}}
 @media print{.backTop,.chatMini,.chatOverlay,.paymentOverlay,.moneyToggle{display:none!important}}
+
+
+/* ===== JANA PANEL v3 UI FIXES ===== */
+.chatMessages{display:flex;flex-direction:column;align-items:stretch}
+.chatMsg{align-self:flex-start;width:fit-content;max-width:min(72%,420px);margin:6px 0!important;padding:8px 11px;border-radius:13px;background:rgba(0,140,255,.075);border:1px solid rgba(0,140,255,.12);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);font-size:11px;line-height:1.7}
+.chatMsg.mine{align-self:flex-end;margin-left:0!important;margin-right:0!important;background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.09)}
+.chatMsg b{display:none!important}
+
+.backTop{left:22px;right:auto;bottom:22px}
+.backTop.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.chatMini{right:22px;bottom:82px;width:58px;height:58px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.chatMiniLine{width:100%;height:100%;justify-content:center;gap:0}
+.chatMiniIcon{font-size:25px;line-height:1}
+.chatMiniText{display:none}
+.chatBadge{position:absolute;top:-4px;right:-3px;min-width:20px;height:20px;font-size:9px}
+.chatMini:hover{transform:translateY(-4px) scale(1.04)}
+.tableWrap{max-height:58vh;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(0,140,255,.45) rgba(255,255,255,.03)}
+.tableWrap::-webkit-scrollbar,.chatMessages::-webkit-scrollbar{width:7px;height:7px}
+.tableWrap::-webkit-scrollbar-thumb,.chatMessages::-webkit-scrollbar-thumb{background:rgba(0,140,255,.38);border-radius:99px}
+.method.cash{background:rgba(34,197,94,.14)!important;border-color:rgba(34,197,94,.38)!important;color:#73f39a!important;box-shadow:0 0 14px rgba(34,197,94,.08)}
+.method.card{background:rgba(168,85,247,.15)!important;border-color:rgba(168,85,247,.4)!important;color:#d8a7ff!important;box-shadow:0 0 14px rgba(168,85,247,.08)}
+.method.transfer{background:rgba(0,140,255,.14)!important;border-color:rgba(0,140,255,.42)!important;color:#83caff!important;box-shadow:0 0 14px rgba(0,140,255,.08)}
+.incomeBubble .bubbleAmount{white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.eyeIcon{width:18px;height:18px;display:inline-block;vertical-align:middle}
+.moneyToggle{display:inline-flex;align-items:center;gap:7px}
+.editModal{position:fixed;inset:0;background:rgba(0,4,10,.72);backdrop-filter:blur(9px);display:none;align-items:center;justify-content:center;z-index:11800;padding:18px}
+.editModal.show{display:flex}
+.editCard{width:min(520px,100%);background:rgba(5,15,25,.96);border:1px solid rgba(0,140,255,.3);border-radius:24px;box-shadow:0 30px 100px rgba(0,0,0,.7);padding:20px;animation:editIn .22s ease-out}
+.editCard h3{font-size:16px;margin-bottom:14px}.editCard textarea{width:100%;min-height:150px;resize:vertical;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;border-radius:15px;padding:13px;font-family:inherit;outline:none}.editCard textarea:focus{border-color:rgba(0,140,255,.55);box-shadow:0 0 20px rgba(0,140,255,.08)}
+.editActions{display:flex;gap:9px;margin-top:12px}.editActions button{flex:1;border:0;border-radius:12px;padding:11px;font-family:inherit;cursor:pointer}.editSave{background:#087eff;color:#fff}.editCancel{background:rgba(255,255,255,.06);color:#b8c8d6}
+.deleteConfirmModal{position:fixed;inset:0;background:rgba(0,4,10,.72);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;z-index:11850;padding:18px}.deleteConfirmModal.show{display:flex}.deleteConfirmCard{width:min(430px,100%);padding:20px;border-radius:24px;background:linear-gradient(145deg,rgba(10,25,40,.96),rgba(3,9,16,.96));border:1px solid rgba(255,85,105,.28);box-shadow:0 30px 100px rgba(0,0,0,.7),0 0 40px rgba(255,70,90,.08);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);animation:editIn .22s ease-out}.deleteConfirmCard p{color:#c9d8e5;line-height:1.9;font-size:12px;padding:12px 2px}.deleteConfirmBtn{flex:1;border:1px solid rgba(255,73,104,.35)!important;border-radius:12px;padding:11px;background:rgba(255,73,104,.10);color:#ff9aaa;cursor:pointer;font-family:inherit}.deleteConfirmBtn:hover{background:rgba(255,73,104,.17);border-color:#ff4968!important}.note.powder-out{animation:powderOut .48s ease forwards;pointer-events:none;filter:blur(2px)}
+@keyframes editIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes powderOut{0%{opacity:1;transform:scale(1) rotate(0);filter:blur(0)}35%{opacity:.9;transform:scale(1.03) rotate(-1deg);filter:blur(.5px)}100%{opacity:0;transform:scale(.72) translateY(-10px) rotate(2deg);filter:blur(8px)} }
+@media(max-width:600px){.backTop{left:14px;right:auto;bottom:92px}.chatMini{right:14px;bottom:92px;width:54px;height:54px}.tableWrap{max-height:62vh}.editCard{padding:16px;border-radius:20px}.editCard textarea{min-height:135px}.editActions{flex-direction:row}}
+@media(min-width:601px){.tableWrap{min-height:180px}}
 
 </style>
 </head>
@@ -1468,7 +1502,7 @@ tbody tr:hover{
 
     </header>
 
-    <section class="statsSection" id="income"><div class="statsHeader"><span style="color:#66829c;font-size:12px">خلاصه مالی</span><button class="moneyToggle" id="moneyToggle" onclick="toggleMoneyVisibility()">👁 نمایش مبالغ</button></div><div class="stats">
+    <section class="statsSection" id="income"><div class="statsHeader"><span style="color:#66829c;font-size:12px">خلاصه مالی</span><button class="moneyToggle" id="moneyToggle" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن مبالغ"><span id="moneyEyeIcon" class="eyeIcon"></span><span id="moneyToggleText">نمایش مبالغ</span></button></div><div class="stats">
 
         <div class="stat">
             <span class="statIcon">💰</span>
@@ -1703,11 +1737,10 @@ tbody tr:hover{
 
 
 <button class="backTop" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="بازگشت به بالا">↑</button>
-<div class="chatMini" onclick="openChat()"><div class="chatMiniLine"><div class="chatMiniIcon">💬</div><div class="chatMiniText"><strong>ارتباط با پنل ثبت</strong><span id="chatMiniPreview">برای مشاهده پیام‌ها کلیک کنید</span></div><div class="chatBadge" id="chatBadge">0</div></div></div>
+<div class="chatMini" onclick="openChat()" title="ارتباط با پنل ثبت" aria-label="ارتباط با پنل ثبت"><div class="chatMiniLine"><div class="chatMiniIcon">💬</div><div class="chatMiniText"><strong>ارتباط با پنل ثبت</strong><span id="chatMiniPreview">برای مشاهده پیام‌ها کلیک کنید</span></div><div class="chatBadge" id="chatBadge">0</div></div></div>
 <div class="chatOverlay" id="chatOverlay"><div class="chatModal"><div class="chatHead"><h3>💬 گفت‌وگوی مدیریت</h3><button class="chatClose" onclick="closeChat()">×</button></div><div class="chatMessages" id="chatMessages"></div><div class="chatComposer"><input id="chatInputOut" placeholder="پیام خود را بنویسید..."/><button onclick="sendManagerMessage()">ارسال</button></div></div></div>
 <div class="paymentOverlay" id="paymentOverlay"><div class="paymentCard"><div class="paymentTop"><h3>💳 درخواست پرداخت</h3><button class="paymentClose" onclick="closePaymentRequest()">×</button></div><div class="paymentInfo"><div class="paymentRow"><span>خدمت</span><strong id="payService">-</strong></div><div class="paymentRow"><span>مشتری</span><strong id="payCustomer">-</strong></div><div class="paymentRow"><span>مبلغ</span><strong id="payAmount">-</strong></div></div><div class="paymentActions"><button class="payDone" onclick="confirmPayment()">🟢 پرداخت شد</button><button class="payLater" onclick="closePaymentRequest()">× بستن</button></div></div></div>
-<div class="glassModalOverlay" id="editNoteModal"><div class="glassModal"><h3>✏️ ویرایش یادداشت</h3><p>متن یادداشت را ویرایش کنید و ذخیره بزنید.</p><textarea id="editNoteInput" placeholder="متن یادداشت..."></textarea><div class="glassModalActions"><button class="glassCancel" onclick="closeEditNoteModal()">انصراف</button><button class="glassPrimary" onclick="saveEditedNote()">💾 ذخیره تغییرات</button></div></div></div>
-<div class="glassModalOverlay" id="deleteNoteModal"><div class="glassModal"><h3>🗑 حذف یادداشت</h3><p>آیا مطمئن هستید که می‌خواهید این یادداشت را حذف کنید؟ این عملیات قابل بازگشت نیست.</p><div class="glassModalActions"><button class="glassCancel" onclick="closeDeleteConfirm()">انصراف</button><button class="glassDanger" onclick="confirmDeleteNote()">🗑 بله، حذف شود</button></div></div></div>
+<div class="editModal" id="editModal" onclick="if(event.target===this)closeEditNote()"><div class="editCard"><div class="paymentTop"><h3>✏️ ویرایش یادداشت</h3><button class="paymentClose" onclick="closeEditNote()">×</button></div><textarea id="editNoteInput" placeholder="متن یادداشت..."></textarea><div class="editActions"><button class="editSave" onclick="saveEditedNote()">ذخیره تغییرات</button><button class="editCancel" onclick="closeEditNote()">انصراف</button></div></div></div><div class="deleteConfirmModal" id="deleteConfirmModal" onclick="if(event.target===this)closeDeleteConfirm()"><div class="deleteConfirmCard"><div class="paymentTop"><h3>🗑️ حذف یادداشت</h3><button class="paymentClose" onclick="closeDeleteConfirm()">×</button></div><p>آیا مطمئنی می‌خواهی این یادداشت حذف شود؟</p><div class="editActions"><button class="deleteConfirmBtn" onclick="confirmDeleteNote()">بله، حذف شود</button><button class="editCancel" onclick="closeDeleteConfirm()">انصراف</button></div></div></div>
 <nav class="mobileNav">
 
     <a
@@ -1929,46 +1962,23 @@ async function cloudPost(payload){
 ===================================================== */
 
 async function getCloudData(){
-
-    const response =
-        await fetch(
-            API_URL +
-            "?action=getData&_=" +
-            Date.now(),
-            {
-                method:"GET",
-                cache:"no-store"
-            }
-        );
-
-
-    if(!response.ok){
-
-        throw new Error(
-            "HTTP " + response.status
-        );
-
+    let lastError=null;
+    for(let attempt=1;attempt<=3;attempt++){
+        try{
+            const response=await fetch(API_URL+"?action=getData&_="+Date.now()+"_"+attempt,{method:"GET",cache:"no-store",redirect:"follow"});
+            if(!response.ok) throw new Error("HTTP "+response.status);
+            const raw=await response.json();
+            let data=raw;
+            if(typeof data==="string"){try{data=JSON.parse(data)}catch(e){}}
+            if(data && data.data && typeof data.data==="object") data={...data.data,...data};
+            if(data && data.body && typeof data.body==="object") data={...data.body,...data};
+            if(data?.status && !["success","ok"].includes(String(data.status))) throw new Error(data.message||"خطا در دریافت اطلاعات");
+            const transactions=Array.isArray(data?.transactions)?data.transactions:(Array.isArray(data?.reports)?data.reports:[]);
+            return {...data,transactions,notes:Array.isArray(data?.notes)?data.notes:[],messages:Array.isArray(data?.messages)?data.messages:[]};
+        }catch(e){lastError=e;await new Promise(r=>setTimeout(r,350*attempt))}
     }
-
-
-    const data =
-        await response.json();
-
-
-    if(data.status !== "success"){
-
-        throw new Error(
-            data.message ||
-            "خطا در دریافت اطلاعات"
-        );
-
-    }
-
-
-    return data;
-
+    throw lastError||new Error("دریافت اطلاعات از سرور انجام نشد");
 }
-
 
 /* =====================================================
    LOAD CLOUD DATA
@@ -1997,15 +2007,26 @@ async function loadCloudData(showMessage=true){
         );
 
 
-        allTransactions =
-            Array.isArray(data.transactions)
+        // منبع اصلی تراکنش‌ها فقط Google Sheets / Apps Script است.
+        // حتی اگر نتیجه ابری خالی باشد، آن را با LocalStorage جایگزین نمی‌کنیم.
+        const cloudTransactions = Array.isArray(data.transactions)
             ? data.transactions
-            : [];
+            : (Array.isArray(data.reports) ? data.reports : []);
+
+        allTransactions = cloudTransactions.map(item => ({
+            id: item.id ?? item.ID ?? item.Id ?? "",
+            date: item.date ?? item.Date ?? "",
+            time: item.time ?? item.Time ?? "",
+            customer: item.customer ?? item.Customer ?? "",
+            service: item.service ?? item.Service ?? "",
+            amount: item.amount ?? item.Amount ?? 0,
+            method: item.method ?? item.Method ?? "",
+            description: item.description ?? item.Description ?? ""
+        }));
+
+        console.log("JANA TRANSACTIONS FROM SHEETS:", allTransactions.length, allTransactions);
 
         await syncMessages(data);
-
-
-        saveLocalTransactions();
 
 
         /* =========================
@@ -2257,27 +2278,8 @@ async function loadCloudData(showMessage=true){
         );
 
 
-        try{
-
-            const saved =
-                localStorage.getItem(
-                    "cafe_transactions"
-                );
-
-
-            allTransactions =
-                saved
-                ? JSON.parse(saved)
-                : [];
-
-
-        }catch(e){
-
-            allTransactions = [];
-
-        }
-
-
+        // در خطای شبکه/Apps Script، داده‌های قبلی صفحه را پاک نکن.
+        // LocalStorage منبع گزارش‌ها نیست.
         updateStats();
 
         renderTransactions();
@@ -2351,56 +2353,17 @@ function isCardMethod(value){ return normalizeMethod(value).includes("کارتخ
 function isCashMethod(value){ return normalizeMethod(value).includes("نقدی") || normalizeMethod(value).includes("نقد"); }
 function moneyValue(value){return parseAmount(value)}
 function isMoneyVisible(){return localStorage.getItem("jana_money_visible")==="1"}
+function eyeSvg(off){return off?'<svg class="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l18 18"/><path d="M10.6 10.6a2 2 0 1 0 2.8 2.8"/><path d="M9.9 4.3A10.8 10.8 0 0 1 12 4c5 0 9.3 3.1 10.8 8-0.5 1.6-1.4 3-2.6 4.2"/><path d="M6.2 6.2C4.6 7.4 3.4 9 2.8 12c.9 3 3.1 5.1 6.1 6.8"/></svg>':'<svg class="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.8 12s3.2-6 9.2-6 9.2 6 9.2 6-3.2 6-9.2 6-9.2-6-9.2-6Z"/><circle cx="12" cy="12" r="2.5"/></svg>'}
 function displayMoney(value){return isMoneyVisible()?money(moneyValue(value)):"••••••"}
 function toggleMoneyVisibility(){localStorage.setItem("jana_money_visible",isMoneyVisible()?"0":"1");updateMoneyUI()}
-function updateMoneyUI(){
-    const btn=document.getElementById("moneyToggle"); if(btn) btn.textContent=isMoneyVisible()?"🙈 مخفی کردن مبالغ":"👁 نمایش مبالغ";
-    updateStats(); updateBubble(); renderTransactions(); drawIncomeChart();
-}
-function updateStats(){
-    const transactions=allTransactions;
-    let total=0,pos=0,cash=0,transfer=0;
-    transactions.forEach(item=>{const amount=moneyValue(item.amount);total+=amount;if(isCardMethod(item.method))pos+=amount;if(isCashMethod(item.method))cash+=amount;if(isTransferMethod(item.method))transfer+=amount;});
-    document.getElementById("totalIncome").textContent=displayMoney(total);
-    document.getElementById("transactionCount").textContent=faNumber(transactions.length);
-    document.getElementById("posTotal").textContent=displayMoney(pos);
-    document.getElementById("cashTotal").textContent=displayMoney(cash);
-    document.getElementById("transferTotal").textContent=displayMoney(transfer);
-}
-
+function updateMoneyUI(){const b=document.getElementById("moneyToggle");if(b){const visible=isMoneyVisible();b.innerHTML=eyeSvg(!visible)+'<span id="moneyToggleText">'+(visible?"مخفی کردن مبالغ":"نمایش مبالغ")+'</span>'}updateStats();updateBubble();renderTransactions();drawIncomeChart()}
+function updateStats(){const transactions=Array.isArray(allTransactions)?allTransactions:[];let total=0,pos=0,cash=0,transfer=0;transactions.forEach(item=>{const amount=moneyValue(item.amount);total+=amount;if(isCardMethod(item.method))pos+=amount;if(isCashMethod(item.method))cash+=amount;if(isTransferMethod(item.method))transfer+=amount;});document.getElementById("totalIncome").textContent=displayMoney(total);document.getElementById("transactionCount").textContent=faNumber(transactions.length);document.getElementById("posTotal").textContent=displayMoney(pos);document.getElementById("cashTotal").textContent=displayMoney(cash);document.getElementById("transferTotal").textContent=displayMoney(transfer)}
 
 /* =====================================================
    BUBBLE
 ===================================================== */
 
-function updateBubble(){
-
-    const total =
-        allTransactions.reduce(
-            (sum,item) =>
-                sum +
-                Number(
-                    item.amount || 0
-                ),
-            0
-        );
-
-
-    const bubble =
-        document.getElementById(
-            "bubbleIncome"
-        );
-
-
-    if(bubble){
-
-        bubble.textContent =
-            displayMoney(total);
-
-    }
-
-}
-
+function updateBubble(){const total=(Array.isArray(allTransactions)?allTransactions:[]).reduce((sum,item)=>sum+moneyValue(item.amount),0);const bubble=document.getElementById("bubbleIncome");if(bubble)bubble.textContent=displayMoney(total)}
 
 /* =====================================================
    TRANSACTIONS
@@ -2413,7 +2376,7 @@ function getFilteredTransactions(){
         ? [...allTransactions]
         : allTransactions.filter(
             item =>
-                currentFilter === "کارت به کارت" ? isTransferMethod(item.method) : item.method === currentFilter
+                currentFilter === "کارت به کارت" ? isTransferMethod(item.method) : (currentFilter === "کارتخوان" ? isCardMethod(item.method) : (currentFilter === "نقدی" ? isCashMethod(item.method) : item.method === currentFilter))
         );
 
 
@@ -2461,7 +2424,7 @@ function renderTransactions(){
     const body=document.getElementById("transactionsBody"); if(!body)return; body.innerHTML="";
     const transactions=getFilteredTransactions();
     if(!transactions.length){body.innerHTML=`<tr><td colspan="7"><div class="empty"><div class="emptyIcon">📭</div>هنوز تراکنشی برای نمایش وجود ندارد.</div></td></tr>`;return;}
-    transactions.slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||""))+String(b.time||"").localeCompare(String(a.time||""))).forEach(item=>{
+    transactions.slice().sort((a,b)=>{const da=String(a.date||"")+String(a.time||"");const db=String(b.date||"")+String(b.time||"");return db.localeCompare(da)}).forEach(item=>{
         const row=document.createElement("tr"); let cls=isCashMethod(item.method)?"cash":isCardMethod(item.method)?"card":isTransferMethod(item.method)?"transfer":"";
         const state=getPaymentStateForTransaction(item); const status=state==="paid"?`<span class="paymentStatus paid">✓ پرداخت شد</span>`:(state==="unpaid"?`<span class="paymentStatus">در انتظار پرداخت</span>`:"");
         row.innerHTML=`<td data-label="تاریخ">${escapeHTML(item.date||"-")}</td><td data-label="ساعت">${escapeHTML(item.time||"-")}</td><td data-label="مشتری">${escapeHTML(item.customer||"-")}</td><td data-label="خدمت">${escapeHTML(item.service||"-")}</td><td data-label="مبلغ" class="amount">${displayMoney(item.amount)}</td><td data-label="روش پرداخت"><span class="method ${cls}">${escapeHTML(item.method||"-")}</span>${status}</td><td data-label="توضیحات">${escapeHTML(item.description||"-")}</td>`;
@@ -2637,6 +2600,34 @@ function noteDisplayDate(note){
 
 }
 
+
+/* =====================================================
+   RENDER NOTES
+===================================================== */
+function renderNotes(){
+    const box=document.getElementById("notesContainer");
+    if(!box)return;
+    const notes=(Array.isArray(localNotes)?localNotes:[]).filter(n=>String(n.text||"").trim()!==TEST_NOTE_TEXT);
+    if(!notes.length){
+        box.innerHTML='<div class="empty"><div class="emptyIcon">📝</div>هنوز یادداشتی ثبت نشده است.</div>';
+        return;
+    }
+    const sorted=notes.slice().sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));
+    box.innerHTML=sorted.map(note=>{
+        const id=String(note.id||"");
+        return `<article class="note ${note.pinned?'pinned ':''}${note.done?'done':''}" data-note-id="${escapeHTML(id)}">
+            ${note.pinned?'<div class="pinBadge">📌</div>':''}
+            <div class="noteText">${escapeHTML(note.text||"")}</div>
+            <div class="noteDate">${escapeHTML(note.date||"")}${note.time?' • '+escapeHTML(note.time):''}</div>
+            <div class="noteActions">
+                <button class="edit" onclick="editNote('${escapeHTML(id)}')">✏️ ویرایش</button>
+                <button class="doneBtn ${note.done?'doneActive':''}" onclick="toggleDone('${escapeHTML(id)}')">${note.done?'↩ باز کردن':'✓ انجام شد'}</button>
+                <button class="${note.pinned?'pinActive':''}" onclick="togglePin('${escapeHTML(id)}')">${note.pinned?'📌 برداشتن پین':'📌 پین'}</button>
+                <button class="delete" onclick="askDeleteNote('${escapeHTML(id)}')">🗑 حذف</button>
+            </div>
+        </article>`;
+    }).join("");
+}
 
 /* =====================================================
    ADD NOTE
@@ -3255,814 +3246,22 @@ async function toggleDone(id){
 
 
 /* =====================================================
-   EDIT / DELETE NOTE - GLASS MODALS
+   EDIT NOTE
 ===================================================== */
+
 let editingNoteId=null;
-let deletingNoteId=null;
-
-function editNote(id){
-    const note=localNotes.find(item=>String(item.id)===String(id));
-    if(!note)return;
-    editingNoteId=id;
-    const input=document.getElementById("editNoteInput");
-    if(input) input.value=note.text||"";
-    document.getElementById("editNoteModal")?.classList.add("show");
-    setTimeout(()=>input?.focus(),50);
-}
-function closeEditNoteModal(){editingNoteId=null;document.getElementById("editNoteModal")?.classList.remove("show");}
-async function saveEditedNote(){
-    if(editingNoteId===null)return;
-    const note=localNotes.find(item=>String(item.id)===String(editingNoteId));
-    if(!note)return;
-    const input=document.getElementById("editNoteInput");
-    const cleanText=String(input?.value||"").trim();
-    if(!cleanText){showToast("⚠️ متن یادداشت نمی‌تواند خالی باشد.");return;}
-    if(cleanText===TEST_NOTE_TEXT){showToast("⚠️ این متن قابل استفاده نیست.");return;}
-    const oldText=note.text;
-    note.text=cleanText; saveNotes(); renderNotes(); closeEditNoteModal();
-    if(!note.cloudId){showToast("✏️ یادداشت ویرایش شد.");return;}
-    try{
-        await updateNoteCloud(note);
-        const data=await getCloudData();
-        const cloudNote=Array.isArray(data.notes)?data.notes.find(item=>String(item.id)===String(note.cloudId)):null;
-        const cloudText=String(cloudNote?.note||cloudNote?.text||"").trim();
-        if(!cloudNote||cloudText!==cleanText)throw new Error("Edit verification failed");
-        await loadCloudData(false); showToast("✏️ یادداشت ویرایش شد.");
-    }catch(error){
-        console.error("Edit error:",error); note.text=oldText; saveNotes(); renderNotes(); showToast("⚠️ ویرایش ذخیره نشد.");
-    }
-}
-function askDeleteNote(id){
-    const note=localNotes.find(item=>String(item.id)===String(id));
-    if(!note)return; deletingNoteId=id; document.getElementById("deleteNoteModal")?.classList.add("show");
-}
-function closeDeleteConfirm(){deletingNoteId=null;document.getElementById("deleteNoteModal")?.classList.remove("show");}
-async function confirmDeleteNote(){
-    if(deletingNoteId===null)return;
-    const id=deletingNoteId; const note=localNotes.find(item=>String(item.id)===String(id));
-    if(!note){closeDeleteConfirm();return;}
-    closeDeleteConfirm();
-    const el=document.querySelector(`[data-note-id="${CSS.escape(String(id))}"]`);
-    if(el){el.classList.add("powder-out");await new Promise(r=>setTimeout(r,380));}
-    const backup={...note}; localNotes=localNotes.filter(item=>String(item.id)!==String(id)); saveNotes(); renderNotes();
-    if(!note.cloudId){showToast("🗑 یادداشت حذف شد.");return;}
-    try{
-        await cloudPost({action:"deleteNote",id:note.cloudId});
-        const data=await getCloudData();
-        const stillExists=Array.isArray(data.notes)&&data.notes.some(item=>String(item.id)===String(note.cloudId));
-        if(stillExists)throw new Error("Delete verification failed");
-        await loadCloudData(false); showToast("🗑 یادداشت حذف شد.");
-    }catch(error){
-        console.error("Delete error:",error); localNotes.unshift(backup); saveNotes(); renderNotes(); showToast("⚠️ حذف ذخیره نشد.");
-    }
-}
+function editNote(id){const note=localNotes.find(n=>String(n.id)===String(id));if(!note)return;editingNoteId=note.id;const input=document.getElementById("editNoteInput");if(input){input.value=note.text||"";document.getElementById("editModal").classList.add("show");setTimeout(()=>input.focus(),50)}}
+function closeEditNote(){editingNoteId=null;document.getElementById("editModal")?.classList.remove("show")}
+async function saveEditedNote(){const note=localNotes.find(n=>String(n.id)===String(editingNoteId));const input=document.getElementById("editNoteInput");if(!note||!input)return;const clean=input.value.trim();if(!clean){showToast("⚠️ متن یادداشت نمی‌تواند خالی باشد.");return}if(clean===TEST_NOTE_TEXT){showToast("⚠️ این متن قابل استفاده نیست.");return}const old=note.text;note.text=clean;saveNotes();renderNotes();closeEditNote();if(!note.cloudId){showToast("✏️ یادداشت ویرایش شد.");return}try{await updateNoteCloud(note);await loadCloudData(false);showToast("✏️ یادداشت ویرایش شد.")}catch(e){console.error(e);note.text=old;saveNotes();renderNotes();showToast("⚠️ ویرایش ذخیره نشد.")}}
 
 /* =====================================================
-   NOTES RENDER
+   DELETE NOTE
 ===================================================== */
 
-function renderNotes(){
-
-    const container =
-        document.getElementById(
-            "notesContainer"
-        );
-
-
-    if(!container){
-
-        return;
-
-    }
-
-
-    /*
-       یادداشت تستی هیچ‌وقت نمایش داده نمی‌شود.
-    */
-
-    const notes =
-        [...localNotes]
-        .filter(note => {
-
-            return String(
-                note.text || ""
-            ).trim() !== TEST_NOTE_TEXT;
-
-        })
-        .sort(
-            (a,b) =>
-                Number(!!b.pinned) -
-                Number(!!a.pinned)
-        );
-
-
-    container.innerHTML = "";
-
-
-    if(!notes.length){
-
-        container.innerHTML = `
-
-            <div
-                class="empty"
-                style="grid-column:1/-1">
-
-                <div class="emptyIcon">
-                    📝
-                </div>
-
-                هنوز یادداشتی ثبت نشده است.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    notes.forEach(note => {
-
-        const div =
-            document.createElement(
-                "div"
-            );
-
-
-        div.className =
-            "note" +
-
-            (
-                note.pinned
-                ? " pinned"
-                : ""
-            ) +
-
-            (
-                note.done
-                ? " done"
-                : ""
-            );
-
-
-        div.innerHTML = `
-
-            ${
-                note.pinned
-                ? '<div class="pinBadge">📌</div>'
-                : ""
-            }
-
-            <div class="noteText">
-                ${escapeHTML(
-                    note.text
-                )}
-            </div>
-
-            <div class="noteDate">
-                ${escapeHTML(
-                    noteDisplayDate(note)
-                )}
-            </div>
-
-            <div class="noteActions">
-
-                <button
-                    class="doneBtn ${
-                        note.done
-                        ? "doneActive"
-                        : ""
-                    }"
-                    onclick="toggleDone(
-                        ${JSON.stringify(note.id)}
-                    )">
-
-                    ✓ انجام شد
-
-                </button>
-
-                <button
-                    class="${
-                        note.pinned
-                        ? "pinActive"
-                        : ""
-                    }"
-                    onclick="togglePin(
-                        ${JSON.stringify(note.id)}
-                    )">
-
-                    ${
-                        note.pinned
-                        ? "📌 برداشتن پین"
-                        : "📌 پین"
-                    }
-
-                </button>
-
-                <button
-                    class="edit"
-                    onclick="editNote(
-                        ${JSON.stringify(note.id)}
-                    )">
-
-                    ✏️ ویرایش
-
-                </button>
-
-                <button
-                    class="delete"
-                    onclick="askDeleteNote(
-                        ${JSON.stringify(note.id)}
-                    )">
-
-                    🗑 حذف
-
-                </button>
-
-            </div>
-
-        `;
-
-
-        container.appendChild(div);
-
-    });
-
-}
-
-
-/* =====================================================
-   INCOME CHART
-===================================================== */
-
-function parseDateKey(value){
-
-    return String(
-        value || ""
-    ).trim();
-
-}
-
-
-function drawIncomeChart(){
-
-    const chartBars =
-        document.getElementById(
-            "chartBars"
-        );
-
-
-    const chartSummary =
-        document.getElementById(
-            "chartSummary"
-        );
-
-
-    if(!chartBars){
-
-        return;
-
-    }
-
-
-    const dailyMap = {};
-
-
-    allTransactions.forEach(item => {
-
-        const date =
-            parseDateKey(
-                item.date
-            ) || "بدون تاریخ";
-
-
-        if(!dailyMap[date]){
-
-            dailyMap[date] = 0;
-
-        }
-
-
-        dailyMap[date] += moneyValue(item.amount);
-
-    });
-
-
-    const entries = Object.entries(dailyMap).sort((a,b)=>String(a[0]).localeCompare(String(b[0])));
-
-
-    const visible =
-        entries.slice(-30);
-
-
-    if(!visible.length){
-
-        chartBars.innerHTML = `
-
-            <div class="chartEmpty">
-
-                📊 هنوز اطلاعاتی برای نمودار وجود ندارد.
-
-            </div>
-
-        `;
-
-        chartSummary.innerHTML = "";
-
-        return;
-
-    }
-
-
-    const maxValue =
-        Math.max(
-            ...visible.map(
-                item => item[1]
-            ),
-            1
-        );
-
-
-    chartBars.innerHTML = "";
-
-
-    visible.forEach(
-        ([date,value]) => {
-
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-
-            item.className =
-                "chartBarItem";
-
-
-            const valueBox =
-                document.createElement(
-                    "div"
-                );
-
-
-            valueBox.className =
-                "chartBarValue";
-
-
-            valueBox.textContent =
-                displayMoney(value);
-
-
-            const bar =
-                document.createElement(
-                    "div"
-                );
-
-
-            bar.className =
-                "chartBar";
-
-
-            const height =
-                Math.max(
-                    5,
-                    (
-                        value /
-                        maxValue
-                    ) * 235
-                );
-
-
-            bar.style.height =
-                height + "px";
-
-
-            bar.title =
-                money(value);
-
-
-            const label =
-                document.createElement(
-                    "div"
-                );
-
-
-            label.className =
-                "chartBarLabel";
-
-
-            label.textContent =
-                date;
-
-
-            item.appendChild(
-                valueBox
-            );
-
-            item.appendChild(
-                bar
-            );
-
-            item.appendChild(
-                label
-            );
-
-
-            chartBars.appendChild(
-                item
-            );
-
-        }
-    );
-
-
-    const total =
-        allTransactions.reduce(
-            (sum,item) =>
-                sum +
-                Number(
-                    item.amount || 0
-                ),
-            0
-        );
-
-
-    const days =
-        visible.length;
-
-
-    const average =
-        days
-        ? total / days
-        : 0;
-
-
-    chartSummary.innerHTML = `
-
-        <div class="chartSummaryItem">
-
-            مجموع درآمد
-
-            <strong>
-                ${displayMoney(total)}
-            </strong>
-
-        </div>
-
-        <div class="chartSummaryItem">
-
-            تعداد روزهای ثبت‌شده
-
-            <strong>
-                ${faNumber(days)}
-            </strong>
-
-        </div>
-
-        <div class="chartSummaryItem">
-
-            میانگین هر روز
-
-            <strong>
-                ${displayMoney(average)}
-            </strong>
-
-        </div>
-
-    `;
-
-}
-
-
-/* =====================================================
-   OPEN CHART
-===================================================== */
-
-function openChart(){
-
-    const section =
-        document.getElementById(
-            "chartSection"
-        );
-
-
-    drawIncomeChart();
-
-
-    if(section){
-
-        section.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
-
-    }
-
-}
-
-
-/* =====================================================
-   REPORT DATE
-===================================================== */
-
-function showDate(){
-
-    const today =
-        new Date();
-
-
-    const reportDate =
-        document.getElementById(
-            "reportDate"
-        );
-
-
-    if(reportDate){
-
-        reportDate.textContent =
-            "آخرین بروزرسانی: " +
-            today.toLocaleDateString(
-                "fa-IR"
-            );
-
-    }
-
-}
-
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-let toastTimer;
-
-
-function showToast(message){
-
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
-
-    if(!toast){
-
-        return;
-
-    }
-
-
-    toast.textContent =
-        message;
-
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    clearTimeout(
-        toastTimer
-    );
-
-
-    toastTimer =
-        setTimeout(
-            () => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            3000
-        );
-
-}
-
-
-/* =====================================================
-   MOBILE NAV
-===================================================== */
-
-function setNav(element){
-
-    document.querySelectorAll(
-        ".mobileNav a"
-    ).forEach(item => {
-
-        item.classList.remove(
-            "active"
-        );
-
-    });
-
-
-    element.classList.add(
-        "active"
-    );
-
-}
-
-
-/* =====================================================
-   SCROLL NAV
-===================================================== */
-
-if(
-    "IntersectionObserver"
-    in window
-){
-
-    const sections =
-        document.querySelectorAll(
-            "#home,#income,#transactions,#notes"
-        );
-
-
-    const observer =
-        new IntersectionObserver(
-
-            entries => {
-
-                entries.forEach(
-                    entry => {
-
-                        if(
-                            entry.isIntersecting
-                        ){
-
-                            const id =
-                                entry.target.id;
-
-
-                            document
-                                .querySelectorAll(
-                                    ".mobileNav a"
-                                )
-                                .forEach(
-                                    link => {
-
-                                        link.classList.remove(
-                                            "active"
-                                        );
-
-
-                                        if(
-                                            link.getAttribute(
-                                                "href"
-                                            ) ===
-                                            "#" + id
-                                        ){
-
-                                            link.classList.add(
-                                                "active"
-                                            );
-
-                                        }
-
-                                    }
-                                );
-
-                        }
-
-                    }
-                );
-
-            },
-
-            {
-                threshold:.35
-            }
-
-        );
-
-
-    sections.forEach(
-        section =>
-            observer.observe(section)
-    );
-
-}
-
-
-/* =====================================================
-   ENTER TO ADD NOTE
-===================================================== */
-
-const noteInput =
-    document.getElementById(
-        "noteInput"
-    );
-
-
-if(noteInput){
-
-    noteInput.addEventListener(
-        "keydown",
-        function(e){
-
-            if(
-                e.key === "Enter" &&
-                (e.ctrlKey || e.metaKey)
-            ){
-
-                e.preventDefault();
-
-                addNote();
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   MOUSE
-===================================================== */
-
-const mouseGlow =
-    document.getElementById(
-        "mouseGlow"
-    );
-
-const cursorDot =
-    document.getElementById(
-        "cursorDot"
-    );
-
-
-let mouseX =
-    window.innerWidth / 2;
-
-let mouseY =
-    window.innerHeight / 2;
-
-let glowX =
-    mouseX;
-
-let glowY =
-    mouseY;
-
-
-document.addEventListener(
-    "mousemove",
-    function(e){
-
-        mouseX =
-            e.clientX;
-
-        mouseY =
-            e.clientY;
-
-
-        if(cursorDot){
-
-            cursorDot.style.left =
-                mouseX + "px";
-
-            cursorDot.style.top =
-                mouseY + "px";
-
-        }
-
-    }
-);
-
-
-function animateGlow(){
-
-    glowX +=
-        (mouseX - glowX) * .08;
-
-    glowY +=
-        (mouseY - glowY) * .08;
-
-
-    if(mouseGlow){
-
-        mouseGlow.style.left =
-            glowX + "px";
-
-        mouseGlow.style.top =
-            glowY + "px";
-
-    }
-
-
-    requestAnimationFrame(
-        animateGlow
-    );
-
-}
-
-
-animateGlow();
-
-
+let pendingDeleteNoteId=null;
+function closeDeleteConfirm(){pendingDeleteNoteId=null;document.getElementById("deleteConfirmModal")?.classList.remove("show")}
+function askDeleteNote(id){const note=localNotes.find(item=>String(item.id)===String(id));if(!note)return;pendingDeleteNoteId=note.id;document.getElementById("deleteConfirmModal")?.classList.add("show")}
+async function confirmDeleteNote(){const id=pendingDeleteNoteId;closeDeleteConfirm();if(id==null)return;const note=localNotes.find(item=>String(item.id)===String(id));if(!note)return;const backup={...note};const el=document.querySelector('.note[data-note-id="'+CSS.escape(String(id))+'"]');if(el){el.classList.add("powder-out");await new Promise(r=>setTimeout(r,480))}localNotes=localNotes.filter(item=>String(item.id)!==String(id));saveNotes();renderNotes();if(!note.cloudId){showToast("🗑️ یادداشت حذف شد.");return}try{await cloudPost({action:"deleteNote",id:note.cloudId});await loadCloudData(false);showToast("🗑️ یادداشت حذف شد.")}catch(e){console.error(e);localNotes.push(backup);saveNotes();renderNotes();showToast("⚠️ حذف یادداشت ذخیره نشد.")}}
 
 /* =====================================================
    CHAT + PAYMENT REQUESTS
@@ -4086,7 +3285,7 @@ async function confirmPayment(){
         showToast("✅ پرداخت ثبت شد و تایید برای پنل ثبت ارسال شد."); closePaymentRequest(); await loadCloudData(false);
     }catch(e){console.error(e);showToast("⚠️ ثبت پرداخت انجام نشد.")}
 }
-function renderChat(){const box=document.getElementById("chatMessages");if(!box)return;box.innerHTML=managerMessages.slice().sort((a,b)=>(String(a.date)+String(a.time)).localeCompare(String(b.date)+String(b.time))).map(m=>{const mine=normalizeMethod(m.sender).includes("پنلخانم")||normalizeMethod(m.sender).includes("خانمدهقان");return `<div class="chatMsg ${mine?'mine':''}"><div>${escapeHTML(String(m.text||"").replace(/\*\*(?:دریافت شده|ارسال شده)\*\*/gi,"").replace(/(?:دریافت شده|ارسال شده)/gi,"").trim())}</div><small>${escapeHTML(m.time||"")}</small></div>`}).join("");box.scrollTop=box.scrollHeight}
+function renderChat(){const box=document.getElementById("chatMessages");if(!box)return;const list=managerMessages.slice().sort((a,b)=>(String(a.date)+String(a.time)).localeCompare(String(b.date)+String(b.time)));box.innerHTML=list.length?list.map(m=>{const mine=normalizeMethod(m.sender).includes("پنلخانم")||normalizeMethod(m.sender).includes("خانمدهقان");return `<div class="chatMsg ${mine?"mine":"incoming"}"><div>${escapeHTML(m.text||m.message||"")}</div><small>${escapeHTML(m.date||"")}${m.time?" • "+escapeHTML(m.time):""}</small></div>`}).join(""):`<div class="chatEmpty">هنوز پیامی ارسال نشده</div>`;box.scrollTop=box.scrollHeight}
 function openChat(){document.getElementById("chatOverlay").classList.add("show");renderChat();managerMessages.filter(m=>m.sender!=="پنل خانم دهقان"&&m.status!=="خوانده شد").forEach(m=>cloudPost({action:"markMessageRead",id:m.id,status:"خوانده شد"}).catch(()=>{}));document.getElementById("chatBadge").classList.remove("show")}
 function closeChat(){document.getElementById("chatOverlay").classList.remove("show")}
 async function sendManagerMessage(){const input=document.getElementById("chatInputOut");const text=input.value.trim();if(!text)return;try{await cloudPost({action:"addMessage",sender:"پنل خانم دهقان",text,status:"خوانده نشده",payment:"پرداخت نشده"});input.value="";await loadCloudData(false);renderChat();showToast("پیام ارسال شد ✓")}catch(e){showToast("⚠️ ارسال پیام ناموفق بود.")}}
@@ -4120,6 +3319,8 @@ loadCloudData();
 updateMoneyUI();
 setInterval(()=>loadCloudData(false),15000);
 window.addEventListener("scroll",()=>document.getElementById("backTop")?.classList.toggle("show",window.scrollY>350));
+const chatInputOut=document.getElementById("chatInputOut"); if(chatInputOut) chatInputOut.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendManagerMessage()}});
+
 
 </script>
 
