@@ -630,6 +630,10 @@ body::after{
 
 .tableWrap{
     overflow-x:auto;
+    overflow-y:auto;
+    max-height:560px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
 }
 
 table{
@@ -1423,6 +1427,60 @@ tbody tr:hover{
 }
 
 /* =========================
+   REPORT TITLE / CARD HOVER / MINI CHAT / PAYMENT STATUS
+========================= */
+.reportTitleCard{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 18px;
+    border:1px solid rgba(0,140,255,.20);
+    border-radius:16px;
+    background:linear-gradient(145deg,rgba(0,120,255,.10),rgba(255,255,255,.045));
+    box-shadow:inset 0 1px rgba(255,255,255,.07),0 10px 30px rgba(0,0,0,.22);
+    transition:.3s;
+}
+.reportTitleCard:hover{
+    transform:translateY(-3px);
+    border-color:rgba(0,156,255,.65);
+    box-shadow:0 0 32px rgba(0,140,255,.20),inset 0 1px rgba(255,255,255,.10);
+}
+.stat,.panel,.note{transition:.32s ease,box-shadow .32s ease,border-color .32s ease,transform .32s ease}
+.stat:hover,.panel:hover,.note:hover{
+    transform:translateY(-3px);
+    border-color:rgba(0,150,255,.40);
+    box-shadow:0 25px 70px rgba(0,0,0,.42),0 0 34px rgba(0,140,255,.10),inset 0 1px rgba(255,255,255,.08);
+}
+.miniChatBar{
+    position:relative;
+    z-index:6;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin:-6px 0 22px;
+    padding:10px 12px;
+    min-height:58px;
+    border:1px solid rgba(0,140,255,.15);
+    border-radius:18px;
+    background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(0,110,255,.045));
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+    box-shadow:inset 0 1px rgba(255,255,255,.06),0 14px 40px rgba(0,0,0,.20);
+}
+.miniChatHead{display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:11px;color:#9dc9ee}
+.miniChatHead button{border:1px solid rgba(0,140,255,.24);background:rgba(0,120,255,.08);color:#76c2ff;border-radius:10px;padding:7px 10px;font:inherit;cursor:pointer;transition:.25s}
+.miniChatHead button:hover{background:rgba(0,140,255,.16);box-shadow:0 0 18px rgba(0,140,255,.12)}
+.miniChatItems{display:flex;align-items:center;gap:8px;min-width:0;overflow-x:auto;scrollbar-width:thin;flex:1}
+.miniChatItems::-webkit-scrollbar{height:4px}.miniChatItems::-webkit-scrollbar-thumb{background:rgba(0,140,255,.25);border-radius:10px}
+.miniChatItem{flex:0 0 auto;max-width:280px;padding:8px 11px;border-radius:12px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.035);color:#a9bed0;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.miniChatItem.unread{border-color:rgba(0,140,255,.30);background:rgba(0,120,255,.08);color:#cceaff}
+.miniChatEmpty{color:#61788d;font-size:10px}
+.paymentStatus{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:9px;font-size:10px;white-space:nowrap}
+.paymentStatus.paid{color:#8ff0b5;background:rgba(34,197,94,.09);border:1px solid rgba(34,197,94,.18)}
+.paymentStatus.pending{color:#ffd28b;background:rgba(245,158,11,.09);border:1px solid rgba(245,158,11,.18)}
+.paymentStatus.none{color:#6e8599;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06)}
+
+/* =========================
    NEW FLOATING CONTROLS / CHAT / PAYMENT
 ========================= */
 .moneyRow{display:flex;align-items:center;gap:8px;position:relative;z-index:3}
@@ -1442,7 +1500,7 @@ tbody tr:hover{
 .chatMsg{max-width:min(72%,520px);padding:11px 14px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.045);backdrop-filter:blur(16px);border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,.16);line-height:1.8;font-size:12px;word-break:break-word}.chatMsg.out{align-self:flex-end;border-bottom-right-radius:6px;background:rgba(0,120,255,.10);border-color:rgba(0,140,255,.22)}.chatMsg.in{align-self:flex-start;border-bottom-left-radius:6px}.chatMeta{display:flex;gap:8px;color:#5e7890;font-size:9px;margin-top:5px}.chatUnread{color:#71c2ff}
 .chatComposer{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,.07)}.chatComposer textarea{flex:1;min-height:48px;max-height:110px;resize:none;border:1px solid rgba(255,255,255,.09);outline:none;border-radius:15px;background:rgba(255,255,255,.035);color:#fff;padding:11px;font-family:inherit}.chatSend{width:95px;border:0;border-radius:14px;background:linear-gradient(135deg,#007bff,#0052cc);color:#fff;font-family:inherit;cursor:pointer}
 .paymentCard{width:min(480px,92vw);background:linear-gradient(145deg,rgba(11,28,43,.91),rgba(2,9,16,.94));border:1px solid rgba(255,255,255,.15);border-radius:25px;padding:24px;box-shadow:0 35px 100px rgba(0,0,0,.7),0 0 40px rgba(0,140,255,.08);backdrop-filter:blur(30px)}.paymentTop{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.paymentTitle{font-size:18px}.paymentSub{font-size:10px;color:#6d8aa1;margin-top:5px}.paymentInfo{display:grid;gap:9px}.paymentInfoRow{display:flex;justify-content:space-between;gap:15px;padding:11px 13px;border-radius:13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}.paymentInfoRow span:first-child{color:#6d879e;font-size:10px}.paymentInfoRow span:last-child{color:#dcecff;font-size:12px;text-align:left}.paymentAmount{color:#63bdff!important;font-weight:bold}.paymentActions{display:flex;gap:9px;margin-top:16px}.payConfirm{flex:1;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.10);color:#8ff0b5;padding:12px;border-radius:14px;cursor:pointer;font-family:inherit}.payConfirm:hover{background:rgba(34,197,94,.18)}.payDismiss{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:#91a8ba;padding:12px 18px;border-radius:14px;cursor:pointer;font-family:inherit}
-@media(max-width:600px){.floatingTop,.floatingChat{width:50px;height:50px;bottom:88px}.floatingTop{left:14px}.floatingChat{right:14px}.chatOverlay,.paymentOverlay{padding:10px}.chatWindow{width:96vw;height:82vh;border-radius:20px}.chatMsg{max-width:84%}.chatComposer{flex-direction:row}.chatSend{width:78px}.paymentCard{padding:18px}.paymentInfoRow span:last-child{max-width:62%}}
+@media(max-width:600px){.reportTitleCard{font-size:21px;padding:10px 13px}.miniChatBar{align-items:stretch;flex-direction:column;gap:8px;padding:9px}.miniChatHead{justify-content:space-between}.miniChatItems{width:100%;padding-bottom:2px}.miniChatItem{max-width:220px}.floatingTop,.floatingChat{width:50px;height:50px;bottom:88px}.floatingTop{left:14px}.floatingChat{right:14px}.chatOverlay,.paymentOverlay{padding:10px}.chatWindow{width:96vw;height:82vh;border-radius:20px}.chatMsg{max-width:84%}.chatComposer{flex-direction:row}.chatSend{width:78px}.paymentCard{padding:18px}.paymentInfoRow span:last-child{max-width:62%}}
 @media print{.floatingTop,.floatingChat,.chatOverlay,.paymentOverlay{display:none!important}}
 
 </style>
@@ -1459,7 +1517,7 @@ tbody tr:hover{
 <header class="header">
 
     <div class="title">
-        <h1>📊 خروجی گزارش</h1>
+        <h1 class="reportTitleCard">📊 خروجی گزارش</h1>
         <p>کافی‌نت جانا • گزارش مالی</p>
     </div>
 
@@ -1476,6 +1534,16 @@ tbody tr:hover{
     </div>
 
 </header>
+
+<div class="miniChatBar" id="miniChatBar">
+    <div class="miniChatHead">
+        <span>💬 Mini Chat مدیریتی</span>
+        <button type="button" onclick="openChat()">باز کردن چت کامل</button>
+    </div>
+    <div class="miniChatItems" id="miniChatItems">
+        <span class="miniChatEmpty">در حال بارگذاری...</span>
+    </div>
+</div>
 
 <section class="stats" id="income">
 
@@ -1658,6 +1726,7 @@ tbody tr:hover{
                     <th>خدمت</th>
                     <th>مبلغ</th>
                     <th>روش پرداخت</th>
+                    <th>وضعیت پرداخت</th>
                     <th>توضیحات</th>
                 </tr>
 
@@ -1825,7 +1894,20 @@ function isTransferMethod(value){ const x=normalizeMethod(value); return x.inclu
 function isPosMethod(value){ return normalizeMethod(value)==="کارتخوان"; }
 function isCashMethod(value){ return normalizeMethod(value)==="نقدی"; }
 function secureMoney(value){ return moneyHidden ? "••••••" : money(value); }
-function toggleMoneyVisibility(){ moneyHidden=!moneyHidden; localStorage.setItem("jana_money_hidden",String(moneyHidden)); updateStats(); updateBubble(); renderTransactions(); }
+function isPaymentPaid(message){
+    const p=normalizeText(message?.payment ?? message?.paid ?? "");
+    return p.includes("پرداختشد") || p.includes("paid") || message?.paid===true;
+}
+function getTransactionPaymentBadge(item){
+    const id=String(item?.id ?? "").trim();
+    if(!id || !Array.isArray(allMessages) || !allMessages.length) return '<span class="paymentStatus none">—</span>';
+    const marker=`[TX:${id}]`;
+    const related=allMessages.filter(m=>String(m?.text||"").includes(marker));
+    if(related.some(isPaymentPaid)) return '<span class="paymentStatus paid">🟢 پرداخت شد</span>';
+    if(related.length) return '<span class="paymentStatus pending">🟠 در انتظار پرداخت</span>';
+    return '<span class="paymentStatus none">—</span>';
+}
+function toggleMoneyVisibility(){ moneyHidden=!moneyHidden; localStorage.setItem("jana_money_hidden",String(moneyHidden)); updateMoneyEyes(); updateStats(); updateBubble(); renderTransactions(); drawIncomeChart(); }
 function updateMoneyEyes(){ document.querySelectorAll('.moneyEye').forEach(b=>b.textContent=moneyHidden?'◉':'◌'); }
 
 
@@ -2557,6 +2639,12 @@ function getFilteredTransactions(){
     }
 
 
+    transactions.sort((a,b)=>{
+        const aa=String(a?.date||"")+" "+String(a?.time||"");
+        const bb=String(b?.date||"")+" "+String(b?.time||"");
+        return bb.localeCompare(aa,"fa");
+    });
+
     return transactions;
 
 }
@@ -2590,7 +2678,7 @@ function renderTransactions(){
 
             <tr>
 
-                <td colspan="7">
+                <td colspan="8">
 
                     <div class="empty">
 
@@ -2690,6 +2778,10 @@ function renderTransactions(){
 
                 </span>
 
+            </td>
+
+            <td>
+                ${getTransactionPaymentBadge(item)}
             </td>
 
             <td>
@@ -4347,11 +4439,24 @@ animateGlow();
 /* =====================================================
    MESSAGES / MINI CHAT / PAYMENT
 ===================================================== */
+function renderMiniChat(){
+    const box=document.getElementById("miniChatItems");
+    if(!box)return;
+    if(!allMessages.length){box.innerHTML='<span class="miniChatEmpty">هنوز پیامی ثبت نشده است.</span>';return;}
+    const recent=[...allMessages].slice(-5).reverse();
+    box.innerHTML=recent.map(m=>{
+        const unread=!m.read && String(m.sender||"").trim()!=="خانم دهقان";
+        const text=String(m.text||"").replace(/\[TX:[^\]]+\]/g,"").replace(/\s+/g," ").trim();
+        return `<button type="button" class="miniChatItem ${unread?"unread":""}" onclick="openChat()">${unread?"🔵 ":""}${escapeHTML(text||"پیام")}</button>`;
+    }).join("");
+}
 async function loadMessages(){
     try{
         const data=await getCloudData();
         allMessages=Array.isArray(data.messages)?data.messages:[];
+        renderMiniChat();
         renderChatMessages();
+        renderTransactions();
         checkPaymentRequests();
         updateChatBadge();
         return allMessages;
@@ -4396,10 +4501,32 @@ function parsePaymentMessage(m){
     const amount=(text.match(/مبلغ:\s*([^|]+)/)||[])[1]?.trim()||"-";
     return {tx,customer,service,amount};
 }
+function playPaymentSound(){
+    try{
+        const AudioCtx=window.AudioContext||window.webkitAudioContext;
+        if(!AudioCtx)return;
+        const ctx=new AudioCtx();
+        const gain=ctx.createGain();
+        const osc=ctx.createOscillator();
+        osc.type="sine";
+        osc.frequency.setValueAtTime(880,ctx.currentTime);
+        osc.frequency.setValueAtTime(1175,ctx.currentTime+.10);
+        gain.gain.setValueAtTime(.0001,ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.16,ctx.currentTime+.02);
+        gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.34);
+        osc.connect(gain); gain.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime+.36);
+        setTimeout(()=>ctx.close().catch(()=>{}),500);
+    }catch(e){}
+}
 function checkPaymentRequests(){
-    const pending=allMessages.find(m=>m.sender!=="خانم دهقان" && !m.paid && String(m.text||"").includes("[TX:"));
-    if(!pending){return;}
-    if(currentPaymentMessage && currentPaymentMessage.id===pending.id)return;
+    const pending=allMessages.find(m=>m.sender!=="خانم دهقان" && !isPaymentPaid(m) && String(m.text||"").includes("[TX:"));
+    if(!pending)return;
+    if(currentPaymentMessage && String(currentPaymentMessage.id)===String(pending.id))return;
+    const alertKey=String(pending.id||pending.text||"");
+    if(localStorage.getItem("jana_last_payment_alert")!==alertKey){
+        localStorage.setItem("jana_last_payment_alert",alertKey);
+        playPaymentSound();
+    }
     currentPaymentMessage=pending;
     const p=parsePaymentMessage(pending);
     const info=document.getElementById("paymentInfo");
@@ -4411,8 +4538,11 @@ async function confirmPayment(){
     try{
         await cloudPost({action:"setMessagePayment",id:currentPaymentMessage.id,payment:"پرداخت شد"});
         await cloudPost({action:"markMessageRead",id:currentPaymentMessage.id,status:"خوانده شد"});
-        currentPaymentMessage.paid=true; currentPaymentMessage.read=true;
-        showToast("🟢 پرداخت ثبت شد.");
+        const p=parsePaymentMessage(currentPaymentMessage);
+        const confirmation=`🟢 تایید پرداخت | [TX:${p.tx}] | خدمت: ${p.service} | مشتری: ${p.customer} | مبلغ: ${p.amount} | وضعیت: پرداخت شد`;
+        await cloudPost({action:"addMessage",sender:"خانم دهقان",text:confirmation,message:confirmation,status:"خوانده نشده",payment:"پرداخت شد"});
+        currentPaymentMessage.paid=true; currentPaymentMessage.payment="پرداخت شد"; currentPaymentMessage.read=true;
+        showToast("🟢 پرداخت ثبت شد و تأیید به پنل ثبت ارسال شد.");
         dismissPayment(); await loadMessages(); await loadCloudData(false);
     }catch(e){console.error(e);showToast("⚠️ ثبت پرداخت انجام نشد.")}
 }
