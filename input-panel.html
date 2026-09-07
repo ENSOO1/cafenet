@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -8,14 +9,9 @@
 <title>پنل ثبت - کافی‌نت جانـــا</title>
 
 <style>
+*{box-sizing:border-box}
 
-*{
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
+html{scroll-behavior:smooth}
 
 body{
     margin:0;
@@ -30,10 +26,6 @@ body{
     padding-bottom:40px;
     overflow-x:hidden;
 }
-
-/* =========================
-   BACKGROUND LIGHTS
-========================= */
 
 body:before,
 body:after{
@@ -74,10 +66,6 @@ body:after{
     to{transform:translate3d(-70px,-50px,0)}
 }
 
-/* =========================
-   MOUSE GLOW
-========================= */
-
 .mouseGlow{
     position:fixed;
     width:280px;
@@ -95,20 +83,12 @@ body:after{
     mix-blend-mode:screen;
 }
 
-/* =========================
-   MAIN
-========================= */
-
 .container{
     max-width:1250px;
     margin:auto;
     position:relative;
     z-index:2;
 }
-
-/* =========================
-   HEADER
-========================= */
 
 .header{
     display:flex;
@@ -137,10 +117,8 @@ body:after{
     border:1px solid rgba(255,255,255,.09);
     background:rgba(255,255,255,.045);
     border-radius:15px;
-
     backdrop-filter:blur(25px);
     -webkit-backdrop-filter:blur(25px);
-
     transition:.35s;
     box-shadow:
         inset 0 1px rgba(255,255,255,.06),
@@ -156,10 +134,6 @@ body:after{
         0 0 30px rgba(0,125,255,.20);
 }
 
-/* =========================
-   STATS
-========================= */
-
 .stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -171,28 +145,22 @@ body:after{
 .stat{
     padding:25px;
     border-radius:24px;
-
     background:
         linear-gradient(
             135deg,
             rgba(255,255,255,.075),
             rgba(255,255,255,.025)
         );
-
     border:1px solid rgba(255,255,255,.09);
-
     backdrop-filter:blur(32px);
     -webkit-backdrop-filter:blur(32px);
-
     box-shadow:
         inset 0 1px rgba(255,255,255,.07),
         0 20px 55px rgba(0,0,0,.45);
-
     transition:
         transform .45s cubic-bezier(.2,.8,.2,1),
         box-shadow .45s,
         border-color .45s;
-
     position:relative;
     overflow:hidden;
 }
@@ -226,7 +194,6 @@ body:after{
 .stat:hover{
     transform:translateY(-9px) scale(1.015);
     border-color:rgba(0,255,136,.35);
-
     box-shadow:
         inset 0 1px rgba(255,255,255,.09),
         0 25px 65px rgba(0,0,0,.60),
@@ -249,10 +216,6 @@ body:after{
     text-shadow:0 0 20px rgba(0,255,136,.20);
 }
 
-/* =========================
-   MAIN PANELS
-========================= */
-
 .main{
     display:grid;
     grid-template-columns:380px 1fr;
@@ -267,23 +230,18 @@ body:after{
             rgba(255,255,255,.065),
             rgba(255,255,255,.022)
         );
-
     border:1px solid rgba(255,255,255,.09);
     border-radius:28px;
     padding:28px;
-
     backdrop-filter:blur(35px);
     -webkit-backdrop-filter:blur(35px);
-
     box-shadow:
         inset 0 1px rgba(255,255,255,.07),
         0 25px 75px rgba(0,0,0,.55);
-
     transition:
         transform .45s cubic-bezier(.2,.8,.2,1),
         border-color .4s,
         box-shadow .4s;
-
     position:relative;
     overflow:hidden;
 }
@@ -304,7 +262,6 @@ body:after{
 .panel:hover{
     transform:translateY(-5px);
     border-color:rgba(0,130,255,.38);
-
     box-shadow:
         inset 0 1px rgba(255,255,255,.08),
         0 30px 80px rgba(0,0,0,.65),
@@ -318,10 +275,6 @@ body:after{
     z-index:1;
 }
 
-/* =========================
-   FORM
-========================= */
-
 label{
     display:block;
     font-size:12px;
@@ -334,20 +287,14 @@ select,
 textarea{
     width:100%;
     padding:14px 15px;
-
     background:rgba(0,0,0,.38);
-
     border:1px solid rgba(255,255,255,.09);
     border-radius:14px;
-
     color:white;
     outline:none;
-
     font-family:inherit;
-
     backdrop-filter:blur(15px);
     -webkit-backdrop-filter:blur(15px);
-
     transition:
         border-color .3s,
         box-shadow .3s,
@@ -367,11 +314,9 @@ select:focus,
 textarea:focus{
     border-color:#087dff;
     background:rgba(0,20,35,.45);
-
     box-shadow:
         0 0 0 3px rgba(0,125,255,.06),
         0 0 28px rgba(0,125,255,.16);
-
     transform:translateY(-1px);
 }
 
@@ -401,10 +346,6 @@ textarea{
     color:#555;
 }
 
-/* =========================
-   BUTTONS
-========================= */
-
 button{
     font-family:inherit;
     cursor:pointer;
@@ -414,24 +355,19 @@ button{
     width:100%;
     margin-top:22px;
     padding:16px;
-
     border-radius:16px;
     border:1px solid rgba(0,255,136,.35);
-
     background:
         linear-gradient(
             135deg,
             rgba(0,255,136,.13),
             rgba(0,255,136,.045)
         );
-
     color:#00ff88;
     font-size:16px;
     font-weight:bold;
-
     backdrop-filter:blur(15px);
     -webkit-backdrop-filter:blur(15px);
-
     transition:
         transform .35s,
         box-shadow .35s,
@@ -440,16 +376,13 @@ button{
 
 .save:hover{
     transform:translateY(-5px) scale(1.01);
-
     background:
         linear-gradient(
             135deg,
             rgba(0,255,136,.20),
             rgba(0,255,136,.06)
         );
-
     border-color:#00ff88;
-
     box-shadow:
         0 15px 40px rgba(0,0,0,.4),
         0 0 35px rgba(0,255,136,.20);
@@ -459,16 +392,18 @@ button{
     transform:translateY(-1px) scale(.99);
 }
 
+.save.loading{
+    opacity:.65;
+    pointer-events:none;
+}
+
 .cancel{
     width:100%;
     margin-top:10px;
     padding:12px;
-
     border-radius:15px;
-
     border:1px solid rgba(255,255,255,.08);
     background:rgba(255,255,255,.035);
-
     color:#999;
     display:none;
     transition:.3s;
@@ -479,10 +414,6 @@ button{
     border-color:rgba(255,255,255,.2);
     transform:translateY(-2px);
 }
-
-/* =========================
-   TOOLBAR
-========================= */
 
 .toolbar{
     display:flex;
@@ -496,13 +427,9 @@ button{
 
 .clear{
     padding:0 18px;
-
     border-radius:13px;
-
     border:1px solid rgba(255,255,255,.08);
-
     background:rgba(255,255,255,.04);
-
     color:#aaa;
     transition:.3s;
 }
@@ -513,10 +440,6 @@ button{
     background:rgba(0,125,255,.08);
     box-shadow:0 0 20px rgba(0,125,255,.10);
 }
-
-/* =========================
-   TABLE
-========================= */
 
 .tableWrap{
     overflow-x:auto;
@@ -599,56 +522,34 @@ tbody tr:hover td{
     box-shadow:0 0 18px rgba(255,73,104,.12);
 }
 
-/* =========================
-   EMPTY
-========================= */
-
 .empty{
     text-align:center;
     padding:60px 20px;
     color:#555;
 }
 
-/* =========================
-   SUCCESS
-========================= */
-
 .success{
     position:fixed;
     left:50%;
     top:25px;
-
     transform:translateX(-50%) translateY(-120px);
-
     padding:14px 25px;
-
     border-radius:16px;
-
     background:rgba(0,255,136,.10);
-
     border:1px solid rgba(0,255,136,.35);
-
     color:#00ff88;
-
     backdrop-filter:blur(25px);
     -webkit-backdrop-filter:blur(25px);
-
     box-shadow:
         0 20px 50px rgba(0,0,0,.45),
         0 0 30px rgba(0,255,136,.12);
-
     transition:.45s cubic-bezier(.2,.8,.2,1);
-
     z-index:100;
 }
 
 .success.show{
     transform:translateX(-50%) translateY(0);
 }
-
-/* =========================
-   MOBILE BOTTOM NAV
-========================= */
 
 .mobileNav{
     display:none;
@@ -657,19 +558,14 @@ tbody tr:hover td{
 .navItem{
     text-decoration:none;
     color:#777;
-
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-
     gap:4px;
-
     min-width:58px;
     height:55px;
-
     border-radius:18px;
-
     transition:.3s;
     position:relative;
 }
@@ -688,7 +584,6 @@ tbody tr:hover td{
     color:#00ff88;
     background:rgba(0,255,136,.075);
     border:1px solid rgba(0,255,136,.16);
-
     box-shadow:
         0 0 25px rgba(0,255,136,.08),
         inset 0 1px rgba(255,255,255,.06);
@@ -704,10 +599,6 @@ tbody tr:hover td{
     background:#00ff88;
     box-shadow:0 0 12px #00ff88;
 }
-
-/* =========================
-   MOBILE
-========================= */
 
 @media(max-width:950px){
 
@@ -829,10 +720,6 @@ tbody tr:hover td{
         padding:0 14px;
     }
 
-    /*
-       تبدیل جدول به کارت در موبایل
-    */
-
     .tableWrap{
         overflow:visible;
         margin:0;
@@ -856,24 +743,18 @@ tbody tr:hover td{
 
     tbody tr{
         position:relative;
-
         margin-bottom:11px;
         padding:13px;
-
         border-radius:18px;
-
         background:
             linear-gradient(
                 135deg,
                 rgba(255,255,255,.055),
                 rgba(255,255,255,.018)
             );
-
         border:1px solid rgba(255,255,255,.07);
-
         backdrop-filter:blur(20px);
         -webkit-backdrop-filter:blur(20px);
-
         box-shadow:
             inset 0 1px rgba(255,255,255,.05),
             0 12px 30px rgba(0,0,0,.28);
@@ -904,29 +785,12 @@ tbody tr:hover td{
         flex-shrink:0;
     }
 
-    tbody td:nth-child(1):before{
-        content:"تاریخ";
-    }
-
-    tbody td:nth-child(2):before{
-        content:"مشتری";
-    }
-
-    tbody td:nth-child(3):before{
-        content:"خدمت";
-    }
-
-    tbody td:nth-child(4):before{
-        content:"مبلغ";
-    }
-
-    tbody td:nth-child(5):before{
-        content:"پرداخت";
-    }
-
-    tbody td:nth-child(6):before{
-        content:"عملیات";
-    }
+    tbody td:nth-child(1):before{content:"تاریخ"}
+    tbody td:nth-child(2):before{content:"مشتری"}
+    tbody td:nth-child(3):before{content:"خدمت"}
+    tbody td:nth-child(4):before{content:"مبلغ"}
+    tbody td:nth-child(5):before{content:"پرداخت"}
+    tbody td:nth-child(6):before{content:"عملیات"}
 
     tbody td:first-child{
         padding-top:0;
@@ -952,46 +816,31 @@ tbody tr:hover td{
         padding:40px 10px;
     }
 
-    /*
-       نوار پایین شناور
-    */
-
     .mobileNav{
         position:fixed;
-
         display:flex;
         align-items:center;
         justify-content:space-around;
-
         left:10px;
         right:10px;
         bottom:10px;
-
-        height:73px;
-
+        min-height:73px;
         padding:8px;
-
         border-radius:25px;
-
         background:
             linear-gradient(
                 135deg,
                 rgba(18,22,24,.78),
                 rgba(4,8,10,.70)
             );
-
         border:1px solid rgba(255,255,255,.10);
-
         backdrop-filter:blur(30px) saturate(150%);
         -webkit-backdrop-filter:blur(30px) saturate(150%);
-
         box-shadow:
             inset 0 1px rgba(255,255,255,.08),
             0 18px 50px rgba(0,0,0,.65),
             0 0 35px rgba(0,255,136,.05);
-
         z-index:90;
-
         padding-bottom:calc(8px + env(safe-area-inset-bottom));
     }
 
@@ -1000,19 +849,10 @@ tbody tr:hover td{
         height:54px;
     }
 
-    /*
-       مخفی کردن Mouse Glow روی موبایل
-       چون لمس موبایل به آن نیازی ندارد
-    */
-
     .mouseGlow{
         display:none;
     }
 }
-
-/* =========================
-   SMALL PHONES
-========================= */
 
 @media(max-width:370px){
 
@@ -1047,10 +887,6 @@ tbody tr:hover td{
     }
 }
 
-/* =========================
-   REDUCE MOTION
-========================= */
-
 @media(prefers-reduced-motion:reduce){
 
     *,
@@ -1061,7 +897,6 @@ tbody tr:hover td{
         scroll-behavior:auto!important;
     }
 }
-
 </style>
 </head>
 
@@ -1075,7 +910,6 @@ tbody tr:hover td{
 
 <div class="container">
 
-    <!-- HEADER -->
     <div class="header" id="home">
 
         <div class="title">
@@ -1089,8 +923,6 @@ tbody tr:hover td{
 
     </div>
 
-
-    <!-- STATS -->
     <div class="stats" id="income">
 
         <div class="stat">
@@ -1115,11 +947,8 @@ tbody tr:hover td{
 
     </div>
 
-
-    <!-- MAIN -->
     <div class="main">
 
-        <!-- FORM -->
         <div class="panel" id="register">
 
             <h2 id="formTitle">➕ ثبت تراکنش</h2>
@@ -1132,13 +961,10 @@ tbody tr:hover td{
                 autocomplete="off"
             >
 
-
             <label>نوع خدمت</label>
 
             <select id="service">
-
                 <option value="">انتخاب خدمت</option>
-
                 <option>پرینت</option>
                 <option>کافی‌نت</option>
                 <option>ثبت‌نام</option>
@@ -1147,9 +973,7 @@ tbody tr:hover td{
                 <option>اسکن</option>
                 <option>خدمات اداری</option>
                 <option>سایر</option>
-
             </select>
-
 
             <label>مبلغ</label>
 
@@ -1161,17 +985,13 @@ tbody tr:hover td{
                 placeholder="مثلاً 1,500,000"
             >
 
-
             <label>روش پرداخت</label>
 
             <select id="method">
-
                 <option value="کارتخوان">کارتخوان</option>
                 <option value="نقدی">نقدی</option>
                 <option value="کارت‌به‌کارت">کارت‌به‌کارت</option>
-
             </select>
-
 
             <label>توضیحات</label>
 
@@ -1180,7 +1000,6 @@ tbody tr:hover td{
                 placeholder="توضیحات اختیاری"
             ></textarea>
 
-
             <button
                 class="save"
                 onclick="saveTransaction()"
@@ -1188,7 +1007,6 @@ tbody tr:hover td{
             >
                 ثبت تراکنش
             </button>
-
 
             <button
                 class="cancel"
@@ -1200,8 +1018,6 @@ tbody tr:hover td{
 
         </div>
 
-
-        <!-- TRANSACTIONS -->
         <div class="panel" id="transactions">
 
             <h2>📋 تراکنش‌ها</h2>
@@ -1224,13 +1040,11 @@ tbody tr:hover td{
 
             </div>
 
-
             <div class="tableWrap">
 
                 <table>
 
                     <thead>
-
                         <tr>
                             <th>تاریخ</th>
                             <th>مشتری</th>
@@ -1239,7 +1053,6 @@ tbody tr:hover td{
                             <th>پرداخت</th>
                             <th>عملیات</th>
                         </tr>
-
                     </thead>
 
                     <tbody id="tableBody"></tbody>
@@ -1254,11 +1067,6 @@ tbody tr:hover td{
 
 </div>
 
-
-<!-- =========================
-     MOBILE BOTTOM NAV
-========================= -->
-
 <nav class="mobileNav">
 
     <a
@@ -1271,7 +1079,6 @@ tbody tr:hover td{
         <span class="navText">خانه</span>
     </a>
 
-
     <a
         href="#register"
         class="navItem"
@@ -1281,7 +1088,6 @@ tbody tr:hover td{
         <span class="navIcon">＋</span>
         <span class="navText">ثبت</span>
     </a>
-
 
     <a
         href="#income"
@@ -1293,7 +1099,6 @@ tbody tr:hover td{
         <span class="navText">درآمد</span>
     </a>
 
-
     <a
         href="#transactions"
         class="navItem"
@@ -1303,7 +1108,6 @@ tbody tr:hover td{
         <span class="navIcon">▤</span>
         <span class="navText">تراکنش‌ها</span>
     </a>
-
 
     <a
         href="index.html"
@@ -1315,12 +1119,19 @@ tbody tr:hover td{
 
 </nav>
 
-
 <script>
 
-/* =========================
-   DATA
-========================= */
+/* =====================================================
+   GOOGLE APPS SCRIPT API
+===================================================== */
+
+const GOOGLE_API_URL =
+"https://script.google.com/macros/s/AKfycby4CtQL9ZEHkcjJFqVos0hQ1Z1C2xpI6ZO_dLGxiucGTCgLGzSoM3VgEuoRsOTXviQ4XA/exec";
+
+
+/* =====================================================
+   LOCAL DATA
+===================================================== */
 
 let transactions =
 JSON.parse(
@@ -1330,9 +1141,9 @@ JSON.parse(
 let editId = null;
 
 
-/* =========================
+/* =====================================================
    MOUSE GLOW
-========================= */
+===================================================== */
 
 const mouseGlow =
 document.getElementById("mouseGlow");
@@ -1350,9 +1161,9 @@ document.addEventListener("mousemove",(e)=>{
 });
 
 
-/* =========================
+/* =====================================================
    AMOUNT FORMAT
-========================= */
+===================================================== */
 
 const amountInput =
 document.getElementById("amount");
@@ -1398,9 +1209,9 @@ function money(value){
 }
 
 
-/* =========================
-   SAVE DATA
-========================= */
+/* =====================================================
+   LOCAL SAVE
+===================================================== */
 
 function saveData(){
 
@@ -1412,11 +1223,74 @@ function saveData(){
 }
 
 
-/* =========================
-   SAVE TRANSACTION
-========================= */
+/* =====================================================
+   SEND TRANSACTION TO GOOGLE SHEETS
+===================================================== */
 
-function saveTransaction(){
+async function sendToGoogle(transaction){
+
+    /*
+       از text/plain استفاده می‌کنیم تا درخواست
+       ساده باشد و مشکل CORS / preflight ایجاد نشود.
+    */
+
+    try{
+
+        await fetch(
+            GOOGLE_API_URL,
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "text/plain;charset=utf-8"
+                },
+
+                body:JSON.stringify({
+
+                    action:"addTransaction",
+
+                    date:transaction.date,
+
+                    time:transaction.time,
+
+                    customer:transaction.customer,
+
+                    service:transaction.service,
+
+                    amount:transaction.amount,
+
+                    method:transaction.method,
+
+                    description:transaction.description
+
+                }),
+
+                mode:"no-cors"
+            }
+        );
+
+        return true;
+
+    }catch(error){
+
+        console.error(
+            "Google Sheets Error:",
+            error
+        );
+
+        return false;
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE TRANSACTION
+===================================================== */
+
+async function saveTransaction(){
 
     const customer =
         document
@@ -1468,7 +1342,9 @@ function saveTransaction(){
     }
 
 
-    /* EDIT */
+    /* =================================================
+       EDIT
+    ================================================= */
 
     if(editId !== null){
 
@@ -1491,54 +1367,129 @@ function saveTransaction(){
 
         document
             .getElementById("formTitle")
-            .innerText = "➕ ثبت تراکنش";
+            .innerText =
+            "➕ ثبت تراکنش";
 
         document
             .getElementById("saveBtn")
-            .innerText = "ثبت تراکنش";
+            .innerText =
+            "ثبت تراکنش";
 
         document
             .getElementById("cancelBtn")
-            .style.display = "none";
+            .style.display =
+            "none";
+
+        saveData();
+
+        clearForm();
+
+        render();
+
+        showSuccess(
+            "تغییرات محلی ذخیره شد ✓"
+        );
+
+        return;
 
     }
 
 
-    /* NEW */
+    /* =================================================
+       NEW TRANSACTION
+    ================================================= */
 
-    else{
+    const now = new Date();
 
-        transactions.unshift({
+    const transaction = {
 
-            id:Date.now(),
+        id:Date.now(),
 
-            customer,
-            service,
-            amount,
-            method,
-            description,
+        customer,
 
-            date:new Date().toISOString()
+        service,
 
-        });
+        amount,
 
-    }
+        method,
 
+        description,
+
+        date:now.toISOString(),
+
+        time:now.toLocaleTimeString(
+            "fa-IR",
+            {
+                hour:"2-digit",
+                minute:"2-digit"
+            }
+        )
+
+    };
+
+
+    /* ابتدا در دستگاه ذخیره می‌کنیم */
+
+    transactions.unshift(
+        transaction
+    );
 
     saveData();
 
-    clearForm();
-
     render();
 
-    showSuccess();
+    clearForm();
+
+
+    /* =================================================
+       ارسال به Google Sheets
+    ================================================= */
+
+    const saveBtn =
+        document.getElementById(
+            "saveBtn"
+        );
+
+    saveBtn.classList.add("loading");
+
+    saveBtn.innerText =
+        "در حال ذخیره آنلاین...";
+
+
+    const sent =
+        await sendToGoogle(
+            transaction
+        );
+
+
+    saveBtn.classList.remove(
+        "loading"
+    );
+
+    saveBtn.innerText =
+        "ثبت تراکنش";
+
+
+    if(sent){
+
+        showSuccess(
+            "تراکنش در سیستم ذخیره شد ✓"
+        );
+
+    }else{
+
+        showSuccess(
+            "محلی ذخیره شد؛ اتصال آنلاین ناموفق بود"
+        );
+
+    }
 
 }
 
 
-/* =========================
+/* =====================================================
    CLEAR FORM
-========================= */
+===================================================== */
 
 function clearForm(){
 
@@ -1561,9 +1512,9 @@ function clearForm(){
 }
 
 
-/* =========================
+/* =====================================================
    EDIT
-========================= */
+===================================================== */
 
 function editTransaction(id){
 
@@ -1577,23 +1528,28 @@ function editTransaction(id){
 
     document
         .getElementById("customer")
-        .value = item.customer;
+        .value =
+        item.customer;
 
     document
         .getElementById("service")
-        .value = item.service;
+        .value =
+        item.service;
 
     document
         .getElementById("amount")
-        .value = money(item.amount);
+        .value =
+        money(item.amount);
 
     document
         .getElementById("method")
-        .value = item.method;
+        .value =
+        item.method;
 
     document
         .getElementById("description")
-        .value = item.description || "";
+        .value =
+        item.description || "";
 
 
     editId = id;
@@ -1601,15 +1557,18 @@ function editTransaction(id){
 
     document
         .getElementById("formTitle")
-        .innerText = "✏️ ویرایش تراکنش";
+        .innerText =
+        "✏️ ویرایش تراکنش";
 
     document
         .getElementById("saveBtn")
-        .innerText = "ذخیره تغییرات";
+        .innerText =
+        "ذخیره تغییرات";
 
     document
         .getElementById("cancelBtn")
-        .style.display = "block";
+        .style.display =
+        "block";
 
 
     window.scrollTo({
@@ -1620,9 +1579,9 @@ function editTransaction(id){
 }
 
 
-/* =========================
+/* =====================================================
    CANCEL EDIT
-========================= */
+===================================================== */
 
 function cancelEdit(){
 
@@ -1632,22 +1591,25 @@ function cancelEdit(){
 
     document
         .getElementById("formTitle")
-        .innerText = "➕ ثبت تراکنش";
+        .innerText =
+        "➕ ثبت تراکنش";
 
     document
         .getElementById("saveBtn")
-        .innerText = "ثبت تراکنش";
+        .innerText =
+        "ثبت تراکنش";
 
     document
         .getElementById("cancelBtn")
-        .style.display = "none";
+        .style.display =
+        "none";
 
 }
 
 
-/* =========================
+/* =====================================================
    DELETE
-========================= */
+===================================================== */
 
 function deleteTransaction(id){
 
@@ -1665,12 +1627,16 @@ function deleteTransaction(id){
 
     render();
 
+    showSuccess(
+        "تراکنش از دستگاه حذف شد ✓"
+    );
+
 }
 
 
-/* =========================
+/* =====================================================
    SEARCH
-========================= */
+===================================================== */
 
 function clearSearch(){
 
@@ -1683,9 +1649,9 @@ function clearSearch(){
 }
 
 
-/* =========================
+/* =====================================================
    DATE
-========================= */
+===================================================== */
 
 function formatDate(date){
 
@@ -1709,9 +1675,9 @@ function formatTime(date){
 }
 
 
-/* =========================
+/* =====================================================
    RENDER
-========================= */
+===================================================== */
 
 function render(){
 
@@ -1798,13 +1764,11 @@ function render(){
 
                 </td>
 
-
                 <td>
 
                     ${escapeHTML(x.customer)}
 
                 </td>
-
 
                 <td>
 
@@ -1812,13 +1776,11 @@ function render(){
 
                 </td>
 
-
                 <td class="amountCell">
 
                     ${money(x.amount)}
 
                 </td>
-
 
                 <td>
 
@@ -1829,7 +1791,6 @@ function render(){
                     </span>
 
                 </td>
-
 
                 <td>
 
@@ -1867,9 +1828,9 @@ function render(){
 }
 
 
-/* =========================
+/* =====================================================
    STATS
-========================= */
+===================================================== */
 
 function updateStats(){
 
@@ -1915,34 +1876,41 @@ function updateStats(){
 
     document
         .getElementById("total")
-        .innerText = money(total);
+        .innerText =
+        money(total);
 
     document
         .getElementById("today")
-        .innerText = money(todayTotal);
+        .innerText =
+        money(todayTotal);
 
     document
         .getElementById("count")
-        .innerText = money(count);
+        .innerText =
+        money(count);
 
     document
         .getElementById("average")
         .innerText =
-            money(Math.round(avg));
+        money(Math.round(avg));
 
 }
 
 
-/* =========================
-   SUCCESS
-========================= */
+/* =====================================================
+   SUCCESS MESSAGE
+===================================================== */
 
-function showSuccess(){
+function showSuccess(message){
 
     const box =
         document.getElementById(
             "success"
         );
+
+    box.innerText =
+        message ||
+        "تراکنش با موفقیت ثبت شد ✓";
 
     box.classList.add("show");
 
@@ -1951,14 +1919,14 @@ function showSuccess(){
 
         box.classList.remove("show");
 
-    },1800);
+    },2200);
 
 }
 
 
-/* =========================
+/* =====================================================
    SECURITY / HTML ESCAPE
-========================= */
+===================================================== */
 
 function escapeHTML(text){
 
@@ -1992,9 +1960,9 @@ function escapeHTML(text){
 }
 
 
-/* =========================
+/* =====================================================
    MOBILE NAV
-========================= */
+===================================================== */
 
 function setActiveNav(element){
 
@@ -2002,18 +1970,22 @@ function setActiveNav(element){
         .querySelectorAll(".navItem")
         .forEach(item => {
 
-            item.classList.remove("active");
+            item.classList.remove(
+                "active"
+            );
 
         });
 
-    element.classList.add("active");
+    element.classList.add(
+        "active"
+    );
 
 }
 
 
-/* =========================
+/* =====================================================
    NAV ACTIVE ON SCROLL
-========================= */
+===================================================== */
 
 const navSections = [
     "home",
@@ -2067,9 +2039,9 @@ window.addEventListener(
 );
 
 
-/* =========================
+/* =====================================================
    INITIAL RENDER
-========================= */
+===================================================== */
 
 render();
 
@@ -2077,3 +2049,4 @@ render();
 
 </body>
 </html>
+```
