@@ -306,12 +306,10 @@ body::after{
     width:235px;
     height:235px;
     border-radius:50%;
-
     display:flex;
     align-items:center;
     justify-content:center;
     text-align:center;
-
     background:
         radial-gradient(
             circle at 32% 25%,
@@ -320,17 +318,13 @@ body::after{
             rgba(0,140,255,.09) 58%,
             rgba(0,80,180,.035)
         );
-
     border:1px solid rgba(255,255,255,.22);
-
     backdrop-filter:blur(25px);
     -webkit-backdrop-filter:blur(25px);
-
     box-shadow:
         inset 12px 12px 35px rgba(255,255,255,.06),
         inset -15px -15px 35px rgba(0,80,180,.08),
         0 25px 70px rgba(0,0,0,.45);
-
     animation:bubbleFloat 4s ease-in-out infinite;
 }
 
@@ -339,7 +333,6 @@ body::after{
     position:absolute;
     inset:-5px;
     border-radius:50%;
-
     background:conic-gradient(
         from 0deg,
         transparent 0deg,
@@ -349,18 +342,13 @@ body::after{
         transparent 170deg,
         transparent 360deg
     );
-
     -webkit-mask:
         linear-gradient(#000 0 0) content-box,
         linear-gradient(#000 0 0);
-
     -webkit-mask-composite:xor;
     mask-composite:exclude;
-
     padding:3px;
-
     animation:rotateGlow 2.8s linear infinite;
-
     filter:
         drop-shadow(0 0 7px #008cff)
         drop-shadow(0 0 16px rgba(0,140,255,.75));
@@ -374,11 +362,8 @@ body::after{
     border-radius:50%;
     top:28px;
     left:42px;
-
     background:rgba(255,255,255,.12);
-
     filter:blur(5px);
-
     transform:rotate(-25deg);
 }
 
@@ -395,7 +380,6 @@ body::after{
     0%,100%{
         transform:translateY(0) scale(1);
     }
-
     50%{
         transform:translateY(-13px) scale(1.025);
     }
@@ -863,7 +847,6 @@ tbody tr:hover{
     background:rgba(0,140,255,.08);
 }
 
-/* انجام شد وقتی فعال است سبز شود */
 .noteActions .doneBtn.doneActive{
     color:#8ff0b5;
     background:rgba(34,197,94,.14);
@@ -1465,11 +1448,6 @@ tbody tr:hover{
 
     </header>
 
-
-    <!-- =========================
-         STATS
-    ========================== -->
-
     <section class="stats" id="income">
 
         <div class="stat">
@@ -1503,11 +1481,6 @@ tbody tr:hover{
         </div>
 
     </section>
-
-
-    <!-- =========================
-         INCOME BUBBLE
-    ========================== -->
 
     <section class="panel">
 
@@ -1561,11 +1534,6 @@ tbody tr:hover{
 
     </section>
 
-
-    <!-- =========================
-         SECOND SLIDE / CHART
-    ========================== -->
-
     <section
         class="panel chartPanel"
         id="chartSection">
@@ -1600,11 +1568,6 @@ tbody tr:hover{
         </div>
 
     </section>
-
-
-    <!-- =========================
-         TRANSACTIONS
-    ========================== -->
 
     <section class="panel" id="transactions">
 
@@ -1657,7 +1620,6 @@ tbody tr:hover{
 
         </div>
 
-
         <div class="tableWrap">
 
             <table>
@@ -1683,11 +1645,6 @@ tbody tr:hover{
         </div>
 
     </section>
-
-
-    <!-- =========================
-         NOTES
-    ========================== -->
 
     <section class="panel" id="notes">
 
@@ -1715,7 +1672,6 @@ tbody tr:hover{
 
         </div>
 
-
         <div
             class="notes"
             id="notesContainer">
@@ -1724,11 +1680,6 @@ tbody tr:hover{
     </section>
 
 </div>
-
-
-<!-- =========================
-     MOBILE NAV
-========================= -->
 
 <nav class="mobileNav">
 
@@ -1779,7 +1730,6 @@ tbody tr:hover{
 
 </nav>
 
-
 <div
     class="toast"
     id="toast">
@@ -1805,6 +1755,15 @@ let allTransactions = [];
 let currentFilter = "all";
 
 let localNotes = [];
+
+
+/* =====================================================
+   TEST NOTE
+   یادداشت آزمایشی از پنل نمایش داده نمی‌شود
+===================================================== */
+
+const TEST_NOTE_TEXT =
+"این یک یادداشت آزمایشی است";
 
 
 /* =====================================================
@@ -1847,6 +1806,23 @@ function escapeHTML(value){
 
 
 /* =====================================================
+   PIN VALUE
+===================================================== */
+
+function isPinnedValue(value){
+
+    return (
+        value === true ||
+        value === "true" ||
+        value === 1 ||
+        value === "1" ||
+        String(value).toUpperCase() === "TRUE"
+    );
+
+}
+
+
+/* =====================================================
    CLOUD POST
 ===================================================== */
 
@@ -1861,11 +1837,62 @@ async function cloudPost(payload){
                     "Content-Type":
                         "text/plain;charset=utf-8"
                 },
-                body:JSON.stringify(payload)
+                body:JSON.stringify(payload),
+                cache:"no-store"
             }
         );
 
-    return response;
+
+    const text =
+        await response.text();
+
+
+    let data;
+
+
+    try{
+
+        data =
+            JSON.parse(text);
+
+    }catch(error){
+
+        console.error(
+            "Invalid server response:",
+            text
+        );
+
+        throw new Error(
+            "پاسخ نامعتبر از سرور"
+        );
+
+    }
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "HTTP " + response.status
+        );
+
+    }
+
+
+    if(
+        data.status &&
+        data.status !== "success" &&
+        data.status !== "ok"
+    ){
+
+        throw new Error(
+            data.message ||
+            "عملیات ناموفق بود"
+        );
+
+    }
+
+
+    return data;
 
 }
 
@@ -1887,6 +1914,7 @@ async function getCloudData(){
             }
         );
 
+
     if(!response.ok){
 
         throw new Error(
@@ -1895,8 +1923,10 @@ async function getCloudData(){
 
     }
 
+
     const data =
         await response.json();
+
 
     if(data.status !== "success"){
 
@@ -1906,6 +1936,7 @@ async function getCloudData(){
         );
 
     }
+
 
     return data;
 
@@ -1925,6 +1956,7 @@ async function loadCloudData(showMessage=true){
         );
 
     }
+
 
     try{
 
@@ -1967,11 +1999,22 @@ async function loadCloudData(showMessage=true){
                 data.notes
                 .filter(item => {
 
-                    return String(
-                        item.note ||
-                        item.text ||
-                        ""
-                    ).trim();
+                    const text =
+                        String(
+                            item.note ||
+                            item.text ||
+                            ""
+                        ).trim();
+
+
+                    /*
+                       حذف فقط یادداشت تستی
+                    */
+
+                    return (
+                        text &&
+                        text !== TEST_NOTE_TEXT
+                    );
 
                 })
                 .map((item,index) => {
@@ -2002,7 +2045,7 @@ async function loadCloudData(showMessage=true){
 
                     /*
                        اگر ID قبلاً ذخیره نشده بود،
-                       با متن یادداشت هم تطبیق می‌دهیم.
+                       با متن یادداشت تطبیق می‌دهیم.
                     */
 
                     if(!existing){
@@ -2017,7 +2060,8 @@ async function loadCloudData(showMessage=true){
                                     ) &&
                                     String(
                                         note.text || ""
-                                    ).trim() === text
+                                    ).trim() === text &&
+                                    text !== TEST_NOTE_TEXT
                                 );
 
                             });
@@ -2070,18 +2114,15 @@ async function loadCloudData(showMessage=true){
                             time,
 
                         pinned:
-                            item.pinned === true ||
-                            item.pinned === "true" ||
-                            item.pinned === 1 ||
-                            item.pinned === "1" ||
-                            String(
+                            isPinnedValue(
                                 item.pinned
-                            ).toUpperCase() === "TRUE",
+                            ),
 
                         done:
                             String(
                                 item.status || ""
-                            ).trim() === "انجام شد"
+                            ).trim() ===
+                            "انجام شد"
 
                     };
 
@@ -2100,12 +2141,28 @@ async function loadCloudData(showMessage=true){
 
 
             /*
-               یادداشت‌هایی که هنوز ابر ندارند
-               حفظ می‌شوند.
+               یادداشت‌های محلی که هنوز
+               به ابر ارسال نشده‌اند حفظ می‌شوند.
             */
 
             const localOnly =
                 oldNotes.filter(note => {
+
+                    const text =
+                        String(
+                            note.text || ""
+                        ).trim();
+
+
+                    if(
+                        !text ||
+                        text === TEST_NOTE_TEXT
+                    ){
+
+                        return false;
+
+                    }
+
 
                     if(
                         !note.cloudId
@@ -2114,6 +2171,7 @@ async function loadCloudData(showMessage=true){
                         return true;
 
                     }
+
 
                     return !cloudIds.has(
                         String(
@@ -2124,14 +2182,12 @@ async function loadCloudData(showMessage=true){
                 });
 
 
-            /*
-               فقط یادداشت‌های واقعاً موجود در ابر
-               + یادداشت‌های محلیِ هنوز ارسال‌نشده.
-            */
-
             localNotes = [
+
                 ...cloudNotes,
+
                 ...localOnly
+
             ];
 
         }
@@ -2441,6 +2497,13 @@ function renderTransactions(){
         );
 
 
+    if(!body){
+
+        return;
+
+    }
+
+
     body.innerHTML = "";
 
 
@@ -2592,9 +2655,13 @@ function filterData(filter,button){
     });
 
 
-    button.classList.add(
-        "active"
-    );
+    if(button){
+
+        button.classList.add(
+            "active"
+        );
+
+    }
 
 
     updateStats();
@@ -2633,6 +2700,21 @@ function loadNotes(){
         }
 
 
+        /*
+           حذف یادداشت تستی فقط از
+           حافظه محلی پنل
+        */
+
+        localNotes =
+            localNotes.filter(note => {
+
+                return String(
+                    note.text || ""
+                ).trim() !== TEST_NOTE_TEXT;
+
+            });
+
+
     }catch(error){
 
         localNotes = [];
@@ -2649,6 +2731,20 @@ function loadNotes(){
 function saveNotes(){
 
     try{
+
+        /*
+           یادداشت آزمایشی هیچ‌وقت ذخیره نمی‌شود.
+        */
+
+        localNotes =
+            localNotes.filter(note => {
+
+                return String(
+                    note.text || ""
+                ).trim() !== TEST_NOTE_TEXT;
+
+            });
+
 
         localStorage.setItem(
             "cafe_notes",
@@ -2736,6 +2832,17 @@ async function addNote(){
     }
 
 
+    if(text === TEST_NOTE_TEXT){
+
+        showToast(
+            "⚠️ این یادداشت قابل ثبت نیست."
+        );
+
+        return;
+
+    }
+
+
     const now =
         new Date();
 
@@ -2796,83 +2903,123 @@ async function addNote(){
 
     try{
 
-        await cloudPost({
+        const result =
+            await cloudPost({
 
-            action:
-                "addNote",
+                action:
+                    "addNote",
 
-            date:
-                date,
+                date:
+                    date,
 
-            time:
-                time,
+                time:
+                    time,
 
-            note:
-                text,
+                note:
+                    text,
 
-            status:
-                "باز",
+                status:
+                    "باز",
 
-            pinned:
-                false
+                pinned:
+                    false
 
-        });
-
-
-        const data =
-            await getCloudData();
+            });
 
 
         /*
-           بعد از ثبت، ID واقعی را می‌گیریم.
+           اگر بک‌اند ID واقعی را برگرداند،
+           مستقیماً همان را ذخیره می‌کنیم.
         */
 
         if(
-            Array.isArray(data.notes)
+            result &&
+            result.id
         ){
 
-            const match =
-                data.notes
-                .filter(item => {
+            note.cloudId =
+                result.id;
 
-                    return String(
-                        item.note ||
-                        item.text ||
-                        ""
-                    ).trim() === text;
-
-                })
-                .sort(
-                    (a,b) =>
-                        String(b.id)
-                        .localeCompare(
-                            String(a.id)
-                        )
-                )[0];
+        }
 
 
-            if(match){
+        /*
+           اگر ID از POST برنگشت،
+           از GET برای پیدا کردن رکورد جدید
+           استفاده می‌کنیم.
+        */
 
-                note.cloudId =
-                    match.id;
+        if(!note.cloudId){
 
-                note.date =
-                    match.date ||
-                    date;
+            const data =
+                await getCloudData();
 
-                note.time =
-                    match.time ||
-                    time;
 
-                note.pinned =
-                    match.pinned === true ||
-                    match.pinned === "true" ||
-                    match.pinned === 1 ||
-                    match.pinned === "1";
+            if(
+                Array.isArray(data.notes)
+            ){
 
-                note.done =
-                    match.status ===
-                    "انجام شد";
+                const matches =
+                    data.notes
+                    .filter(item => {
+
+                        return String(
+                            item.note ||
+                            item.text ||
+                            ""
+                        ).trim() === text;
+
+                    });
+
+
+                if(matches.length){
+
+                    /*
+                       جدیدترین رکورد را برمی‌داریم.
+                    */
+
+                    const match =
+                        matches
+                        .sort(
+                            (a,b) =>
+                                String(
+                                    b.id
+                                ).localeCompare(
+                                    String(
+                                        a.id
+                                    )
+                                )
+                        )[0];
+
+
+                    if(match){
+
+                        note.cloudId =
+                            match.id;
+
+                        note.date =
+                            match.date ||
+                            date;
+
+                        note.time =
+                            match.time ||
+                            time;
+
+                        note.pinned =
+                            isPinnedValue(
+                                match.pinned
+                            );
+
+                        note.done =
+                            String(
+                                match.status ||
+                                ""
+                            ).trim() ===
+                            "انجام شد";
+
+                    }
+
+                }
 
             }
 
@@ -2881,7 +3028,7 @@ async function addNote(){
 
         saveNotes();
 
-        renderNotes();
+        await loadCloudData(false);
 
         showToast(
             "✅ یادداشت ثبت شد."
@@ -2906,7 +3053,7 @@ async function addNote(){
 
 
 /* =====================================================
-   UPDATE NOTE
+   UPDATE NOTE CLOUD
 ===================================================== */
 
 async function updateNoteCloud(note){
@@ -2980,6 +3127,10 @@ async function togglePin(id){
         !oldPinned;
 
 
+    /*
+       تغییر فوری در صفحه
+    */
+
     note.pinned =
         newPinned;
 
@@ -2996,7 +3147,9 @@ async function togglePin(id){
     if(!note.cloudId){
 
         showToast(
-            "📌 پین محلی تغییر کرد."
+            newPinned
+            ? "📌 پین شد."
+            : "📌 پین برداشته شد."
         );
 
         return;
@@ -3005,6 +3158,10 @@ async function togglePin(id){
 
 
     try{
+
+        /*
+           مقدار جدید را صریحاً برای بک‌اند می‌فرستیم.
+        */
 
         await cloudPost({
 
@@ -3020,6 +3177,10 @@ async function togglePin(id){
         });
 
 
+        /*
+           بعد از تغییر، اطلاعات واقعی سرور را می‌گیریم.
+        */
+
         const data =
             await getCloudData();
 
@@ -3034,41 +3195,39 @@ async function togglePin(id){
             : null;
 
 
-        if(
-            !cloudNote ||
-            !(
-                cloudNote.pinned === true ||
-                cloudNote.pinned === "true" ||
-                cloudNote.pinned === 1 ||
-                cloudNote.pinned === "1"
-            ) === newPinned
-        ){
+        if(!cloudNote){
 
-            /*
-               بررسی جداگانه برای جلوگیری
-               از خطای منطقی عملگر.
-            */
-
-            const cloudPinned =
-                cloudNote &&
-                (
-                    cloudNote.pinned === true ||
-                    cloudNote.pinned === "true" ||
-                    cloudNote.pinned === 1 ||
-                    cloudNote.pinned === "1"
-                );
-
-
-            if(cloudPinned !== newPinned){
-
-                throw new Error(
-                    "Pin verification failed"
-                );
-
-            }
+            throw new Error(
+                "Pin note not found after update"
+            );
 
         }
 
+
+        const cloudPinned =
+            isPinnedValue(
+                cloudNote.pinned
+            );
+
+
+        /*
+           بررسی صحیح مقدار پین
+        */
+
+        if(
+            cloudPinned !== newPinned
+        ){
+
+            throw new Error(
+                "Pin verification failed"
+            );
+
+        }
+
+
+        /*
+           هماهنگ‌سازی کامل پنل
+        */
 
         await loadCloudData(false);
 
@@ -3087,6 +3246,10 @@ async function togglePin(id){
             error
         );
 
+
+        /*
+           برگشت به وضعیت قبلی
+        */
 
         note.pinned =
             oldPinned;
@@ -3299,6 +3462,17 @@ async function editNote(id){
 
         showToast(
             "⚠️ متن یادداشت نمی‌تواند خالی باشد."
+        );
+
+        return;
+
+    }
+
+
+    if(cleanText === TEST_NOTE_TEXT){
+
+        showToast(
+            "⚠️ این متن قابل استفاده نیست."
         );
 
         return;
@@ -3565,15 +3739,34 @@ function renderNotes(){
         );
 
 
-    container.innerHTML = "";
+    if(!container){
 
+        return;
+
+    }
+
+
+    /*
+       یادداشت تستی هیچ‌وقت نمایش داده نمی‌شود.
+    */
 
     const notes =
-        [...localNotes].sort(
+        [...localNotes]
+        .filter(note => {
+
+            return String(
+                note.text || ""
+            ).trim() !== TEST_NOTE_TEXT;
+
+        })
+        .sort(
             (a,b) =>
-                Number(b.pinned) -
-                Number(a.pinned)
+                Number(!!b.pinned) -
+                Number(!!a.pinned)
         );
+
+
+    container.innerHTML = "";
 
 
     if(!notes.length){
@@ -3655,14 +3848,9 @@ function renderNotes(){
                         ${JSON.stringify(note.id)}
                     )">
 
-                    ${
-                        note.done
-                        ? "✓ انجام شد"
-                        : "✓ انجام شد"
-                    }
+                    ✓ انجام شد
 
                 </button>
-
 
                 <button
                     class="${
@@ -3682,7 +3870,6 @@ function renderNotes(){
 
                 </button>
 
-
                 <button
                     class="edit"
                     onclick="editNote(
@@ -3692,7 +3879,6 @@ function renderNotes(){
                     ✏️ ویرایش
 
                 </button>
-
 
                 <button
                     class="delete"
@@ -3750,10 +3936,6 @@ function drawIncomeChart(){
     }
 
 
-    /*
-       درآمدها را بر اساس تاریخ گروه‌بندی می‌کنیم.
-    */
-
     const dailyMap = {};
 
 
@@ -3785,11 +3967,6 @@ function drawIncomeChart(){
             dailyMap
         );
 
-
-    /*
-       آخرین ۳۰ روز/تاریخ ثبت‌شده
-       برای اینکه نمودار بیش از حد شلوغ نشود.
-    */
 
     const visible =
         entries.slice(-30);
@@ -4011,13 +4188,21 @@ function showDate(){
         new Date();
 
 
-    document.getElementById(
-        "reportDate"
-    ).textContent =
-        "آخرین بروزرسانی: " +
-        today.toLocaleDateString(
-            "fa-IR"
+    const reportDate =
+        document.getElementById(
+            "reportDate"
         );
+
+
+    if(reportDate){
+
+        reportDate.textContent =
+            "آخرین بروزرسانی: " +
+            today.toLocaleDateString(
+                "fa-IR"
+            );
+
+    }
 
 }
 
@@ -4035,6 +4220,13 @@ function showToast(message){
         document.getElementById(
             "toast"
         );
+
+
+    if(!toast){
+
+        return;
+
+    }
 
 
     toast.textContent =
@@ -4175,11 +4367,15 @@ if(
    ENTER TO ADD NOTE
 ===================================================== */
 
-document
-    .getElementById(
+const noteInput =
+    document.getElementById(
         "noteInput"
-    )
-    .addEventListener(
+    );
+
+
+if(noteInput){
+
+    noteInput.addEventListener(
         "keydown",
         function(e){
 
@@ -4196,6 +4392,8 @@ document
 
         }
     );
+
+}
 
 
 /* =====================================================
@@ -4237,11 +4435,15 @@ document.addEventListener(
             e.clientY;
 
 
-        cursorDot.style.left =
-            mouseX + "px";
+        if(cursorDot){
 
-        cursorDot.style.top =
-            mouseY + "px";
+            cursorDot.style.left =
+                mouseX + "px";
+
+            cursorDot.style.top =
+                mouseY + "px";
+
+        }
 
     }
 );
@@ -4256,11 +4458,15 @@ function animateGlow(){
         (mouseY - glowY) * .08;
 
 
-    mouseGlow.style.left =
-        glowX + "px";
+    if(mouseGlow){
 
-    mouseGlow.style.top =
-        glowY + "px";
+        mouseGlow.style.left =
+            glowX + "px";
+
+        mouseGlow.style.top =
+            glowY + "px";
+
+    }
 
 
     requestAnimationFrame(
