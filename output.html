@@ -1436,6 +1436,36 @@ tbody tr:hover{
 @media(max-width:600px){.backTop{right:14px;bottom:92px;width:43px;height:43px}.chatMini{right:12px;bottom:90px;width:calc(100% - 24px)}.chatModal{height:86vh;border-radius:20px}.paymentActions{grid-template-columns:1fr}.paymentCard{padding:18px}.statsHeader{align-items:flex-start}.moneyToggle{font-size:10px;padding:8px 10px}.tableWrap{max-height:65vh;overflow:auto;border-radius:12px}.tableWrap table{min-width:0;width:100%;display:block}.tableWrap thead{display:none}.tableWrap tbody{display:block}.tableWrap tr{display:block;padding:12px;margin-bottom:9px;border:1px solid rgba(255,255,255,.07);border-radius:15px;background:rgba(255,255,255,.025)}.tableWrap td{display:flex;justify-content:space-between;gap:12px;padding:8px 3px;border:0;font-size:11px}.tableWrap td::before{content:attr(data-label);color:#68839a;flex:0 0 78px}.tableWrap td.amount{display:flex}.tableWrap td.amount::before{content:'مبلغ'}.notes{grid-template-columns:1fr!important}.noteActions button{flex:1;min-width:70px}.chartBars{gap:8px}.chartBarItem{min-width:45px}.chartBar{width:27px}}
 @media print{.backTop,.chatMini,.chatOverlay,.paymentOverlay,.moneyToggle{display:none!important}}
 
+
+/* ===== JANA PANEL v3 UI FIXES ===== */
+.backTop{left:22px;right:auto;bottom:22px}
+.backTop.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.chatMini{right:22px;bottom:82px;width:58px;height:58px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.chatMiniLine{width:100%;height:100%;justify-content:center;gap:0}
+.chatMiniIcon{font-size:25px;line-height:1}
+.chatMiniText{display:none}
+.chatBadge{position:absolute;top:-4px;right:-3px;min-width:20px;height:20px;font-size:9px}
+.chatMini:hover{transform:translateY(-4px) scale(1.04)}
+.tableWrap{max-height:58vh;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(0,140,255,.45) rgba(255,255,255,.03)}
+.tableWrap::-webkit-scrollbar,.chatMessages::-webkit-scrollbar{width:7px;height:7px}
+.tableWrap::-webkit-scrollbar-thumb,.chatMessages::-webkit-scrollbar-thumb{background:rgba(0,140,255,.38);border-radius:99px}
+.method.cash{background:rgba(34,197,94,.14)!important;border-color:rgba(34,197,94,.38)!important;color:#73f39a!important;box-shadow:0 0 14px rgba(34,197,94,.08)}
+.method.card{background:rgba(168,85,247,.15)!important;border-color:rgba(168,85,247,.4)!important;color:#d8a7ff!important;box-shadow:0 0 14px rgba(168,85,247,.08)}
+.method.transfer{background:rgba(0,140,255,.14)!important;border-color:rgba(0,140,255,.42)!important;color:#83caff!important;box-shadow:0 0 14px rgba(0,140,255,.08)}
+.incomeBubble .bubbleAmount{white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.eyeIcon{width:18px;height:18px;display:inline-block;vertical-align:middle}
+.moneyToggle{display:inline-flex;align-items:center;gap:7px}
+.editModal{position:fixed;inset:0;background:rgba(0,4,10,.72);backdrop-filter:blur(9px);display:none;align-items:center;justify-content:center;z-index:11800;padding:18px}
+.editModal.show{display:flex}
+.editCard{width:min(520px,100%);background:rgba(5,15,25,.96);border:1px solid rgba(0,140,255,.3);border-radius:24px;box-shadow:0 30px 100px rgba(0,0,0,.7);padding:20px;animation:editIn .22s ease-out}
+.editCard h3{font-size:16px;margin-bottom:14px}.editCard textarea{width:100%;min-height:150px;resize:vertical;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#fff;border-radius:15px;padding:13px;font-family:inherit;outline:none}.editCard textarea:focus{border-color:rgba(0,140,255,.55);box-shadow:0 0 20px rgba(0,140,255,.08)}
+.editActions{display:flex;gap:9px;margin-top:12px}.editActions button{flex:1;border:0;border-radius:12px;padding:11px;font-family:inherit;cursor:pointer}.editSave{background:#087eff;color:#fff}.editCancel{background:rgba(255,255,255,.06);color:#b8c8d6}
+.note.powder-out{animation:powderOut .48s ease forwards;pointer-events:none;filter:blur(2px)}
+@keyframes editIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes powderOut{0%{opacity:1;transform:scale(1) rotate(0);filter:blur(0)}35%{opacity:.9;transform:scale(1.03) rotate(-1deg);filter:blur(.5px)}100%{opacity:0;transform:scale(.72) translateY(-10px) rotate(2deg);filter:blur(8px)} }
+@media(max-width:600px){.backTop{left:14px;right:auto;bottom:92px}.chatMini{right:14px;bottom:92px;width:54px;height:54px}.tableWrap{max-height:62vh}.editCard{padding:16px;border-radius:20px}.editCard textarea{min-height:135px}.editActions{flex-direction:row}}
+@media(min-width:601px){.tableWrap{min-height:180px}}
+
 </style>
 </head>
 
@@ -1467,7 +1497,7 @@ tbody tr:hover{
 
     </header>
 
-    <section class="statsSection" id="income"><div class="statsHeader"><span style="color:#66829c;font-size:12px">خلاصه مالی</span><button class="moneyToggle" id="moneyToggle" onclick="toggleMoneyVisibility()">👁 نمایش مبالغ</button></div><div class="stats">
+    <section class="statsSection" id="income"><div class="statsHeader"><span style="color:#66829c;font-size:12px">خلاصه مالی</span><button class="moneyToggle" id="moneyToggle" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن مبالغ"><span id="moneyEyeIcon" class="eyeIcon"></span><span id="moneyToggleText">نمایش مبالغ</span></button></div><div class="stats">
 
         <div class="stat">
             <span class="statIcon">💰</span>
@@ -1702,9 +1732,10 @@ tbody tr:hover{
 
 
 <button class="backTop" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="بازگشت به بالا">↑</button>
-<div class="chatMini" onclick="openChat()"><div class="chatMiniLine"><div class="chatMiniIcon">💬</div><div class="chatMiniText"><strong>ارتباط با پنل ثبت</strong><span id="chatMiniPreview">برای مشاهده پیام‌ها کلیک کنید</span></div><div class="chatBadge" id="chatBadge">0</div></div></div>
+<div class="chatMini" onclick="openChat()" title="ارتباط با پنل ثبت" aria-label="ارتباط با پنل ثبت"><div class="chatMiniLine"><div class="chatMiniIcon">💬</div><div class="chatMiniText"><strong>ارتباط با پنل ثبت</strong><span id="chatMiniPreview">برای مشاهده پیام‌ها کلیک کنید</span></div><div class="chatBadge" id="chatBadge">0</div></div></div>
 <div class="chatOverlay" id="chatOverlay"><div class="chatModal"><div class="chatHead"><h3>💬 گفت‌وگوی مدیریت</h3><button class="chatClose" onclick="closeChat()">×</button></div><div class="chatMessages" id="chatMessages"></div><div class="chatComposer"><input id="chatInputOut" placeholder="پیام خود را بنویسید..."/><button onclick="sendManagerMessage()">ارسال</button></div></div></div>
 <div class="paymentOverlay" id="paymentOverlay"><div class="paymentCard"><div class="paymentTop"><h3>💳 درخواست پرداخت</h3><button class="paymentClose" onclick="closePaymentRequest()">×</button></div><div class="paymentInfo"><div class="paymentRow"><span>خدمت</span><strong id="payService">-</strong></div><div class="paymentRow"><span>مشتری</span><strong id="payCustomer">-</strong></div><div class="paymentRow"><span>مبلغ</span><strong id="payAmount">-</strong></div></div><div class="paymentActions"><button class="payDone" onclick="confirmPayment()">🟢 پرداخت شد</button><button class="payLater" onclick="closePaymentRequest()">× بستن</button></div></div></div>
+<div class="editModal" id="editModal" onclick="if(event.target===this)closeEditNote()"><div class="editCard"><div class="paymentTop"><h3>✏️ ویرایش یادداشت</h3><button class="paymentClose" onclick="closeEditNote()">×</button></div><textarea id="editNoteInput" placeholder="متن یادداشت..."></textarea><div class="editActions"><button class="editSave" onclick="saveEditedNote()">ذخیره تغییرات</button><button class="editCancel" onclick="closeEditNote()">انصراف</button></div></div></div>
 <nav class="mobileNav">
 
     <a
@@ -1926,46 +1957,18 @@ async function cloudPost(payload){
 ===================================================== */
 
 async function getCloudData(){
-
-    const response =
-        await fetch(
-            API_URL +
-            "?action=getData&_=" +
-            Date.now(),
-            {
-                method:"GET",
-                cache:"no-store"
-            }
-        );
-
-
-    if(!response.ok){
-
-        throw new Error(
-            "HTTP " + response.status
-        );
-
-    }
-
-
-    const data =
-        await response.json();
-
-
-    if(data.status !== "success"){
-
-        throw new Error(
-            data.message ||
-            "خطا در دریافت اطلاعات"
-        );
-
-    }
-
-
-    return data;
-
+    const response=await fetch(API_URL+"?action=getData&_="+Date.now(),{method:"GET",cache:"no-store"});
+    if(!response.ok) throw new Error("HTTP "+response.status);
+    const raw=await response.json();
+    const data=raw && raw.data && typeof raw.data === "object" ? {...raw.data,...raw} : raw;
+    if(data.status && !["success","ok"].includes(String(data.status))) throw new Error(data.message||"خطا در دریافت اطلاعات");
+    return {
+        ...data,
+        transactions:Array.isArray(data.transactions)?data.transactions:(Array.isArray(data.reports)?data.reports:[]),
+        notes:Array.isArray(data.notes)?data.notes:[],
+        messages:Array.isArray(data.messages)?data.messages:[]
+    };
 }
-
 
 /* =====================================================
    LOAD CLOUD DATA
@@ -1994,11 +1997,10 @@ async function loadCloudData(showMessage=true){
         );
 
 
-        allTransactions =
-            Array.isArray(data.transactions)
-            ? data.transactions
-            : [];
-
+        const cloudTransactions = Array.isArray(data.transactions) ? data.transactions : [];
+        let localTransactions = [];
+        try { localTransactions = JSON.parse(localStorage.getItem("cafe_transactions") || "[]"); } catch(e) { localTransactions=[]; }
+        allTransactions = cloudTransactions.length ? cloudTransactions : (Array.isArray(localTransactions) ? localTransactions : []);
         await syncMessages(data);
 
 
@@ -2348,56 +2350,17 @@ function isCardMethod(value){ return normalizeMethod(value).includes("کارتخ
 function isCashMethod(value){ return normalizeMethod(value).includes("نقدی") || normalizeMethod(value).includes("نقد"); }
 function moneyValue(value){return parseAmount(value)}
 function isMoneyVisible(){return localStorage.getItem("jana_money_visible")==="1"}
+function eyeSvg(off){return off?'<svg class="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l18 18"/><path d="M10.6 10.6a2 2 0 1 0 2.8 2.8"/><path d="M9.9 4.3A10.8 10.8 0 0 1 12 4c5 0 9.3 3.1 10.8 8-0.5 1.6-1.4 3-2.6 4.2"/><path d="M6.2 6.2C4.6 7.4 3.4 9 2.8 12c.9 3 3.1 5.1 6.1 6.8"/></svg>':'<svg class="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.8 12s3.2-6 9.2-6 9.2 6 9.2 6-3.2 6-9.2 6-9.2-6-9.2-6Z"/><circle cx="12" cy="12" r="2.5"/></svg>'}
 function displayMoney(value){return isMoneyVisible()?money(moneyValue(value)):"••••••"}
 function toggleMoneyVisibility(){localStorage.setItem("jana_money_visible",isMoneyVisible()?"0":"1");updateMoneyUI()}
-function updateMoneyUI(){
-    const btn=document.getElementById("moneyToggle"); if(btn) btn.textContent=isMoneyVisible()?"🙈 مخفی کردن مبالغ":"👁 نمایش مبالغ";
-    updateStats(); updateBubble(); renderTransactions(); drawIncomeChart();
-}
-function updateStats(){
-    const transactions=allTransactions;
-    let total=0,pos=0,cash=0,transfer=0;
-    transactions.forEach(item=>{const amount=moneyValue(item.amount);total+=amount;if(isCardMethod(item.method))pos+=amount;if(isCashMethod(item.method))cash+=amount;if(isTransferMethod(item.method))transfer+=amount;});
-    document.getElementById("totalIncome").textContent=displayMoney(total);
-    document.getElementById("transactionCount").textContent=faNumber(transactions.length);
-    document.getElementById("posTotal").textContent=displayMoney(pos);
-    document.getElementById("cashTotal").textContent=displayMoney(cash);
-    document.getElementById("transferTotal").textContent=displayMoney(transfer);
-}
-
+function updateMoneyUI(){const b=document.getElementById("moneyToggle");if(b){const visible=isMoneyVisible();b.innerHTML=eyeSvg(!visible)+'<span id="moneyToggleText">'+(visible?"مخفی کردن مبالغ":"نمایش مبالغ")+'</span>'}updateStats();updateBubble();renderTransactions();drawIncomeChart()}
+function updateStats(){const transactions=Array.isArray(allTransactions)?allTransactions:[];let total=0,pos=0,cash=0,transfer=0;transactions.forEach(item=>{const amount=moneyValue(item.amount);total+=amount;if(isCardMethod(item.method))pos+=amount;if(isCashMethod(item.method))cash+=amount;if(isTransferMethod(item.method))transfer+=amount;});document.getElementById("totalIncome").textContent=displayMoney(total);document.getElementById("transactionCount").textContent=faNumber(transactions.length);document.getElementById("posTotal").textContent=displayMoney(pos);document.getElementById("cashTotal").textContent=displayMoney(cash);document.getElementById("transferTotal").textContent=displayMoney(transfer)}
 
 /* =====================================================
    BUBBLE
 ===================================================== */
 
-function updateBubble(){
-
-    const total =
-        allTransactions.reduce(
-            (sum,item) =>
-                sum +
-                Number(
-                    item.amount || 0
-                ),
-            0
-        );
-
-
-    const bubble =
-        document.getElementById(
-            "bubbleIncome"
-        );
-
-
-    if(bubble){
-
-        bubble.textContent =
-            displayMoney(total);
-
-    }
-
-}
-
+function updateBubble(){const total=(Array.isArray(allTransactions)?allTransactions:[]).reduce((sum,item)=>sum+moneyValue(item.amount),0);const bubble=document.getElementById("bubbleIncome");if(bubble)bubble.textContent=displayMoney(total)}
 
 /* =====================================================
    TRANSACTIONS
@@ -2410,7 +2373,7 @@ function getFilteredTransactions(){
         ? [...allTransactions]
         : allTransactions.filter(
             item =>
-                currentFilter === "کارت به کارت" ? isTransferMethod(item.method) : item.method === currentFilter
+                currentFilter === "کارت به کارت" ? isTransferMethod(item.method) : (currentFilter === "کارتخوان" ? isCardMethod(item.method) : (currentFilter === "نقدی" ? isCashMethod(item.method) : item.method === currentFilter))
         );
 
 
@@ -2458,7 +2421,7 @@ function renderTransactions(){
     const body=document.getElementById("transactionsBody"); if(!body)return; body.innerHTML="";
     const transactions=getFilteredTransactions();
     if(!transactions.length){body.innerHTML=`<tr><td colspan="7"><div class="empty"><div class="emptyIcon">📭</div>هنوز تراکنشی برای نمایش وجود ندارد.</div></td></tr>`;return;}
-    transactions.slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||""))+String(b.time||"").localeCompare(String(a.time||""))).forEach(item=>{
+    transactions.slice().sort((a,b)=>{const da=String(a.date||"")+String(a.time||"");const db=String(b.date||"")+String(b.time||"");return db.localeCompare(da)}).forEach(item=>{
         const row=document.createElement("tr"); let cls=isCashMethod(item.method)?"cash":isCardMethod(item.method)?"card":isTransferMethod(item.method)?"transfer":"";
         const state=getPaymentStateForTransaction(item); const status=state==="paid"?`<span class="paymentStatus paid">✓ پرداخت شد</span>`:(state==="unpaid"?`<span class="paymentStatus">در انتظار پرداخت</span>`:"");
         row.innerHTML=`<td data-label="تاریخ">${escapeHTML(item.date||"-")}</td><td data-label="ساعت">${escapeHTML(item.time||"-")}</td><td data-label="مشتری">${escapeHTML(item.customer||"-")}</td><td data-label="خدمت">${escapeHTML(item.service||"-")}</td><td data-label="مبلغ" class="amount">${displayMoney(item.amount)}</td><td data-label="روش پرداخت"><span class="method ${cls}">${escapeHTML(item.method||"-")}</span>${status}</td><td data-label="توضیحات">${escapeHTML(item.description||"-")}</td>`;
@@ -3255,173 +3218,10 @@ async function toggleDone(id){
    EDIT NOTE
 ===================================================== */
 
-async function editNote(id){
-
-    const note =
-        localNotes.find(
-            item =>
-                String(item.id) ===
-                String(id)
-        );
-
-
-    if(!note){
-
-        return;
-
-    }
-
-
-    const newText =
-        prompt(
-            "متن جدید یادداشت:",
-            note.text
-        );
-
-
-    if(newText === null){
-
-        return;
-
-    }
-
-
-    const cleanText =
-        newText.trim();
-
-
-    if(!cleanText){
-
-        showToast(
-            "⚠️ متن یادداشت نمی‌تواند خالی باشد."
-        );
-
-        return;
-
-    }
-
-
-    if(cleanText === TEST_NOTE_TEXT){
-
-        showToast(
-            "⚠️ این متن قابل استفاده نیست."
-        );
-
-        return;
-
-    }
-
-
-    const oldText =
-        note.text;
-
-
-    note.text =
-        cleanText;
-
-
-    saveNotes();
-
-    renderNotes();
-
-
-    /*
-       یادداشت محلی
-    */
-
-    if(!note.cloudId){
-
-        showToast(
-            "✏️ یادداشت ویرایش شد."
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        await updateNoteCloud(
-            note
-        );
-
-
-        const data =
-            await getCloudData();
-
-
-        const cloudNote =
-            Array.isArray(data.notes)
-            ? data.notes.find(
-                item =>
-                    String(item.id) ===
-                    String(note.cloudId)
-            )
-            : null;
-
-
-        if(!cloudNote){
-
-            throw new Error(
-                "Note not found after edit"
-            );
-
-        }
-
-
-        const cloudText =
-            String(
-                cloudNote.note ||
-                cloudNote.text ||
-                ""
-            ).trim();
-
-
-        if(
-            cloudText !== cleanText
-        ){
-
-            throw new Error(
-                "Edit verification failed"
-            );
-
-        }
-
-
-        await loadCloudData(false);
-
-
-        showToast(
-            "✏️ یادداشت ویرایش شد."
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "Edit error:",
-            error
-        );
-
-
-        note.text =
-            oldText;
-
-
-        saveNotes();
-
-        renderNotes();
-
-
-        showToast(
-            "⚠️ ویرایش ذخیره نشد."
-        );
-
-    }
-
-}
-
+let editingNoteId=null;
+function editNote(id){const note=localNotes.find(n=>String(n.id)===String(id));if(!note)return;editingNoteId=note.id;const input=document.getElementById("editNoteInput");if(input){input.value=note.text||"";document.getElementById("editModal").classList.add("show");setTimeout(()=>input.focus(),50)}}
+function closeEditNote(){editingNoteId=null;document.getElementById("editModal")?.classList.remove("show")}
+async function saveEditedNote(){const note=localNotes.find(n=>String(n.id)===String(editingNoteId));const input=document.getElementById("editNoteInput");if(!note||!input)return;const clean=input.value.trim();if(!clean){showToast("⚠️ متن یادداشت نمی‌تواند خالی باشد.");return}if(clean===TEST_NOTE_TEXT){showToast("⚠️ این متن قابل استفاده نیست.");return}const old=note.text;note.text=clean;saveNotes();renderNotes();closeEditNote();if(!note.cloudId){showToast("✏️ یادداشت ویرایش شد.");return}try{await updateNoteCloud(note);await loadCloudData(false);showToast("✏️ یادداشت ویرایش شد.")}catch(e){console.error(e);note.text=old;saveNotes();renderNotes();showToast("⚠️ ویرایش ذخیره نشد.")}}
 
 /* =====================================================
    DELETE NOTE
@@ -3461,16 +3261,10 @@ async function deleteNote(id){
         };
 
 
-    localNotes =
-        localNotes.filter(
-            item =>
-                String(item.id) !==
-                String(id)
-        );
-
-
+    const el=document.querySelector('.note[data-note-id="'+CSS.escape(String(id))+'"]');
+    if(el){el.classList.add("powder-out");await new Promise(r=>setTimeout(r,480));}
+    localNotes=localNotes.filter(item=>String(item.id)!==String(id));
     saveNotes();
-
     renderNotes();
 
 
@@ -3632,6 +3426,7 @@ function renderNotes(){
             );
 
 
+        div.dataset.noteId=String(note.id);
         div.className =
             "note" +
 
@@ -3791,7 +3586,7 @@ function drawIncomeChart(){
     });
 
 
-    const entries = Object.entries(dailyMap).sort((a,b)=>String(a[0]).localeCompare(String(b[0])));
+    const entries = Object.entries(dailyMap).sort((a,b)=>String(a[0]).localeCompare(String(b[0]),"fa"));
 
 
     const visible =
@@ -3919,15 +3714,7 @@ function drawIncomeChart(){
     );
 
 
-    const total =
-        allTransactions.reduce(
-            (sum,item) =>
-                sum +
-                Number(
-                    item.amount || 0
-                ),
-            0
-        );
+    const total = (Array.isArray(allTransactions)?allTransactions:[]).reduce((sum,item)=>sum+moneyValue(item.amount),0);
 
 
     const days =
@@ -4328,7 +4115,7 @@ async function confirmPayment(){
         showToast("✅ پرداخت ثبت شد و تایید برای پنل ثبت ارسال شد."); closePaymentRequest(); await loadCloudData(false);
     }catch(e){console.error(e);showToast("⚠️ ثبت پرداخت انجام نشد.")}
 }
-function renderChat(){const box=document.getElementById("chatMessages");if(!box)return;box.innerHTML=managerMessages.slice().sort((a,b)=>(String(a.date)+String(a.time)).localeCompare(String(b.date)+String(b.time))).map(m=>{const mine=normalizeMethod(m.sender).includes("پنلخانم")||normalizeMethod(m.sender).includes("خانمدهقان");return `<div class="chatMsg ${mine?'mine':''}"><b>${escapeHTML(m.sender||"پیام")}</b><div>${escapeHTML(m.text||"")}</div><small>${escapeHTML(m.date||"")} ${escapeHTML(m.time||"")}</small></div>`}).join("");box.scrollTop=box.scrollHeight}
+function renderChat(){const box=document.getElementById("chatMessages");if(!box)return;box.innerHTML=managerMessages.slice().sort((a,b)=>(String(a.date)+String(a.time)).localeCompare(String(b.date)+String(b.time))).map(m=>{const mine=normalizeMethod(m.sender).includes("پنلخانم")||normalizeMethod(m.sender).includes("خانمدهقان");return `<div class="chatMsg ${mine?'mine':'incoming'}"><b>${escapeHTML(mine?'ارسال شده':'دریافت شده')}</b><div>${escapeHTML(m.text||"")}</div><small>${escapeHTML(m.date||"")} ${escapeHTML(m.time||"")}</small></div>`}).join("");box.scrollTop=box.scrollHeight}
 function openChat(){document.getElementById("chatOverlay").classList.add("show");renderChat();managerMessages.filter(m=>m.sender!=="پنل خانم دهقان"&&m.status!=="خوانده شد").forEach(m=>cloudPost({action:"markMessageRead",id:m.id,status:"خوانده شد"}).catch(()=>{}));document.getElementById("chatBadge").classList.remove("show")}
 function closeChat(){document.getElementById("chatOverlay").classList.remove("show")}
 async function sendManagerMessage(){const input=document.getElementById("chatInputOut");const text=input.value.trim();if(!text)return;try{await cloudPost({action:"addMessage",sender:"پنل خانم دهقان",text,status:"خوانده نشده",payment:"پرداخت نشده"});input.value="";await loadCloudData(false);renderChat();showToast("پیام ارسال شد ✓")}catch(e){showToast("⚠️ ارسال پیام ناموفق بود.")}}
@@ -4362,6 +4149,8 @@ loadCloudData();
 updateMoneyUI();
 setInterval(()=>loadCloudData(false),15000);
 window.addEventListener("scroll",()=>document.getElementById("backTop")?.classList.toggle("show",window.scrollY>350));
+const chatInputOut=document.getElementById("chatInputOut"); if(chatInputOut) chatInputOut.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendManagerMessage()}});
+
 
 </script>
 
