@@ -550,6 +550,193 @@ tbody tr:hover td{
     transform:translateX(-50%) translateY(0);
 }
 
+/* =====================================================
+   DEHQAN TASKS
+===================================================== */
+
+.dehqanTasks{
+    margin-top:22px;
+}
+
+.taskHeader{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:18px;
+    position:relative;
+    z-index:2;
+}
+
+.taskHeader h2{
+    margin:0;
+    font-size:20px;
+}
+
+.taskHeader span{
+    color:#66b5ff;
+    font-size:11px;
+    padding:7px 12px;
+    border-radius:20px;
+    background:rgba(0,125,255,.08);
+    border:1px solid rgba(0,125,255,.18);
+}
+
+.taskGrid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    position:relative;
+    z-index:2;
+}
+
+.taskCard{
+    position:relative;
+    min-height:145px;
+    padding:20px;
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,140,255,.17),
+            rgba(20,80,150,.055)
+        );
+
+    border:1px solid rgba(70,160,255,.24);
+
+    backdrop-filter:blur(30px) saturate(160%);
+    -webkit-backdrop-filter:blur(30px) saturate(160%);
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.11),
+        0 18px 45px rgba(0,0,0,.38),
+        0 0 30px rgba(0,125,255,.08);
+
+    transition:
+        transform .4s,
+        box-shadow .4s,
+        border-color .4s;
+
+    overflow:hidden;
+}
+
+.taskCard:before{
+    content:"";
+    position:absolute;
+    width:130px;
+    height:130px;
+    top:-70px;
+    left:-45px;
+    border-radius:50%;
+    background:rgba(60,170,255,.16);
+    filter:blur(35px);
+    pointer-events:none;
+}
+
+.taskCard:after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:12%;
+    right:12%;
+    height:1px;
+    background:rgba(255,255,255,.16);
+}
+
+.taskCard:hover{
+    transform:translateY(-7px);
+    border-color:rgba(70,170,255,.50);
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.14),
+        0 25px 55px rgba(0,0,0,.50),
+        0 0 40px rgba(0,125,255,.18);
+}
+
+.taskCard.pinned{
+    border-color:rgba(0,180,255,.55);
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.14),
+        0 20px 50px rgba(0,0,0,.45),
+        0 0 40px rgba(0,150,255,.18);
+}
+
+.taskCard.done{
+    opacity:.58;
+}
+
+.taskTop{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+}
+
+.taskIcon{
+    width:36px;
+    height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+
+    background:rgba(0,125,255,.14);
+    border:1px solid rgba(70,160,255,.20);
+
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.08),
+        0 0 20px rgba(0,125,255,.10);
+
+    font-size:17px;
+}
+
+.taskBadge{
+    font-size:9px;
+    color:#66b5ff;
+    padding:5px 9px;
+    border-radius:15px;
+    background:rgba(0,125,255,.08);
+    border:1px solid rgba(70,160,255,.15);
+}
+
+.taskText{
+    color:#e8f4ff;
+    font-size:13px;
+    line-height:1.9;
+    position:relative;
+    z-index:2;
+    word-break:break-word;
+}
+
+.taskMeta{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:14px;
+    color:#62809b;
+    font-size:9px;
+}
+
+.taskEmpty{
+    grid-column:1/-1;
+    text-align:center;
+    padding:35px 15px;
+    color:#52606b;
+
+    border-radius:20px;
+    border:1px dashed rgba(70,160,255,.14);
+    background:rgba(0,125,255,.025);
+}
+
+.loadingCloud{
+    text-align:center;
+    padding:25px 10px;
+    color:#4da3ff;
+    font-size:12px;
+}
+
 .mobileNav{
     display:none;
 }
@@ -612,6 +799,11 @@ tbody tr:hover td{
     .panel:hover{
         transform:none;
     }
+
+    .taskGrid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
 }
 
 @media(max-width:550px){
@@ -815,6 +1007,33 @@ tbody tr:hover td{
         padding:40px 10px;
     }
 
+    .dehqanTasks{
+        margin-top:14px;
+    }
+
+    .taskHeader h2{
+        font-size:17px;
+    }
+
+    .taskHeader span{
+        font-size:9px;
+    }
+
+    .taskGrid{
+        grid-template-columns:1fr;
+        gap:10px;
+    }
+
+    .taskCard{
+        min-height:125px;
+        padding:17px;
+        border-radius:19px;
+    }
+
+    .taskText{
+        font-size:12px;
+    }
+
     .mobileNav{
         position:fixed;
         display:flex;
@@ -851,6 +1070,7 @@ tbody tr:hover td{
     .mouseGlow{
         display:none;
     }
+
 }
 
 @media(max-width:370px){
@@ -884,6 +1104,7 @@ tbody tr:hover td{
     .stat strong{
         font-size:14px;
     }
+
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -895,6 +1116,7 @@ tbody tr:hover td{
         transition:none!important;
         scroll-behavior:auto!important;
     }
+
 }
 </style>
 </head>
@@ -922,6 +1144,7 @@ tbody tr:hover td{
 
     </div>
 
+
     <div class="stats" id="income">
 
         <div class="stat">
@@ -946,6 +1169,7 @@ tbody tr:hover td{
 
     </div>
 
+
     <div class="main">
 
         <div class="panel" id="register">
@@ -963,7 +1187,11 @@ tbody tr:hover td{
             <label>نوع خدمت</label>
 
             <select id="service">
-                <option value="">انتخاب خدمت</option>
+
+                <option value="">
+                    انتخاب خدمت
+                </option>
+
                 <option>پرینت</option>
                 <option>کافی‌نت</option>
                 <option>ثبت‌نام</option>
@@ -972,6 +1200,7 @@ tbody tr:hover td{
                 <option>اسکن</option>
                 <option>خدمات اداری</option>
                 <option>سایر</option>
+
             </select>
 
             <label>مبلغ</label>
@@ -987,9 +1216,19 @@ tbody tr:hover td{
             <label>روش پرداخت</label>
 
             <select id="method">
-                <option value="کارتخوان">کارتخوان</option>
-                <option value="نقدی">نقدی</option>
-                <option value="کارت‌به‌کارت">کارت‌به‌کارت</option>
+
+                <option value="کارتخوان">
+                    کارتخوان
+                </option>
+
+                <option value="نقدی">
+                    نقدی
+                </option>
+
+                <option value="کارت‌به‌کارت">
+                    کارت‌به‌کارت
+                </option>
+
             </select>
 
             <label>توضیحات</label>
@@ -1016,6 +1255,7 @@ tbody tr:hover td{
             </button>
 
         </div>
+
 
         <div class="panel" id="transactions">
 
@@ -1044,6 +1284,7 @@ tbody tr:hover td{
                 <table>
 
                     <thead>
+
                         <tr>
                             <th>تاریخ</th>
                             <th>مشتری</th>
@@ -1052,6 +1293,7 @@ tbody tr:hover td{
                             <th>پرداخت</th>
                             <th>عملیات</th>
                         </tr>
+
                     </thead>
 
                     <tbody id="tableBody"></tbody>
@@ -1064,7 +1306,42 @@ tbody tr:hover td{
 
     </div>
 
+
+    <!-- =================================================
+         DEHQAN TASKS
+    ================================================== -->
+
+    <div class="panel dehqanTasks" id="dehqanTasks">
+
+        <div class="taskHeader">
+
+            <h2>
+                🔵 یادداشت‌های خانم دهقان
+            </h2>
+
+            <span id="taskCount">
+                در حال بارگذاری...
+            </span>
+
+        </div>
+
+        <div
+            class="taskGrid"
+            id="dehqanTaskGrid"
+        >
+
+            <div class="loadingCloud">
+                ⏳
+                <br><br>
+                در حال بارگذاری...
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
+
 
 <nav class="mobileNav">
 
@@ -1118,10 +1395,11 @@ tbody tr:hover td{
 
 </nav>
 
+
 <script>
 
 /* =====================================================
-   GOOGLE APPS SCRIPT API
+   API
 ===================================================== */
 
 const GOOGLE_API_URL =
@@ -1129,13 +1407,17 @@ const GOOGLE_API_URL =
 
 
 /* =====================================================
-   LOCAL DATA
+   LOCAL CACHE
 ===================================================== */
 
 let transactions =
 JSON.parse(
-    localStorage.getItem("cafe_transactions") || "[]"
+    localStorage.getItem(
+        "cafe_transactions"
+    ) || "[]"
 );
+
+let dehqanTasks = [];
 
 let editId = null;
 
@@ -1145,19 +1427,25 @@ let editId = null;
 ===================================================== */
 
 const mouseGlow =
-document.getElementById("mouseGlow");
+document.getElementById(
+    "mouseGlow"
+);
 
-document.addEventListener("mousemove",(e)=>{
+document.addEventListener(
+    "mousemove",
+    (e)=>{
 
-    if(!mouseGlow) return;
+        if(!mouseGlow)
+            return;
 
-    mouseGlow.style.left =
-        e.clientX + "px";
+        mouseGlow.style.left =
+            e.clientX + "px";
 
-    mouseGlow.style.top =
-        e.clientY + "px";
+        mouseGlow.style.top =
+            e.clientY + "px";
 
-});
+    }
+);
 
 
 /* =====================================================
@@ -1165,24 +1453,30 @@ document.addEventListener("mousemove",(e)=>{
 ===================================================== */
 
 const amountInput =
-document.getElementById("amount");
+document.getElementById(
+    "amount"
+);
 
 amountInput.addEventListener(
     "input",
     function(){
 
         let value =
-            this.value.replace(/\D/g,"");
+            this.value.replace(
+                /\D/g,
+                ""
+            );
 
         if(!value){
 
-            this.value="";
+            this.value = "";
             return;
 
         }
 
         this.value =
-            Number(value).toLocaleString("en-US");
+            Number(value)
+            .toLocaleString("en-US");
 
     }
 );
@@ -1209,35 +1503,35 @@ function money(value){
 
 
 /* =====================================================
-   LOCAL SAVE
+   LOCAL CACHE SAVE
 ===================================================== */
 
 function saveData(){
 
     localStorage.setItem(
         "cafe_transactions",
-        JSON.stringify(transactions)
+        JSON.stringify(
+            transactions
+        )
     );
 
 }
 
 
 /* =====================================================
-   SEND TRANSACTION TO GOOGLE SHEETS
+   SEND TRANSACTION
 ===================================================== */
 
-async function sendToGoogle(transaction){
-
-    /*
-       از text/plain استفاده می‌کنیم تا درخواست
-       ساده باشد و مشکل CORS / preflight ایجاد نشود.
-    */
+async function sendToGoogle(
+    transaction
+){
 
     try{
 
         await fetch(
             GOOGLE_API_URL,
             {
+
                 method:"POST",
 
                 headers:{
@@ -1247,25 +1541,34 @@ async function sendToGoogle(transaction){
 
                 body:JSON.stringify({
 
-                    action:"addTransaction",
+                    action:
+                        "addTransaction",
 
-                    date:transaction.date,
+                    date:
+                        transaction.date,
 
-                    time:transaction.time,
+                    time:
+                        transaction.time,
 
-                    customer:transaction.customer,
+                    customer:
+                        transaction.customer,
 
-                    service:transaction.service,
+                    service:
+                        transaction.service,
 
-                    amount:transaction.amount,
+                    amount:
+                        transaction.amount,
 
-                    method:transaction.method,
+                    method:
+                        transaction.method,
 
-                    description:transaction.description
+                    description:
+                        transaction.description
 
                 }),
 
                 mode:"no-cors"
+
             }
         );
 
@@ -1274,11 +1577,196 @@ async function sendToGoogle(transaction){
     }catch(error){
 
         console.error(
-            "Google Sheets Error:",
+            "Save error:",
             error
         );
 
         return false;
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD ALL CLOUD DATA
+===================================================== */
+
+async function loadCloudData(){
+
+    const taskCount =
+        document.getElementById(
+            "taskCount"
+        );
+
+    const taskGrid =
+        document.getElementById(
+            "dehqanTaskGrid"
+        );
+
+
+    try{
+
+        taskCount.innerText =
+            "در حال بارگذاری...";
+
+
+        taskGrid.innerHTML = `
+
+            <div class="loadingCloud">
+
+                ⏳
+
+                <br><br>
+
+                در حال بارگذاری...
+
+            </div>
+
+        `;
+
+
+        const response =
+            await fetch(
+                GOOGLE_API_URL +
+                "?action=getData&ts=" +
+                Date.now()
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !data ||
+            data.status !== "success"
+        ){
+
+            throw new Error(
+                data?.message ||
+                "دریافت اطلاعات انجام نشد"
+            );
+
+        }
+
+
+        /* =================================================
+           TRANSACTIONS
+        ================================================= */
+
+        if(
+            Array.isArray(
+                data.transactions
+            )
+        ){
+
+            transactions =
+                data.transactions.map(
+                    (item,index)=>({
+
+                        id:
+                            "cloud_" +
+                            index +
+                            "_" +
+                            Date.now(),
+
+                        customer:
+                            item.customer || "",
+
+                        service:
+                            item.service || "",
+
+                        amount:
+                            Number(
+                                item.amount
+                            ) || 0,
+
+                        method:
+                            item.method || "",
+
+                        description:
+                            item.description ||
+                            "",
+
+                        date:
+                            item.date || "",
+
+                        time:
+                            item.time || ""
+
+                    })
+                );
+
+
+            saveData();
+
+            render();
+
+        }
+
+
+        /* =================================================
+           DEHQAN NOTES
+        ================================================= */
+
+        if(
+            Array.isArray(
+                data.notes
+            )
+        ){
+
+            dehqanTasks =
+                data.notes;
+
+        }else{
+
+            dehqanTasks = [];
+
+        }
+
+
+        renderDehqanTasks();
+
+
+    }catch(error){
+
+        console.error(
+            "Load error:",
+            error
+        );
+
+
+        /*
+           اگر دریافت آنلاین شکست خورد،
+           اطلاعات قبلی دستگاه را نگه می‌داریم.
+        */
+
+        render();
+
+        taskCount.innerText =
+            "خطا در دریافت";
+
+
+        taskGrid.innerHTML = `
+
+            <div class="taskEmpty">
+
+                ⚠️
+
+                <br><br>
+
+                دریافت اطلاعات انجام نشد
+
+                <br><br>
+
+                <small>
+                    اطلاعات قبلی دستگاه نمایش داده شد
+                </small>
+
+            </div>
+
+        `;
 
     }
 
@@ -1293,33 +1781,48 @@ async function saveTransaction(){
 
     const customer =
         document
-            .getElementById("customer")
+            .getElementById(
+                "customer"
+            )
             .value
             .trim();
 
+
     const service =
         document
-            .getElementById("service")
+            .getElementById(
+                "service"
+            )
             .value;
+
 
     const amount =
         rawAmount();
 
+
     const method =
         document
-            .getElementById("method")
+            .getElementById(
+                "method"
+            )
             .value;
+
 
     const description =
         document
-            .getElementById("description")
+            .getElementById(
+                "description"
+            )
             .value
             .trim();
 
 
     if(!customer){
 
-        alert("نام مشتری را وارد کنید");
+        alert(
+            "نام مشتری را وارد کنید"
+        );
+
         return;
 
     }
@@ -1327,7 +1830,10 @@ async function saveTransaction(){
 
     if(!service){
 
-        alert("نوع خدمت را انتخاب کنید");
+        alert(
+            "نوع خدمت را انتخاب کنید"
+        );
+
         return;
 
     }
@@ -1335,7 +1841,10 @@ async function saveTransaction(){
 
     if(amount <= 0){
 
-        alert("مبلغ را وارد کنید");
+        alert(
+            "مبلغ را وارد کنید"
+        );
+
         return;
 
     }
@@ -1349,35 +1858,58 @@ async function saveTransaction(){
 
         const item =
             transactions.find(
-                x => x.id === editId
+                x =>
+                    String(x.id) ===
+                    String(editId)
             );
+
 
         if(item){
 
-            item.customer = customer;
-            item.service = service;
-            item.amount = amount;
-            item.method = method;
-            item.description = description;
+            item.customer =
+                customer;
+
+            item.service =
+                service;
+
+            item.amount =
+                amount;
+
+            item.method =
+                method;
+
+            item.description =
+                description;
 
         }
 
+
         editId = null;
 
+
         document
-            .getElementById("formTitle")
+            .getElementById(
+                "formTitle"
+            )
             .innerText =
             "➕ ثبت تراکنش";
 
+
         document
-            .getElementById("saveBtn")
+            .getElementById(
+                "saveBtn"
+            )
             .innerText =
             "ثبت تراکنش";
 
+
         document
-            .getElementById("cancelBtn")
+            .getElementById(
+                "cancelBtn"
+            )
             .style.display =
             "none";
+
 
         saveData();
 
@@ -1385,9 +1917,11 @@ async function saveTransaction(){
 
         render();
 
+
         showSuccess(
-            "تغییرات محلی ذخیره شد ✓"
+            "تغییرات ذخیره شد ✓"
         );
+
 
         return;
 
@@ -1398,11 +1932,14 @@ async function saveTransaction(){
        NEW TRANSACTION
     ================================================= */
 
-    const now = new Date();
+    const now =
+        new Date();
+
 
     const transaction = {
 
-        id:Date.now(),
+        id:
+            Date.now(),
 
         customer,
 
@@ -1414,46 +1951,40 @@ async function saveTransaction(){
 
         description,
 
-        date:now.toISOString(),
+        date:
+            now.toISOString(),
 
-        time:now.toLocaleTimeString(
-            "fa-IR",
-            {
-                hour:"2-digit",
-                minute:"2-digit"
-            }
-        )
+        time:
+            now.toLocaleTimeString(
+                "fa-IR",
+                {
+                    hour:"2-digit",
+                    minute:"2-digit"
+                }
+            )
 
     };
 
-
-    /* ابتدا در دستگاه ذخیره می‌کنیم */
-
-    transactions.unshift(
-        transaction
-    );
-
-    saveData();
-
-    render();
-
-    clearForm();
-
-
-    /* =================================================
-       ارسال به Google Sheets
-    ================================================= */
 
     const saveBtn =
         document.getElementById(
             "saveBtn"
         );
 
-    saveBtn.classList.add("loading");
+
+    saveBtn.classList.add(
+        "loading"
+    );
+
 
     saveBtn.innerText =
-        "در حال ذخیره آنلاین...";
+        "در حال بارگذاری...";
 
+
+    /*
+       اول به سرور ارسال می‌کنیم.
+       بعد از ارسال، داخل صفحه نمایش می‌دهیم.
+    */
 
     const sent =
         await sendToGoogle(
@@ -1461,27 +1992,38 @@ async function saveTransaction(){
         );
 
 
-    saveBtn.classList.remove(
-        "loading"
-    );
-
-    saveBtn.innerText =
-        "ثبت تراکنش";
-
-
     if(sent){
 
+        transactions.unshift(
+            transaction
+        );
+
+        saveData();
+
+        render();
+
+        clearForm();
+
         showSuccess(
-            "تراکنش در سیستم ذخیره شد ✓"
+            "تراکنش با موفقیت ثبت شد ✓"
         );
 
     }else{
 
         showSuccess(
-            "محلی ذخیره شد؛ اتصال آنلاین ناموفق بود"
+            "ثبت تراکنش انجام نشد"
         );
 
     }
+
+
+    saveBtn.classList.remove(
+        "loading"
+    );
+
+
+    saveBtn.innerText =
+        "ثبت تراکنش";
 
 }
 
@@ -1493,19 +2035,30 @@ async function saveTransaction(){
 function clearForm(){
 
     document
-        .getElementById("customer")
+        .getElementById(
+            "customer"
+        )
         .value = "";
 
-    document
-        .getElementById("service")
-        .value = "";
 
     document
-        .getElementById("amount")
+        .getElementById(
+            "service"
+        )
         .value = "";
 
+
     document
-        .getElementById("description")
+        .getElementById(
+            "amount"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "description"
+        )
         .value = "";
 
 }
@@ -1519,60 +2072,90 @@ function editTransaction(id){
 
     const item =
         transactions.find(
-            x => x.id === id
+            x =>
+                String(x.id) ===
+                String(id)
         );
 
-    if(!item) return;
+
+    if(!item)
+        return;
 
 
     document
-        .getElementById("customer")
+        .getElementById(
+            "customer"
+        )
         .value =
         item.customer;
 
+
     document
-        .getElementById("service")
+        .getElementById(
+            "service"
+        )
         .value =
         item.service;
 
+
     document
-        .getElementById("amount")
+        .getElementById(
+            "amount"
+        )
         .value =
         money(item.amount);
 
+
     document
-        .getElementById("method")
+        .getElementById(
+            "method"
+        )
         .value =
         item.method;
 
+
     document
-        .getElementById("description")
+        .getElementById(
+            "description"
+        )
         .value =
         item.description || "";
 
 
-    editId = id;
+    editId =
+        id;
 
 
     document
-        .getElementById("formTitle")
+        .getElementById(
+            "formTitle"
+        )
         .innerText =
         "✏️ ویرایش تراکنش";
 
+
     document
-        .getElementById("saveBtn")
+        .getElementById(
+            "saveBtn"
+        )
         .innerText =
         "ذخیره تغییرات";
 
+
     document
-        .getElementById("cancelBtn")
+        .getElementById(
+            "cancelBtn"
+        )
         .style.display =
         "block";
 
 
     window.scrollTo({
+
         top:0,
+
         behavior:"smooth"
+
     });
 
 }
@@ -1588,18 +2171,27 @@ function cancelEdit(){
 
     clearForm();
 
+
     document
-        .getElementById("formTitle")
+        .getElementById(
+            "formTitle"
+        )
         .innerText =
         "➕ ثبت تراکنش";
 
+
     document
-        .getElementById("saveBtn")
+        .getElementById(
+            "saveBtn"
+        )
         .innerText =
         "ثبت تراکنش";
 
+
     document
-        .getElementById("cancelBtn")
+        .getElementById(
+            "cancelBtn"
+        )
         .style.display =
         "none";
 
@@ -1614,20 +2206,25 @@ function deleteTransaction(id){
 
     if(!confirm(
         "این تراکنش حذف شود؟"
-    )) return;
+    ))
+        return;
 
 
     transactions =
         transactions.filter(
-            x => x.id !== id
+            x =>
+                String(x.id) !==
+                String(id)
         );
+
 
     saveData();
 
     render();
 
+
     showSuccess(
-        "تراکنش از دستگاه حذف شد ✓"
+        "تراکنش از این دستگاه حذف شد ✓"
     );
 
 }
@@ -1640,8 +2237,11 @@ function deleteTransaction(id){
 function clearSearch(){
 
     document
-        .getElementById("search")
+        .getElementById(
+            "search"
+        )
         .value = "";
+
 
     render();
 
@@ -1654,15 +2254,59 @@ function clearSearch(){
 
 function formatDate(date){
 
-    return new Date(date)
-        .toLocaleDateString("fa-IR");
+    if(!date)
+        return "-";
+
+
+    const parsed =
+        new Date(date);
+
+
+    if(
+        isNaN(
+            parsed.getTime()
+        )
+    ){
+
+        return String(date);
+
+    }
+
+
+    return parsed
+        .toLocaleDateString(
+            "fa-IR"
+        );
 
 }
 
 
-function formatTime(date){
+function formatTime(date,time){
 
-    return new Date(date)
+    if(time)
+        return String(time);
+
+
+    if(!date)
+        return "-";
+
+
+    const parsed =
+        new Date(date);
+
+
+    if(
+        isNaN(
+            parsed.getTime()
+        )
+    ){
+
+        return "-";
+
+    }
+
+
+    return parsed
         .toLocaleTimeString(
             "fa-IR",
             {
@@ -1675,7 +2319,7 @@ function formatTime(date){
 
 
 /* =====================================================
-   RENDER
+   RENDER TRANSACTIONS
 ===================================================== */
 
 function render(){
@@ -1685,37 +2329,49 @@ function render(){
             "tableBody"
         );
 
+
     const search =
         document
-            .getElementById("search")
+            .getElementById(
+                "search"
+            )
             .value
             .trim()
             .toLowerCase();
 
 
     const filtered =
-        transactions.filter(x =>
+        transactions.filter(
+            x =>
 
-            String(x.customer)
+                String(
+                    x.customer
+                )
                 .toLowerCase()
                 .includes(search)
 
-            ||
+                ||
 
-            String(x.service)
+                String(
+                    x.service
+                )
                 .toLowerCase()
                 .includes(search)
 
-            ||
+                ||
 
-            String(x.method)
+                String(
+                    x.method
+                )
                 .toLowerCase()
                 .includes(search)
 
         );
 
 
-    if(filtered.length === 0){
+    if(
+        filtered.length === 0
+    ){
 
         body.innerHTML = `
 
@@ -1739,57 +2395,81 @@ function render(){
 
         `;
 
-    }
-
-    else{
+    }else{
 
         body.innerHTML =
 
-        filtered.map(x => `
+        filtered
+        .map(
+            x => `
 
             <tr>
 
                 <td>
 
-                    ${formatDate(x.date)}
+                    ${escapeHTML(
+                        formatDate(
+                            x.date
+                        )
+                    )}
 
                     <br>
 
-                    <small style="color:#555">
+                    <small
+                        style="color:#555"
+                    >
 
-                        ${formatTime(x.date)}
+                        ${escapeHTML(
+                            formatTime(
+                                x.date,
+                                x.time
+                            )
+                        )}
 
                     </small>
 
                 </td>
 
-                <td>
-
-                    ${escapeHTML(x.customer)}
-
-                </td>
 
                 <td>
 
-                    ${escapeHTML(x.service)}
+                    ${escapeHTML(
+                        x.customer
+                    )}
 
                 </td>
+
+
+                <td>
+
+                    ${escapeHTML(
+                        x.service
+                    )}
+
+                </td>
+
 
                 <td class="amountCell">
 
-                    ${money(x.amount)}
+                    ${money(
+                        x.amount
+                    )}
 
                 </td>
+
 
                 <td>
 
                     <span class="method">
 
-                        ${escapeHTML(x.method)}
+                        ${escapeHTML(
+                            x.method
+                        )}
 
                     </span>
 
                 </td>
+
 
                 <td>
 
@@ -1797,15 +2477,16 @@ function render(){
 
                         <button
                             class="action"
-                            onclick="editTransaction(${x.id})"
+                            onclick="editTransaction('${String(x.id).replace(/'/g,"\\'")}')"
                             title="ویرایش"
                         >
                             ✏️
                         </button>
 
+
                         <button
                             class="action delete"
-                            onclick="deleteTransaction(${x.id})"
+                            onclick="deleteTransaction('${String(x.id).replace(/'/g,"\\'")}')"
                             title="حذف"
                         >
                             🗑
@@ -1817,7 +2498,9 @@ function render(){
 
             </tr>
 
-        `).join("");
+        `
+        )
+        .join("");
 
     }
 
@@ -1836,7 +2519,8 @@ function updateStats(){
     const total =
         transactions.reduce(
             (sum,x) =>
-                sum + Number(x.amount),
+                sum +
+                Number(x.amount || 0),
             0
         );
 
@@ -1844,23 +2528,45 @@ function updateStats(){
     const todayStart =
         new Date();
 
+
     todayStart.setHours(
-        0,0,0,0
+        0,
+        0,
+        0,
+        0
     );
 
 
     const todayTotal =
         transactions
-            .filter(
-                x =>
-                    new Date(x.date)
-                    >= todayStart
-            )
-            .reduce(
-                (sum,x) =>
-                    sum + Number(x.amount),
-                0
-            );
+        .filter(
+            x => {
+
+                if(!x.date)
+                    return false;
+
+
+                const d =
+                    new Date(
+                        x.date
+                    );
+
+
+                return !isNaN(
+                    d.getTime()
+                ) &&
+                d >= todayStart;
+
+            }
+        )
+        .reduce(
+            (sum,x) =>
+                sum +
+                Number(
+                    x.amount || 0
+                ),
+            0
+        );
 
 
     const count =
@@ -1874,24 +2580,227 @@ function updateStats(){
 
 
     document
-        .getElementById("total")
+        .getElementById(
+            "total"
+        )
         .innerText =
         money(total);
 
+
     document
-        .getElementById("today")
+        .getElementById(
+            "today"
+        )
         .innerText =
         money(todayTotal);
 
+
     document
-        .getElementById("count")
+        .getElementById(
+            "count"
+        )
         .innerText =
         money(count);
 
+
     document
-        .getElementById("average")
+        .getElementById(
+            "average"
+        )
         .innerText =
-        money(Math.round(avg));
+        money(
+            Math.round(avg)
+        );
+
+}
+
+
+/* =====================================================
+   DEHQAN TASK CARDS
+===================================================== */
+
+function renderDehqanTasks(){
+
+    const grid =
+        document.getElementById(
+            "dehqanTaskGrid"
+        );
+
+
+    const count =
+        document.getElementById(
+            "taskCount"
+        );
+
+
+    if(!grid || !count)
+        return;
+
+
+    if(
+        !dehqanTasks ||
+        !dehqanTasks.length
+    ){
+
+        count.innerText =
+            "۰ یادداشت";
+
+
+        grid.innerHTML = `
+
+            <div class="taskEmpty">
+
+                📝
+
+                <br><br>
+
+                هنوز یادداشتی ثبت نشده
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const sorted =
+        [...dehqanTasks].sort(
+            (a,b)=>{
+
+                if(
+                    a.pinned &&
+                    !b.pinned
+                )
+                    return -1;
+
+
+                if(
+                    !a.pinned &&
+                    b.pinned
+                )
+                    return 1;
+
+
+                return 0;
+
+            }
+        );
+
+
+    count.innerText =
+        Number(
+            dehqanTasks.length
+        ).toLocaleString(
+            "fa-IR"
+        ) +
+        " یادداشت";
+
+
+    grid.innerHTML =
+        sorted
+        .map(
+            task => {
+
+                const text =
+                    escapeHTML(
+                        task.text ||
+                        task.note ||
+                        ""
+                    );
+
+
+                const date =
+                    escapeHTML(
+                        task.date ||
+                        ""
+                    );
+
+
+                const time =
+                    escapeHTML(
+                        task.time ||
+                        ""
+                    );
+
+
+                const done =
+                    task.done ||
+                    task.status ===
+                    "انجام شد";
+
+
+                const pinned =
+                    !!task.pinned;
+
+
+                return `
+
+                    <div
+                        class="
+                            taskCard
+                            ${pinned ? "pinned" : ""}
+                            ${done ? "done" : ""}
+                        "
+                    >
+
+                        <div class="taskTop">
+
+                            <div class="taskIcon">
+
+                                ${
+                                    done
+                                    ? "✓"
+                                    : pinned
+                                    ? "📌"
+                                    : "📝"
+                                }
+
+                            </div>
+
+
+                            <div class="taskBadge">
+
+                                ${
+                                    done
+                                    ? "انجام شد"
+                                    : pinned
+                                    ? "پین شده"
+                                    : "باز"
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="taskText">
+
+                            ${text}
+
+                        </div>
+
+
+                        <div class="taskMeta">
+
+                            <span>
+                                ${date}
+                            </span>
+
+                            <span>
+                                ${time}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
 
 }
 
@@ -1907,54 +2816,65 @@ function showSuccess(message){
             "success"
         );
 
+
     box.innerText =
         message ||
-        "تراکنش با موفقیت ثبت شد ✓";
-
-    box.classList.add("show");
+        "عملیات با موفقیت انجام شد ✓";
 
 
-    setTimeout(() => {
+    box.classList.add(
+        "show"
+    );
 
-        box.classList.remove("show");
 
-    },2200);
+    setTimeout(
+        ()=>{
+
+            box.classList.remove(
+                "show"
+            );
+
+        },
+        2200
+    );
 
 }
 
 
 /* =====================================================
-   SECURITY / HTML ESCAPE
+   ESCAPE HTML
 ===================================================== */
 
 function escapeHTML(text){
 
-    return String(text)
+    return String(
+        text ?? ""
+    )
 
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
 
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
 
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
 
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
 
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
 
 }
 
@@ -1963,17 +2883,24 @@ function escapeHTML(text){
    MOBILE NAV
 ===================================================== */
 
-function setActiveNav(element){
+function setActiveNav(
+    element
+){
 
     document
-        .querySelectorAll(".navItem")
-        .forEach(item => {
+        .querySelectorAll(
+            ".navItem"
+        )
+        .forEach(
+            item => {
 
-            item.classList.remove(
-                "active"
-            );
+                item.classList.remove(
+                    "active"
+                );
 
-        });
+            }
+        );
+
 
     element.classList.add(
         "active"
@@ -1987,62 +2914,91 @@ function setActiveNav(element){
 ===================================================== */
 
 const navSections = [
+
     "home",
     "register",
     "income",
     "transactions"
+
 ];
 
 
 window.addEventListener(
     "scroll",
-    () => {
+    ()=>{
 
-        if(window.innerWidth > 550)
+        if(
+            window.innerWidth >
+            550
+        )
             return;
 
-        let current = "home";
 
-        navSections.forEach(id => {
+        let current =
+            "home";
 
-            const section =
-                document.getElementById(id);
 
-            if(!section) return;
+        navSections.forEach(
+            id => {
 
-            const rect =
-                section.getBoundingClientRect();
+                const section =
+                    document.getElementById(
+                        id
+                    );
 
-            if(rect.top <= 180){
 
-                current = id;
+                if(!section)
+                    return;
+
+
+                const rect =
+                    section
+                    .getBoundingClientRect();
+
+
+                if(
+                    rect.top <= 180
+                ){
+
+                    current =
+                        id;
+
+                }
 
             }
-
-        });
+        );
 
 
         document
-            .querySelectorAll(".navItem")
-            .forEach(item => {
+            .querySelectorAll(
+                ".navItem"
+            )
+            .forEach(
+                item => {
 
-                item.classList.toggle(
-                    "active",
-                    item.dataset.target === current
-                );
+                    item.classList.toggle(
+                        "active",
+                        item.dataset.target ===
+                        current
+                    );
 
-            });
+                }
+            );
 
     },
-    {passive:true}
+    {
+        passive:true
+    }
 );
 
 
 /* =====================================================
-   INITIAL RENDER
+   INITIAL
 ===================================================== */
 
 render();
+
+loadCloudData();
 
 </script>
 
