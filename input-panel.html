@@ -9,7 +9,6 @@
 
 <style>
 *{box-sizing:border-box}
-
 html{scroll-behavior:smooth}
 
 body{
@@ -550,10 +549,6 @@ tbody tr:hover td{
     transform:translateX(-50%) translateY(0);
 }
 
-/* =====================================================
-   DEHQAN TASKS
-===================================================== */
-
 .dehqanTasks{
     margin-top:22px;
 }
@@ -595,29 +590,23 @@ tbody tr:hover td{
     min-height:145px;
     padding:20px;
     border-radius:22px;
-
     background:
         linear-gradient(
             135deg,
             rgba(0,140,255,.17),
             rgba(20,80,150,.055)
         );
-
     border:1px solid rgba(70,160,255,.24);
-
     backdrop-filter:blur(30px) saturate(160%);
     -webkit-backdrop-filter:blur(30px) saturate(160%);
-
     box-shadow:
         inset 0 1px rgba(255,255,255,.11),
         0 18px 45px rgba(0,0,0,.38),
         0 0 30px rgba(0,125,255,.08);
-
     transition:
         transform .4s,
         box-shadow .4s,
         border-color .4s;
-
     overflow:hidden;
 }
 
@@ -647,7 +636,6 @@ tbody tr:hover td{
 .taskCard:hover{
     transform:translateY(-7px);
     border-color:rgba(70,170,255,.50);
-
     box-shadow:
         inset 0 1px rgba(255,255,255,.14),
         0 25px 55px rgba(0,0,0,.50),
@@ -656,7 +644,6 @@ tbody tr:hover td{
 
 .taskCard.pinned{
     border-color:rgba(0,180,255,.55);
-
     box-shadow:
         inset 0 1px rgba(255,255,255,.14),
         0 20px 50px rgba(0,0,0,.45),
@@ -681,14 +668,11 @@ tbody tr:hover td{
     align-items:center;
     justify-content:center;
     border-radius:12px;
-
     background:rgba(0,125,255,.14);
     border:1px solid rgba(70,160,255,.20);
-
     box-shadow:
         inset 0 1px rgba(255,255,255,.08),
         0 0 20px rgba(0,125,255,.10);
-
     font-size:17px;
 }
 
@@ -724,7 +708,6 @@ tbody tr:hover td{
     text-align:center;
     padding:35px 15px;
     color:#52606b;
-
     border-radius:20px;
     border:1px dashed rgba(70,160,255,.14);
     background:rgba(0,125,255,.025);
@@ -787,23 +770,10 @@ tbody tr:hover td{
 }
 
 @media(max-width:950px){
-
-    .main{
-        grid-template-columns:1fr;
-    }
-
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .panel:hover{
-        transform:none;
-    }
-
-    .taskGrid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
+    .main{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .panel:hover{transform:none}
+    .taskGrid{grid-template-columns:repeat(2,1fr)}
 }
 
 @media(max-width:550px){
@@ -813,18 +783,14 @@ tbody tr:hover td{
         padding-bottom:105px;
     }
 
-    .container{
-        width:100%;
-    }
+    .container{width:100%}
 
     .header{
         align-items:center;
         margin-bottom:18px;
     }
 
-    .title h1{
-        font-size:21px;
-    }
+    .title h1{font-size:21px}
 
     .title p{
         font-size:10px;
@@ -851,9 +817,7 @@ tbody tr:hover td{
         min-height:88px;
     }
 
-    .stat:hover{
-        transform:none;
-    }
+    .stat:hover{transform:none}
 
     .stat small{
         font-size:9px;
@@ -867,22 +831,16 @@ tbody tr:hover td{
         text-overflow:ellipsis;
     }
 
-    .main{
-        gap:14px;
-    }
+    .main{gap:14px}
 
     .panel{
         padding:19px 14px;
         border-radius:21px;
     }
 
-    .panel:hover{
-        transform:none;
-    }
+    .panel:hover{transform:none}
 
-    .panel h2{
-        font-size:17px;
-    }
+    .panel h2{font-size:17px}
 
     label{
         margin-top:15px;
@@ -897,9 +855,7 @@ tbody tr:hover td{
         border-radius:13px;
     }
 
-    .amount{
-        font-size:18px;
-    }
+    .amount{font-size:18px}
 
     .toolbar{
         flex-direction:row;
@@ -921,9 +877,7 @@ tbody tr:hover td{
         width:100%;
     }
 
-    thead{
-        display:none;
-    }
+    thead{display:none}
 
     tbody,
     tr,
@@ -983,41 +937,22 @@ tbody tr:hover td{
     tbody td:nth-child(5):before{content:"پرداخت"}
     tbody td:nth-child(6):before{content:"عملیات"}
 
-    tbody td:first-child{
-        padding-top:0;
-    }
+    tbody td:first-child{padding-top:0}
+    tbody td:nth-child(4){padding:8px 0}
 
-    tbody td:nth-child(4){
-        padding:8px 0;
-    }
+    .amountCell{font-size:15px}
 
-    .amountCell{
-        font-size:15px;
-    }
+    .actions{justify-content:flex-start}
 
-    .actions{
-        justify-content:flex-start;
-    }
+    .action{padding:7px 12px}
 
-    .action{
-        padding:7px 12px;
-    }
+    .empty{padding:40px 10px}
 
-    .empty{
-        padding:40px 10px;
-    }
+    .dehqanTasks{margin-top:14px}
 
-    .dehqanTasks{
-        margin-top:14px;
-    }
+    .taskHeader h2{font-size:17px}
 
-    .taskHeader h2{
-        font-size:17px;
-    }
-
-    .taskHeader span{
-        font-size:9px;
-    }
+    .taskHeader span{font-size:9px}
 
     .taskGrid{
         grid-template-columns:1fr;
@@ -1030,9 +965,7 @@ tbody tr:hover td{
         border-radius:19px;
     }
 
-    .taskText{
-        font-size:12px;
-    }
+    .taskText{font-size:12px}
 
     .mobileNav{
         position:fixed;
@@ -1067,10 +1000,7 @@ tbody tr:hover td{
         height:54px;
     }
 
-    .mouseGlow{
-        display:none;
-    }
-
+    .mouseGlow{display:none}
 }
 
 @media(max-width:370px){
@@ -1080,31 +1010,17 @@ tbody tr:hover td{
         padding-right:9px;
     }
 
-    .title h1{
-        font-size:18px;
-    }
+    .title h1{font-size:18px}
 
     .back{
         font-size:10px;
         padding:8px 9px;
     }
 
-    .navItem{
-        min-width:45px;
-    }
-
-    .navText{
-        font-size:8px;
-    }
-
-    .navIcon{
-        font-size:17px;
-    }
-
-    .stat strong{
-        font-size:14px;
-    }
-
+    .navItem{min-width:45px}
+    .navText{font-size:8px}
+    .navIcon{font-size:17px}
+    .stat strong{font-size:14px}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -1116,7 +1032,6 @@ tbody tr:hover td{
         transition:none!important;
         scroll-behavior:auto!important;
     }
-
 }
 </style>
 </head>
@@ -1126,7 +1041,7 @@ tbody tr:hover td{
 <div class="mouseGlow" id="mouseGlow"></div>
 
 <div id="success" class="success">
-    تراکنش با موفقیت ثبت شد ✓
+    در حال بارگذاری...
 </div>
 
 <div class="container">
@@ -1143,7 +1058,6 @@ tbody tr:hover td{
         </a>
 
     </div>
-
 
     <div class="stats" id="income">
 
@@ -1169,7 +1083,6 @@ tbody tr:hover td{
 
     </div>
 
-
     <div class="main">
 
         <div class="panel" id="register">
@@ -1188,10 +1101,7 @@ tbody tr:hover td{
 
             <select id="service">
 
-                <option value="">
-                    انتخاب خدمت
-                </option>
-
+                <option value="">انتخاب خدمت</option>
                 <option>پرینت</option>
                 <option>کافی‌نت</option>
                 <option>ثبت‌نام</option>
@@ -1217,17 +1127,9 @@ tbody tr:hover td{
 
             <select id="method">
 
-                <option value="کارتخوان">
-                    کارتخوان
-                </option>
-
-                <option value="نقدی">
-                    نقدی
-                </option>
-
-                <option value="کارت‌به‌کارت">
-                    کارت‌به‌کارت
-                </option>
+                <option value="کارتخوان">کارتخوان</option>
+                <option value="نقدی">نقدی</option>
+                <option value="کارت‌به‌کارت">کارت‌به‌کارت</option>
 
             </select>
 
@@ -1255,7 +1157,6 @@ tbody tr:hover td{
             </button>
 
         </div>
-
 
         <div class="panel" id="transactions">
 
@@ -1306,18 +1207,11 @@ tbody tr:hover td{
 
     </div>
 
-
-    <!-- =================================================
-         DEHQAN TASKS
-    ================================================== -->
-
     <div class="panel dehqanTasks" id="dehqanTasks">
 
         <div class="taskHeader">
 
-            <h2>
-                🔵 یادداشت‌های خانم دهقان
-            </h2>
+            <h2>🔵 یادداشت‌های خانم دهقان</h2>
 
             <span id="taskCount">
                 در حال بارگذاری...
@@ -1325,10 +1219,7 @@ tbody tr:hover td{
 
         </div>
 
-        <div
-            class="taskGrid"
-            id="dehqanTaskGrid"
-        >
+        <div class="taskGrid" id="dehqanTaskGrid">
 
             <div class="loadingCloud">
                 ⏳
@@ -1341,7 +1232,6 @@ tbody tr:hover td{
     </div>
 
 </div>
-
 
 <nav class="mobileNav">
 
@@ -1395,7 +1285,6 @@ tbody tr:hover td{
 
 </nav>
 
-
 <script>
 
 /* =====================================================
@@ -1410,11 +1299,8 @@ const GOOGLE_API_URL =
    LOCAL CACHE
 ===================================================== */
 
-let transactions =
-JSON.parse(
-    localStorage.getItem(
-        "cafe_transactions"
-    ) || "[]"
+let transactions = JSON.parse(
+    localStorage.getItem("cafe_transactions") || "[]"
 );
 
 let dehqanTasks = [];
@@ -1427,25 +1313,16 @@ let editId = null;
 ===================================================== */
 
 const mouseGlow =
-document.getElementById(
-    "mouseGlow"
-);
+document.getElementById("mouseGlow");
 
-document.addEventListener(
-    "mousemove",
-    (e)=>{
+document.addEventListener("mousemove",(e)=>{
 
-        if(!mouseGlow)
-            return;
+    if(!mouseGlow) return;
 
-        mouseGlow.style.left =
-            e.clientX + "px";
+    mouseGlow.style.left = e.clientX + "px";
+    mouseGlow.style.top = e.clientY + "px";
 
-        mouseGlow.style.top =
-            e.clientY + "px";
-
-    }
-);
+});
 
 
 /* =====================================================
@@ -1453,33 +1330,24 @@ document.addEventListener(
 ===================================================== */
 
 const amountInput =
-document.getElementById(
-    "amount"
-);
+document.getElementById("amount");
 
-amountInput.addEventListener(
-    "input",
-    function(){
+amountInput.addEventListener("input",function(){
 
-        let value =
-            this.value.replace(
-                /\D/g,
-                ""
-            );
+    let value =
+        this.value.replace(/\D/g,"");
 
-        if(!value){
+    if(!value){
 
-            this.value = "";
-            return;
-
-        }
-
-        this.value =
-            Number(value)
-            .toLocaleString("en-US");
+        this.value = "";
+        return;
 
     }
-);
+
+    this.value =
+        Number(value).toLocaleString("en-US");
+
+});
 
 
 function rawAmount(){
@@ -1503,35 +1371,30 @@ function money(value){
 
 
 /* =====================================================
-   LOCAL CACHE SAVE
+   LOCAL CACHE
 ===================================================== */
 
 function saveData(){
 
     localStorage.setItem(
         "cafe_transactions",
-        JSON.stringify(
-            transactions
-        )
+        JSON.stringify(transactions)
     );
 
 }
 
 
 /* =====================================================
-   SEND TRANSACTION
+   GENERIC CLOUD POST
 ===================================================== */
 
-async function sendToGoogle(
-    transaction
-){
+async function cloudPost(payload){
 
     try{
 
         await fetch(
             GOOGLE_API_URL,
             {
-
                 method:"POST",
 
                 headers:{
@@ -1539,36 +1402,9 @@ async function sendToGoogle(
                     "text/plain;charset=utf-8"
                 },
 
-                body:JSON.stringify({
-
-                    action:
-                        "addTransaction",
-
-                    date:
-                        transaction.date,
-
-                    time:
-                        transaction.time,
-
-                    customer:
-                        transaction.customer,
-
-                    service:
-                        transaction.service,
-
-                    amount:
-                        transaction.amount,
-
-                    method:
-                        transaction.method,
-
-                    description:
-                        transaction.description
-
-                }),
+                body:JSON.stringify(payload),
 
                 mode:"no-cors"
-
             }
         );
 
@@ -1576,10 +1412,7 @@ async function sendToGoogle(
 
     }catch(error){
 
-        console.error(
-            "Save error:",
-            error
-        );
+        console.error("Cloud error:",error);
 
         return false;
 
@@ -1589,20 +1422,19 @@ async function sendToGoogle(
 
 
 /* =====================================================
-   LOAD ALL CLOUD DATA
+   LOAD CLOUD DATA
 ===================================================== */
 
 async function loadCloudData(){
 
     const taskCount =
-        document.getElementById(
-            "taskCount"
-        );
+        document.getElementById("taskCount");
 
     const taskGrid =
-        document.getElementById(
-            "dehqanTaskGrid"
-        );
+        document.getElementById("dehqanTaskGrid");
+
+    const saveBtn =
+        document.getElementById("saveBtn");
 
 
     try{
@@ -1630,8 +1462,20 @@ async function loadCloudData(){
             await fetch(
                 GOOGLE_API_URL +
                 "?action=getData&ts=" +
-                Date.now()
+                Date.now(),
+                {
+                    cache:"no-store"
+                }
             );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "خطا در ارتباط"
+            );
+
+        }
 
 
         const data =
@@ -1663,13 +1507,16 @@ async function loadCloudData(){
 
             transactions =
                 data.transactions.map(
-                    (item,index)=>({
+                    item => ({
 
                         id:
-                            "cloud_" +
-                            index +
-                            "_" +
-                            Date.now(),
+                            item.id ||
+                            (
+                                "legacy_" +
+                                Date.now() +
+                                "_" +
+                                Math.random()
+                            ),
 
                         customer:
                             item.customer || "",
@@ -1686,8 +1533,7 @@ async function loadCloudData(){
                             item.method || "",
 
                         description:
-                            item.description ||
-                            "",
+                            item.description || "",
 
                         date:
                             item.date || "",
@@ -1707,7 +1553,7 @@ async function loadCloudData(){
 
 
         /* =================================================
-           DEHQAN NOTES
+           NOTES
         ================================================= */
 
         if(
@@ -1729,6 +1575,13 @@ async function loadCloudData(){
         renderDehqanTasks();
 
 
+        if(saveBtn){
+
+            saveBtn.disabled = false;
+
+        }
+
+
     }catch(error){
 
         console.error(
@@ -1737,12 +1590,8 @@ async function loadCloudData(){
         );
 
 
-        /*
-           اگر دریافت آنلاین شکست خورد،
-           اطلاعات قبلی دستگاه را نگه می‌داریم.
-        */
-
         render();
+
 
         taskCount.innerText =
             "خطا در دریافت";
@@ -1781,18 +1630,14 @@ async function saveTransaction(){
 
     const customer =
         document
-            .getElementById(
-                "customer"
-            )
+            .getElementById("customer")
             .value
             .trim();
 
 
     const service =
         document
-            .getElementById(
-                "service"
-            )
+            .getElementById("service")
             .value;
 
 
@@ -1802,27 +1647,20 @@ async function saveTransaction(){
 
     const method =
         document
-            .getElementById(
-                "method"
-            )
+            .getElementById("method")
             .value;
 
 
     const description =
         document
-            .getElementById(
-                "description"
-            )
+            .getElementById("description")
             .value
             .trim();
 
 
     if(!customer){
 
-        alert(
-            "نام مشتری را وارد کنید"
-        );
-
+        alert("نام مشتری را وارد کنید");
         return;
 
     }
@@ -1830,10 +1668,7 @@ async function saveTransaction(){
 
     if(!service){
 
-        alert(
-            "نوع خدمت را انتخاب کنید"
-        );
-
+        alert("نوع خدمت را انتخاب کنید");
         return;
 
     }
@@ -1841,17 +1676,21 @@ async function saveTransaction(){
 
     if(amount <= 0){
 
-        alert(
-            "مبلغ را وارد کنید"
-        );
-
+        alert("مبلغ را وارد کنید");
         return;
 
     }
 
 
+    const saveBtn =
+        document.getElementById("saveBtn");
+
+
+    saveBtn.classList.add("loading");
+
+
     /* =================================================
-       EDIT
+       EDIT CLOUD TRANSACTION
     ================================================= */
 
     if(editId !== null){
@@ -1864,54 +1703,90 @@ async function saveTransaction(){
             );
 
 
-        if(item){
+        if(!item){
 
-            item.customer =
-                customer;
-
-            item.service =
-                service;
-
-            item.amount =
-                amount;
-
-            item.method =
-                method;
-
-            item.description =
-                description;
+            saveBtn.classList.remove("loading");
+            return;
 
         }
+
+
+        saveBtn.innerText =
+            "در حال ذخیره...";
+
+
+        const sent =
+            await cloudPost({
+
+                action:
+                    "updateTransaction",
+
+                id:
+                    item.id,
+
+                date:
+                    item.date,
+
+                time:
+                    item.time,
+
+                customer:
+                    customer,
+
+                service:
+                    service,
+
+                amount:
+                    amount,
+
+                method:
+                    method,
+
+                description:
+                    description
+
+            });
+
+
+        if(!sent){
+
+            showSuccess(
+                "ذخیره تغییرات انجام نشد"
+            );
+
+            saveBtn.classList.remove("loading");
+            saveBtn.innerText =
+                "ذخیره تغییرات";
+
+            return;
+
+        }
+
+
+        item.customer = customer;
+        item.service = service;
+        item.amount = amount;
+        item.method = method;
+        item.description = description;
+
+
+        saveData();
 
 
         editId = null;
 
 
         document
-            .getElementById(
-                "formTitle"
-            )
+            .getElementById("formTitle")
             .innerText =
             "➕ ثبت تراکنش";
 
 
         document
-            .getElementById(
-                "saveBtn"
-            )
-            .innerText =
-            "ثبت تراکنش";
-
-
-        document
-            .getElementById(
-                "cancelBtn"
-            )
+            .getElementById("cancelBtn")
             .style.display =
             "none";
 
-
-        saveData();
 
         clearForm();
 
@@ -1922,6 +1797,18 @@ async function saveTransaction(){
             "تغییرات ذخیره شد ✓"
         );
 
+
+        saveBtn.classList.remove("loading");
+
+        saveBtn.innerText =
+            "ثبت تراکنش";
+
+
+        /* دریافت مجدد برای اطمینان */
+        setTimeout(
+            loadCloudData,
+            500
+        );
 
         return;
 
@@ -1937,9 +1824,6 @@ async function saveTransaction(){
 
 
     const transaction = {
-
-        id:
-            Date.now(),
 
         customer,
 
@@ -1966,61 +1850,74 @@ async function saveTransaction(){
     };
 
 
-    const saveBtn =
-        document.getElementById(
-            "saveBtn"
-        );
-
-
-    saveBtn.classList.add(
-        "loading"
-    );
-
-
     saveBtn.innerText =
-        "در حال بارگذاری...";
+        "در حال ذخیره...";
 
-
-    /*
-       اول به سرور ارسال می‌کنیم.
-       بعد از ارسال، داخل صفحه نمایش می‌دهیم.
-    */
 
     const sent =
-        await sendToGoogle(
-            transaction
-        );
+        await cloudPost({
+
+            action:
+                "addTransaction",
+
+            date:
+                transaction.date,
+
+            time:
+                transaction.time,
+
+            customer:
+                transaction.customer,
+
+            service:
+                transaction.service,
+
+            amount:
+                transaction.amount,
+
+            method:
+                transaction.method,
+
+            description:
+                transaction.description
+
+        });
 
 
-    if(sent){
-
-        transactions.unshift(
-            transaction
-        );
-
-        saveData();
-
-        render();
-
-        clearForm();
-
-        showSuccess(
-            "تراکنش با موفقیت ثبت شد ✓"
-        );
-
-    }else{
+    if(!sent){
 
         showSuccess(
             "ثبت تراکنش انجام نشد"
         );
 
+        saveBtn.classList.remove("loading");
+
+        saveBtn.innerText =
+            "ثبت تراکنش";
+
+        return;
+
     }
 
 
-    saveBtn.classList.remove(
-        "loading"
+    /*
+       بعد از ارسال،
+       دوباره اطلاعات آنلاین را می‌گیریم
+       تا ID واقعی سرور هم دریافت شود.
+    */
+
+    showSuccess(
+        "تراکنش ثبت شد ✓"
     );
 
+
+    clearForm();
+
+
+    await loadCloudData();
+
+
+    saveBtn.classList.remove("loading");
 
     saveBtn.innerText =
         "ثبت تراکنش";
@@ -2035,30 +1932,22 @@ async function saveTransaction(){
 function clearForm(){
 
     document
-        .getElementById(
-            "customer"
-        )
+        .getElementById("customer")
         .value = "";
 
 
     document
-        .getElementById(
-            "service"
-        )
+        .getElementById("service")
         .value = "";
 
 
     document
-        .getElementById(
-            "amount"
-        )
+        .getElementById("amount")
         .value = "";
 
 
     document
-        .getElementById(
-            "description"
-        )
+        .getElementById("description")
         .value = "";
 
 }
@@ -2083,69 +1972,53 @@ function editTransaction(id){
 
 
     document
-        .getElementById(
-            "customer"
-        )
+        .getElementById("customer")
         .value =
         item.customer;
 
 
     document
-        .getElementById(
-            "service"
-        )
+        .getElementById("service")
         .value =
         item.service;
 
 
     document
-        .getElementById(
-            "amount"
-        )
+        .getElementById("amount")
         .value =
         money(item.amount);
 
 
     document
-        .getElementById(
-            "method"
-        )
+        .getElementById("method")
         .value =
         item.method;
 
 
     document
-        .getElementById(
-            "description"
-        )
+        .getElementById("description")
         .value =
         item.description || "";
 
 
     editId =
-        id;
+        item.id;
 
 
     document
-        .getElementById(
-            "formTitle"
-        )
+        .getElementById("formTitle")
         .innerText =
         "✏️ ویرایش تراکنش";
 
 
     document
-        .getElementById(
-            "saveBtn"
-        )
+        .getElementById("saveBtn")
         .innerText =
         "ذخیره تغییرات";
 
 
     document
-        .getElementById(
-            "cancelBtn"
-        )
+        .getElementById("cancelBtn")
         .style.display =
         "block";
 
@@ -2173,25 +2046,19 @@ function cancelEdit(){
 
 
     document
-        .getElementById(
-            "formTitle"
-        )
+        .getElementById("formTitle")
         .innerText =
         "➕ ثبت تراکنش";
 
 
     document
-        .getElementById(
-            "saveBtn"
-        )
+        .getElementById("saveBtn")
         .innerText =
         "ثبت تراکنش";
 
 
     document
-        .getElementById(
-            "cancelBtn"
-        )
+        .getElementById("cancelBtn")
         .style.display =
         "none";
 
@@ -2199,15 +2066,52 @@ function cancelEdit(){
 
 
 /* =====================================================
-   DELETE
+   DELETE CLOUD TRANSACTION
 ===================================================== */
 
-function deleteTransaction(id){
+async function deleteTransaction(id){
 
-    if(!confirm(
-        "این تراکنش حذف شود؟"
-    ))
+    if(
+        !confirm(
+            "این تراکنش حذف شود؟"
+        )
+    )
         return;
+
+
+    const item =
+        transactions.find(
+            x =>
+                String(x.id) ===
+                String(id)
+        );
+
+
+    if(!item)
+        return;
+
+
+    const sent =
+        await cloudPost({
+
+            action:
+                "deleteTransaction",
+
+            id:
+                item.id
+
+        });
+
+
+    if(!sent){
+
+        showSuccess(
+            "حذف تراکنش انجام نشد"
+        );
+
+        return;
+
+    }
 
 
     transactions =
@@ -2224,7 +2128,15 @@ function deleteTransaction(id){
 
 
     showSuccess(
-        "تراکنش از این دستگاه حذف شد ✓"
+        "تراکنش حذف شد ✓"
+    );
+
+
+    /* همگام‌سازی مجدد */
+
+    setTimeout(
+        loadCloudData,
+        500
     );
 
 }
@@ -2237,11 +2149,8 @@ function deleteTransaction(id){
 function clearSearch(){
 
     document
-        .getElementById(
-            "search"
-        )
+        .getElementById("search")
         .value = "";
-
 
     render();
 
@@ -2274,9 +2183,7 @@ function formatDate(date){
 
 
     return parsed
-        .toLocaleDateString(
-            "fa-IR"
-        );
+        .toLocaleDateString("fa-IR");
 
 }
 
@@ -2332,9 +2239,7 @@ function render(){
 
     const search =
         document
-            .getElementById(
-                "search"
-            )
+            .getElementById("search")
             .value
             .trim()
             .toLowerCase();
@@ -2398,109 +2303,108 @@ function render(){
     }else{
 
         body.innerHTML =
+            filtered
+            .map(
+                x => `
 
-        filtered
-        .map(
-            x => `
+                <tr>
 
-            <tr>
-
-                <td>
-
-                    ${escapeHTML(
-                        formatDate(
-                            x.date
-                        )
-                    )}
-
-                    <br>
-
-                    <small
-                        style="color:#555"
-                    >
+                    <td>
 
                         ${escapeHTML(
-                            formatTime(
-                                x.date,
-                                x.time
+                            formatDate(
+                                x.date
                             )
                         )}
 
-                    </small>
+                        <br>
 
-                </td>
+                        <small
+                            style="color:#555"
+                        >
 
+                            ${escapeHTML(
+                                formatTime(
+                                    x.date,
+                                    x.time
+                                )
+                            )}
 
-                <td>
+                        </small>
 
-                    ${escapeHTML(
-                        x.customer
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    ${escapeHTML(
-                        x.service
-                    )}
-
-                </td>
+                    </td>
 
 
-                <td class="amountCell">
-
-                    ${money(
-                        x.amount
-                    )}
-
-                </td>
-
-
-                <td>
-
-                    <span class="method">
+                    <td>
 
                         ${escapeHTML(
-                            x.method
+                            x.customer
                         )}
 
-                    </span>
-
-                </td>
+                    </td>
 
 
-                <td>
+                    <td>
 
-                    <div class="actions">
+                        ${escapeHTML(
+                            x.service
+                        )}
 
-                        <button
-                            class="action"
-                            onclick="editTransaction('${String(x.id).replace(/'/g,"\\'")}')"
-                            title="ویرایش"
-                        >
-                            ✏️
-                        </button>
+                    </td>
 
 
-                        <button
-                            class="action delete"
-                            onclick="deleteTransaction('${String(x.id).replace(/'/g,"\\'")}')"
-                            title="حذف"
-                        >
-                            🗑
-                        </button>
+                    <td class="amountCell">
 
-                    </div>
+                        ${money(
+                            x.amount
+                        )}
 
-                </td>
+                    </td>
 
-            </tr>
 
-        `
-        )
-        .join("");
+                    <td>
+
+                        <span class="method">
+
+                            ${escapeHTML(
+                                x.method
+                            )}
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="action"
+                                onclick="editTransaction('${String(x.id).replace(/'/g,"\\'")}')"
+                                title="ویرایش"
+                            >
+                                ✏️
+                            </button>
+
+
+                            <button
+                                class="action delete"
+                                onclick="deleteTransaction('${String(x.id).replace(/'/g,"\\'")}')"
+                                title="حذف"
+                            >
+                                🗑
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `
+            )
+            .join("");
 
     }
 
@@ -2520,7 +2424,9 @@ function updateStats(){
         transactions.reduce(
             (sum,x) =>
                 sum +
-                Number(x.amount || 0),
+                Number(
+                    x.amount || 0
+                ),
             0
         );
 
@@ -2580,33 +2486,25 @@ function updateStats(){
 
 
     document
-        .getElementById(
-            "total"
-        )
+        .getElementById("total")
         .innerText =
         money(total);
 
 
     document
-        .getElementById(
-            "today"
-        )
+        .getElementById("today")
         .innerText =
         money(todayTotal);
 
 
     document
-        .getElementById(
-            "count"
-        )
+        .getElementById("count")
         .innerText =
         money(count);
 
 
     document
-        .getElementById(
-            "average"
-        )
+        .getElementById("average")
         .innerText =
         money(
             Math.round(avg)
@@ -2616,7 +2514,7 @@ function updateStats(){
 
 
 /* =====================================================
-   DEHQAN TASK CARDS
+   DEHQAN TASKS
 ===================================================== */
 
 function renderDehqanTasks(){
@@ -2883,9 +2781,7 @@ function escapeHTML(text){
    MOBILE NAV
 ===================================================== */
 
-function setActiveNav(
-    element
-){
+function setActiveNav(element){
 
     document
         .querySelectorAll(
@@ -2914,12 +2810,10 @@ function setActiveNav(
 ===================================================== */
 
 const navSections = [
-
     "home",
     "register",
     "income",
     "transactions"
-
 ];
 
 
