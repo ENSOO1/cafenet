@@ -1451,7 +1451,6 @@ tbody tr:hover{
     border-color:rgba(0,150,255,.40);
     box-shadow:0 25px 70px rgba(0,0,0,.42),0 0 34px rgba(0,140,255,.10),inset 0 1px rgba(255,255,255,.08);
 }
-.miniChatBar{
     position:relative;
     z-index:6;
     display:flex;
@@ -1479,6 +1478,43 @@ tbody tr:hover{
 .paymentStatus.paid{color:#8ff0b5;background:rgba(34,197,94,.09);border:1px solid rgba(34,197,94,.18)}
 .paymentStatus.pending{color:#ffd28b;background:rgba(245,158,11,.09);border:1px solid rgba(245,158,11,.18)}
 .paymentStatus.none{color:#6e8599;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06)}
+
+
+.liveDateTime{
+    margin-top:10px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 13px;
+    border:1px solid rgba(0,140,255,.20);
+    border-radius:13px;
+    background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(0,110,255,.07));
+    color:#8fcfff;
+    font-size:11px;
+    direction:rtl;
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    box-shadow:inset 0 1px rgba(255,255,255,.06),0 0 22px rgba(0,120,255,.05);
+    white-space:nowrap;
+}
+.globalMoneyEye{
+    border:1px solid rgba(0,140,255,.24);
+    background:rgba(0,110,255,.08);
+    color:#8fcfff;
+    min-height:42px;
+    padding:0 15px;
+    border-radius:13px;
+    cursor:pointer;
+    font-family:inherit;
+    transition:.25s;
+    box-shadow:inset 0 1px rgba(255,255,255,.06);
+}
+.globalMoneyEye:hover{
+    background:rgba(0,140,255,.16);
+    border-color:rgba(0,160,255,.45);
+    box-shadow:0 0 25px rgba(0,140,255,.16);
+    transform:translateY(-2px);
+}
 
 /* =========================
    NEW FLOATING CONTROLS / CHAT / PAYMENT
@@ -1519,6 +1555,7 @@ tbody tr:hover{
     <div class="title">
         <h1 class="reportTitleCard">📊 خروجی گزارش</h1>
         <p>کافی‌نت جانا • گزارش مالی</p>
+        <div class="liveDateTime" id="liveDateTime">📅 در حال بارگذاری... • 🕐 --:--:--</div>
     </div>
 
     <div class="headerActions">
@@ -1526,6 +1563,8 @@ tbody tr:hover{
         <button class="printBtn" onclick="window.print()">
             🖨 چاپ گزارش
         </button>
+
+        <button class="globalMoneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن همه مبالغ">◉ نمایش مبالغ</button>
 
         <a href="./index.html" class="back">
             ← صفحه اصلی
@@ -1535,22 +1574,12 @@ tbody tr:hover{
 
 </header>
 
-<div class="miniChatBar" id="miniChatBar">
-    <div class="miniChatHead">
-        <span>💬 Mini Chat مدیریتی</span>
-        <button type="button" onclick="openChat()">باز کردن چت کامل</button>
-    </div>
-    <div class="miniChatItems" id="miniChatItems">
-        <span class="miniChatEmpty">در حال بارگذاری...</span>
-    </div>
-</div>
-
 <section class="stats" id="income">
 
     <div class="stat">
         <span class="statIcon">💰</span>
         <small>کل درآمد</small>
-        <div class="moneyRow"><strong id="totalIncome">۰ تومان</strong><button class="moneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن مبالغ">◉</button></div>
+        <div class="moneyRow"><strong id="totalIncome">۰ تومان</strong></div>
     </div>
 
     <div class="stat">
@@ -1562,19 +1591,19 @@ tbody tr:hover{
     <div class="stat">
         <span class="statIcon">💳</span>
         <small>کارتخوان</small>
-        <div class="moneyRow"><strong id="posTotal">۰</strong><button class="moneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن مبالغ">◉</button></div>
+        <div class="moneyRow"><strong id="posTotal">۰</strong></div>
     </div>
 
     <div class="stat">
         <span class="statIcon">💵</span>
         <small>نقدی</small>
-        <div class="moneyRow"><strong id="cashTotal">۰</strong><button class="moneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن مبالغ">◉</button></div>
+        <div class="moneyRow"><strong id="cashTotal">۰</strong></div>
     </div>
 
     <div class="stat">
         <span class="statIcon">🔄</span>
         <small>کارت‌به‌کارت</small>
-        <div class="moneyRow"><strong id="transferTotal">۰</strong><button class="moneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن مبالغ">◉</button></div>
+        <div class="moneyRow"><strong id="transferTotal">۰</strong></div>
     </div>
 
 </section>
@@ -1605,7 +1634,7 @@ tbody tr:hover{
                     کل درآمد
                 </div>
 
-                <div class="moneyRow"><div class="bubbleAmount" id="bubbleIncome">۰ تومان</div><button class="moneyEye" onclick="toggleMoneyVisibility()">◉</button></div>
+                <div class="moneyRow"><div class="bubbleAmount" id="bubbleIncome">۰ تومان</div></div>
 
             </div>
 
@@ -1908,7 +1937,7 @@ function getTransactionPaymentBadge(item){
     return '<span class="paymentStatus none">—</span>';
 }
 function toggleMoneyVisibility(){ moneyHidden=!moneyHidden; localStorage.setItem("jana_money_hidden",String(moneyHidden)); updateMoneyEyes(); updateStats(); updateBubble(); renderTransactions(); drawIncomeChart(); }
-function updateMoneyEyes(){ document.querySelectorAll('.moneyEye').forEach(b=>b.textContent=moneyHidden?'◉':'◌'); }
+function updateMoneyEyes(){ const b=document.querySelector('.globalMoneyEye'); if(b)b.textContent=moneyHidden?'◉ نمایش مبالغ':'◌ مخفی کردن مبالغ'; }
 
 
 
@@ -4143,25 +4172,19 @@ function openChart(){
 ===================================================== */
 
 function showDate(){
-
-    const today =
-        new Date();
-
-
-    const reportDate =
-        document.getElementById(
-            "reportDate"
-        );
-
-
-    if(reportDate){
-
-        reportDate.textContent = "آخرین بروزرسانی: " + today.toLocaleDateString("fa-IR") + " • " + today.toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
-
-    }
-
+    const update=()=>{
+        const now=new Date();
+        const date=now.toLocaleDateString("fa-IR",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+        const time=now.toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+        const live=document.getElementById("liveDateTime");
+        if(live)live.textContent="📅 "+date+" • 🕐 "+time;
+        const reportDate=document.getElementById("reportDate");
+        if(reportDate)reportDate.textContent="آخرین بروزرسانی: "+now.toLocaleDateString("fa-IR")+" • "+time;
+    };
+    update();
+    clearInterval(window.janaClockTimer);
+    window.janaClockTimer=setInterval(update,1000);
 }
-
 
 /* =====================================================
    TOAST
