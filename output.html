@@ -6,8 +6,6 @@
 
 <title>خروجی گزارش | کافی‌نت جانا</title>
 
-<script src="./data.js"></script>
-
 <style>
 *{
     box-sizing:border-box;
@@ -754,8 +752,6 @@ tbody tr:hover{
         min-width:0;
     }
 
-    /* Mobile transactions become cards */
-
     .tableWrap{
         overflow:visible;
     }
@@ -841,8 +837,6 @@ tbody tr:hover{
         min-height:135px;
     }
 
-    /* Bottom Nav */
-
     .mobileNav{
         position:fixed;
         display:flex;
@@ -903,8 +897,6 @@ tbody tr:hover{
         display:none;
     }
 }
-
-/* Very small phones */
 
 @media(max-width:360px){
 
@@ -995,7 +987,6 @@ tbody tr:hover{
 
 <div class="container" id="home">
 
-    <!-- Header -->
     <header class="header">
 
         <div class="title">
@@ -1018,7 +1009,6 @@ tbody tr:hover{
     </header>
 
 
-    <!-- Stats -->
     <section class="stats" id="income">
 
         <div class="stat">
@@ -1048,7 +1038,6 @@ tbody tr:hover{
     </section>
 
 
-    <!-- Chart -->
     <section class="panel">
 
         <div class="panelTitle">
@@ -1079,7 +1068,6 @@ tbody tr:hover{
     </section>
 
 
-    <!-- Transactions -->
     <section class="panel" id="transactions">
 
         <div class="panelTitle">
@@ -1159,7 +1147,6 @@ tbody tr:hover{
     </section>
 
 
-    <!-- Notes -->
     <section class="panel" id="notes">
 
         <div class="panelTitle">
@@ -1172,8 +1159,6 @@ tbody tr:hover{
 
         </div>
 
-
-        <!-- Add Note -->
         <div class="noteForm">
 
             <textarea
@@ -1198,8 +1183,6 @@ tbody tr:hover{
 
 </div>
 
-
-<!-- Mobile Navigation -->
 
 <nav class="mobileNav">
 
@@ -1260,6 +1243,14 @@ tbody tr:hover{
 <script>
 
 /* =====================================================
+   GOOGLE APPS SCRIPT
+===================================================== */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycby4CtQL9ZEHkcjJFqVos0hQ1Z1C2xpI6ZO_dLGxiucGTCgLGzSoM3VgEuoRsOTXviQ4XA/exec";
+
+
+/* =====================================================
    DATA
 ===================================================== */
 
@@ -1268,24 +1259,6 @@ let allTransactions = [];
 let currentFilter = "all";
 
 let localNotes = [];
-
-
-/* =====================================================
-   LOAD DATA.JS
-===================================================== */
-
-if(typeof cafeData !== "undefined"){
-
-    allTransactions =
-        Array.isArray(cafeData.transactions)
-        ? cafeData.transactions
-        : [];
-
-}else{
-
-    console.warn("data.js پیدا نشد.");
-
-}
 
 
 /* =====================================================
@@ -1323,6 +1296,239 @@ function escapeHTML(value){
         .replace(/>/g,"&gt;")
         .replace(/"/g,"&quot;")
         .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   LOAD GOOGLE SHEETS
+===================================================== */
+
+async function loadCloudData(){
+
+    showToast("☁️ در حال دریافت گزارش...");
+
+
+    try{
+
+        const response =
+            await fetch(
+                API_URL + "?action=getData",
+                {
+                    method:"GET",
+                    cache:"no-store"
+                }
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "HTTP " + response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "JANA CLOUD DATA:",
+            data
+        );
+
+
+        if(data.status !== "success"){
+
+            throw new Error(
+                data.message ||
+                "خطا در دریافت اطلاعات"
+            );
+
+        }
+
+
+        allTransactions =
+            Array.isArray(data.transactions)
+            ? data.transactions
+            : [];
+
+
+        /*
+           یادداشت‌های Google Sheets
+           را با یادداشت‌های محلی ترکیب می‌کنیم.
+        */
+
+        if(
+            Array.isArray(data.notes)
+        ){
+
+            data.notes.forEach(
+                (cloudNote,index) => {
+
+                    const cloudText =
+                        cloudNote.note ||
+                        cloudNote.text ||
+                        "";
+
+
+                    if(!cloudText){
+                        return;
+                    }
+
+
+                    const exists =
+                        localNotes.some(
+                            note =>
+                                note.cloudId ===
+                                cloudNote.id ||
+                                note.text ===
+                                cloudText
+                        );
+
+
+                    if(!exists){
+
+                        localNotes.push({
+
+                            id:
+                                "cloud_" +
+                                cloudNote.id +
+                                "_" +
+                                index,
+
+                            cloudId:
+                                cloudNote.id,
+
+                            text:
+                                cloudText,
+
+                            date:
+                                (
+                                    cloudNote.date ||
+                                    ""
+                                ) +
+                                (
+                                    cloudNote.time
+                                    ? " • " +
+                                      cloudNote.time
+                                    : ""
+                                ),
+
+                            pinned:false,
+
+                            done:
+                                cloudNote.status ===
+                                "انجام شد"
+
+                        });
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        saveNotes();
+
+
+        updateStats();
+
+        renderTransactions();
+
+        renderNotes();
+
+        drawChart();
+
+        showToast(
+            "✅ گزارش از Google Sheets دریافت شد."
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Google Sheets Error:",
+            error
+        );
+
+
+        /*
+           اگر اینترنت یا API مشکل داشت،
+           اطلاعات قبلی ذخیره‌شده روی دستگاه
+           نمایش داده می‌شود.
+        */
+
+        try{
+
+            const saved =
+                localStorage.getItem(
+                    "cafe_transactions"
+                );
+
+
+            if(saved){
+
+                allTransactions =
+                    JSON.parse(saved);
+
+            }else{
+
+                allTransactions = [];
+
+            }
+
+        }catch(e){
+
+            allTransactions = [];
+
+        }
+
+
+        updateStats();
+
+        renderTransactions();
+
+        drawChart();
+
+
+        showToast(
+            "⚠️ اتصال به Google Sheets برقرار نشد."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SAVE LOCAL TRANSACTIONS
+   فقط برای حالت پشتیبان
+===================================================== */
+
+function saveLocalTransactions(){
+
+    try{
+
+        localStorage.setItem(
+            "cafe_transactions",
+            JSON.stringify(
+                allTransactions
+            )
+        );
+
+    }catch(error){
+
+        console.warn(
+            "Local save failed:",
+            error
+        );
+
+    }
 
 }
 
@@ -1367,21 +1573,30 @@ function updateStats(){
     });
 
 
-    document.getElementById("totalIncome")
-        .textContent = money(total);
+    document.getElementById(
+        "totalIncome"
+    ).textContent =
+        money(total);
 
 
-    document.getElementById("transactionCount")
-        .textContent =
-        faNumber(transactions.length);
+    document.getElementById(
+        "transactionCount"
+    ).textContent =
+        faNumber(
+            transactions.length
+        );
 
 
-    document.getElementById("posTotal")
-        .textContent = money(pos);
+    document.getElementById(
+        "posTotal"
+    ).textContent =
+        money(pos);
 
 
-    document.getElementById("cashTotal")
-        .textContent = money(cash);
+    document.getElementById(
+        "cashTotal"
+    ).textContent =
+        money(cash);
 
 }
 
@@ -1402,7 +1617,9 @@ function getFilteredTransactions(){
 
 
     const search =
-        document.getElementById("searchInput")
+        document.getElementById(
+            "searchInput"
+        )
         ?.value
         .trim()
         .toLowerCase();
@@ -1414,15 +1631,18 @@ function getFilteredTransactions(){
             transactions.filter(item => {
 
                 const text = [
+
                     item.date,
                     item.time,
                     item.customer,
                     item.service,
                     item.method,
                     item.description
+
                 ]
                 .join(" ")
                 .toLowerCase();
+
 
                 return text.includes(search);
 
@@ -1454,7 +1674,9 @@ function renderTransactions(){
     if(!transactions.length){
 
         body.innerHTML = `
+
             <tr>
+
                 <td colspan="7">
 
                     <div class="empty">
@@ -1468,7 +1690,9 @@ function renderTransactions(){
                     </div>
 
                 </td>
+
             </tr>
+
         `;
 
         return;
@@ -1484,9 +1708,11 @@ function renderTransactions(){
 
         let methodClass = "";
 
+
         if(item.method === "نقدی"){
             methodClass = "cash";
         }
+
 
         if(item.method === "کارت به کارت"){
             methodClass = "card";
@@ -1496,19 +1722,27 @@ function renderTransactions(){
         row.innerHTML = `
 
             <td>
-                ${escapeHTML(item.date || "-")}
+                ${escapeHTML(
+                    item.date || "-"
+                )}
             </td>
 
             <td>
-                ${escapeHTML(item.time || "-")}
+                ${escapeHTML(
+                    item.time || "-"
+                )}
             </td>
 
             <td>
-                ${escapeHTML(item.customer || "-")}
+                ${escapeHTML(
+                    item.customer || "-"
+                )}
             </td>
 
             <td>
-                ${escapeHTML(item.service || "-")}
+                ${escapeHTML(
+                    item.service || "-"
+                )}
             </td>
 
             <td class="amount">
@@ -1516,13 +1750,22 @@ function renderTransactions(){
             </td>
 
             <td>
-                <span class="method ${methodClass}">
-                    ${escapeHTML(item.method || "-")}
+
+                <span
+                    class="method ${methodClass}">
+
+                    ${escapeHTML(
+                        item.method || "-"
+                    )}
+
                 </span>
+
             </td>
 
             <td>
-                ${escapeHTML(item.description || "-")}
+                ${escapeHTML(
+                    item.description || "-"
+                )}
             </td>
 
         `;
@@ -1548,12 +1791,16 @@ function filterData(filter,button){
         ".filters button"
     ).forEach(btn => {
 
-        btn.classList.remove("active");
+        btn.classList.remove(
+            "active"
+        );
 
     });
 
 
-    button.classList.add("active");
+    button.classList.add(
+        "active"
+    );
 
 
     updateStats();
@@ -1584,7 +1831,9 @@ function loadNotes(){
 
 
         if(!Array.isArray(localNotes)){
+
             localNotes = [];
+
         }
 
     }catch(error){
@@ -1593,62 +1842,28 @@ function loadNotes(){
 
     }
 
-
-    /*
-       اگر data.js یادداشت داشته باشد
-       و قبلاً در localStorage ذخیره نشده باشد،
-       آنها را هم نمایش می‌دهیم.
-    */
-
-    if(
-        typeof cafeData !== "undefined" &&
-        Array.isArray(cafeData.notes)
-    ){
-
-        const staticNotes =
-            cafeData.notes.map(
-                (note,index) => ({
-                    id:
-                        "data_" + index,
-                    text:
-                        note.text || "",
-                    date:
-                        note.date || "",
-                    pinned:false,
-                    done:false
-                })
-            );
-
-
-        staticNotes.forEach(note => {
-
-            const exists =
-                localNotes.some(
-                    item =>
-                        item.text === note.text
-                );
-
-
-            if(!exists){
-                localNotes.push(note);
-            }
-
-        });
-
-    }
-
-
-    saveNotes();
-
 }
 
 
 function saveNotes(){
 
-    localStorage.setItem(
-        "cafe_notes",
-        JSON.stringify(localNotes)
-    );
+    try{
+
+        localStorage.setItem(
+            "cafe_notes",
+            JSON.stringify(
+                localNotes
+            )
+        );
+
+    }catch(error){
+
+        console.warn(
+            "Notes save failed:",
+            error
+        );
+
+    }
 
 }
 
@@ -1657,7 +1872,7 @@ function saveNotes(){
    ADD NOTE
 ===================================================== */
 
-function addNote(){
+async function addNote(){
 
     const input =
         document.getElementById(
@@ -1686,6 +1901,22 @@ function addNote(){
         new Date();
 
 
+    const date =
+        now.toLocaleDateString(
+            "fa-IR"
+        );
+
+
+    const time =
+        now.toLocaleTimeString(
+            "fa-IR",
+            {
+                hour:"2-digit",
+                minute:"2-digit"
+            }
+        );
+
+
     const note = {
 
         id:
@@ -1695,17 +1926,9 @@ function addNote(){
             text,
 
         date:
-            now.toLocaleDateString(
-                "fa-IR"
-            ) +
+            date +
             " • " +
-            now.toLocaleTimeString(
-                "fa-IR",
-                {
-                    hour:"2-digit",
-                    minute:"2-digit"
-                }
-            ),
+            time,
 
         pinned:false,
 
@@ -1713,6 +1936,10 @@ function addNote(){
 
     };
 
+
+    /*
+       اول روی دستگاه نمایش داده شود
+    */
 
     localNotes.unshift(note);
 
@@ -1722,9 +1949,64 @@ function addNote(){
 
     renderNotes();
 
-    showToast(
-        "✅ یادداشت ثبت شد."
-    );
+
+    /*
+       ارسال به Google Sheets
+    */
+
+    try{
+
+        await fetch(
+            API_URL,
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+                },
+
+                body:JSON.stringify({
+
+                    action:
+                        "addNote",
+
+                    date:
+                        date,
+
+                    time:
+                        time,
+
+                    note:
+                        text,
+
+                    status:
+                        "باز"
+
+                })
+
+            }
+        );
+
+
+        showToast(
+            "✅ یادداشت ثبت و به Google Sheets ارسال شد."
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Note cloud error:",
+            error
+        );
+
+
+        showToast(
+            "⚠️ یادداشت محلی ثبت شد ولی ارسال ابری ناموفق بود."
+        );
+
+    }
 
 }
 
@@ -1741,8 +2023,12 @@ function togglePin(id){
             if(note.id === id){
 
                 return {
+
                     ...note,
-                    pinned:!note.pinned
+
+                    pinned:
+                        !note.pinned
+
                 };
 
             }
@@ -1771,8 +2057,12 @@ function toggleDone(id){
             if(note.id === id){
 
                 return {
+
                     ...note,
-                    done:!note.done
+
+                    done:
+                        !note.done
+
                 };
 
             }
@@ -1796,7 +2086,9 @@ function deleteNote(id){
             "این یادداشت حذف شود؟"
         )
     ){
+
         return;
+
     }
 
 
@@ -1867,17 +2159,25 @@ function renderNotes(){
     notes.forEach(note => {
 
         const div =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
 
         div.className =
             "note" +
-            (note.pinned
+
+            (
+                note.pinned
                 ? " pinned"
-                : "") +
-            (note.done
+                : ""
+            ) +
+
+            (
+                note.done
                 ? " done"
-                : "");
+                : ""
+            );
 
 
         div.innerHTML = `
@@ -1889,32 +2189,52 @@ function renderNotes(){
             }
 
             <div class="noteText">
-                ${escapeHTML(note.text)}
+                ${escapeHTML(
+                    note.text
+                )}
             </div>
 
             <div class="noteDate">
-                ${escapeHTML(note.date || "")}
+                ${escapeHTML(
+                    note.date || ""
+                )}
             </div>
 
             <div class="noteActions">
 
                 <button
-                    onclick="toggleDone(${JSON.stringify(note.id)})">
+                    onclick="toggleDone(
+                        ${JSON.stringify(note.id)}
+                    )">
 
-                    ${note.done ? "↩ باز کردن" : "✓ انجام شد"}
+                    ${
+                        note.done
+                        ? "↩ باز کردن"
+                        : "✓ انجام شد"
+                    }
 
                 </button>
+
 
                 <button
-                    onclick="togglePin(${JSON.stringify(note.id)})">
+                    onclick="togglePin(
+                        ${JSON.stringify(note.id)}
+                    )">
 
-                    ${note.pinned ? "📌 برداشتن پین" : "📌 پین"}
+                    ${
+                        note.pinned
+                        ? "📌 برداشتن پین"
+                        : "📌 پین"
+                    }
 
                 </button>
+
 
                 <button
                     class="delete"
-                    onclick="deleteNote(${JSON.stringify(note.id)})">
+                    onclick="deleteNote(
+                        ${JSON.stringify(note.id)}
+                    )">
 
                     🗑 حذف
 
@@ -1948,16 +2268,15 @@ function drawChart(){
 
 
     const width = 1000;
+
     const height = 280;
 
     const paddingX = 45;
+
     const paddingTop = 25;
+
     const paddingBottom = 35;
 
-
-    /*
-       جمع درآمد بر اساس تاریخ
-    */
 
     const grouped = {};
 
@@ -1967,12 +2286,18 @@ function drawChart(){
         const date =
             item.date || "بدون تاریخ";
 
+
         if(!grouped[date]){
+
             grouped[date] = 0;
+
         }
 
+
         grouped[date] +=
-            Number(item.amount || 0);
+            Number(
+                item.amount || 0
+            );
 
     });
 
@@ -1981,10 +2306,6 @@ function drawChart(){
         Object.keys(grouped);
 
 
-    /*
-       فقط 10 روز آخر
-    */
-
     labels =
         labels.slice(-10);
 
@@ -1992,14 +2313,18 @@ function drawChart(){
     if(!labels.length){
 
         svg.innerHTML = `
+
             <text
                 x="500"
                 y="145"
                 text-anchor="middle"
                 fill="#5d7488"
                 font-size="14">
+
                 هنوز اطلاعاتی برای رسم نمودار وجود ندارد
+
             </text>
+
         `;
 
         return;
@@ -2038,10 +2363,6 @@ function drawChart(){
         : chartWidth /
             (labels.length - 1);
 
-
-    /*
-       خطوط افقی
-    */
 
     for(let i=0;i<4;i++){
 
@@ -2093,10 +2414,6 @@ function drawChart(){
     }
 
 
-    /*
-       نقاط
-    */
-
     const points =
         values.map(
             (value,index) => {
@@ -2116,22 +2433,22 @@ function drawChart(){
 
 
                 return {
+
                     x,
                     y,
                     value,
-                    label:labels[index]
+                    label:
+                        labels[index]
+
                 };
 
             }
         );
 
 
-    /*
-       Area
-    */
-
     let areaPath =
         `M ${points[0].x} ${height-paddingBottom}`;
+
 
     points.forEach(point => {
 
@@ -2171,15 +2488,15 @@ function drawChart(){
     svg.appendChild(area);
 
 
-    /*
-       Line
-    */
-
     let linePath =
         `M ${points[0].x} ${points[0].y}`;
 
 
-    for(let i=1;i<points.length;i++){
+    for(
+        let i=1;
+        i<points.length;
+        i++
+    ){
 
         linePath +=
             ` L ${points[i].x} ${points[i].y}`;
@@ -2228,10 +2545,6 @@ function drawChart(){
     svg.appendChild(line);
 
 
-    /*
-       نقاط روی نمودار
-    */
-
     points.forEach(point => {
 
         const circle =
@@ -2275,10 +2588,6 @@ function drawChart(){
         svg.appendChild(circle);
 
 
-        /*
-           تاریخ
-        */
-
         const text =
             document.createElementNS(
                 "http://www.w3.org/2000/svg",
@@ -2310,6 +2619,7 @@ function drawChart(){
             "font-size",
             "11"
         );
+
 
         text.textContent =
             point.label;
@@ -2362,20 +2672,26 @@ function showToast(message){
         message;
 
 
-    toast.classList.add("show");
+    toast.classList.add(
+        "show"
+    );
 
 
-    clearTimeout(toastTimer);
+    clearTimeout(
+        toastTimer
+    );
 
 
     toastTimer =
         setTimeout(
             () => {
+
                 toast.classList.remove(
                     "show"
                 );
+
             },
-            2200
+            3000
         );
 
 }
@@ -2409,7 +2725,10 @@ function setNav(element){
    SCROLL NAV
 ===================================================== */
 
-if("IntersectionObserver" in window){
+if(
+    "IntersectionObserver"
+    in window
+){
 
     const sections =
         document.querySelectorAll(
@@ -2419,49 +2738,59 @@ if("IntersectionObserver" in window){
 
     const observer =
         new IntersectionObserver(
+
             entries => {
 
-                entries.forEach(entry => {
+                entries.forEach(
+                    entry => {
 
-                    if(entry.isIntersecting){
+                        if(
+                            entry.isIntersecting
+                        ){
 
-                        const id =
-                            entry.target.id;
+                            const id =
+                                entry.target.id;
 
 
-                        document
-                            .querySelectorAll(
-                                ".mobileNav a"
-                            )
-                            .forEach(link => {
+                            document
+                                .querySelectorAll(
+                                    ".mobileNav a"
+                                )
+                                .forEach(
+                                    link => {
 
-                                link.classList.remove(
-                                    "active"
+                                        link.classList.remove(
+                                            "active"
+                                        );
+
+
+                                        if(
+                                            link.getAttribute(
+                                                "href"
+                                            ) ===
+                                            "#" + id
+                                        ){
+
+                                            link.classList.add(
+                                                "active"
+                                            );
+
+                                        }
+
+                                    }
                                 );
 
-
-                                if(
-                                    link.getAttribute(
-                                        "href"
-                                    ) === "#" + id
-                                ){
-
-                                    link.classList.add(
-                                        "active"
-                                    );
-
-                                }
-
-                            });
+                        }
 
                     }
-
-                });
+                );
 
             },
+
             {
                 threshold:.35
             }
+
         );
 
 
@@ -2478,7 +2807,9 @@ if("IntersectionObserver" in window){
 ===================================================== */
 
 document
-    .getElementById("noteInput")
+    .getElementById(
+        "noteInput"
+    )
     .addEventListener(
         "keydown",
         function(e){
@@ -2579,6 +2910,8 @@ animateGlow();
 
 loadNotes();
 
+showDate();
+
 updateStats();
 
 renderTransactions();
@@ -2587,7 +2920,7 @@ renderNotes();
 
 drawChart();
 
-showDate();
+loadCloudData();
 
 </script>
 
