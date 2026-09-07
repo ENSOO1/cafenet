@@ -294,7 +294,7 @@ body::after{
 
 .chartWrap{
     position:relative;
-    height:330px;
+    min-height:330px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -331,8 +331,7 @@ body::after{
         inset -15px -15px 35px rgba(0,80,180,.08),
         0 25px 70px rgba(0,0,0,.45);
 
-    animation:
-        bubbleFloat 4s ease-in-out infinite;
+    animation:bubbleFloat 4s ease-in-out infinite;
 }
 
 .incomeBubble::before{
@@ -360,8 +359,7 @@ body::after{
 
     padding:3px;
 
-    animation:
-        rotateGlow 2.8s linear infinite;
+    animation:rotateGlow 2.8s linear infinite;
 
     filter:
         drop-shadow(0 0 7px #008cff)
@@ -381,8 +379,7 @@ body::after{
 
     filter:blur(5px);
 
-    transform:
-        rotate(-25deg);
+    transform:rotate(-25deg);
 }
 
 @keyframes rotateGlow{
@@ -395,8 +392,7 @@ body::after{
 }
 
 @keyframes bubbleFloat{
-    0%,
-    100%{
+    0%,100%{
         transform:translateY(0) scale(1);
     }
 
@@ -416,8 +412,9 @@ body::after{
 
 .bubbleIcon{
     font-size:31px;
-    filter:
-        drop-shadow(0 0 10px rgba(0,140,255,.5));
+    filter:drop-shadow(
+        0 0 10px rgba(0,140,255,.5)
+    );
 }
 
 .bubbleLabel{
@@ -431,6 +428,158 @@ body::after{
     font-weight:bold;
     text-shadow:
         0 0 15px rgba(0,140,255,.3);
+}
+
+/* =========================
+   Chart Button
+========================= */
+
+.chartButtonWrap{
+    position:relative;
+    z-index:5;
+    display:flex;
+    justify-content:center;
+    margin-top:-15px;
+    padding-bottom:5px;
+}
+
+.chartButton{
+    border:1px solid rgba(0,140,255,.35);
+    background:linear-gradient(
+        135deg,
+        rgba(0,140,255,.18),
+        rgba(0,80,255,.08)
+    );
+    color:#7bc5ff;
+    padding:11px 25px;
+    border-radius:13px;
+    cursor:pointer;
+    font-family:inherit;
+    transition:.3s;
+    box-shadow:0 0 25px rgba(0,140,255,.06);
+}
+
+.chartButton:hover{
+    transform:translateY(-3px);
+    border-color:#168cff;
+    background:rgba(0,140,255,.18);
+    box-shadow:0 10px 30px rgba(0,140,255,.13);
+}
+
+/* =========================
+   Real Chart
+========================= */
+
+.chartPanel{
+    scroll-margin-top:20px;
+}
+
+.realChart{
+    position:relative;
+    width:100%;
+    height:360px;
+    padding:20px 10px 10px;
+}
+
+.chartBars{
+    height:290px;
+    display:flex;
+    align-items:flex-end;
+    gap:12px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:15px 10px 0;
+}
+
+.chartBars::-webkit-scrollbar{
+    height:5px;
+}
+
+.chartBars::-webkit-scrollbar-track{
+    background:rgba(255,255,255,.03);
+    border-radius:10px;
+}
+
+.chartBars::-webkit-scrollbar-thumb{
+    background:rgba(0,140,255,.25);
+    border-radius:10px;
+}
+
+.chartBarItem{
+    min-width:55px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    gap:7px;
+}
+
+.chartBarValue{
+    color:#72c4ff;
+    font-size:9px;
+    white-space:nowrap;
+}
+
+.chartBar{
+    position:relative;
+    width:34px;
+    min-height:5px;
+    border-radius:10px 10px 5px 5px;
+    background:linear-gradient(
+        to top,
+        #005cff,
+        #24aaff
+    );
+    box-shadow:
+        0 0 18px rgba(0,140,255,.25),
+        inset 0 1px rgba(255,255,255,.25);
+    transition:.35s;
+}
+
+.chartBar:hover{
+    transform:scaleX(1.12);
+    box-shadow:
+        0 0 28px rgba(0,140,255,.5),
+        inset 0 1px rgba(255,255,255,.35);
+}
+
+.chartBarLabel{
+    color:#718ba0;
+    font-size:9px;
+    white-space:nowrap;
+}
+
+.chartEmpty{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#60798d;
+    font-size:12px;
+}
+
+.chartSummary{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:8px;
+}
+
+.chartSummaryItem{
+    padding:9px 14px;
+    border-radius:11px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+    color:#7891a6;
+    font-size:10px;
+}
+
+.chartSummaryItem strong{
+    color:#63baff;
+    margin-right:5px;
 }
 
 /* =========================
@@ -656,11 +805,16 @@ tbody tr:hover{
 }
 
 .note.done{
-    opacity:.58;
+    opacity:.72;
+    border-color:rgba(34,197,94,.55);
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.25),
+        0 0 20px rgba(34,197,94,.08);
 }
 
 .note.done .noteText{
     text-decoration:line-through;
+    color:#8ba996;
 }
 
 .pinBadge{
@@ -709,6 +863,19 @@ tbody tr:hover{
     background:rgba(0,140,255,.08);
 }
 
+/* انجام شد وقتی فعال است سبز شود */
+.noteActions .doneBtn.doneActive{
+    color:#8ff0b5;
+    background:rgba(34,197,94,.14);
+    border-color:rgba(34,197,94,.55);
+    box-shadow:0 0 15px rgba(34,197,94,.08);
+}
+
+.noteActions .doneBtn.doneActive:hover{
+    background:rgba(34,197,94,.2);
+    border-color:#22c55e;
+}
+
 .noteActions .delete:hover{
     border-color:rgba(255,70,70,.4);
     color:#ff8888;
@@ -717,6 +884,12 @@ tbody tr:hover{
 .noteActions .edit:hover{
     border-color:rgba(255,190,60,.4);
     color:#ffd27a;
+}
+
+.noteActions .pinActive{
+    color:#7cc8ff;
+    border-color:rgba(0,140,255,.4);
+    background:rgba(0,140,255,.09);
 }
 
 /* =========================
@@ -855,7 +1028,7 @@ tbody tr:hover{
     }
 
     .chartWrap{
-        height:270px;
+        min-height:270px;
     }
 
     .incomeBubble{
@@ -865,6 +1038,23 @@ tbody tr:hover{
 
     .bubbleAmount{
         font-size:18px;
+    }
+
+    .realChart{
+        height:320px;
+    }
+
+    .chartBars{
+        height:250px;
+        gap:7px;
+    }
+
+    .chartBarItem{
+        min-width:48px;
+    }
+
+    .chartBar{
+        width:28px;
     }
 
     .filterArea{
@@ -1086,7 +1276,9 @@ tbody tr:hover{
     .noteForm,
     .noteActions,
     .mobileNav,
-    .chartWrap{
+    .chartWrap,
+    .chartButtonWrap,
+    .chartPanel{
         display:none!important;
     }
 
@@ -1274,6 +1466,10 @@ tbody tr:hover{
     </header>
 
 
+    <!-- =========================
+         STATS
+    ========================== -->
+
     <section class="stats" id="income">
 
         <div class="stat">
@@ -1308,6 +1504,10 @@ tbody tr:hover{
 
     </section>
 
+
+    <!-- =========================
+         INCOME BUBBLE
+    ========================== -->
 
     <section class="panel">
 
@@ -1347,8 +1547,64 @@ tbody tr:hover{
 
         </div>
 
+        <div class="chartButtonWrap">
+
+            <button
+                class="chartButton"
+                onclick="openChart()">
+
+                📊 مشاهده نمودار درآمد
+
+            </button>
+
+        </div>
+
     </section>
 
+
+    <!-- =========================
+         SECOND SLIDE / CHART
+    ========================== -->
+
+    <section
+        class="panel chartPanel"
+        id="chartSection">
+
+        <div class="panelTitle">
+
+            <h2>📊 نمودار درآمد</h2>
+
+            <span>
+                نمایش درآمد بر اساس روز
+            </span>
+
+        </div>
+
+        <div class="realChart">
+
+            <div
+                class="chartBars"
+                id="chartBars">
+
+                <div class="chartEmpty">
+                    در حال بارگذاری نمودار...
+                </div>
+
+            </div>
+
+            <div
+                class="chartSummary"
+                id="chartSummary">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         TRANSACTIONS
+    ========================== -->
 
     <section class="panel" id="transactions">
 
@@ -1429,6 +1685,10 @@ tbody tr:hover{
     </section>
 
 
+    <!-- =========================
+         NOTES
+    ========================== -->
+
     <section class="panel" id="notes">
 
         <div class="panelTitle">
@@ -1465,6 +1725,10 @@ tbody tr:hover{
 
 </div>
 
+
+<!-- =========================
+     MOBILE NAV
+========================= -->
 
 <nav class="mobileNav">
 
@@ -1588,66 +1852,91 @@ function escapeHTML(value){
 
 async function cloudPost(payload){
 
-    await fetch(
-        API_URL,
-        {
-            method:"POST",
-            headers:{
-                "Content-Type":
-                    "text/plain;charset=utf-8"
-            },
-            body:JSON.stringify(payload)
-        }
-    );
+    const response =
+        await fetch(
+            API_URL,
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+                },
+                body:JSON.stringify(payload)
+            }
+        );
+
+    return response;
 
 }
 
 
 /* =====================================================
-   LOAD GOOGLE SHEETS
+   CLOUD GET
+===================================================== */
+
+async function getCloudData(){
+
+    const response =
+        await fetch(
+            API_URL +
+            "?action=getData&_=" +
+            Date.now(),
+            {
+                method:"GET",
+                cache:"no-store"
+            }
+        );
+
+    if(!response.ok){
+
+        throw new Error(
+            "HTTP " + response.status
+        );
+
+    }
+
+    const data =
+        await response.json();
+
+    if(data.status !== "success"){
+
+        throw new Error(
+            data.message ||
+            "خطا در دریافت اطلاعات"
+        );
+
+    }
+
+    return data;
+
+}
+
+
+/* =====================================================
+   LOAD CLOUD DATA
 ===================================================== */
 
 async function loadCloudData(showMessage=true){
 
     if(showMessage){
-        showToast("☁️ در حال بارگذاری...");
+
+        showToast(
+            "در حال بارگذاری..."
+        );
+
     }
 
     try{
 
-        const response =
-            await fetch(
-                API_URL + "?action=getData",
-                {
-                    method:"GET",
-                    cache:"no-store"
-                }
-            );
-
-        if(!response.ok){
-
-            throw new Error(
-                "HTTP " + response.status
-            );
-
-        }
-
         const data =
-            await response.json();
+            await getCloudData();
+
 
         console.log(
             "JANA CLOUD DATA:",
             data
         );
 
-        if(data.status !== "success"){
-
-            throw new Error(
-                data.message ||
-                "خطا در دریافت اطلاعات"
-            );
-
-        }
 
         allTransactions =
             Array.isArray(data.transactions)
@@ -1655,12 +1944,24 @@ async function loadCloudData(showMessage=true){
             : [];
 
 
-        /*
-           یادداشت‌های ابری را با اطلاعات محلی
-           هماهنگ می‌کنیم تا ID واقعی حفظ شود.
-        */
+        saveLocalTransactions();
+
+
+        /* =========================
+           CLOUD NOTES SYNC
+        ========================== */
 
         if(Array.isArray(data.notes)){
+
+            const oldNotes =
+                Array.isArray(localNotes)
+                ? [...localNotes]
+                : [];
+
+
+            const usedLocalIds =
+                new Set();
+
 
             const cloudNotes =
                 data.notes
@@ -1682,20 +1983,67 @@ async function loadCloudData(showMessage=true){
                             ""
                         ).trim();
 
-                    const existing =
-                        localNotes.find(note => {
+
+                    let existing =
+                        oldNotes.find(note => {
 
                             return (
                                 note.cloudId &&
-                                String(note.cloudId) ===
-                                String(item.id)
-                            ) ||
-                            (
-                                !note.cloudId &&
-                                note.text === text
+                                String(
+                                    note.cloudId
+                                ) ===
+                                String(
+                                    item.id
+                                )
                             );
 
                         });
+
+
+                    /*
+                       اگر ID قبلاً ذخیره نشده بود،
+                       با متن یادداشت هم تطبیق می‌دهیم.
+                    */
+
+                    if(!existing){
+
+                        existing =
+                            oldNotes.find(note => {
+
+                                return (
+                                    !note.cloudId &&
+                                    !usedLocalIds.has(
+                                        note.id
+                                    ) &&
+                                    String(
+                                        note.text || ""
+                                    ).trim() === text
+                                );
+
+                            });
+
+                    }
+
+
+                    if(existing){
+
+                        usedLocalIds.add(
+                            existing.id
+                        );
+
+                    }
+
+
+                    const date =
+                        String(
+                            item.date || ""
+                        );
+
+
+                    const time =
+                        String(
+                            item.time || ""
+                        );
 
 
                     return {
@@ -1716,35 +2064,29 @@ async function loadCloudData(showMessage=true){
                             text,
 
                         date:
-                            (
-                                item.date ||
-                                ""
-                            ) +
-                            (
-                                item.time
-                                ? " • " +
-                                  item.time
-                                : ""
-                            ),
+                            date,
+
+                        time:
+                            time,
 
                         pinned:
                             item.pinned === true ||
                             item.pinned === "true" ||
                             item.pinned === 1 ||
-                            item.pinned === "1",
+                            item.pinned === "1" ||
+                            String(
+                                item.pinned
+                            ).toUpperCase() === "TRUE",
 
                         done:
-                            item.status === "انجام شد"
+                            String(
+                                item.status || ""
+                            ).trim() === "انجام شد"
 
                     };
 
                 });
 
-
-            /*
-               اگر یادداشت محلی‌ای هنوز روی ابر نیست،
-               نگه داشته می‌شود تا اطلاعات از بین نرود.
-            */
 
             const cloudIds =
                 new Set(
@@ -1757,19 +2099,35 @@ async function loadCloudData(showMessage=true){
                 );
 
 
-            const localOnly =
-                localNotes.filter(note => {
+            /*
+               یادداشت‌هایی که هنوز ابر ندارند
+               حفظ می‌شوند.
+            */
 
-                    if(!note.cloudId){
+            const localOnly =
+                oldNotes.filter(note => {
+
+                    if(
+                        !note.cloudId
+                    ){
+
                         return true;
+
                     }
 
                     return !cloudIds.has(
-                        String(note.cloudId)
+                        String(
+                            note.cloudId
+                        )
                     );
 
                 });
 
+
+            /*
+               فقط یادداشت‌های واقعاً موجود در ابر
+               + یادداشت‌های محلیِ هنوز ارسال‌نشده.
+            */
 
             localNotes = [
                 ...cloudNotes,
@@ -1789,7 +2147,10 @@ async function loadCloudData(showMessage=true){
 
         updateBubble();
 
+        drawIncomeChart();
+
         showDate();
+
 
         if(showMessage){
 
@@ -1798,6 +2159,9 @@ async function loadCloudData(showMessage=true){
             );
 
         }
+
+
+        return data;
 
 
     }catch(error){
@@ -1815,16 +2179,12 @@ async function loadCloudData(showMessage=true){
                     "cafe_transactions"
                 );
 
-            if(saved){
 
-                allTransactions =
-                    JSON.parse(saved);
+            allTransactions =
+                saved
+                ? JSON.parse(saved)
+                : [];
 
-            }else{
-
-                allTransactions = [];
-
-            }
 
         }catch(e){
 
@@ -1841,6 +2201,8 @@ async function loadCloudData(showMessage=true){
 
         updateBubble();
 
+        drawIncomeChart();
+
 
         if(showMessage){
 
@@ -1849,6 +2211,9 @@ async function loadCloudData(showMessage=true){
             );
 
         }
+
+
+        return null;
 
     }
 
@@ -1908,23 +2273,34 @@ function updateStats(){
         const amount =
             Number(item.amount || 0);
 
+
         total += amount;
 
 
-        if(item.method === "کارتخوان"){
+        if(
+            item.method === "کارتخوان"
+        ){
+
             pos += amount;
+
         }
 
 
-        if(item.method === "نقدی"){
+        if(
+            item.method === "نقدی"
+        ){
+
             cash += amount;
+
         }
 
 
         if(
             item.method === "کارت به کارت"
         ){
+
             transfer += amount;
+
         }
 
     });
@@ -1964,6 +2340,8 @@ function updateStats(){
 
     updateBubble();
 
+    drawIncomeChart();
+
 }
 
 
@@ -1977,7 +2355,9 @@ function updateBubble(){
         allTransactions.reduce(
             (sum,item) =>
                 sum +
-                Number(item.amount || 0),
+                Number(
+                    item.amount || 0
+                ),
             0
         );
 
@@ -2106,13 +2486,30 @@ function renderTransactions(){
         let methodClass = "";
 
 
-        if(item.method === "نقدی"){
+        if(
+            item.method === "نقدی"
+        ){
+
             methodClass = "cash";
+
         }
 
 
-        if(item.method === "کارت به کارت"){
-            methodClass = "card transfer";
+        if(
+            item.method === "کارتخوان"
+        ){
+
+            methodClass = "card";
+
+        }
+
+
+        if(
+            item.method === "کارت به کارت"
+        ){
+
+            methodClass = "transfer";
+
         }
 
 
@@ -2227,11 +2624,14 @@ function loadNotes(){
             : [];
 
 
-        if(!Array.isArray(localNotes)){
+        if(
+            !Array.isArray(localNotes)
+        ){
 
             localNotes = [];
 
         }
+
 
     }catch(error){
 
@@ -2241,6 +2641,10 @@ function loadNotes(){
 
 }
 
+
+/* =====================================================
+   SAVE NOTES
+===================================================== */
 
 function saveNotes(){
 
@@ -2261,6 +2665,44 @@ function saveNotes(){
         );
 
     }
+
+}
+
+
+/* =====================================================
+   NOTE DISPLAY DATE
+===================================================== */
+
+function noteDisplayDate(note){
+
+    if(
+        note.displayDate
+    ){
+
+        return note.displayDate;
+
+    }
+
+
+    if(
+        note.date &&
+        String(note.date).includes(" • ")
+    ){
+
+        return note.date;
+
+    }
+
+
+    return [
+
+        note.date || "",
+
+        note.time || ""
+
+    ]
+    .filter(Boolean)
+    .join(" • ");
 
 }
 
@@ -2327,18 +2769,23 @@ async function addNote(){
             text,
 
         date:
-            date +
-            " • " +
+            date,
+
+        time:
             time,
 
-        pinned:false,
+        pinned:
+            false,
 
-        done:false
+        done:
+            false
 
     };
 
 
-    localNotes.unshift(note);
+    localNotes.unshift(
+        note
+    );
 
     saveNotes();
 
@@ -2372,13 +2819,69 @@ async function addNote(){
         });
 
 
+        const data =
+            await getCloudData();
+
+
         /*
-           بعد از ثبت، اطلاعات را دوباره می‌خوانیم
-           تا ID واقعی Sheet2 گرفته شود.
+           بعد از ثبت، ID واقعی را می‌گیریم.
         */
 
-        await loadCloudData(false);
+        if(
+            Array.isArray(data.notes)
+        ){
 
+            const match =
+                data.notes
+                .filter(item => {
+
+                    return String(
+                        item.note ||
+                        item.text ||
+                        ""
+                    ).trim() === text;
+
+                })
+                .sort(
+                    (a,b) =>
+                        String(b.id)
+                        .localeCompare(
+                            String(a.id)
+                        )
+                )[0];
+
+
+            if(match){
+
+                note.cloudId =
+                    match.id;
+
+                note.date =
+                    match.date ||
+                    date;
+
+                note.time =
+                    match.time ||
+                    time;
+
+                note.pinned =
+                    match.pinned === true ||
+                    match.pinned === "true" ||
+                    match.pinned === 1 ||
+                    match.pinned === "1";
+
+                note.done =
+                    match.status ===
+                    "انجام شد";
+
+            }
+
+        }
+
+
+        saveNotes();
+
+        renderNotes();
 
         showToast(
             "✅ یادداشت ثبت شد."
@@ -2403,7 +2906,7 @@ async function addNote(){
 
 
 /* =====================================================
-   UPDATE NOTE CLOUD
+   UPDATE NOTE
 ===================================================== */
 
 async function updateNoteCloud(note){
@@ -2424,14 +2927,10 @@ async function updateNoteCloud(note){
             note.cloudId,
 
         date:
-            String(
-                note.date || ""
-            ).split(" • ")[0],
+            note.date || "",
 
         time:
-            String(
-                note.date || ""
-            ).split(" • ")[1] || "",
+            note.time || "",
 
         note:
             note.text,
@@ -2467,12 +2966,22 @@ async function togglePin(id){
 
 
     if(!note){
+
         return;
+
     }
 
 
+    const oldPinned =
+        !!note.pinned;
+
+
+    const newPinned =
+        !oldPinned;
+
+
     note.pinned =
-        !note.pinned;
+        newPinned;
 
 
     saveNotes();
@@ -2480,36 +2989,116 @@ async function togglePin(id){
     renderNotes();
 
 
+    /*
+       یادداشت محلی هنوز ID ابری ندارد.
+    */
+
+    if(!note.cloudId){
+
+        showToast(
+            "📌 پین محلی تغییر کرد."
+        );
+
+        return;
+
+    }
+
+
     try{
 
-        if(note.cloudId){
+        await cloudPost({
 
-            await cloudPost({
+            action:
+                "toggleNotePin",
 
-                action:
-                    "toggleNotePin",
+            id:
+                note.cloudId,
 
-                id:
-                    note.cloudId
+            pinned:
+                newPinned
 
-            });
+        });
 
-            await loadCloudData(false);
+
+        const data =
+            await getCloudData();
+
+
+        const cloudNote =
+            Array.isArray(data.notes)
+            ? data.notes.find(
+                item =>
+                    String(item.id) ===
+                    String(note.cloudId)
+            )
+            : null;
+
+
+        if(
+            !cloudNote ||
+            !(
+                cloudNote.pinned === true ||
+                cloudNote.pinned === "true" ||
+                cloudNote.pinned === 1 ||
+                cloudNote.pinned === "1"
+            ) === newPinned
+        ){
+
+            /*
+               بررسی جداگانه برای جلوگیری
+               از خطای منطقی عملگر.
+            */
+
+            const cloudPinned =
+                cloudNote &&
+                (
+                    cloudNote.pinned === true ||
+                    cloudNote.pinned === "true" ||
+                    cloudNote.pinned === 1 ||
+                    cloudNote.pinned === "1"
+                );
+
+
+            if(cloudPinned !== newPinned){
+
+                throw new Error(
+                    "Pin verification failed"
+                );
+
+            }
 
         }
 
 
+        await loadCloudData(false);
+
+
         showToast(
-            "📌 وضعیت پین تغییر کرد."
+            newPinned
+            ? "📌 پین شد."
+            : "📌 پین برداشته شد."
         );
 
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Pin error:",
+            error
+        );
+
+
+        note.pinned =
+            oldPinned;
+
+
+        saveNotes();
+
+        renderNotes();
+
 
         showToast(
-            "⚠️ تغییر پین روی سرور انجام نشد."
+            "⚠️ تغییر پین ذخیره نشد."
         );
 
     }
@@ -2532,12 +3121,22 @@ async function toggleDone(id){
 
 
     if(!note){
+
         return;
+
     }
 
 
+    const oldDone =
+        !!note.done;
+
+
+    const newDone =
+        !oldDone;
+
+
     note.done =
-        !note.done;
+        newDone;
 
 
     saveNotes();
@@ -2545,28 +3144,87 @@ async function toggleDone(id){
     renderNotes();
 
 
+    /*
+       اگر هنوز ابری نشده، محلی کافی است.
+    */
+
+    if(!note.cloudId){
+
+        showToast(
+            newDone
+            ? "✅ تسک انجام شد."
+            : "↩ تسک دوباره باز شد."
+        );
+
+        return;
+
+    }
+
+
     try{
 
-        if(note.cloudId){
+        await cloudPost({
 
-            await cloudPost({
+            action:
+                "toggleNoteStatus",
 
-                action:
-                    "toggleNoteStatus",
+            id:
+                note.cloudId,
 
-                id:
-                    note.cloudId
+            status:
+                newDone
+                ? "انجام شد"
+                : "باز"
 
-            });
+        });
 
 
-            await loadCloudData(false);
+        const data =
+            await getCloudData();
+
+
+        const cloudNote =
+            Array.isArray(data.notes)
+            ? data.notes.find(
+                item =>
+                    String(item.id) ===
+                    String(note.cloudId)
+            )
+            : null;
+
+
+        if(!cloudNote){
+
+            throw new Error(
+                "Note not found after update"
+            );
 
         }
 
 
+        const cloudDone =
+            String(
+                cloudNote.status || ""
+            ).trim() ===
+            "انجام شد";
+
+
+        if(
+            cloudDone !== newDone
+        ){
+
+            throw new Error(
+                "Status verification failed"
+            );
+
+        }
+
+
+        await loadCloudData(false);
+
+
         showToast(
-            note.done
+            newDone
             ? "✅ تسک انجام شد."
             : "↩ تسک دوباره باز شد."
         );
@@ -2574,10 +3232,23 @@ async function toggleDone(id){
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Done error:",
+            error
+        );
+
+
+        note.done =
+            oldDone;
+
+
+        saveNotes();
+
+        renderNotes();
+
 
         showToast(
-            "⚠️ وضعیت تسک روی سرور تغییر نکرد."
+            "⚠️ وضعیت تسک ذخیره نشد."
         );
 
     }
@@ -2600,7 +3271,9 @@ async function editNote(id){
 
 
     if(!note){
+
         return;
+
     }
 
 
@@ -2612,7 +3285,9 @@ async function editNote(id){
 
 
     if(newText === null){
+
         return;
+
     }
 
 
@@ -2644,44 +3319,71 @@ async function editNote(id){
     renderNotes();
 
 
+    /*
+       یادداشت محلی
+    */
+
+    if(!note.cloudId){
+
+        showToast(
+            "✏️ یادداشت ویرایش شد."
+        );
+
+        return;
+
+    }
+
+
     try{
 
-        if(!note.cloudId){
-
-            /*
-               اگر هنوز ID ابری ندارد،
-               فقط بعداً با بارگذاری هماهنگ می‌شود.
-            */
-
-            await loadCloudData(false);
-
-        }else{
-
-            await cloudPost({
-
-                action:
-                    "updateNote",
-
-                id:
-                    note.cloudId,
-
-                note:
-                    cleanText,
-
-                status:
-                    note.done
-                    ? "انجام شد"
-                    : "باز",
-
-                pinned:
-                    !!note.pinned
-
-            });
+        await updateNoteCloud(
+            note
+        );
 
 
-            await loadCloudData(false);
+        const data =
+            await getCloudData();
+
+
+        const cloudNote =
+            Array.isArray(data.notes)
+            ? data.notes.find(
+                item =>
+                    String(item.id) ===
+                    String(note.cloudId)
+            )
+            : null;
+
+
+        if(!cloudNote){
+
+            throw new Error(
+                "Note not found after edit"
+            );
 
         }
+
+
+        const cloudText =
+            String(
+                cloudNote.note ||
+                cloudNote.text ||
+                ""
+            ).trim();
+
+
+        if(
+            cloudText !== cleanText
+        ){
+
+            throw new Error(
+                "Edit verification failed"
+            );
+
+        }
+
+
+        await loadCloudData(false);
 
 
         showToast(
@@ -2691,7 +3393,10 @@ async function editNote(id){
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Edit error:",
+            error
+        );
 
 
         note.text =
@@ -2704,7 +3409,7 @@ async function editNote(id){
 
 
         showToast(
-            "⚠️ ویرایش روی سرور انجام نشد."
+            "⚠️ ویرایش ذخیره نشد."
         );
 
     }
@@ -2727,7 +3432,9 @@ async function deleteNote(id){
 
 
     if(!note){
+
         return;
+
     }
 
 
@@ -2743,7 +3450,9 @@ async function deleteNote(id){
 
 
     const backup =
-        {...note};
+        {
+            ...note
+        };
 
 
     localNotes =
@@ -2759,24 +3468,57 @@ async function deleteNote(id){
     renderNotes();
 
 
+    /*
+       اگر فقط محلی باشد.
+    */
+
+    if(!note.cloudId){
+
+        showToast(
+            "🗑 یادداشت حذف شد."
+        );
+
+        return;
+
+    }
+
+
     try{
 
-        if(note.cloudId){
+        await cloudPost({
 
-            await cloudPost({
+            action:
+                "deleteNote",
 
-                action:
-                    "deleteNote",
+            id:
+                note.cloudId
 
-                id:
-                    note.cloudId
-
-            });
+        });
 
 
-            await loadCloudData(false);
+        const data =
+            await getCloudData();
+
+
+        const stillExists =
+            Array.isArray(data.notes) &&
+            data.notes.some(
+                item =>
+                    String(item.id) ===
+                    String(note.cloudId)
+            );
+
+
+        if(stillExists){
+
+            throw new Error(
+                "Delete verification failed"
+            );
 
         }
+
+
+        await loadCloudData(false);
 
 
         showToast(
@@ -2786,7 +3528,10 @@ async function deleteNote(id){
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            "Delete error:",
+            error
+        );
 
 
         localNotes.unshift(
@@ -2800,7 +3545,7 @@ async function deleteNote(id){
 
 
         showToast(
-            "⚠️ حذف از سرور انجام نشد."
+            "⚠️ حذف ذخیره نشد."
         );
 
     }
@@ -2894,20 +3639,25 @@ function renderNotes(){
 
             <div class="noteDate">
                 ${escapeHTML(
-                    note.date || ""
+                    noteDisplayDate(note)
                 )}
             </div>
 
             <div class="noteActions">
 
                 <button
+                    class="doneBtn ${
+                        note.done
+                        ? "doneActive"
+                        : ""
+                    }"
                     onclick="toggleDone(
                         ${JSON.stringify(note.id)}
                     )">
 
                     ${
                         note.done
-                        ? "↩ باز کردن"
+                        ? "✓ انجام شد"
                         : "✓ انجام شد"
                     }
 
@@ -2915,6 +3665,11 @@ function renderNotes(){
 
 
                 <button
+                    class="${
+                        note.pinned
+                        ? "pinActive"
+                        : ""
+                    }"
                     onclick="togglePin(
                         ${JSON.stringify(note.id)}
                     )">
@@ -2957,6 +3712,291 @@ function renderNotes(){
         container.appendChild(div);
 
     });
+
+}
+
+
+/* =====================================================
+   INCOME CHART
+===================================================== */
+
+function parseDateKey(value){
+
+    return String(
+        value || ""
+    ).trim();
+
+}
+
+
+function drawIncomeChart(){
+
+    const chartBars =
+        document.getElementById(
+            "chartBars"
+        );
+
+
+    const chartSummary =
+        document.getElementById(
+            "chartSummary"
+        );
+
+
+    if(!chartBars){
+
+        return;
+
+    }
+
+
+    /*
+       درآمدها را بر اساس تاریخ گروه‌بندی می‌کنیم.
+    */
+
+    const dailyMap = {};
+
+
+    allTransactions.forEach(item => {
+
+        const date =
+            parseDateKey(
+                item.date
+            ) || "بدون تاریخ";
+
+
+        if(!dailyMap[date]){
+
+            dailyMap[date] = 0;
+
+        }
+
+
+        dailyMap[date] +=
+            Number(
+                item.amount || 0
+            );
+
+    });
+
+
+    const entries =
+        Object.entries(
+            dailyMap
+        );
+
+
+    /*
+       آخرین ۳۰ روز/تاریخ ثبت‌شده
+       برای اینکه نمودار بیش از حد شلوغ نشود.
+    */
+
+    const visible =
+        entries.slice(-30);
+
+
+    if(!visible.length){
+
+        chartBars.innerHTML = `
+
+            <div class="chartEmpty">
+
+                📊 هنوز اطلاعاتی برای نمودار وجود ندارد.
+
+            </div>
+
+        `;
+
+        chartSummary.innerHTML = "";
+
+        return;
+
+    }
+
+
+    const maxValue =
+        Math.max(
+            ...visible.map(
+                item => item[1]
+            ),
+            1
+        );
+
+
+    chartBars.innerHTML = "";
+
+
+    visible.forEach(
+        ([date,value]) => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "chartBarItem";
+
+
+            const valueBox =
+                document.createElement(
+                    "div"
+                );
+
+
+            valueBox.className =
+                "chartBarValue";
+
+
+            valueBox.textContent =
+                faNumber(value);
+
+
+            const bar =
+                document.createElement(
+                    "div"
+                );
+
+
+            bar.className =
+                "chartBar";
+
+
+            const height =
+                Math.max(
+                    5,
+                    (
+                        value /
+                        maxValue
+                    ) * 235
+                );
+
+
+            bar.style.height =
+                height + "px";
+
+
+            bar.title =
+                money(value);
+
+
+            const label =
+                document.createElement(
+                    "div"
+                );
+
+
+            label.className =
+                "chartBarLabel";
+
+
+            label.textContent =
+                date;
+
+
+            item.appendChild(
+                valueBox
+            );
+
+            item.appendChild(
+                bar
+            );
+
+            item.appendChild(
+                label
+            );
+
+
+            chartBars.appendChild(
+                item
+            );
+
+        }
+    );
+
+
+    const total =
+        allTransactions.reduce(
+            (sum,item) =>
+                sum +
+                Number(
+                    item.amount || 0
+                ),
+            0
+        );
+
+
+    const days =
+        visible.length;
+
+
+    const average =
+        days
+        ? total / days
+        : 0;
+
+
+    chartSummary.innerHTML = `
+
+        <div class="chartSummaryItem">
+
+            مجموع درآمد
+
+            <strong>
+                ${money(total)}
+            </strong>
+
+        </div>
+
+        <div class="chartSummaryItem">
+
+            تعداد روزهای ثبت‌شده
+
+            <strong>
+                ${faNumber(days)}
+            </strong>
+
+        </div>
+
+        <div class="chartSummaryItem">
+
+            میانگین هر روز
+
+            <strong>
+                ${money(average)}
+            </strong>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   OPEN CHART
+===================================================== */
+
+function openChart(){
+
+    const section =
+        document.getElementById(
+            "chartSection"
+        );
+
+
+    drawIncomeChart();
+
+
+    if(section){
+
+        section.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+    }
 
 }
 
@@ -3248,6 +4288,8 @@ renderTransactions();
 renderNotes();
 
 updateBubble();
+
+drawIncomeChart();
 
 loadCloudData();
 
