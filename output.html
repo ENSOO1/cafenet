@@ -1063,8 +1063,11 @@ tbody tr:hover{
         min-width:0;
     }
 
-    .tableWrap{
-        overflow:visible;
+     .tableWrap{
+        overflow-x:auto;
+        overflow-y:auto;
+        max-height:62vh;
+        -webkit-overflow-scrolling:touch;
     }
 
     table{
@@ -1418,6 +1421,30 @@ tbody tr:hover{
         color:#555!important;
     }
 }
+
+/* =========================
+   NEW FLOATING CONTROLS / CHAT / PAYMENT
+========================= */
+.moneyRow{display:flex;align-items:center;gap:8px;position:relative;z-index:3}
+.moneyEye{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:#7fc7ff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-family:inherit;transition:.25s;display:inline-flex;align-items:center;justify-content:center}
+.moneyEye:hover{background:rgba(0,140,255,.12);border-color:rgba(0,140,255,.35);transform:scale(1.06)}
+.floatingTop,.floatingChat{position:fixed;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:9500;color:#8ed1ff;background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,100,255,.10));border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 18px 45px rgba(0,0,0,.45),inset 0 1px rgba(255,255,255,.08);transition:.3s;font-size:24px}
+.floatingTop{left:22px;bottom:28px;opacity:0;pointer-events:none;transform:translateY(15px)}
+.floatingTop.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.floatingChat{right:22px;bottom:28px;font-size:25px}
+.floatingTop:hover,.floatingChat:hover{transform:translateY(-5px) scale(1.05);border-color:rgba(0,140,255,.5);box-shadow:0 22px 55px rgba(0,0,0,.55),0 0 28px rgba(0,140,255,.13)}
+.chatOverlay,.paymentOverlay{position:fixed;inset:0;background:rgba(0,0,0,.52);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);z-index:12000;display:none;align-items:center;justify-content:center;padding:20px}
+.chatOverlay.open,.paymentOverlay.open{display:flex}
+.chatWindow{width:min(900px,95vw);height:min(570px,78vh);display:flex;flex-direction:column;background:linear-gradient(145deg,rgba(8,20,32,.88),rgba(2,8,14,.92));border:1px solid rgba(255,255,255,.12);border-radius:25px;box-shadow:0 35px 100px rgba(0,0,0,.7),inset 0 1px rgba(255,255,255,.07);backdrop-filter:blur(30px);overflow:hidden}
+.chatHeader{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.07)}
+.chatHeader h3{font-size:16px}.chatHeader small{display:block;color:#6d8ba5;font-size:10px;margin-top:4px}.chatClose,.paymentClose{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#9ab4ca;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px}
+.chatMessages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px}.chatMessages::-webkit-scrollbar{width:5px}.chatMessages::-webkit-scrollbar-thumb{background:rgba(0,140,255,.25);border-radius:10px}
+.chatMsg{max-width:min(72%,520px);padding:11px 14px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.045);backdrop-filter:blur(16px);border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,.16);line-height:1.8;font-size:12px;word-break:break-word}.chatMsg.out{align-self:flex-end;border-bottom-right-radius:6px;background:rgba(0,120,255,.10);border-color:rgba(0,140,255,.22)}.chatMsg.in{align-self:flex-start;border-bottom-left-radius:6px}.chatMeta{display:flex;gap:8px;color:#5e7890;font-size:9px;margin-top:5px}.chatUnread{color:#71c2ff}
+.chatComposer{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,.07)}.chatComposer textarea{flex:1;min-height:48px;max-height:110px;resize:none;border:1px solid rgba(255,255,255,.09);outline:none;border-radius:15px;background:rgba(255,255,255,.035);color:#fff;padding:11px;font-family:inherit}.chatSend{width:95px;border:0;border-radius:14px;background:linear-gradient(135deg,#007bff,#0052cc);color:#fff;font-family:inherit;cursor:pointer}
+.paymentCard{width:min(480px,92vw);background:linear-gradient(145deg,rgba(11,28,43,.91),rgba(2,9,16,.94));border:1px solid rgba(255,255,255,.15);border-radius:25px;padding:24px;box-shadow:0 35px 100px rgba(0,0,0,.7),0 0 40px rgba(0,140,255,.08);backdrop-filter:blur(30px)}.paymentTop{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.paymentTitle{font-size:18px}.paymentSub{font-size:10px;color:#6d8aa1;margin-top:5px}.paymentInfo{display:grid;gap:9px}.paymentInfoRow{display:flex;justify-content:space-between;gap:15px;padding:11px 13px;border-radius:13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}.paymentInfoRow span:first-child{color:#6d879e;font-size:10px}.paymentInfoRow span:last-child{color:#dcecff;font-size:12px;text-align:left}.paymentAmount{color:#63bdff!important;font-weight:bold}.paymentActions{display:flex;gap:9px;margin-top:16px}.payConfirm{flex:1;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.10);color:#8ff0b5;padding:12px;border-radius:14px;cursor:pointer;font-family:inherit}.payConfirm:hover{background:rgba(34,197,94,.18)}.payDismiss{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:#91a8ba;padding:12px 18px;border-radius:14px;cursor:pointer;font-family:inherit}
+@media(max-width:600px){.floatingTop,.floatingChat{width:50px;height:50px;bottom:88px}.floatingTop{left:14px}.floatingChat{right:14px}.chatOverlay,.paymentOverlay{padding:10px}.chatWindow{width:96vw;height:82vh;border-radius:20px}.chatMsg{max-width:84%}.chatComposer{flex-direction:row}.chatSend{width:78px}.paymentCard{padding:18px}.paymentInfoRow span:last-child{max-width:62%}}
+@media print{.floatingTop,.floatingChat,.chatOverlay,.paymentOverlay{display:none!important}}
+
 </style>
 
 </head>
@@ -1455,7 +1482,7 @@ tbody tr:hover{
     <div class="stat">
         <span class="statIcon">💰</span>
         <small>کل درآمد</small>
-        <strong id="totalIncome">۰ تومان</strong>
+        <div class="moneyRow"><strong id="totalIncome">۰ تومان</strong><button class="moneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن مبالغ">◉</button></div>
     </div>
 
     <div class="stat">
@@ -1467,19 +1494,19 @@ tbody tr:hover{
     <div class="stat">
         <span class="statIcon">💳</span>
         <small>کارتخوان</small>
-        <strong id="posTotal">۰</strong>
+        <div class="moneyRow"><strong id="posTotal">۰</strong><button class="moneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن مبالغ">◉</button></div>
     </div>
 
     <div class="stat">
         <span class="statIcon">💵</span>
         <small>نقدی</small>
-        <strong id="cashTotal">۰</strong>
+        <div class="moneyRow"><strong id="cashTotal">۰</strong><button class="moneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن مبالغ">◉</button></div>
     </div>
 
     <div class="stat">
         <span class="statIcon">🔄</span>
         <small>کارت‌به‌کارت</small>
-        <strong id="transferTotal">۰</strong>
+        <div class="moneyRow"><strong id="transferTotal">۰</strong><button class="moneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن مبالغ">◉</button></div>
     </div>
 
 </section>
@@ -1510,11 +1537,7 @@ tbody tr:hover{
                     کل درآمد
                 </div>
 
-                <div
-                    class="bubbleAmount"
-                    id="bubbleIncome">
-                    ۰ تومان
-                </div>
+                <div class="moneyRow"><div class="bubbleAmount" id="bubbleIncome">۰ تومان</div><button class="moneyEye" onclick="toggleMoneyVisibility()">◉</button></div>
 
             </div>
 
@@ -1557,7 +1580,7 @@ tbody tr:hover{
             id="chartBars">
 
             <div class="chartEmpty">
-                در حال بارگذاری نمودار...
+                در حال بارگذاری...
             </div>
 
         </div>
@@ -1732,6 +1755,38 @@ tbody tr:hover{
 
 </nav>
 
+
+<button class="floatingTop" id="floatingTop" onclick="scrollToTop()" aria-label="رفتن به بالای صفحه">↑</button>
+<button class="floatingChat" id="floatingChat" onclick="openChat()" aria-label="باز کردن چت">💬</button>
+
+<div class="chatOverlay" id="chatOverlay" onclick="closeChatFromBackdrop(event)">
+  <div class="chatWindow">
+    <div class="chatHeader">
+      <div><h3>💬 گفت‌وگوی پنل</h3><small id="chatStatus">پیام‌ها</small></div>
+      <button class="chatClose" onclick="closeChat()">×</button>
+    </div>
+    <div class="chatMessages" id="chatMessages"><div class="chartEmpty">در حال بارگذاری...</div></div>
+    <div class="chatComposer">
+      <textarea id="chatInput" placeholder="پیامتان را بنویسید..." onkeydown="chatKeydown(event)"></textarea>
+      <button class="chatSend" onclick="sendChatMessage()">ارسال</button>
+    </div>
+  </div>
+</div>
+
+<div class="paymentOverlay" id="paymentOverlay" onclick="closePaymentFromBackdrop(event)">
+  <div class="paymentCard">
+    <div class="paymentTop">
+      <div><div class="paymentTitle">💳 درخواست پرداخت</div><div class="paymentSub">درخواست جدید از پنل ثبت</div></div>
+      <button class="paymentClose" onclick="dismissPayment()">×</button>
+    </div>
+    <div class="paymentInfo" id="paymentInfo"></div>
+    <div class="paymentActions">
+      <button class="payConfirm" onclick="confirmPayment()">🟢 پرداخت شد</button>
+      <button class="payDismiss" onclick="dismissPayment()">بستن</button>
+    </div>
+  </div>
+</div>
+
 <div
     class="toast"
     id="toast">
@@ -1756,6 +1811,23 @@ let allTransactions = [];
 let currentFilter = "all";
 
 let localNotes = [];
+
+let allMessages = [];
+let currentPaymentMessage = null;
+let moneyHidden = localStorage.getItem("jana_money_hidden") !== "false";
+let messagePollTimer = null;
+
+function normalizeText(value){
+    return String(value ?? "").replace(/[يى]/g,"ی").replace(/ك/g,"ک").replace(/[\u200c\u200d]/g,"").replace(/\s+/g," ").trim().toLowerCase();
+}
+function normalizeMethod(value){ return normalizeText(value); }
+function isTransferMethod(value){ const x=normalizeMethod(value); return x.includes("کارتبهکارت") || x.includes("کارت به کارت") || x.includes("کارت‌به‌کارت") || x.includes("کارت-به-کارت") || x.includes("کارت به‌کارت"); }
+function isPosMethod(value){ return normalizeMethod(value)==="کارتخوان"; }
+function isCashMethod(value){ return normalizeMethod(value)==="نقدی"; }
+function secureMoney(value){ return moneyHidden ? "••••••" : money(value); }
+function toggleMoneyVisibility(){ moneyHidden=!moneyHidden; localStorage.setItem("jana_money_hidden",String(moneyHidden)); updateStats(); updateBubble(); renderTransactions(); }
+function updateMoneyEyes(){ document.querySelectorAll('.moneyEye').forEach(b=>b.textContent=moneyHidden?'◉':'◌'); }
+
 
 
 /* =====================================================
@@ -2315,7 +2387,7 @@ function updateStats(){
         ? allTransactions
         : allTransactions.filter(
             item =>
-                item.method === currentFilter
+                normalizeMethod(item.method) === normalizeMethod(currentFilter)
         );
 
 
@@ -2335,7 +2407,7 @@ function updateStats(){
 
 
         if(
-            item.method === "کارتخوان"
+            isPosMethod(item.method)
         ){
 
             pos += amount;
@@ -2344,7 +2416,7 @@ function updateStats(){
 
 
         if(
-            item.method === "نقدی"
+            isCashMethod(item.method)
         ){
 
             cash += amount;
@@ -2353,7 +2425,7 @@ function updateStats(){
 
 
         if(
-            item.method === "کارت به کارت"
+            isTransferMethod(item.method)
         ){
 
             transfer += amount;
@@ -2428,7 +2500,7 @@ function updateBubble(){
     if(bubble){
 
         bubble.textContent =
-            money(total);
+            secureMoney(total);
 
     }
 
@@ -2446,7 +2518,7 @@ function getFilteredTransactions(){
         ? [...allTransactions]
         : allTransactions.filter(
             item =>
-                item.method === currentFilter
+                normalizeMethod(item.method) === normalizeMethod(currentFilter)
         );
 
 
@@ -2478,7 +2550,7 @@ function getFilteredTransactions(){
                 .toLowerCase();
 
 
-                return text.includes(search);
+                return normalizeText(text).includes(normalizeText(search));
 
             });
 
@@ -2551,7 +2623,7 @@ function renderTransactions(){
 
 
         if(
-            item.method === "نقدی"
+            isCashMethod(item.method)
         ){
 
             methodClass = "cash";
@@ -2560,7 +2632,7 @@ function renderTransactions(){
 
 
         if(
-            item.method === "کارتخوان"
+            isPosMethod(item.method)
         ){
 
             methodClass = "card";
@@ -2569,7 +2641,7 @@ function renderTransactions(){
 
 
         if(
-            item.method === "کارت به کارت"
+            isTransferMethod(item.method)
         ){
 
             methodClass = "transfer";
@@ -2604,7 +2676,7 @@ function renderTransactions(){
             </td>
 
             <td class="amount">
-                ${money(item.amount)}
+                ${secureMoney(item.amount)}
             </td>
 
             <td>
@@ -3917,240 +3989,35 @@ function parseDateKey(value){
 
 
 function drawIncomeChart(){
-
-    const chartBars =
-        document.getElementById(
-            "chartBars"
-        );
-
-
-    const chartSummary =
-        document.getElementById(
-            "chartSummary"
-        );
-
-
-    if(!chartBars){
-
-        return;
-
-    }
-
-
-    const dailyMap = {};
-
-
-    allTransactions.forEach(item => {
-
-        const date =
-            parseDateKey(
-                item.date
-            ) || "بدون تاریخ";
-
-
-        if(!dailyMap[date]){
-
-            dailyMap[date] = 0;
-
-        }
-
-
-        dailyMap[date] +=
-            Number(
-                item.amount || 0
-            );
-
+    const chartBars=document.getElementById("chartBars");
+    const chartSummary=document.getElementById("chartSummary");
+    if(!chartBars)return;
+    const dailyMap={};
+    allTransactions.forEach(item=>{
+        const date=String(item.date||"").trim();
+        if(!date)return;
+        dailyMap[date]=(dailyMap[date]||0)+Number(item.amount||0);
     });
-
-
-    const entries =
-        Object.entries(
-            dailyMap
-        );
-
-
-    const visible =
-        entries.slice(-30);
-
-
-    if(!visible.length){
-
-        chartBars.innerHTML = `
-
-            <div class="chartEmpty">
-
-                📊 هنوز اطلاعاتی برای نمودار وجود ندارد.
-
-            </div>
-
-        `;
-
-        chartSummary.innerHTML = "";
-
-        return;
-
-    }
-
-
-    const maxValue =
-        Math.max(
-            ...visible.map(
-                item => item[1]
-            ),
-            1
-        );
-
-
-    chartBars.innerHTML = "";
-
-
-    visible.forEach(
-        ([date,value]) => {
-
-            const item =
-                document.createElement(
-                    "div"
-                );
-
-
-            item.className =
-                "chartBarItem";
-
-
-            const valueBox =
-                document.createElement(
-                    "div"
-                );
-
-
-            valueBox.className =
-                "chartBarValue";
-
-
-            valueBox.textContent =
-                faNumber(value);
-
-
-            const bar =
-                document.createElement(
-                    "div"
-                );
-
-
-            bar.className =
-                "chartBar";
-
-
-            const height =
-                Math.max(
-                    5,
-                    (
-                        value /
-                        maxValue
-                    ) * 235
-                );
-
-
-            bar.style.height =
-                height + "px";
-
-
-            bar.title =
-                money(value);
-
-
-            const label =
-                document.createElement(
-                    "div"
-                );
-
-
-            label.className =
-                "chartBarLabel";
-
-
-            label.textContent =
-                date;
-
-
-            item.appendChild(
-                valueBox
-            );
-
-            item.appendChild(
-                bar
-            );
-
-            item.appendChild(
-                label
-            );
-
-
-            chartBars.appendChild(
-                item
-            );
-
-        }
-    );
-
-
-    const total =
-        allTransactions.reduce(
-            (sum,item) =>
-                sum +
-                Number(
-                    item.amount || 0
-                ),
-            0
-        );
-
-
-    const days =
-        visible.length;
-
-
-    const average =
-        days
-        ? total / days
-        : 0;
-
-
-    chartSummary.innerHTML = `
-
-        <div class="chartSummaryItem">
-
-            مجموع درآمد
-
-            <strong>
-                ${money(total)}
-            </strong>
-
-        </div>
-
-        <div class="chartSummaryItem">
-
-            تعداد روزهای ثبت‌شده
-
-            <strong>
-                ${faNumber(days)}
-            </strong>
-
-        </div>
-
-        <div class="chartSummaryItem">
-
-            میانگین هر روز
-
-            <strong>
-                ${money(average)}
-            </strong>
-
-        </div>
-
-    `;
-
+    const entries=Object.entries(dailyMap).sort((a,b)=>{
+        const pa=a[0].replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+        const pb=b[0].replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+        return pa.localeCompare(pb);
+    }).slice(-30);
+    if(!entries.length){chartBars.innerHTML='<div class="chartEmpty">📊 هنوز اطلاعاتی برای نمودار وجود ندارد.</div>';chartSummary.innerHTML="";return;}
+    const maxValue=Math.max(...entries.map(x=>x[1]),1);
+    chartBars.innerHTML="";
+    entries.forEach(([date,value])=>{
+        const item=document.createElement("div"); item.className="chartBarItem";
+        const valueBox=document.createElement("div"); valueBox.className="chartBarValue"; valueBox.textContent=secureMoney(value);
+        const bar=document.createElement("div"); bar.className="chartBar"; bar.style.height=Math.max(5,(value/maxValue)*235)+"px"; bar.title=money(value);
+        const label=document.createElement("div"); label.className="chartBarLabel"; label.textContent=date;
+        item.append(valueBox,bar,label); chartBars.appendChild(item);
+    });
+    const chartTotal=entries.reduce((sum,x)=>sum+x[1],0);
+    const days=entries.length;
+    const average=days?chartTotal/days:0;
+    chartSummary.innerHTML=`<div class="chartSummaryItem">مجموع ۳۰ روز اخیر <strong>${secureMoney(chartTotal)}</strong></div><div class="chartSummaryItem">تعداد روزها <strong>${faNumber(days)}</strong></div><div class="chartSummaryItem">میانگین روزانه <strong>${secureMoney(average)}</strong></div>`;
 }
-
 
 /* =====================================================
    OPEN CHART
@@ -4197,11 +4064,7 @@ function showDate(){
 
     if(reportDate){
 
-        reportDate.textContent =
-            "آخرین بروزرسانی: " +
-            today.toLocaleDateString(
-                "fa-IR"
-            );
+        reportDate.textContent = "آخرین بروزرسانی: " + today.toLocaleDateString("fa-IR") + " • " + today.toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
 
     }
 
@@ -4480,6 +4343,84 @@ function animateGlow(){
 animateGlow();
 
 
+
+/* =====================================================
+   MESSAGES / MINI CHAT / PAYMENT
+===================================================== */
+async function loadMessages(){
+    try{
+        const data=await getCloudData();
+        allMessages=Array.isArray(data.messages)?data.messages:[];
+        renderChatMessages();
+        checkPaymentRequests();
+        updateChatBadge();
+        return allMessages;
+    }catch(e){ console.warn("Messages load failed",e); return []; }
+}
+function updateChatBadge(){
+    const unread=allMessages.filter(m=>m.sender!=="خانم دهقان" && !m.read).length;
+    const btn=document.getElementById("floatingChat");
+    if(btn)btn.innerHTML=unread?`💬<sup style="font-size:9px;background:#008cff;color:#fff;border-radius:20px;padding:2px 5px;position:absolute;top:4px;right:4px">${unread>99?"99+":unread}</sup>`:"💬";
+}
+function renderChatMessages(){
+    const box=document.getElementById("chatMessages"); if(!box)return;
+    if(!allMessages.length){box.innerHTML='<div class="chartEmpty">هنوز پیامی ثبت نشده است.</div>';return;}
+    box.innerHTML="";
+    allMessages.forEach(m=>{
+        const outgoing=String(m.sender||"").trim()==="خانم دهقان";
+        const el=document.createElement("div"); el.className="chatMsg "+(outgoing?"out":"in");
+        el.innerHTML=`<div>${escapeHTML(m.text||"")}</div><div class="chatMeta"><span>${escapeHTML(m.sender||"")}</span><span>${escapeHTML((m.date||"")+" • "+(m.time||""))}</span>${!m.read&&!outgoing?'<span class="chatUnread">جدید</span>':''}</div>`;
+        box.appendChild(el);
+    });
+    box.scrollTop=box.scrollHeight;
+}
+async function openChat(){
+    document.getElementById("chatOverlay")?.classList.add("open");
+    await loadMessages();
+    const incoming=allMessages.filter(m=>m.sender!=="خانم دهقان"&&!m.read);
+    for(const m of incoming){ try{await cloudPost({action:"markMessageRead",id:m.id,status:"خوانده شد"});m.read=true;}catch(e){} }
+    updateChatBadge();
+}
+function closeChat(){document.getElementById("chatOverlay")?.classList.remove("open")}
+function closeChatFromBackdrop(e){if(e.target.id==="chatOverlay")closeChat()}
+function chatKeydown(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChatMessage()}}
+async function sendChatMessage(){
+    const input=document.getElementById("chatInput"); const text=input?.value.trim(); if(!text)return;
+    try{await cloudPost({action:"addMessage",sender:"خانم دهقان",text:text,message:text,status:"خوانده نشده",payment:"پرداخت نشده"});input.value="";await loadMessages();showToast("✉️ پیام ارسال شد.");}catch(e){console.error(e);showToast("⚠️ ارسال پیام انجام نشد.")}
+}
+function parsePaymentMessage(m){
+    const text=String(m.text||"");
+    const tx=(text.match(/\[TX:([^\]]+)\]/i)||[])[1]||"";
+    const customer=(text.match(/مشتری:\s*([^|]+)/)||[])[1]?.trim()||"-";
+    const service=(text.match(/خدمت:\s*([^|]+)/)||[])[1]?.trim()||"-";
+    const amount=(text.match(/مبلغ:\s*([^|]+)/)||[])[1]?.trim()||"-";
+    return {tx,customer,service,amount};
+}
+function checkPaymentRequests(){
+    const pending=allMessages.find(m=>m.sender!=="خانم دهقان" && !m.paid && String(m.text||"").includes("[TX:"));
+    if(!pending){return;}
+    if(currentPaymentMessage && currentPaymentMessage.id===pending.id)return;
+    currentPaymentMessage=pending;
+    const p=parsePaymentMessage(pending);
+    const info=document.getElementById("paymentInfo");
+    if(info)info.innerHTML=`<div class="paymentInfoRow"><span>مشتری</span><span>${escapeHTML(p.customer)}</span></div><div class="paymentInfoRow"><span>خدمت</span><span>${escapeHTML(p.service)}</span></div><div class="paymentInfoRow"><span>مبلغ</span><span class="paymentAmount">${escapeHTML(p.amount)}</span></div><div class="paymentInfoRow"><span>تاریخ و ساعت</span><span>${escapeHTML((pending.date||"")+" • "+(pending.time||""))}</span></div>`;
+    document.getElementById("paymentOverlay")?.classList.add("open");
+}
+async function confirmPayment(){
+    if(!currentPaymentMessage)return;
+    try{
+        await cloudPost({action:"setMessagePayment",id:currentPaymentMessage.id,payment:"پرداخت شد"});
+        await cloudPost({action:"markMessageRead",id:currentPaymentMessage.id,status:"خوانده شد"});
+        currentPaymentMessage.paid=true; currentPaymentMessage.read=true;
+        showToast("🟢 پرداخت ثبت شد.");
+        dismissPayment(); await loadMessages(); await loadCloudData(false);
+    }catch(e){console.error(e);showToast("⚠️ ثبت پرداخت انجام نشد.")}
+}
+function dismissPayment(){document.getElementById("paymentOverlay")?.classList.remove("open");currentPaymentMessage=null}
+function closePaymentFromBackdrop(e){if(e.target.id==="paymentOverlay")dismissPayment()}
+function scrollToTop(){window.scrollTo({top:0,behavior:"smooth"})}
+window.addEventListener("scroll",()=>{const b=document.getElementById("floatingTop");if(b)b.classList.toggle("show",window.scrollY>350);},{passive:true});
+
 /* =====================================================
    START
 ===================================================== */
@@ -4497,8 +4438,10 @@ renderNotes();
 updateBubble();
 
 drawIncomeChart();
-
+updateMoneyEyes();
 loadCloudData();
+loadMessages();
+messagePollTimer=setInterval(loadMessages,5000);
 
 </script>
 
