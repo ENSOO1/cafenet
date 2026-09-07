@@ -9,7 +9,10 @@
 
 <style>
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+
+html{
+    scroll-behavior:smooth;
+}
 
 body{
     margin:0;
@@ -88,12 +91,16 @@ body:after{
     z-index:2;
 }
 
+/* =====================================================
+   HEADER
+===================================================== */
+
 .header{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:20px;
-    margin-bottom:30px;
+    margin-bottom:18px;
 }
 
 .title h1{
@@ -131,6 +138,60 @@ body:after{
         0 15px 40px rgba(0,0,0,.45),
         0 0 30px rgba(0,125,255,.20);
 }
+
+/* =====================================================
+   DATE / TIME GLASS
+===================================================== */
+
+.dateTimeGlass{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    width:max-content;
+    max-width:100%;
+    margin:0 auto 25px;
+    padding:11px 18px;
+    border-radius:18px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.025)
+        );
+    border:1px solid rgba(255,255,255,.09);
+    backdrop-filter:blur(30px) saturate(150%);
+    -webkit-backdrop-filter:blur(30px) saturate(150%);
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.08),
+        0 15px 45px rgba(0,0,0,.35);
+}
+
+.dateGlass,
+.timeGlass{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#bbb;
+    font-size:12px;
+}
+
+.timeGlass{
+    color:#00ff88;
+    font-weight:bold;
+    direction:ltr;
+    text-shadow:0 0 15px rgba(0,255,136,.15);
+}
+
+.dateTimeDivider{
+    width:1px;
+    height:18px;
+    background:rgba(255,255,255,.12);
+}
+
+/* =====================================================
+   STATS
+===================================================== */
 
 .stats{
     display:grid;
@@ -214,6 +275,10 @@ body:after{
     text-shadow:0 0 20px rgba(0,255,136,.20);
 }
 
+/* =====================================================
+   MAIN
+===================================================== */
+
 .main{
     display:grid;
     grid-template-columns:380px 1fr;
@@ -272,6 +337,10 @@ body:after{
     position:relative;
     z-index:1;
 }
+
+/* =====================================================
+   FORM
+===================================================== */
 
 label{
     display:block;
@@ -413,14 +482,47 @@ button{
     transform:translateY(-2px);
 }
 
+/* =====================================================
+   TRANSACTION SEARCH
+===================================================== */
+
 .toolbar{
     display:flex;
     gap:10px;
-    margin-bottom:18px;
+    margin-bottom:14px;
+}
+
+.searchBox{
+    position:relative;
+    flex:1;
+}
+
+.searchIcon{
+    position:absolute;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#666;
+    pointer-events:none;
+    z-index:2;
 }
 
 .search{
-    flex:1;
+    padding-right:42px!important;
+}
+
+.searchInfo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+    color:#555;
+    font-size:10px;
+}
+
+.searchInfo strong{
+    color:#4da3ff;
+    font-weight:normal;
 }
 
 .clear{
@@ -439,9 +541,35 @@ button{
     box-shadow:0 0 20px rgba(0,125,255,.10);
 }
 
+/* =====================================================
+   TRANSACTION INTERNAL SCROLL
+===================================================== */
+
 .tableWrap{
-    overflow-x:auto;
-    border-radius:16px;
+    overflow:auto;
+    max-height:520px;
+    border-radius:18px;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(0,255,136,.35) rgba(255,255,255,.03);
+}
+
+.tableWrap::-webkit-scrollbar{
+    width:7px;
+    height:7px;
+}
+
+.tableWrap::-webkit-scrollbar-track{
+    background:rgba(255,255,255,.025);
+    border-radius:20px;
+}
+
+.tableWrap::-webkit-scrollbar-thumb{
+    background:rgba(0,255,136,.28);
+    border-radius:20px;
+}
+
+.tableWrap::-webkit-scrollbar-thumb:hover{
+    background:rgba(0,255,136,.50);
 }
 
 table{
@@ -456,6 +584,12 @@ th{
     font-weight:normal;
     padding:15px;
     border-bottom:1px solid rgba(255,255,255,.08);
+    position:sticky;
+    top:0;
+    background:rgba(5,8,9,.88);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    z-index:5;
 }
 
 td{
@@ -493,9 +627,16 @@ tbody tr:hover td{
     font-size:11px;
 }
 
+.method.cash{
+    color:#00ff88;
+    background:rgba(0,255,136,.06);
+    border-color:rgba(0,255,136,.12);
+}
+
 .actions{
     display:flex;
     gap:7px;
+    flex-wrap:wrap;
 }
 
 .action{
@@ -520,11 +661,31 @@ tbody tr:hover td{
     box-shadow:0 0 18px rgba(255,73,104,.12);
 }
 
+.paymentAction{
+    color:#00ff88;
+    border-color:rgba(0,255,136,.14);
+}
+
+.paymentAction:hover{
+    border-color:#00ff88;
+    box-shadow:0 0 18px rgba(0,255,136,.13);
+}
+
+.paymentAction.paid{
+    color:#777;
+    border-color:rgba(255,255,255,.07);
+    cursor:default;
+}
+
 .empty{
     text-align:center;
     padding:60px 20px;
     color:#555;
 }
+
+/* =====================================================
+   SUCCESS
+===================================================== */
 
 .success{
     position:fixed;
@@ -542,12 +703,16 @@ tbody tr:hover td{
         0 20px 50px rgba(0,0,0,.45),
         0 0 30px rgba(0,255,136,.12);
     transition:.45s cubic-bezier(.2,.8,.2,1);
-    z-index:100;
+    z-index:1000;
 }
 
 .success.show{
     transform:translateX(-50%) translateY(0);
 }
+
+/* =====================================================
+   TASKS
+===================================================== */
 
 .dehqanTasks{
     margin-top:22px;
@@ -608,6 +773,7 @@ tbody tr:hover td{
         box-shadow .4s,
         border-color .4s;
     overflow:hidden;
+    cursor:pointer;
 }
 
 .taskCard:before{
@@ -644,10 +810,6 @@ tbody tr:hover td{
 
 .taskCard.pinned{
     border-color:rgba(0,180,255,.55);
-    box-shadow:
-        inset 0 1px rgba(255,255,255,.14),
-        0 20px 50px rgba(0,0,0,.45),
-        0 0 40px rgba(0,150,255,.18);
 }
 
 .taskCard.done{
@@ -720,6 +882,370 @@ tbody tr:hover td{
     font-size:12px;
 }
 
+/* =====================================================
+   TASK MODAL
+===================================================== */
+
+.modalOverlay{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.68);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    opacity:0;
+    visibility:hidden;
+    transition:.35s;
+    z-index:2000;
+}
+
+.modalOverlay.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.taskModal{
+    width:min(560px,100%);
+    max-height:min(720px,90vh);
+    overflow:auto;
+    padding:28px;
+    border-radius:28px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(18,35,48,.92),
+            rgba(4,10,14,.90)
+        );
+    border:1px solid rgba(80,175,255,.28);
+    backdrop-filter:blur(35px) saturate(160%);
+    -webkit-backdrop-filter:blur(35px) saturate(160%);
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.10),
+        0 35px 100px rgba(0,0,0,.75),
+        0 0 60px rgba(0,125,255,.14);
+    transform:translateY(35px) scale(.94);
+    transition:.4s cubic-bezier(.2,.8,.2,1);
+    position:relative;
+}
+
+.modalOverlay.show .taskModal{
+    transform:translateY(0) scale(1);
+}
+
+.modalClose{
+    position:absolute;
+    top:14px;
+    left:14px;
+    width:38px;
+    height:38px;
+    border-radius:13px;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.045);
+    color:#aaa;
+    font-size:18px;
+    transition:.3s;
+}
+
+.modalClose:hover{
+    color:#ff4968;
+    border-color:rgba(255,73,104,.4);
+    transform:rotate(5deg);
+}
+
+.modalTop{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding-left:45px;
+}
+
+.modalIcon{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:16px;
+    background:rgba(0,125,255,.12);
+    border:1px solid rgba(70,160,255,.22);
+    font-size:21px;
+}
+
+.modalTitle{
+    margin:0;
+    font-size:18px;
+}
+
+.modalSub{
+    margin-top:6px;
+    color:#637f94;
+    font-size:10px;
+}
+
+.modalText{
+    margin-top:25px;
+    padding:18px;
+    border-radius:18px;
+    line-height:2;
+    color:#e8f4ff;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+    word-break:break-word;
+}
+
+.modalActions{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+}
+
+.modalDone{
+    flex:1;
+    padding:13px;
+    border-radius:14px;
+    border:1px solid rgba(0,255,136,.25);
+    background:rgba(0,255,136,.07);
+    color:#00ff88;
+    transition:.3s;
+}
+
+.modalDone:hover{
+    background:rgba(0,255,136,.13);
+    border-color:#00ff88;
+}
+
+.modalDone.isDone{
+    background:rgba(0,255,136,.16);
+    border-color:#00ff88;
+}
+
+.modalSecondary{
+    padding:13px 18px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.035);
+    color:#999;
+}
+
+/* =====================================================
+   MINI CHAT
+===================================================== */
+
+.chatPanel{
+    margin-top:22px;
+}
+
+.chatHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:14px;
+}
+
+.chatHeader h2{
+    margin:0;
+    font-size:18px;
+}
+
+.chatStatus{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:#00ff88;
+    font-size:9px;
+}
+
+.chatDot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#00ff88;
+    box-shadow:0 0 12px #00ff88;
+}
+
+.chatMessages{
+    height:220px;
+    overflow:auto;
+    padding:8px;
+    border-radius:18px;
+    background:rgba(0,0,0,.20);
+    border:1px solid rgba(255,255,255,.055);
+    scrollbar-width:thin;
+    scrollbar-color:rgba(0,125,255,.35) transparent;
+}
+
+.chatMessages::-webkit-scrollbar{
+    width:6px;
+}
+
+.chatMessages::-webkit-scrollbar-thumb{
+    background:rgba(0,125,255,.30);
+    border-radius:20px;
+}
+
+.chatEmpty{
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:#555;
+    font-size:11px;
+}
+
+.chatMessage{
+    width:max-content;
+    max-width:82%;
+    margin:7px 0;
+    padding:10px 13px;
+    border-radius:15px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,125,255,.13),
+            rgba(255,255,255,.035)
+        );
+    border:1px solid rgba(70,160,255,.13);
+}
+
+.chatMessage.mine{
+    margin-right:auto;
+    margin-left:0;
+    border-color:rgba(0,255,136,.14);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,255,136,.10),
+            rgba(255,255,255,.025)
+        );
+}
+
+.chatSender{
+    color:#66b5ff;
+    font-size:9px;
+    margin-bottom:5px;
+}
+
+.chatMessage.mine .chatSender{
+    color:#00ff88;
+}
+
+.chatText{
+    color:#ddd;
+    font-size:11px;
+    line-height:1.8;
+    word-break:break-word;
+}
+
+.chatMeta{
+    margin-top:5px;
+    color:#555;
+    font-size:8px;
+}
+
+.chatComposer{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+}
+
+.chatInput{
+    flex:1;
+}
+
+.chatSend{
+    min-width:80px;
+    border-radius:13px;
+    border:1px solid rgba(0,255,136,.25);
+    background:rgba(0,255,136,.07);
+    color:#00ff88;
+    transition:.3s;
+}
+
+.chatSend:hover{
+    background:rgba(0,255,136,.14);
+    border-color:#00ff88;
+}
+
+.chatSend.loading{
+    opacity:.55;
+    pointer-events:none;
+}
+
+/* =====================================================
+   PAYMENT INFO
+===================================================== */
+
+.paymentNotice{
+    margin-top:12px;
+    padding:11px 13px;
+    border-radius:14px;
+    background:rgba(0,255,136,.045);
+    border:1px solid rgba(0,255,136,.10);
+    color:#648170;
+    font-size:9px;
+    line-height:1.8;
+}
+
+/* =====================================================
+   SCROLL TOP
+===================================================== */
+
+.scrollTop{
+    position:fixed;
+    left:24px;
+    bottom:25px;
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(255,255,255,.12);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.10),
+            rgba(0,125,255,.08)
+        );
+    color:#fff;
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
+    box-shadow:
+        inset 0 1px rgba(255,255,255,.09),
+        0 15px 40px rgba(0,0,0,.55),
+        0 0 25px rgba(0,125,255,.08);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(20px);
+    transition:.35s;
+    z-index:500;
+    font-size:20px;
+}
+
+.scrollTop.show{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+}
+
+.scrollTop:hover{
+    transform:translateY(-5px);
+    border-color:rgba(0,255,136,.45);
+    color:#00ff88;
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.60),
+        0 0 30px rgba(0,255,136,.12);
+}
+
+/* =====================================================
+   MOBILE NAV
+===================================================== */
+
 .mobileNav{
     display:none;
 }
@@ -769,11 +1295,27 @@ tbody tr:hover td{
     box-shadow:0 0 12px #00ff88;
 }
 
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
 @media(max-width:950px){
-    .main{grid-template-columns:1fr}
-    .stats{grid-template-columns:repeat(2,1fr)}
-    .panel:hover{transform:none}
-    .taskGrid{grid-template-columns:repeat(2,1fr)}
+
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .panel:hover{
+        transform:none;
+    }
+
+    .taskGrid{
+        grid-template-columns:repeat(2,1fr);
+    }
 }
 
 @media(max-width:550px){
@@ -783,14 +1325,18 @@ tbody tr:hover td{
         padding-bottom:105px;
     }
 
-    .container{width:100%}
+    .container{
+        width:100%;
+    }
 
     .header{
         align-items:center;
-        margin-bottom:18px;
+        margin-bottom:13px;
     }
 
-    .title h1{font-size:21px}
+    .title h1{
+        font-size:21px;
+    }
 
     .title p{
         font-size:10px;
@@ -802,6 +1348,18 @@ tbody tr:hover td{
         font-size:11px;
         border-radius:13px;
         white-space:nowrap;
+    }
+
+    .dateTimeGlass{
+        width:100%;
+        padding:10px 12px;
+        margin-bottom:15px;
+        justify-content:center;
+    }
+
+    .dateGlass,
+    .timeGlass{
+        font-size:10px;
     }
 
     .stats{
@@ -817,7 +1375,9 @@ tbody tr:hover td{
         min-height:88px;
     }
 
-    .stat:hover{transform:none}
+    .stat:hover{
+        transform:none;
+    }
 
     .stat small{
         font-size:9px;
@@ -831,16 +1391,22 @@ tbody tr:hover td{
         text-overflow:ellipsis;
     }
 
-    .main{gap:14px}
+    .main{
+        gap:14px;
+    }
 
     .panel{
         padding:19px 14px;
         border-radius:21px;
     }
 
-    .panel:hover{transform:none}
+    .panel:hover{
+        transform:none;
+    }
 
-    .panel h2{font-size:17px}
+    .panel h2{
+        font-size:17px;
+    }
 
     label{
         margin-top:15px;
@@ -855,7 +1421,9 @@ tbody tr:hover td{
         border-radius:13px;
     }
 
-    .amount{font-size:18px}
+    .amount{
+        font-size:18px;
+    }
 
     .toolbar{
         flex-direction:row;
@@ -868,7 +1436,8 @@ tbody tr:hover td{
     }
 
     .tableWrap{
-        overflow:visible;
+        max-height:460px;
+        overflow:auto;
         margin:0;
     }
 
@@ -877,7 +1446,9 @@ tbody tr:hover td{
         width:100%;
     }
 
-    thead{display:none}
+    thead{
+        display:none;
+    }
 
     tbody,
     tr,
@@ -937,22 +1508,41 @@ tbody tr:hover td{
     tbody td:nth-child(5):before{content:"پرداخت"}
     tbody td:nth-child(6):before{content:"عملیات"}
 
-    tbody td:first-child{padding-top:0}
-    tbody td:nth-child(4){padding:8px 0}
+    tbody td:first-child{
+        padding-top:0;
+    }
 
-    .amountCell{font-size:15px}
+    tbody td:nth-child(4){
+        padding:8px 0;
+    }
 
-    .actions{justify-content:flex-start}
+    .amountCell{
+        font-size:15px;
+    }
 
-    .action{padding:7px 12px}
+    .actions{
+        justify-content:flex-start;
+    }
 
-    .empty{padding:40px 10px}
+    .action{
+        padding:7px 10px;
+    }
 
-    .dehqanTasks{margin-top:14px}
+    .empty{
+        padding:40px 10px;
+    }
 
-    .taskHeader h2{font-size:17px}
+    .dehqanTasks{
+        margin-top:14px;
+    }
 
-    .taskHeader span{font-size:9px}
+    .taskHeader h2{
+        font-size:17px;
+    }
+
+    .taskHeader span{
+        font-size:9px;
+    }
 
     .taskGrid{
         grid-template-columns:1fr;
@@ -965,7 +1555,50 @@ tbody tr:hover td{
         border-radius:19px;
     }
 
-    .taskText{font-size:12px}
+    .taskText{
+        font-size:12px;
+    }
+
+    .taskModal{
+        padding:21px;
+        border-radius:23px;
+    }
+
+    .modalTop{
+        padding-left:40px;
+    }
+
+    .modalTitle{
+        font-size:16px;
+    }
+
+    .modalText{
+        font-size:12px;
+    }
+
+    .modalActions{
+        flex-direction:column;
+    }
+
+    .chatMessages{
+        height:200px;
+    }
+
+    .chatComposer{
+        flex-direction:row;
+    }
+
+    .chatSend{
+        min-width:68px;
+    }
+
+    .scrollTop{
+        left:13px;
+        bottom:88px;
+        width:46px;
+        height:46px;
+        font-size:18px;
+    }
 
     .mobileNav{
         position:fixed;
@@ -1000,7 +1633,9 @@ tbody tr:hover td{
         height:54px;
     }
 
-    .mouseGlow{display:none}
+    .mouseGlow{
+        display:none;
+    }
 }
 
 @media(max-width:370px){
@@ -1010,17 +1645,30 @@ tbody tr:hover td{
         padding-right:9px;
     }
 
-    .title h1{font-size:18px}
+    .title h1{
+        font-size:18px;
+    }
 
     .back{
         font-size:10px;
         padding:8px 9px;
     }
 
-    .navItem{min-width:45px}
-    .navText{font-size:8px}
-    .navIcon{font-size:17px}
-    .stat strong{font-size:14px}
+    .navItem{
+        min-width:45px;
+    }
+
+    .navText{
+        font-size:8px;
+    }
+
+    .navIcon{
+        font-size:17px;
+    }
+
+    .stat strong{
+        font-size:14px;
+    }
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -1046,6 +1694,10 @@ tbody tr:hover td{
 
 <div class="container">
 
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
     <div class="header" id="home">
 
         <div class="title">
@@ -1058,6 +1710,34 @@ tbody tr:hover td{
         </a>
 
     </div>
+
+    <!-- =================================================
+         DATE / TIME
+    ================================================== -->
+
+    <div class="dateTimeGlass">
+
+        <div class="dateGlass">
+            📅
+            <span id="liveDate">
+                در حال بارگذاری...
+            </span>
+        </div>
+
+        <div class="dateTimeDivider"></div>
+
+        <div class="timeGlass">
+            🕐
+            <span id="liveTime">
+                --:--:--
+            </span>
+        </div>
+
+    </div>
+
+    <!-- =================================================
+         STATS
+    ================================================== -->
 
     <div class="stats" id="income">
 
@@ -1083,11 +1763,21 @@ tbody tr:hover td{
 
     </div>
 
+    <!-- =================================================
+         MAIN
+    ================================================== -->
+
     <div class="main">
+
+        <!-- =================================================
+             REGISTER
+        ================================================== -->
 
         <div class="panel" id="register">
 
-            <h2 id="formTitle">➕ ثبت تراکنش</h2>
+            <h2 id="formTitle">
+                ➕ ثبت تراکنش
+            </h2>
 
             <label>نام مشتری</label>
 
@@ -1158,18 +1848,31 @@ tbody tr:hover td{
 
         </div>
 
+        <!-- =================================================
+             TRANSACTIONS
+        ================================================== -->
+
         <div class="panel" id="transactions">
 
             <h2>📋 تراکنش‌ها</h2>
 
             <div class="toolbar">
 
-                <input
-                    class="search"
-                    id="search"
-                    placeholder="جستجوی مشتری، خدمت یا روش پرداخت..."
-                    oninput="render()"
-                >
+                <div class="searchBox">
+
+                    <span class="searchIcon">
+                        🔎
+                    </span>
+
+                    <input
+                        class="search"
+                        id="search"
+                        placeholder="جستجوی مشتری، خدمت، مبلغ، پرداخت یا توضیحات..."
+                        oninput="render()"
+                        autocomplete="off"
+                    >
+
+                </div>
 
                 <button
                     class="clear"
@@ -1177,6 +1880,18 @@ tbody tr:hover td{
                 >
                     پاک
                 </button>
+
+            </div>
+
+            <div class="searchInfo">
+
+                <span>
+                    جستجوی لحظه‌ای تراکنش‌ها
+                </span>
+
+                <strong id="searchCount">
+                    ۰ مورد
+                </strong>
 
             </div>
 
@@ -1207,6 +1922,10 @@ tbody tr:hover td{
 
     </div>
 
+    <!-- =================================================
+         TASKS
+    ================================================== -->
+
     <div class="panel dehqanTasks" id="dehqanTasks">
 
         <div class="taskHeader">
@@ -1219,19 +1938,179 @@ tbody tr:hover td{
 
         </div>
 
-        <div class="taskGrid" id="dehqanTaskGrid">
+        <div
+            class="taskGrid"
+            id="dehqanTaskGrid"
+        >
 
             <div class="loadingCloud">
-                ⏳
-                <br><br>
+
                 در حال بارگذاری...
+
             </div>
 
         </div>
 
     </div>
 
+    <!-- =================================================
+         CHAT
+    ================================================== -->
+
+    <div class="panel chatPanel" id="chat">
+
+        <div class="chatHeader">
+
+            <h2>
+                💬 ارتباط با خانم دهقان
+            </h2>
+
+            <div class="chatStatus">
+
+                <span class="chatDot"></span>
+
+                آنلاین
+
+            </div>
+
+        </div>
+
+        <div
+            class="chatMessages"
+            id="chatMessages"
+        >
+
+            <div class="chatEmpty">
+                هنوز پیامی ارسال نشده
+            </div>
+
+        </div>
+
+        <div class="chatComposer">
+
+            <input
+                id="chatInput"
+                class="chatInput"
+                placeholder="پیامت رو بنویس..."
+                autocomplete="off"
+            >
+
+            <button
+                id="chatSend"
+                class="chatSend"
+                onclick="sendChatMessage()"
+            >
+                ارسال
+            </button>
+
+        </div>
+
+        <div class="paymentNotice">
+            💰 برای تراکنش‌ها می‌توانی از دکمه «ارسال برای پرداخت» استفاده کنی؛
+            پیام پرداخت در پنل مربوطه نمایش داده می‌شود.
+        </div>
+
+    </div>
+
 </div>
+
+<!-- =====================================================
+     TASK MODAL
+===================================================== -->
+
+<div
+    class="modalOverlay"
+    id="taskModalOverlay"
+    onclick="closeTaskModalOutside(event)"
+>
+
+    <div
+        class="taskModal"
+        id="taskModal"
+    >
+
+        <button
+            class="modalClose"
+            onclick="closeTaskModal()"
+        >
+            ×
+        </button>
+
+        <div class="modalTop">
+
+            <div
+                class="modalIcon"
+                id="modalTaskIcon"
+            >
+                📝
+            </div>
+
+            <div>
+
+                <h3
+                    class="modalTitle"
+                    id="modalTaskTitle"
+                >
+                    یادداشت خانم دهقان
+                </h3>
+
+                <div
+                    class="modalSub"
+                    id="modalTaskSub"
+                >
+                    -
+                </div>
+
+            </div>
+
+        </div>
+
+        <div
+            class="modalText"
+            id="modalTaskText"
+        >
+            -
+        </div>
+
+        <div class="modalActions">
+
+            <button
+                class="modalDone"
+                id="modalDoneBtn"
+                onclick="toggleTaskDoneFromModal()"
+            >
+                ✓ انجام شد
+            </button>
+
+            <button
+                class="modalSecondary"
+                onclick="closeTaskModal()"
+            >
+                بستن
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     SCROLL TOP
+===================================================== -->
+
+<button
+    class="scrollTop"
+    id="scrollTop"
+    onclick="scrollToTop()"
+    title="برگشت به بالا"
+>
+    ↑
+</button>
+
+<!-- =====================================================
+     MOBILE NAV
+===================================================== -->
 
 <nav class="mobileNav">
 
@@ -1276,11 +2155,13 @@ tbody tr:hover td{
     </a>
 
     <a
-        href="index.html"
+        href="#chat"
         class="navItem"
+        data-target="chat"
+        onclick="setActiveNav(this)"
     >
-        <span class="navIcon">•••</span>
-        <span class="navText">بیشتر</span>
+        <span class="navIcon">💬</span>
+        <span class="navText">پیام</span>
     </a>
 
 </nav>
@@ -1299,13 +2180,20 @@ const GOOGLE_API_URL =
    LOCAL CACHE
 ===================================================== */
 
-let transactions = JSON.parse(
-    localStorage.getItem("cafe_transactions") || "[]"
-);
+let transactions =
+    JSON.parse(
+        localStorage.getItem(
+            "cafe_transactions"
+        ) || "[]"
+    );
 
 let dehqanTasks = [];
 
+let messages = [];
+
 let editId = null;
+
+let activeTaskId = null;
 
 
 /* =====================================================
@@ -1313,16 +2201,80 @@ let editId = null;
 ===================================================== */
 
 const mouseGlow =
-document.getElementById("mouseGlow");
+    document.getElementById("mouseGlow");
 
-document.addEventListener("mousemove",(e)=>{
+document.addEventListener(
+    "mousemove",
+    (e)=>{
 
-    if(!mouseGlow) return;
+        if(!mouseGlow)
+            return;
 
-    mouseGlow.style.left = e.clientX + "px";
-    mouseGlow.style.top = e.clientY + "px";
+        mouseGlow.style.left =
+            e.clientX + "px";
 
-});
+        mouseGlow.style.top =
+            e.clientY + "px";
+
+    }
+);
+
+
+/* =====================================================
+   LIVE DATE / TIME
+===================================================== */
+
+function updateLiveDateTime(){
+
+    const now = new Date();
+
+    const dateElement =
+        document.getElementById(
+            "liveDate"
+        );
+
+    const timeElement =
+        document.getElementById(
+            "liveTime"
+        );
+
+    if(dateElement){
+
+        dateElement.innerText =
+            now.toLocaleDateString(
+                "fa-IR",
+                {
+                    weekday:"long",
+                    year:"numeric",
+                    month:"long",
+                    day:"numeric"
+                }
+            );
+
+    }
+
+    if(timeElement){
+
+        timeElement.innerText =
+            now.toLocaleTimeString(
+                "fa-IR",
+                {
+                    hour:"2-digit",
+                    minute:"2-digit",
+                    second:"2-digit"
+                }
+            );
+
+    }
+
+}
+
+updateLiveDateTime();
+
+setInterval(
+    updateLiveDateTime,
+    1000
+);
 
 
 /* =====================================================
@@ -1330,24 +2282,34 @@ document.addEventListener("mousemove",(e)=>{
 ===================================================== */
 
 const amountInput =
-document.getElementById("amount");
+    document.getElementById(
+        "amount"
+    );
 
-amountInput.addEventListener("input",function(){
+amountInput.addEventListener(
+    "input",
+    function(){
 
-    let value =
-        this.value.replace(/\D/g,"");
+        let value =
+            this.value.replace(
+                /\D/g,
+                ""
+            );
 
-    if(!value){
+        if(!value){
 
-        this.value = "";
-        return;
+            this.value = "";
+
+            return;
+
+        }
+
+        this.value =
+            Number(value)
+                .toLocaleString("en-US");
 
     }
-
-    this.value =
-        Number(value).toLocaleString("en-US");
-
-});
+);
 
 
 function rawAmount(){
@@ -1378,7 +2340,9 @@ function saveData(){
 
     localStorage.setItem(
         "cafe_transactions",
-        JSON.stringify(transactions)
+        JSON.stringify(
+            transactions
+        )
     );
 
 }
@@ -1402,7 +2366,10 @@ async function cloudPost(payload){
                     "text/plain;charset=utf-8"
                 },
 
-                body:JSON.stringify(payload),
+                body:
+                    JSON.stringify(
+                        payload
+                    ),
 
                 mode:"no-cors"
             }
@@ -1412,7 +2379,10 @@ async function cloudPost(payload){
 
     }catch(error){
 
-        console.error("Cloud error:",error);
+        console.error(
+            "Cloud error:",
+            error
+        );
 
         return false;
 
@@ -1428,35 +2398,32 @@ async function cloudPost(payload){
 async function loadCloudData(){
 
     const taskCount =
-        document.getElementById("taskCount");
+        document.getElementById(
+            "taskCount"
+        );
 
     const taskGrid =
-        document.getElementById("dehqanTaskGrid");
+        document.getElementById(
+            "dehqanTaskGrid"
+        );
 
     const saveBtn =
-        document.getElementById("saveBtn");
-
+        document.getElementById(
+            "saveBtn"
+        );
 
     try{
 
         taskCount.innerText =
             "در حال بارگذاری...";
 
-
         taskGrid.innerHTML = `
 
             <div class="loadingCloud">
-
-                ⏳
-
-                <br><br>
-
                 در حال بارگذاری...
-
             </div>
 
         `;
-
 
         const response =
             await fetch(
@@ -1468,7 +2435,6 @@ async function loadCloudData(){
                 }
             );
 
-
         if(!response.ok){
 
             throw new Error(
@@ -1477,10 +2443,8 @@ async function loadCloudData(){
 
         }
 
-
         const data =
             await response.json();
-
 
         if(
             !data ||
@@ -1544,7 +2508,6 @@ async function loadCloudData(){
                     })
                 );
 
-
             saveData();
 
             render();
@@ -1571,16 +2534,39 @@ async function loadCloudData(){
 
         }
 
-
         renderDehqanTasks();
+
+
+        /* =================================================
+           MESSAGES
+        ================================================= */
+
+        if(
+            Array.isArray(
+                data.messages
+            )
+        ){
+
+            messages =
+                data.messages;
+
+            renderMessages();
+
+        }else{
+
+            messages = [];
+
+            renderMessages();
+
+        }
 
 
         if(saveBtn){
 
-            saveBtn.disabled = false;
+            saveBtn.disabled =
+                false;
 
         }
-
 
     }catch(error){
 
@@ -1589,13 +2575,10 @@ async function loadCloudData(){
             error
         );
 
-
         render();
-
 
         taskCount.innerText =
             "خطا در دریافت";
-
 
         taskGrid.innerHTML = `
 
@@ -1634,22 +2617,18 @@ async function saveTransaction(){
             .value
             .trim();
 
-
     const service =
         document
             .getElementById("service")
             .value;
 
-
     const amount =
         rawAmount();
-
 
     const method =
         document
             .getElementById("method")
             .value;
-
 
     const description =
         document
@@ -1660,7 +2639,10 @@ async function saveTransaction(){
 
     if(!customer){
 
-        alert("نام مشتری را وارد کنید");
+        alert(
+            "نام مشتری را وارد کنید"
+        );
+
         return;
 
     }
@@ -1668,7 +2650,10 @@ async function saveTransaction(){
 
     if(!service){
 
-        alert("نوع خدمت را انتخاب کنید");
+        alert(
+            "نوع خدمت را انتخاب کنید"
+        );
+
         return;
 
     }
@@ -1676,21 +2661,27 @@ async function saveTransaction(){
 
     if(amount <= 0){
 
-        alert("مبلغ را وارد کنید");
+        alert(
+            "مبلغ را وارد کنید"
+        );
+
         return;
 
     }
 
 
     const saveBtn =
-        document.getElementById("saveBtn");
+        document.getElementById(
+            "saveBtn"
+        );
 
-
-    saveBtn.classList.add("loading");
+    saveBtn.classList.add(
+        "loading"
+    );
 
 
     /* =================================================
-       EDIT CLOUD TRANSACTION
+       EDIT
     ================================================= */
 
     if(editId !== null){
@@ -1702,14 +2693,15 @@ async function saveTransaction(){
                     String(editId)
             );
 
-
         if(!item){
 
-            saveBtn.classList.remove("loading");
+            saveBtn.classList.remove(
+                "loading"
+            );
+
             return;
 
         }
-
 
         saveBtn.innerText =
             "در حال ذخیره...";
@@ -1754,7 +2746,10 @@ async function saveTransaction(){
                 "ذخیره تغییرات انجام نشد"
             );
 
-            saveBtn.classList.remove("loading");
+            saveBtn.classList.remove(
+                "loading"
+            );
+
             saveBtn.innerText =
                 "ذخیره تغییرات";
 
@@ -1763,27 +2758,39 @@ async function saveTransaction(){
         }
 
 
-        item.customer = customer;
-        item.service = service;
-        item.amount = amount;
-        item.method = method;
-        item.description = description;
+        item.customer =
+            customer;
+
+        item.service =
+            service;
+
+        item.amount =
+            amount;
+
+        item.method =
+            method;
+
+        item.description =
+            description;
 
 
         saveData();
-
 
         editId = null;
 
 
         document
-            .getElementById("formTitle")
+            .getElementById(
+                "formTitle"
+            )
             .innerText =
             "➕ ثبت تراکنش";
 
 
         document
-            .getElementById("cancelBtn")
+            .getElementById(
+                "cancelBtn"
+            )
             .style.display =
             "none";
 
@@ -1798,13 +2805,14 @@ async function saveTransaction(){
         );
 
 
-        saveBtn.classList.remove("loading");
+        saveBtn.classList.remove(
+            "loading"
+        );
 
         saveBtn.innerText =
             "ثبت تراکنش";
 
 
-        /* دریافت مجدد برای اطمینان */
         setTimeout(
             loadCloudData,
             500
@@ -1890,7 +2898,9 @@ async function saveTransaction(){
             "ثبت تراکنش انجام نشد"
         );
 
-        saveBtn.classList.remove("loading");
+        saveBtn.classList.remove(
+            "loading"
+        );
 
         saveBtn.innerText =
             "ثبت تراکنش";
@@ -1899,12 +2909,6 @@ async function saveTransaction(){
 
     }
 
-
-    /*
-       بعد از ارسال،
-       دوباره اطلاعات آنلاین را می‌گیریم
-       تا ID واقعی سرور هم دریافت شود.
-    */
 
     showSuccess(
         "تراکنش ثبت شد ✓"
@@ -1917,7 +2921,9 @@ async function saveTransaction(){
     await loadCloudData();
 
 
-    saveBtn.classList.remove("loading");
+    saveBtn.classList.remove(
+        "loading"
+    );
 
     saveBtn.innerText =
         "ثبت تراکنش";
@@ -1935,16 +2941,13 @@ function clearForm(){
         .getElementById("customer")
         .value = "";
 
-
     document
         .getElementById("service")
         .value = "";
 
-
     document
         .getElementById("amount")
         .value = "";
-
 
     document
         .getElementById("description")
@@ -1965,7 +2968,6 @@ function editTransaction(id){
                 String(x.id) ===
                 String(id)
         );
-
 
     if(!item)
         return;
@@ -2066,7 +3068,7 @@ function cancelEdit(){
 
 
 /* =====================================================
-   DELETE CLOUD TRANSACTION
+   DELETE TRANSACTION
 ===================================================== */
 
 async function deleteTransaction(id){
@@ -2132,11 +3134,85 @@ async function deleteTransaction(id){
     );
 
 
-    /* همگام‌سازی مجدد */
-
     setTimeout(
         loadCloudData,
         500
+    );
+
+}
+
+
+/* =====================================================
+   SEND TRANSACTION FOR PAYMENT
+===================================================== */
+
+async function sendPaymentRequest(id){
+
+    const item =
+        transactions.find(
+            x =>
+                String(x.id) ===
+                String(id)
+        );
+
+    if(!item)
+        return;
+
+
+    const text =
+        "درخواست پرداخت: " +
+        item.service +
+        " | مبلغ " +
+        money(item.amount) +
+        " تومان" +
+        (
+            item.customer
+            ? " | مشتری: " +
+              item.customer
+            : ""
+        );
+
+
+    const sent =
+        await cloudPost({
+
+            action:
+                "addMessage",
+
+            sender:
+                "پنل ثبت",
+
+            text:
+                text,
+
+            status:
+                "خوانده نشده",
+
+            payment:
+                "پرداخت نشده"
+
+        });
+
+
+    if(!sent){
+
+        showSuccess(
+            "ارسال درخواست انجام نشد"
+        );
+
+        return;
+
+    }
+
+
+    showSuccess(
+        "درخواست پرداخت ارسال شد ✓"
+    );
+
+
+    setTimeout(
+        loadCloudData,
+        700
     );
 
 }
@@ -2153,6 +3229,81 @@ function clearSearch(){
         .value = "";
 
     render();
+
+}
+
+
+function normalizeSearch(value){
+
+    return String(
+        value ?? ""
+    )
+    .toLowerCase()
+    .replace(
+        /ي/g,
+        "ی"
+    )
+    .replace(
+        /ك/g,
+        "ک"
+    )
+    .replace(
+        /‌/g,
+        ""
+    )
+    .replace(
+        /,/g,
+        ""
+    )
+    .replace(
+        /٬/g,
+        ""
+    )
+    .trim();
+
+}
+
+
+function searchMatches(item,search){
+
+    if(!search)
+        return true;
+
+
+    const values = [
+
+        item.customer,
+
+        item.service,
+
+        item.amount,
+
+        money(item.amount),
+
+        item.method,
+
+        item.description,
+
+        item.date,
+
+        item.time,
+
+        formatDate(item.date),
+
+        formatTime(
+            item.date,
+            item.time
+        )
+
+    ];
+
+
+    return values.some(
+        value =>
+            normalizeSearch(
+                value
+            ).includes(search)
+    );
 
 }
 
@@ -2183,7 +3334,9 @@ function formatDate(date){
 
 
     return parsed
-        .toLocaleDateString("fa-IR");
+        .toLocaleDateString(
+            "fa-IR"
+        );
 
 }
 
@@ -2238,40 +3391,40 @@ function render(){
 
 
     const search =
-        document
-            .getElementById("search")
-            .value
-            .trim()
-            .toLowerCase();
+        normalizeSearch(
+            document
+                .getElementById("search")
+                .value
+        );
 
 
     const filtered =
         transactions.filter(
-            x =>
-
-                String(
-                    x.customer
+            item =>
+                searchMatches(
+                    item,
+                    search
                 )
-                .toLowerCase()
-                .includes(search)
-
-                ||
-
-                String(
-                    x.service
-                )
-                .toLowerCase()
-                .includes(search)
-
-                ||
-
-                String(
-                    x.method
-                )
-                .toLowerCase()
-                .includes(search)
-
         );
+
+
+    const searchCount =
+        document.getElementById(
+            "searchCount"
+        );
+
+
+    if(searchCount){
+
+        searchCount.innerText =
+            Number(
+                filtered.length
+            ).toLocaleString(
+                "fa-IR"
+            ) +
+            " مورد";
+
+    }
 
 
     if(
@@ -2286,11 +3439,19 @@ function render(){
 
                     <div class="empty">
 
-                        📭
+                        ${
+                            search
+                            ? "🔎"
+                            : "📭"
+                        }
 
                         <br><br>
 
-                        هنوز تراکنشی ثبت نشده
+                        ${
+                            search
+                            ? "تراکنشی با این جستجو پیدا نشد"
+                            : "هنوز تراکنشی ثبت نشده"
+                        }
 
                     </div>
 
@@ -2305,104 +3466,154 @@ function render(){
         body.innerHTML =
             filtered
             .map(
-                x => `
+                x => {
 
-                <tr>
+                    const id =
+                        String(
+                            x.id
+                        )
+                        .replace(
+                            /'/g,
+                            "\\'"
+                        );
 
-                    <td>
 
-                        ${escapeHTML(
-                            formatDate(
-                                x.date
-                            )
-                        )}
+                    const paymentState =
+                        getPaymentStateForTransaction(
+                            x
+                        );
 
-                        <br>
 
-                        <small
-                            style="color:#555"
-                        >
+                    return `
+
+                    <tr>
+
+                        <td>
 
                             ${escapeHTML(
-                                formatTime(
-                                    x.date,
-                                    x.time
+                                formatDate(
+                                    x.date
                                 )
                             )}
 
-                        </small>
+                            <br>
 
-                    </td>
+                            <small
+                                style="color:#555"
+                            >
 
+                                ${escapeHTML(
+                                    formatTime(
+                                        x.date,
+                                        x.time
+                                    )
+                                )}
 
-                    <td>
+                            </small>
 
-                        ${escapeHTML(
-                            x.customer
-                        )}
-
-                    </td>
-
-
-                    <td>
-
-                        ${escapeHTML(
-                            x.service
-                        )}
-
-                    </td>
+                        </td>
 
 
-                    <td class="amountCell">
-
-                        ${money(
-                            x.amount
-                        )}
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="method">
+                        <td>
 
                             ${escapeHTML(
-                                x.method
+                                x.customer
                             )}
 
-                        </span>
-
-                    </td>
+                        </td>
 
 
-                    <td>
+                        <td>
 
-                        <div class="actions">
+                            ${escapeHTML(
+                                x.service
+                            )}
 
-                            <button
-                                class="action"
-                                onclick="editTransaction('${String(x.id).replace(/'/g,"\\'")}')"
-                                title="ویرایش"
+                        </td>
+
+
+                        <td class="amountCell">
+
+                            ${money(
+                                x.amount
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="method ${
+                                    x.method === "نقدی"
+                                    ? "cash"
+                                    : ""
+                                }"
                             >
-                                ✏️
-                            </button>
+
+                                ${escapeHTML(
+                                    x.method
+                                )}
+
+                            </span>
+
+                        </td>
 
 
-                            <button
-                                class="action delete"
-                                onclick="deleteTransaction('${String(x.id).replace(/'/g,"\\'")}')"
-                                title="حذف"
-                            >
-                                🗑
-                            </button>
+                        <td>
 
-                        </div>
+                            <div class="actions">
 
-                    </td>
+                                <button
+                                    class="action"
+                                    onclick="editTransaction('${id}')"
+                                    title="ویرایش"
+                                >
+                                    ✏️
+                                </button>
 
-                </tr>
 
-            `
+                                <button
+                                    class="action delete"
+                                    onclick="deleteTransaction('${id}')"
+                                    title="حذف"
+                                >
+                                    🗑
+                                </button>
+
+
+                                ${
+                                    paymentState === "paid"
+                                    ?
+                                    `
+                                    <button
+                                        class="action paymentAction paid"
+                                        title="پرداخت شد"
+                                    >
+                                        ✓ پرداخت شد
+                                    </button>
+                                    `
+                                    :
+                                    `
+                                    <button
+                                        class="action paymentAction"
+                                        onclick="sendPaymentRequest('${id}')"
+                                        title="ارسال برای پرداخت"
+                                    >
+                                        💸 پرداخت
+                                    </button>
+                                    `
+                                }
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                }
             )
             .join("");
 
@@ -2410,6 +3621,104 @@ function render(){
 
 
     updateStats();
+
+}
+
+
+/* =====================================================
+   PAYMENT STATE
+===================================================== */
+
+function getPaymentStateForTransaction(transaction){
+
+    if(!transaction)
+        return "unpaid";
+
+
+    const customer =
+        normalizeSearch(
+            transaction.customer
+        );
+
+    const service =
+        normalizeSearch(
+            transaction.service
+        );
+
+    const amount =
+        String(
+            Number(
+                transaction.amount || 0
+            )
+        );
+
+
+    const match =
+        messages.find(
+            msg => {
+
+                const text =
+                    normalizeSearch(
+                        msg.text ||
+                        msg.message ||
+                        ""
+                    );
+
+
+                if(
+                    !text.includes(
+                        service
+                    )
+                )
+                    return false;
+
+
+                if(
+                    !text.includes(
+                        amount
+                    ) &&
+                    !text.includes(
+                        normalizeSearch(
+                            money(
+                                transaction.amount
+                            )
+                        )
+                    )
+                )
+                    return false;
+
+
+                if(
+                    customer &&
+                    !text.includes(
+                        customer
+                    )
+                )
+                    return false;
+
+
+                return true;
+
+            }
+        );
+
+
+    if(
+        match &&
+        (
+            match.payment ===
+            "پرداخت شد" ||
+            match.payment ===
+            "پرداخت شده"
+        )
+    ){
+
+        return "paid";
+
+    }
+
+
+    return "unpaid";
 
 }
 
@@ -2514,8 +3823,30 @@ function updateStats(){
 
 
 /* =====================================================
-   DEHQAN TASKS
+   TASKS
 ===================================================== */
+
+function getTaskText(task){
+
+    return (
+        task.text ||
+        task.note ||
+        ""
+    );
+
+}
+
+
+function isTaskDone(task){
+
+    return !!(
+        task.done ||
+        task.status ===
+        "انجام شد"
+    );
+
+}
+
 
 function renderDehqanTasks(){
 
@@ -2603,9 +3934,9 @@ function renderDehqanTasks(){
 
                 const text =
                     escapeHTML(
-                        task.text ||
-                        task.note ||
-                        ""
+                        getTaskText(
+                            task
+                        )
                     );
 
 
@@ -2624,13 +3955,24 @@ function renderDehqanTasks(){
 
 
                 const done =
-                    task.done ||
-                    task.status ===
-                    "انجام شد";
+                    isTaskDone(
+                        task
+                    );
 
 
                 const pinned =
                     !!task.pinned;
+
+
+                const id =
+                    String(
+                        task.id ||
+                        ""
+                    )
+                    .replace(
+                        /'/g,
+                        "\\'"
+                    );
 
 
                 return `
@@ -2641,6 +3983,7 @@ function renderDehqanTasks(){
                             ${pinned ? "pinned" : ""}
                             ${done ? "done" : ""}
                         "
+                        onclick="openTaskModal('${id}')"
                     >
 
                         <div class="taskTop">
@@ -2701,6 +4044,595 @@ function renderDehqanTasks(){
         .join("");
 
 }
+
+
+/* =====================================================
+   OPEN TASK MODAL
+===================================================== */
+
+function openTaskModal(id){
+
+    const task =
+        dehqanTasks.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+
+    if(!task)
+        return;
+
+
+    activeTaskId =
+        task.id;
+
+
+    const done =
+        isTaskDone(
+            task
+        );
+
+
+    const text =
+        getTaskText(
+            task
+        );
+
+
+    document
+        .getElementById(
+            "modalTaskIcon"
+        )
+        .innerText =
+        done
+        ? "✓"
+        : task.pinned
+        ? "📌"
+        : "📝";
+
+
+    document
+        .getElementById(
+            "modalTaskTitle"
+        )
+        .innerText =
+        done
+        ? "یادداشت انجام شده"
+        : "یادداشت خانم دهقان";
+
+
+    document
+        .getElementById(
+            "modalTaskSub"
+        )
+        .innerText =
+        (
+            task.date || "-"
+        ) +
+        " • " +
+        (
+            task.time || "-"
+        );
+
+
+    document
+        .getElementById(
+            "modalTaskText"
+        )
+        .innerText =
+        text || "-";
+
+
+    const doneBtn =
+        document.getElementById(
+            "modalDoneBtn"
+        );
+
+
+    doneBtn.classList.toggle(
+        "isDone",
+        done
+    );
+
+
+    doneBtn.innerText =
+        done
+        ? "✓ انجام شد — برگشت"
+        : "✓ انجام شد";
+
+
+    document
+        .getElementById(
+            "taskModalOverlay"
+        )
+        .classList.add(
+            "show"
+        );
+
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+/* =====================================================
+   CLOSE TASK MODAL
+===================================================== */
+
+function closeTaskModal(){
+
+    document
+        .getElementById(
+            "taskModalOverlay"
+        )
+        .classList.remove(
+            "show"
+        );
+
+
+    document.body.style.overflow =
+        "";
+
+    activeTaskId =
+        null;
+
+}
+
+
+function closeTaskModalOutside(event){
+
+    if(
+        event.target ===
+        document.getElementById(
+            "taskModalOverlay"
+        )
+    ){
+
+        closeTaskModal();
+
+    }
+
+}
+
+
+document.addEventListener(
+    "keydown",
+    (event)=>{
+
+        if(
+            event.key ===
+            "Escape"
+        ){
+
+            closeTaskModal();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   TOGGLE TASK DONE
+===================================================== */
+
+async function toggleTaskDoneFromModal(){
+
+    if(
+        activeTaskId === null
+    )
+        return;
+
+
+    const task =
+        dehqanTasks.find(
+            item =>
+                String(item.id) ===
+                String(activeTaskId)
+        );
+
+
+    if(!task)
+        return;
+
+
+    const newDone =
+        !isTaskDone(
+            task
+        );
+
+
+    const oldDone =
+        isTaskDone(
+            task
+        );
+
+
+    const oldStatus =
+        task.status;
+
+
+    const oldDoneValue =
+        task.done;
+
+
+    /* optimistic */
+
+    task.done =
+        newDone;
+
+    task.status =
+        newDone
+        ? "انجام شد"
+        : "باز";
+
+
+    renderDehqanTasks();
+
+
+    const doneBtn =
+        document.getElementById(
+            "modalDoneBtn"
+        );
+
+
+    doneBtn.classList.toggle(
+        "isDone",
+        newDone
+    );
+
+
+    doneBtn.innerText =
+        newDone
+        ? "✓ انجام شد — برگشت"
+        : "✓ انجام شد";
+
+
+    const sent =
+        await cloudPost({
+
+            action:
+                "updateNote",
+
+            id:
+                task.id,
+
+            date:
+                task.date || "",
+
+            time:
+                task.time || "",
+
+            text:
+                getTaskText(task),
+
+            status:
+                newDone
+                ? "انجام شد"
+                : "باز",
+
+            pinned:
+                !!task.pinned
+
+        });
+
+
+    if(!sent){
+
+        task.done =
+            oldDoneValue;
+
+        task.status =
+            oldStatus;
+
+        renderDehqanTasks();
+
+        doneBtn.classList.toggle(
+            "isDone",
+            oldDone
+        );
+
+        doneBtn.innerText =
+            oldDone
+            ? "✓ انجام شد — برگشت"
+            : "✓ انجام شد";
+
+
+        showSuccess(
+            "تغییر وضعیت ذخیره نشد"
+        );
+
+        return;
+
+    }
+
+
+    showSuccess(
+        newDone
+        ? "تسک انجام شد ✓"
+        : "تسک به حالت عادی برگشت ✓"
+    );
+
+
+    setTimeout(
+        loadCloudData,
+        500
+    );
+
+}
+
+
+/* =====================================================
+   CHAT LOAD
+===================================================== */
+
+function renderMessages(){
+
+    const box =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    if(!box)
+        return;
+
+
+    if(
+        !messages ||
+        !messages.length
+    ){
+
+        box.innerHTML = `
+
+            <div class="chatEmpty">
+                هنوز پیامی ارسال نشده
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const sorted =
+        [...messages]
+        .sort(
+            (a,b)=>{
+
+                const aDate =
+                    String(
+                        a.date || ""
+                    ) +
+                    String(
+                        a.time || ""
+                    );
+
+                const bDate =
+                    String(
+                        b.date || ""
+                    ) +
+                    String(
+                        b.time || ""
+                    );
+
+                return aDate.localeCompare(
+                    bDate
+                );
+
+            }
+        );
+
+
+    box.innerHTML =
+        sorted
+        .map(
+            msg => {
+
+                const sender =
+                    msg.sender ||
+                    "پیام";
+
+
+                const text =
+                    msg.text ||
+                    msg.message ||
+                    "";
+
+
+                const mine =
+                    normalizeSearch(
+                        sender
+                    ).includes(
+                        "پنل ثبت"
+                    );
+
+
+                return `
+
+                    <div
+                        class="
+                            chatMessage
+                            ${mine ? "mine" : ""}
+                        "
+                    >
+
+                        <div class="chatSender">
+
+                            ${escapeHTML(
+                                sender
+                            )}
+
+                        </div>
+
+
+                        <div class="chatText">
+
+                            ${escapeHTML(
+                                text
+                            )}
+
+                        </div>
+
+
+                        <div class="chatMeta">
+
+                            ${escapeHTML(
+                                msg.date ||
+                                ""
+                            )}
+
+                            ${msg.time ? " • " : ""}
+
+                            ${escapeHTML(
+                                msg.time ||
+                                ""
+                            )}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+
+    box.scrollTop =
+        box.scrollHeight;
+
+}
+
+
+/* =====================================================
+   SEND CHAT MESSAGE
+===================================================== */
+
+async function sendChatMessage(){
+
+    const input =
+        document.getElementById(
+            "chatInput"
+        );
+
+    const sendBtn =
+        document.getElementById(
+            "chatSend"
+        );
+
+
+    const text =
+        input.value.trim();
+
+
+    if(!text){
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    sendBtn.classList.add(
+        "loading"
+    );
+
+    sendBtn.innerText =
+        "در حال ارسال...";
+
+
+    const sent =
+        await cloudPost({
+
+            action:
+                "addMessage",
+
+            sender:
+                "پنل ثبت",
+
+            text:
+                text,
+
+            status:
+                "خوانده نشده",
+
+            payment:
+                "پرداخت نشده"
+
+        });
+
+
+    if(!sent){
+
+        showSuccess(
+            "ارسال پیام انجام نشد"
+        );
+
+        sendBtn.classList.remove(
+            "loading"
+        );
+
+        sendBtn.innerText =
+            "ارسال";
+
+        return;
+
+    }
+
+
+    input.value = "";
+
+
+    showSuccess(
+        "پیام ارسال شد ✓"
+    );
+
+
+    sendBtn.classList.remove(
+        "loading"
+    );
+
+    sendBtn.innerText =
+        "ارسال";
+
+
+    setTimeout(
+        loadCloudData,
+        500
+    );
+
+}
+
+
+/* =====================================================
+   ENTER TO SEND CHAT
+===================================================== */
+
+document
+    .getElementById("chatInput")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if(
+                event.key ===
+                "Enter"
+            ){
+
+                event.preventDefault();
+
+                sendChatMessage();
+
+            }
+
+        }
+    );
 
 
 /* =====================================================
@@ -2778,6 +4710,57 @@ function escapeHTML(text){
 
 
 /* =====================================================
+   SCROLL TOP
+===================================================== */
+
+const scrollTopButton =
+    document.getElementById(
+        "scrollTop"
+    );
+
+
+window.addEventListener(
+    "scroll",
+    ()=>{
+
+        if(
+            window.scrollY >
+            300
+        ){
+
+            scrollTopButton.classList.add(
+                "show"
+            );
+
+        }else{
+
+            scrollTopButton.classList.remove(
+                "show"
+            );
+
+        }
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+function scrollToTop(){
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+/* =====================================================
    MOBILE NAV
 ===================================================== */
 
@@ -2813,7 +4796,8 @@ const navSections = [
     "home",
     "register",
     "income",
-    "transactions"
+    "transactions",
+    "chat"
 ];
 
 
@@ -2891,6 +4875,8 @@ window.addEventListener(
 ===================================================== */
 
 render();
+
+renderMessages();
 
 loadCloudData();
 
