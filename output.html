@@ -1997,14 +1997,26 @@ async function loadCloudData(showMessage=true){
         );
 
 
-        const cloudTransactions = Array.isArray(data.transactions) ? data.transactions : [];
-        let localTransactions = [];
-        try { localTransactions = JSON.parse(localStorage.getItem("cafe_transactions") || "[]"); } catch(e) { localTransactions=[]; }
-        allTransactions = cloudTransactions.length ? cloudTransactions : (Array.isArray(localTransactions) ? localTransactions : []);
+        // منبع اصلی تراکنش‌ها فقط Google Sheets / Apps Script است.
+        // حتی اگر نتیجه ابری خالی باشد، آن را با LocalStorage جایگزین نمی‌کنیم.
+        const cloudTransactions = Array.isArray(data.transactions)
+            ? data.transactions
+            : (Array.isArray(data.reports) ? data.reports : []);
+
+        allTransactions = cloudTransactions.map(item => ({
+            id: item.id ?? item.ID ?? item.Id ?? "",
+            date: item.date ?? item.Date ?? "",
+            time: item.time ?? item.Time ?? "",
+            customer: item.customer ?? item.Customer ?? "",
+            service: item.service ?? item.Service ?? "",
+            amount: item.amount ?? item.Amount ?? 0,
+            method: item.method ?? item.Method ?? "",
+            description: item.description ?? item.Description ?? ""
+        }));
+
+        console.log("JANA TRANSACTIONS FROM SHEETS:", allTransactions.length, allTransactions);
+
         await syncMessages(data);
-
-
-        saveLocalTransactions();
 
 
         /* =========================
@@ -2256,27 +2268,8 @@ async function loadCloudData(showMessage=true){
         );
 
 
-        try{
-
-            const saved =
-                localStorage.getItem(
-                    "cafe_transactions"
-                );
-
-
-            allTransactions =
-                saved
-                ? JSON.parse(saved)
-                : [];
-
-
-        }catch(e){
-
-            allTransactions = [];
-
-        }
-
-
+        // در خطای شبکه/Apps Script، داده‌های قبلی صفحه را پاک نکن.
+        // LocalStorage منبع گزارش‌ها نیست.
         updateStats();
 
         renderTransactions();
