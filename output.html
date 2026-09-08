@@ -4200,7 +4200,7 @@ function filterData(filter,button){
 
 /* =====================================================
 
-   NOTES STORAGE — PROFESSIONAL CLOUD SYNC
+   NOTES STORAGE — SIMPLE CLOUD SYNC
 
 ===================================================== */
 
@@ -4245,79 +4245,97 @@ function getNoteById(id){
     return findLocalNote(id);
 }
 
-function isPinnedValue(value){
-    return (
-        value === true ||
-        value === "true" ||
-        value === 1 ||
-        value === "1" ||
-        String(value).toUpperCase() === "TRUE"
-    );
-}
+/*
+   تبدیل مقدار پین به boolean.
+   این تابع از قبل در فایل وجود دارد و اینجا دوباره تعریف نمی‌شود.
+*/
 
 /*
-   cloud ID باید همیشه از Sheet2 بیاید.
-   اگر یادداشت از نسخه قدیمی localStorage آمده باشد،
-   با متن/تاریخ/ساعت ID ابری آن را پیدا می‌کنیم.
+   مهم:
+   برای عملیات ویرایش/حذف/پین/انجام‌شدن، قبل از POST یک بار
+   اطلاعات فعلی Sheet2 را می‌خوانیم.
+   اول ID را پیدا می‌کنیم؛ اگر ID قدیمی بود، با متن + تاریخ + ساعت
+   رکورد واقعی Sheet2 را پیدا می‌کنیم.
 */
-async function resolveNoteCloudId(note){
+async function getFreshNoteInfo(note){
     if(!note)return null;
 
-    if(note.cloudId){
-        return String(note.cloudId);
+    const data=await getCloudData();
+
+    if(!Array.isArray(data.notes)){
+        throw new Error("داده یادداشت‌ها از سرور دریافت نشد");
     }
 
-    try{
-        const data=await getCloudData();
+    const notes=data.notes.filter(item=>{
+        const text=String(item.text||item.note||"").trim();
+        return text && text!==TEST_NOTE_TEXT;
+    });
 
-        if(!Array.isArray(data.notes)){
-            return null;
-        }
+    let match=null;
 
+    const possibleIds=[
+        note.cloudId,
+        note.id
+    ]
+    .filter(Boolean)
+    .map(value=>String(value).trim())
+    .filter(Boolean);
+
+    for(const id of possibleIds){
+        match=notes.find(
+            item=>String(item.id||"").trim()===id
+        );
+        if(match)break;
+    }
+
+    /* اگر ID محلی قدیمی/اشتباه بود، رکورد را با مشخصاتش پیدا کن. */
+    if(!match){
         const text=String(note.text||"").trim();
         const date=String(note.date||"").trim();
         const time=String(note.time||"").trim();
 
-        const matches=data.notes.filter(item=>{
+        const matches=notes.filter(item=>{
             const itemText=String(item.text||item.note||"").trim();
-            if(!itemText || itemText!==text)return false;
-
             const itemDate=String(item.date||"").trim();
             const itemTime=String(item.time||"").trim();
 
             return (
+                itemText===text &&
                 (!date || !itemDate || itemDate===date) &&
                 (!time || !itemTime || itemTime===time)
             );
         });
 
-        if(!matches.length){
-            return null;
+        if(matches.length){
+            match=matches[matches.length-1];
         }
-
-        const match=matches[matches.length-1];
-
-        note.cloudId=String(match.id);
-        note.id=String(match.id);
-        note.date=match.date||note.date;
-        note.time=match.time||note.time;
-        note.pinned=isPinnedValue(match.pinned);
-        note.done=String(match.status||"").trim()==="انجام شد";
-
-        saveNotes();
-
-        return note.cloudId;
-
-    }catch(error){
-        console.warn("resolveNoteCloudId failed:",error);
-        return null;
     }
+
+    if(!match)return null;
+
+    const fresh={
+        id:String(match.id),
+        cloudId:String(match.id),
+        text:String(match.text||match.note||"").trim(),
+        date:String(match.date||""),
+        time:String(match.time||""),
+        pinned:isPinnedValue(match.pinned),
+        done:String(match.status||"").trim()==="انجام شد"
+    };
+
+    /* همان ID معتبر را روی نسخه محلی هم نگه می‌داریم. */
+    note.id=fresh.id;
+    note.cloudId=fresh.cloudId;
+    note.date=fresh.date;
+    note.time=fresh.time;
+    note.pinned=fresh.pinned;
+    note.done=fresh.done;
+
+    return fresh;
 }
 
 /*
-   Sheet2 منبع اصلی وضعیت یادداشت‌هاست.
-   خطای refresh نباید باعث شود عملیاتی که در سرور انجام شده
-   روی صفحه به‌عنوان شکست نمایش داده شود.
+   Sheet2 منبع اصلی یادداشت‌هاست.
 */
 async function refreshNotesFromCloud(){
     const data=await getCloudData();
@@ -4347,10 +4365,6 @@ async function refreshNotesFromCloud(){
     return localNotes;
 }
 
-/*
-   refresh بعد از عملیات فقط برای همگام‌سازی است.
-   اگر GET لحظه‌ای خطا داد، خود عملیات POST را شکست‌خورده حساب نمی‌کنیم.
-*/
 async function refreshNotesBestEffort(){
     try{
         await refreshNotesFromCloud();
@@ -4362,9 +4376,7 @@ async function refreshNotesBestEffort(){
 }
 
 async function runNoteOperation(button,operation,successMessage,errorMessage){
-    if(noteOperationBusy){
-        return false;
-    }
+    if(noteOperationBusy)return false;
 
     noteOperationBusy=true;
 
@@ -4378,18 +4390,15 @@ async function runNoteOperation(button,operation,successMessage,errorMessage){
         await operation();
         showToast(successMessage);
         return true;
-
     }catch(error){
         console.error("Note operation error:",error);
-        showToast(errorMessage);
+        showToast(error.message||errorMessage);
         return false;
-
     }finally{
         noteOperationBusy=false;
 
         if(button){
             button.disabled=false;
-
             if(button.dataset.originalText){
                 button.textContent=button.dataset.originalText;
                 delete button.dataset.originalText;
@@ -4425,80 +4434,39 @@ async function addNote(){
         button,
         async()=>{
             const now=new Date();
-
             const date=now.toLocaleDateString("fa-IR");
             const time=now.toLocaleTimeString(
                 "fa-IR",
-                {
-                    hour:"2-digit",
-                    minute:"2-digit"
-                }
+                {hour:"2-digit",minute:"2-digit"}
             );
 
-            let postError=null;
-
-            try{
-                await cloudPost({
-                    action:"addNote",
-                    date:date,
-                    time:time,
-                    note:text,
-                    status:"باز",
-                    pinned:false
-                });
-            }catch(error){
-                postError=error;
-                console.warn("Add note POST error:",error);
-            }
-
-            /*
-               اگر POST خطا داد، اول Sheet2 را بررسی می‌کنیم؛
-               ممکن است خود appendRow انجام شده ولی پاسخ مرورگر مشکل داشته باشد.
-            */
-            let cloudNotes=[];
-
-            try{
-                cloudNotes=await refreshNotesFromCloud();
-            }catch(error){
-                console.warn("Add note verification GET error:",error);
-            }
-
-            let saved=cloudNotes.some(item=>{
-                return (
-                    String(item.text||"").trim()===text &&
-                    String(item.date||"")===String(date||"") &&
-                    String(item.time||"")===String(time||"")
-                );
+            const result=await cloudPost({
+                action:"addNote",
+                date:date,
+                time:time,
+                note:text,
+                status:"باز",
+                pinned:false
             });
 
-            if(!saved && postError){
-                await new Promise(resolve=>setTimeout(resolve,500));
-
-                try{
-                    cloudNotes=await refreshNotesFromCloud();
-
-                    saved=cloudNotes.some(item=>{
-                        return (
-                            String(item.text||"").trim()===text &&
-                            String(item.date||"")===String(date||"") &&
-                            String(item.time||"")===String(time||"")
-                        );
-                    });
-                }catch(error){
-                    console.warn("Add note retry GET error:",error);
-                }
+            /* ID برگشتی Apps Script را اگر موجود بود نگه می‌داریم. */
+            if(result && result.id){
+                localNotes.unshift({
+                    id:String(result.id),
+                    cloudId:String(result.id),
+                    text:text,
+                    date:date,
+                    time:time,
+                    pinned:false,
+                    done:false
+                });
+                saveNotes();
+                renderNotes();
             }
 
-            if(postError && !saved){
-                throw postError;
-            }
-
-            /*
-               اگر POST موفق بود ولی GET لحظه‌ای جواب نداد،
-               ثبت را موفق می‌دانیم و refresh بعدی اطلاعات را خواهد آورد.
-            */
             input.value="";
 
+            /* Sheet2 دوباره خوانده می‌شود تا UI دقیقاً با سرور یکی باشد. */
             await refreshNotesBestEffort();
         },
         "✅ یادداشت با موفقیت در Sheet2 ثبت شد.",
@@ -4510,22 +4478,28 @@ async function addNote(){
    UPDATE NOTE
 ========================= */
 
-async function updateNoteCloud(note){
-    const cloudId=await resolveNoteCloudId(note);
+async function updateNoteCloud(note,changes={}){
+    const fresh=await getFreshNoteInfo(note);
 
-    if(!cloudId){
-        throw new Error("شناسه یادداشت پیدا نشد");
+    if(!fresh){
+        throw new Error("یادداشت موردنظر در Sheet2 پیدا نشد");
     }
 
-    await cloudPost({
+    const payload={
         action:"updateNote",
-        id:String(cloudId),
-        date:note.date||"",
-        time:note.time||"",
-        note:note.text||"",
-        status:note.done ? "انجام شد" : "باز",
-        pinned:!!note.pinned
-    });
+        id:String(fresh.id),
+        date:changes.date!==undefined ? changes.date : fresh.date,
+        time:changes.time!==undefined ? changes.time : fresh.time,
+        note:changes.text!==undefined ? changes.text : fresh.text,
+        status:changes.status!==undefined
+            ? changes.status
+            : (fresh.done ? "انجام شد" : "باز"),
+        pinned:changes.pinned!==undefined
+            ? !!changes.pinned
+            : !!fresh.pinned
+    };
+
+    await cloudPost(payload);
 
     return true;
 }
@@ -4549,9 +4523,7 @@ function openDeleteNoteModal(id){
     }
 
     const modal=document.getElementById("noteConfirmModal");
-    if(modal){
-        modal.classList.add("open");
-    }
+    if(modal)modal.classList.add("open");
 
     const btn=document.getElementById("noteConfirmButton");
 
@@ -4578,92 +4550,24 @@ async function confirmDeleteNote(){
     const ok=await runNoteOperation(
         btn,
         async()=>{
-            const cloudId=await resolveNoteCloudId(note);
-
-            if(!cloudId){
-                throw new Error("شناسه یادداشت پیدا نشد");
-            }
-
-            const oldNotes=[...localNotes];
-
             /*
-               حذف فوری از UI برای حس سریع.
-               اگر سرور واقعاً حذف نکند، از Sheet2 دوباره بازیابی می‌شود.
+               getFreshNoteInfo باعث می‌شود اگر ID داخل localStorage
+               قدیمی باشد، ID واقعی ستون E در Sheet2 پیدا شود.
             */
-            localNotes=localNotes.filter(
-                item=>String(item.id)!==String(cloudId)
-            );
-            saveNotes();
-            renderNotes();
+            const fresh=await getFreshNoteInfo(note);
 
-            let postError=null;
-
-            try{
-                await cloudPost({
-                    action:"deleteNote",
-                    id:String(cloudId)
-                });
-            }catch(error){
-                postError=error;
-                console.warn("Delete note POST error:",error);
+            if(!fresh){
+                throw new Error("یادداشت موردنظر در Sheet2 پیدا نشد");
             }
 
-            /*
-               بررسی واقعی Sheet2.
-            */
-            let stillExists=null;
-
-            try{
-                const cloudNotes=await getCloudData();
-
-                stillExists=
-                    Array.isArray(cloudNotes.notes) &&
-                    cloudNotes.notes.some(
-                        item=>String(item.id)===String(cloudId)
-                    );
-            }catch(error){
-                console.warn("Delete verification GET error:",error);
-            }
-
-            /*
-               اگر پاسخ POST مشکل داشت، یک بار دیگر با تأخیر کوتاه
-               وضعیت واقعی Sheet2 را بررسی می‌کنیم.
-            */
-            if(stillExists===true || (postError && stillExists===null)){
-                await new Promise(resolve=>setTimeout(resolve,500));
-
-                try{
-                    const retryData=await getCloudData();
-
-                    stillExists=
-                        Array.isArray(retryData.notes) &&
-                        retryData.notes.some(
-                            item=>String(item.id)===String(cloudId)
-                        );
-                }catch(error){
-                    console.warn("Delete retry GET error:",error);
-                }
-            }
-
-            if(stillExists===true){
-                localNotes=oldNotes;
-                saveNotes();
-                renderNotes();
-                throw new Error("حذف یادداشت توسط سرور تأیید نشد");
-            }
-
-            /*
-               اگر POST خطا داده ولی GET نشان داد رکورد حذف شده،
-               عملیات را موفق در نظر می‌گیریم.
-            */
-            if(postError && stillExists!==false){
-                localNotes=oldNotes;
-                saveNotes();
-                renderNotes();
-                throw postError;
-            }
+            await cloudPost({
+                action:"deleteNote",
+                id:String(fresh.id)
+            });
 
             closeNoteModal();
+
+            /* بعد از پاسخ موفق POST فقط یک sync عادی انجام می‌دهیم. */
             await refreshNotesBestEffort();
         },
         "🗑 یادداشت از Sheet2 حذف شد.",
@@ -4672,9 +4576,7 @@ async function confirmDeleteNote(){
 
     if(!ok){
         const modal=document.getElementById("noteConfirmModal");
-        if(modal){
-            modal.classList.add("open");
-        }
+        if(modal)modal.classList.add("open");
     }
 }
 
@@ -4730,98 +4632,21 @@ async function submitNoteEdit(){
     await runNoteOperation(
         saveButton,
         async()=>{
-            const cloudId=await resolveNoteCloudId(note);
+            const fresh=await getFreshNoteInfo(note);
 
-            if(!cloudId){
-                throw new Error("شناسه یادداشت پیدا نشد");
+            if(!fresh){
+                throw new Error("یادداشت موردنظر در Sheet2 پیدا نشد");
             }
 
-            const oldText=note.text;
-
-            /*
-               تغییر فوری UI.
-            */
-            note.text=cleanText;
-            saveNotes();
-            renderNotes();
-
-            let postError=null;
-
-            try{
-                await cloudPost({
-                    action:"updateNote",
-                    id:String(cloudId),
-                    date:note.date||"",
-                    time:note.time||"",
-                    note:cleanText,
-                    status:note.done ? "انجام شد" : "باز",
-                    pinned:!!note.pinned
-                });
-            }catch(error){
-                postError=error;
-                console.warn("Edit note POST error:",error);
-            }
-
-            /*
-               تأیید از Sheet2.
-            */
-            let verified=null;
-
-            try{
-                const data=await getCloudData();
-
-                const savedNote=
-                    Array.isArray(data.notes)
-                    ? data.notes.find(
-                        item=>String(item.id)===String(cloudId)
-                    )
-                    : null;
-
-                verified=
-                    !!savedNote &&
-                    String(savedNote.text||savedNote.note||"").trim()===cleanText;
-
-            }catch(error){
-                console.warn("Edit verification GET error:",error);
-            }
-
-            if(postError && verified!==true){
-                note.text=oldText;
-                saveNotes();
-                renderNotes();
-                throw postError;
-            }
-
-            if(verified===false){
-                /*
-                   یک تلاش مجدد برای تأیید.
-                */
-                await new Promise(resolve=>setTimeout(resolve,500));
-
-                try{
-                    const retryData=await getCloudData();
-
-                    const retryNote=
-                        Array.isArray(retryData.notes)
-                        ? retryData.notes.find(
-                            item=>String(item.id)===String(cloudId)
-                        )
-                        : null;
-
-                    verified=
-                        !!retryNote &&
-                        String(retryNote.text||retryNote.note||"").trim()===cleanText;
-                }catch(error){
-                    console.warn("Edit retry GET error:",error);
-                }
-            }
-
-            if(verified===false){
-                note.text=oldText;
-                saveNotes();
-                renderNotes();
-                throw new Error("ویرایش توسط سرور تأیید نشد");
-            }
+            await cloudPost({
+                action:"updateNote",
+                id:String(fresh.id),
+                date:fresh.date||"",
+                time:fresh.time||"",
+                note:cleanText,
+                status:fresh.done ? "انجام شد" : "باز",
+                pinned:!!fresh.pinned
+            });
 
             closeNoteModal();
             await refreshNotesBestEffort();
@@ -4833,104 +4658,33 @@ async function submitNoteEdit(){
 
 /* =========================
    PIN NOTE
-   از updateNote استفاده می‌کنیم تا مقدار صریحاً
-   در ستون F ذخیره شود و وابسته به toggle نباشد.
+   مقدار صریح pinned در updateNote ذخیره می‌شود.
 ========================= */
 
 async function togglePin(id){
     const note=getNoteById(id);
     if(!note)return;
 
-    const cloudId=await resolveNoteCloudId(note);
-
-    if(!cloudId){
-        showToast("⚠️ شناسه یادداشت پیدا نشد.");
-        return;
-    }
-
-    const oldPinned=isPinnedValue(note.pinned);
-    const newPinned=!oldPinned;
+    const newPinned=!isPinnedValue(note.pinned);
 
     await runNoteOperation(
         null,
         async()=>{
-            const oldValue=note.pinned;
+            const fresh=await getFreshNoteInfo(note);
 
-            note.pinned=newPinned;
-            saveNotes();
-            renderNotes();
-
-            let postError=null;
-
-            try{
-                await cloudPost({
-                    action:"updateNote",
-                    id:String(cloudId),
-                    date:note.date||"",
-                    time:note.time||"",
-                    note:note.text||"",
-                    status:note.done ? "انجام شد" : "باز",
-                    pinned:newPinned
-                });
-            }catch(error){
-                postError=error;
-                console.warn("Pin POST error:",error);
+            if(!fresh){
+                throw new Error("یادداشت موردنظر در Sheet2 پیدا نشد");
             }
 
-            let verified=null;
-
-            try{
-                const data=await getCloudData();
-
-                const cloudNote=
-                    Array.isArray(data.notes)
-                    ? data.notes.find(
-                        item=>String(item.id)===String(cloudId)
-                    )
-                    : null;
-
-                verified=
-                    !!cloudNote &&
-                    isPinnedValue(cloudNote.pinned)===newPinned;
-
-            }catch(error){
-                console.warn("Pin verification GET error:",error);
-            }
-
-            if(postError && verified!==true){
-                note.pinned=oldValue;
-                saveNotes();
-                renderNotes();
-                throw postError;
-            }
-
-            if(verified===false){
-                await new Promise(resolve=>setTimeout(resolve,500));
-
-                try{
-                    const retryData=await getCloudData();
-
-                    const retryNote=
-                        Array.isArray(retryData.notes)
-                        ? retryData.notes.find(
-                            item=>String(item.id)===String(cloudId)
-                        )
-                        : null;
-
-                    verified=
-                        !!retryNote &&
-                        isPinnedValue(retryNote.pinned)===newPinned;
-                }catch(error){
-                    console.warn("Pin retry GET error:",error);
-                }
-            }
-
-            if(verified===false){
-                note.pinned=oldValue;
-                saveNotes();
-                renderNotes();
-                throw new Error("تغییر پین توسط سرور تأیید نشد");
-            }
+            await cloudPost({
+                action:"updateNote",
+                id:String(fresh.id),
+                date:fresh.date||"",
+                time:fresh.time||"",
+                note:fresh.text||"",
+                status:fresh.done ? "انجام شد" : "باز",
+                pinned:newPinned
+            });
 
             await refreshNotesBestEffort();
         },
@@ -4943,106 +4697,33 @@ async function togglePin(id){
 
 /* =========================
    DONE NOTE
-   از updateNote استفاده می‌کنیم تا status صریحاً
-   در ستون D ذخیره شود.
+   مقدار صریح status در updateNote ذخیره می‌شود.
 ========================= */
 
 async function toggleDone(id){
     const note=getNoteById(id);
     if(!note)return;
 
-    const cloudId=await resolveNoteCloudId(note);
-
-    if(!cloudId){
-        showToast("⚠️ شناسه یادداشت پیدا نشد.");
-        return;
-    }
-
-    const oldDone=Boolean(note.done);
-    const newDone=!oldDone;
+    const newDone=!Boolean(note.done);
 
     await runNoteOperation(
         null,
         async()=>{
-            note.done=newDone;
-            saveNotes();
-            renderNotes();
+            const fresh=await getFreshNoteInfo(note);
 
-            let postError=null;
-
-            try{
-                await cloudPost({
-                    action:"updateNote",
-                    id:String(cloudId),
-                    date:note.date||"",
-                    time:note.time||"",
-                    note:note.text||"",
-                    status:newDone ? "انجام شد" : "باز",
-                    pinned:!!note.pinned
-                });
-            }catch(error){
-                postError=error;
-                console.warn("Done POST error:",error);
+            if(!fresh){
+                throw new Error("یادداشت موردنظر در Sheet2 پیدا نشد");
             }
 
-            let verified=null;
-
-            try{
-                const data=await getCloudData();
-
-                const cloudNote=
-                    Array.isArray(data.notes)
-                    ? data.notes.find(
-                        item=>String(item.id)===String(cloudId)
-                    )
-                    : null;
-
-                verified=
-                    !!cloudNote &&
-                    (
-                        String(cloudNote.status||"").trim()==="انجام شد"
-                    )===newDone;
-
-            }catch(error){
-                console.warn("Done verification GET error:",error);
-            }
-
-            if(postError && verified!==true){
-                note.done=oldDone;
-                saveNotes();
-                renderNotes();
-                throw postError;
-            }
-
-            if(verified===false){
-                await new Promise(resolve=>setTimeout(resolve,500));
-
-                try{
-                    const retryData=await getCloudData();
-
-                    const retryNote=
-                        Array.isArray(retryData.notes)
-                        ? retryData.notes.find(
-                            item=>String(item.id)===String(cloudId)
-                        )
-                        : null;
-
-                    verified=
-                        !!retryNote &&
-                        (
-                            String(retryNote.status||"").trim()==="انجام شد"
-                        )===newDone;
-                }catch(error){
-                    console.warn("Done retry GET error:",error);
-                }
-            }
-
-            if(verified===false){
-                note.done=oldDone;
-                saveNotes();
-                renderNotes();
-                throw new Error("تغییر وضعیت توسط سرور تأیید نشد");
-            }
+            await cloudPost({
+                action:"updateNote",
+                id:String(fresh.id),
+                date:fresh.date||"",
+                time:fresh.time||"",
+                note:fresh.text||"",
+                status:newDone ? "انجام شد" : "باز",
+                pinned:!!fresh.pinned
+            });
 
             await refreshNotesBestEffort();
         },
