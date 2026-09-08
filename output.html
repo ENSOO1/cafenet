@@ -3146,6 +3146,33 @@ href="./index.html">
 
 </div>
 
+<!-- NOTE CONFIRM MODAL -->
+
+<div class="noteModal" id="noteConfirmModal" onclick="closeNoteModalFromBackdrop(event)">
+    <div class="noteModalCard" role="dialog" aria-modal="true" aria-labelledby="noteConfirmTitle">
+        <div class="noteModalTitle" id="noteConfirmTitle">🗑 حذف یادداشت</div>
+        <div class="noteModalText" id="noteConfirmText">آیا از حذف این یادداشت مطمئن هستید؟ این عملیات رکورد مربوط را از شیت یادداشت‌ها نیز حذف می‌کند.</div>
+        <div class="noteModalActions">
+            <button type="button" onclick="closeNoteModal()">انصراف</button>
+            <button type="button" class="danger" id="noteConfirmButton">🗑 بله، حذف شود</button>
+        </div>
+    </div>
+</div>
+
+<!-- NOTE EDIT MODAL -->
+
+<div class="noteModal" id="noteEditModal" onclick="closeNoteModalFromBackdrop(event)">
+    <div class="noteModalCard" role="dialog" aria-modal="true" aria-labelledby="noteEditTitle">
+        <div class="noteModalTitle" id="noteEditTitle">✏️ ویرایش یادداشت</div>
+        <div class="noteModalText">متن یادداشت را ویرایش کنید؛ تغییرات مستقیماً در شیت یادداشت‌ها ذخیره می‌شود.</div>
+        <textarea class="noteModalTextarea" id="noteEditInput" placeholder="متن یادداشت..."></textarea>
+        <div class="noteModalActions">
+            <button type="button" onclick="closeNoteModal()">انصراف</button>
+            <button type="button" class="primary" onclick="submitNoteEdit()">💾 ذخیره تغییرات</button>
+        </div>
+    </div>
+</div>
+
 <div
 
 class="toast"
@@ -3163,8 +3190,7 @@ id="toast">
 ===================================================== */
 
 const API_URL =
-
-"[https://script.google.com/macros/s/AKfycby4CtQL9ZEHkcjJFqVos0hQ1Z1C2xpI6ZO_dLGxiucGTCgLGzSoM3VgEuoRsOTXviQ4XA/exec](https://script.google.com/macros/s/AKfycby4CtQL9ZEHkcjJFqVos0hQ1Z1C2xpI6ZO_dLGxiucGTCgLGzSoM3VgEuoRsOTXviQ4XA/exec)";
+"https://script.google.com/macros/s/AKfycby4CtQL9ZEHkcjJFqVos0hQ1Z1C2xpI6ZO_dLGxiucGTCgLGzSoM3VgEuoRsOTXviQ4XA/exec";
 
 /* =====================================================
 
@@ -5050,126 +5076,314 @@ function closeNoteModalFromBackdrop(e){
     if(e.target.classList.contains("noteModal"))closeNoteModal();
 }
 
+async function resolveNoteCloudId(note){
+    if(!note)return null;
+    if(note.cloudId)return String(note.cloudId);
+
+    try{
+        const data=await getCloudData();
+        if(!Array.isArray(data.notes))return null;
+
+        const text=String(note.text||"").trim();
+        const date=String(note.date||"").trim();
+        const time=String(note.time||"").trim();
+
+        const matches=data.notes.filter(item=>{
+            const itemText=String(item.note||item.text||"").trim();
+            if(itemText!==text)return false;
+
+            const itemDate=String(item.date||"").trim();
+            const itemTime=String(item.time||"").trim();
+
+            return (!date || !itemDate || itemDate===date) &&
+                   (!time || !itemTime || itemTime===time);
+        });
+
+        if(!matches.length)return null;
+
+        const match=matches[matches.length-1];
+        note.cloudId=String(match.id);
+        note.date=match.date||note.date;
+        note.time=match.time||note.time;
+        note.pinned=isPinnedValue(match.pinned);
+        note.done=String(match.status||"").trim()==="انجام شد";
+        saveNotes();
+
+        return note.cloudId;
+    }catch(error){
+        console.warn("resolveNoteCloudId failed:",error);
+        return null;
+    }
+}
+
+async function refreshSingleNoteFromCloud(cloudId){
+    const data=await getCloudData();
+    if(!Array.isArray(data.notes))return null;
+    return data.notes.find(item=>String(item.id)===String(cloudId))||null;
+}
+
+function findLocalNote(id){
+    return localNotes.find(item=>
+        String(item.id)===String(id) ||
+        String(item.cloudId||"")===String(id)
+    )||null;
+}
+
 function openDeleteNoteModal(id){
-    const note=localNotes.find(item=>String(item.id)===String(id));
+    const note=findLocalNote(id);
     if(!note)return;
-    window.currentDeleteNoteId=id;
+
+    window.currentDeleteNoteId=note.id;
+
+    const preview=String(note.text||"").trim();
     const text=document.getElementById("noteConfirmText");
-    if(text)text.textContent=`آیا از حذف یادداشت «${String(note.text||"").slice(0,90)}${String(note.text||"").length>90?"…":""}» مطمئن هستید؟ این عملیات رکورد مربوط را از شیت یادداشت‌ها نیز حذف می‌کند.`;
+
+    if(text){
+        text.textContent=
+            `آیا از حذف یادداشت «${preview.slice(0,90)}${preview.length>90?"…":""}» مطمئن هستید؟ این عملیات رکورد مربوط را از شیت یادداشت‌ها نیز حذف می‌کند.`;
+    }
+
     document.getElementById("noteConfirmModal")?.classList.add("open");
+
     const btn=document.getElementById("noteConfirmButton");
-    if(btn)btn.onclick=()=>confirmDeleteNote();
+    if(btn)btn.onclick=confirmDeleteNote;
 }
 
 async function confirmDeleteNote(){
-    const id=window.currentDeleteNoteId;
-    const note=localNotes.find(item=>String(item.id)===String(id));
-    if(!note){closeNoteModal();return;}
-    closeNoteModal();
-    let cloudId=note.cloudId;
-    if(!cloudId)cloudId=await ensureNoteCloudId(note);
+    const localId=window.currentDeleteNoteId;
+    const note=findLocalNote(localId);
+
+    if(!note){
+        closeNoteModal();
+        return;
+    }
+
+    const cloudId=await resolveNoteCloudId(note);
+
     if(!cloudId){
+        closeNoteModal();
         showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");
         return;
     }
+
     const backup={...note};
+    const modal=document.getElementById("noteConfirmModal");
+    modal?.classList.remove("open");
+
+    const btn=document.getElementById("noteConfirmButton");
+    if(btn)btn.disabled=true;
+
     try{
-        await cloudPost({action:"deleteNote",id:String(cloudId)});
-        const data=await getCloudData();
-        const stillExists=Array.isArray(data.notes)&&data.notes.some(item=>String(item.id)===String(cloudId));
-        if(stillExists)throw new Error("Delete verification failed");
-        localNotes=localNotes.filter(item=>String(item.id)!==String(id));
+        const result=await cloudPost({
+            action:"deleteNote",
+            id:String(cloudId)
+        });
+
+        if(result && result.status && result.status!=="success" && result.status!=="ok"){
+            throw new Error(result.message||"Delete failed");
+        }
+
+        const verify=await getCloudData();
+        const stillExists=Array.isArray(verify.notes) &&
+            verify.notes.some(item=>String(item.id)===String(cloudId));
+
+        if(stillExists){
+            throw new Error("Delete verification failed");
+        }
+
+        localNotes=localNotes.filter(item=>
+            String(item.id)!==String(note.id) &&
+            String(item.cloudId||"")!==String(cloudId)
+        );
+
         saveNotes();
-        await loadCloudData(false);
-        showToast("🗑 یادداشت کاملاً حذف شد.");
+        renderNotes();
+        showToast("🗑 یادداشت کاملاً از شیت ۲ و پنل حذف شد.");
     }catch(error){
-        console.error("Delete error:",error);
-        if(!localNotes.some(item=>String(item.id)===String(id))){localNotes.unshift(backup);saveNotes();renderNotes();}
-        showToast("⚠️ حذف از شیت انجام نشد.");
+        console.error("Delete note error:",error);
+
+        if(!localNotes.some(item=>String(item.id)===String(note.id))){
+            localNotes.unshift(backup);
+            saveNotes();
+            renderNotes();
+        }
+
+        showToast("⚠️ حذف از شیت انجام نشد؛ رکورد محلی حذف نشد.");
+    }finally{
+        if(btn)btn.disabled=false;
+        window.currentDeleteNoteId=null;
     }
 }
 
 function editNote(id){
-    const note=localNotes.find(item=>String(item.id)===String(id));
+    const note=findLocalNote(id);
     if(!note)return;
-    window.currentEditingNoteId=id;
+
+    window.currentEditingNoteId=note.id;
+
     const input=document.getElementById("noteEditInput");
     if(!input)return;
+
     input.value=note.text||"";
     document.getElementById("noteEditModal")?.classList.add("open");
-    setTimeout(()=>{input.focus();input.setSelectionRange(input.value.length,input.value.length)},50);
+
+    setTimeout(()=>{
+        input.focus();
+        input.setSelectionRange(input.value.length,input.value.length);
+    },50);
 }
 
 async function submitNoteEdit(){
-    const id=window.currentEditingNoteId;
-    const note=localNotes.find(item=>String(item.id)===String(id));
+    const localId=window.currentEditingNoteId;
+    const note=findLocalNote(localId);
     const input=document.getElementById("noteEditInput");
+
     if(!note||!input)return;
+
     const cleanText=input.value.trim();
-    if(!cleanText){showToast("⚠️ متن یادداشت نمی‌تواند خالی باشد.");return;}
-    if(cleanText===TEST_NOTE_TEXT){showToast("⚠️ این متن قابل استفاده نیست.");return;}
+
+    if(!cleanText){
+        showToast("⚠️ متن یادداشت نمی‌تواند خالی باشد.");
+        return;
+    }
+
+    if(cleanText===TEST_NOTE_TEXT){
+        showToast("⚠️ این متن قابل استفاده نیست.");
+        return;
+    }
+
     const oldText=note.text;
-    let cloudId=note.cloudId;
-    if(!cloudId)cloudId=await ensureNoteCloudId(note);
-    if(!cloudId){showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");return;}
-    note.text=cleanText;
-    saveNotes();
-    renderNotes();
+    const cloudId=await resolveNoteCloudId(note);
+
+    if(!cloudId){
+        showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");
+        return;
+    }
+
+    const saveButton=document.querySelector("#noteEditModal .primary");
+    if(saveButton)saveButton.disabled=true;
+
     try{
-        await cloudPost({action:"updateNote",id:String(cloudId),date:note.date||"",time:note.time||"",note:cleanText,status:note.done?"انجام شد":"باز",pinned:!!note.pinned});
-        const data=await getCloudData();
-        const cloudNote=Array.isArray(data.notes)?data.notes.find(item=>String(item.id)===String(cloudId)):null;
+        const result=await cloudPost({
+            action:"updateNote",
+            id:String(cloudId),
+            date:note.date||"",
+            time:note.time||"",
+            note:cleanText,
+            status:note.done?"انجام شد":"باز",
+            pinned:!!note.pinned
+        });
+
+        if(result && result.status && result.status!=="success" && result.status!=="ok"){
+            throw new Error(result.message||"Update failed");
+        }
+
+        const cloudNote=await refreshSingleNoteFromCloud(cloudId);
         const cloudText=String(cloudNote?.note||cloudNote?.text||"").trim();
-        if(!cloudNote||cloudText!==cleanText)throw new Error("Edit verification failed");
+
+        if(!cloudNote || cloudText!==cleanText){
+            throw new Error("Edit verification failed");
+        }
+
+        note.text=cleanText;
+        note.date=cloudNote.date||note.date;
+        note.time=cloudNote.time||note.time;
+        note.pinned=isPinnedValue(cloudNote.pinned);
+        note.done=String(cloudNote.status||"").trim()==="انجام شد";
+
+        saveNotes();
+        renderNotes();
         closeNoteModal();
-        await loadCloudData(false);
-        showToast("✏️ یادداشت ویرایش و در شیت ذخیره شد.");
+
+        showToast("✏️ یادداشت ویرایش شد و در شیت ۲ ذخیره شد.");
     }catch(error){
-        console.error("Edit error:",error);
+        console.error("Edit note error:",error);
         note.text=oldText;
         saveNotes();
         renderNotes();
         showToast("⚠️ ویرایش در شیت ذخیره نشد.");
+    }finally{
+        if(saveButton)saveButton.disabled=false;
     }
 }
 
 async function togglePin(id){
-    const note=localNotes.find(item=>String(item.id)===String(id));
+    const note=findLocalNote(id);
     if(!note)return;
+
     const oldPinned=!!note.pinned;
     const newPinned=!oldPinned;
-    const cloudId=note.cloudId||await ensureNoteCloudId(note);
-    if(!cloudId){showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");return;}
-    note.pinned=newPinned;saveNotes();renderNotes();
+    const cloudId=await resolveNoteCloudId(note);
+
+    if(!cloudId){
+        showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");
+        return;
+    }
+
     try{
-        await cloudPost({action:"toggleNotePin",id:String(cloudId),pinned:newPinned});
-        const data=await getCloudData();
-        const cloudNote=Array.isArray(data.notes)?data.notes.find(item=>String(item.id)===String(cloudId)):null;
-        if(!cloudNote||isPinnedValue(cloudNote.pinned)!==newPinned)throw new Error("Pin verification failed");
-        await loadCloudData(false);
-        showToast(newPinned?"📌 پین شد.":"📌 پین برداشته شد.");
+        await cloudPost({
+            action:"toggleNotePin",
+            id:String(cloudId),
+            pinned:newPinned
+        });
+
+        const cloudNote=await refreshSingleNoteFromCloud(cloudId);
+
+        if(!cloudNote || isPinnedValue(cloudNote.pinned)!==newPinned){
+            throw new Error("Pin verification failed");
+        }
+
+        note.pinned=newPinned;
+        saveNotes();
+        renderNotes();
+
+        showToast(newPinned?"📌 پین شد و در شیت ذخیره شد.":"📌 پین برداشته شد.");
     }catch(error){
-        console.error("Pin error:",error);note.pinned=oldPinned;saveNotes();renderNotes();showToast("⚠️ تغییر پین در شیت ذخیره نشد.");
+        console.error("Pin note error:",error);
+        note.pinned=oldPinned;
+        saveNotes();
+        renderNotes();
+        showToast("⚠️ تغییر پین در شیت ذخیره نشد.");
     }
 }
 
 async function toggleDone(id){
-    const note=localNotes.find(item=>String(item.id)===String(id));
+    const note=findLocalNote(id);
     if(!note)return;
+
     const oldDone=!!note.done;
     const newDone=!oldDone;
-    const cloudId=note.cloudId||await ensureNoteCloudId(note);
-    if(!cloudId){showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");return;}
-    note.done=newDone;saveNotes();renderNotes();
+    const cloudId=await resolveNoteCloudId(note);
+
+    if(!cloudId){
+        showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");
+        return;
+    }
+
     try{
-        await cloudPost({action:"toggleNoteStatus",id:String(cloudId),status:newDone?"انجام شد":"باز"});
-        const data=await getCloudData();
-        const cloudNote=Array.isArray(data.notes)?data.notes.find(item=>String(item.id)===String(cloudId)):null;
-        if(!cloudNote||(String(cloudNote.status||"").trim()==="انجام شد")!==newDone)throw new Error("Status verification failed");
-        await loadCloudData(false);
-        showToast(newDone?"✅ تسک انجام شد.":"↩ تسک دوباره باز شد.");
+        await cloudPost({
+            action:"toggleNoteStatus",
+            id:String(cloudId),
+            status:newDone?"انجام شد":"باز"
+        });
+
+        const cloudNote=await refreshSingleNoteFromCloud(cloudId);
+
+        if(!cloudNote || (String(cloudNote.status||"").trim()==="انجام شد")!==newDone){
+            throw new Error("Done verification failed");
+        }
+
+        note.done=newDone;
+        saveNotes();
+        renderNotes();
+
+        showToast(newDone?"✅ تسک انجام شد و در شیت ذخیره شد.":"↩ تسک دوباره باز شد.");
     }catch(error){
-        console.error("Done error:",error);note.done=oldDone;saveNotes();renderNotes();showToast("⚠️ وضعیت تسک در شیت ذخیره نشد.");
+        console.error("Done note error:",error);
+        note.done=oldDone;
+        saveNotes();
+        renderNotes();
+        showToast("⚠️ وضعیت تسک در شیت ذخیره نشد.");
     }
 }
 
@@ -5922,44 +6136,57 @@ function renderMiniChat(){
 }
 
 async function loadMessages(){
-    try{
-        /* ابتدا مستقیماً از endpoint مخصوص Messages می‌خوانیم تا
-           وابسته به ساختار تراکنش‌ها/یادداشت‌ها نباشد. */
-        let response=await fetch(API_URL+"?action=getMessages&_="+Date.now(),{method:"GET",cache:"no-store"});
-        if(!response.ok)throw new Error("HTTP "+response.status);
-        let data=await response.json();
-        if(data.status!=="success" && data.status!=="ok")throw new Error(data.message||"Messages endpoint failed");
-        allMessages=Array.isArray(data.messages)?data.messages:[];
+    let loaded=false;
 
-        /* اگر endpoint خالی بود، getData را هم به عنوان fallback بررسی می‌کنیم. */
-        if(!allMessages.length){
-            const fallback=await getCloudData();
-            if(Array.isArray(fallback.messages))allMessages=fallback.messages;
+    try{
+        const response=await fetch(
+            API_URL+"?action=getMessages&_="+Date.now(),
+            {
+                method:"GET",
+                cache:"no-store"
+            }
+        );
+
+        if(!response.ok)throw new Error("HTTP "+response.status);
+
+        const data=await response.json();
+
+        if(data.status!=="success" && data.status!=="ok"){
+            throw new Error(data.message||"Messages endpoint failed");
         }
 
-        renderMiniChat();
-        renderChatMessages();
-        renderTransactions();
-        checkPaymentRequests();
-        updateChatBadge();
-        return allMessages;
-    }catch(e){
-        console.warn("Messages load failed",e);
+        allMessages=Array.isArray(data.messages)?data.messages:[];
+        loaded=true;
+    }catch(error){
+        console.warn("Direct Messages read failed:",error);
+    }
+
+    if(!loaded || !allMessages.length){
         try{
             const fallback=await getCloudData();
-            allMessages=Array.isArray(fallback.messages)?fallback.messages:[];
-            renderMiniChat();renderChatMessages();renderTransactions();checkPaymentRequests();updateChatBadge();
-            return allMessages;
-        }catch(e2){
-            console.warn("Messages fallback failed",e2);
-            return [];
+
+            if(Array.isArray(fallback.messages)){
+                allMessages=fallback.messages;
+                loaded=true;
+            }
+        }catch(error){
+            console.warn("Messages getData fallback failed:",error);
         }
     }
-}
 
+    if(!loaded)allMessages=[];
+
+    renderMiniChat();
+    renderChatMessages();
+    renderTransactions();
+    checkPaymentRequests();
+    updateChatBadge();
+
+    return allMessages;
+}
 function updateChatBadge(){
 
-    const unread=allMessages.filter(m=>m.sender!=="خانم دهقان" && !m.read).length;
+    const unread=allMessages.filter(m=>String(m.sender||"").trim()!=="خانم دهقان" && !m.read).length;
 
     const btn=document.getElementById("floatingChat");
 
@@ -5997,7 +6224,7 @@ async function openChat(){
 
     await loadMessages();
 
-    const incoming=allMessages.filter(m=>m.sender!=="خانم دهقان"&&!m.read);
+    const incoming=allMessages.filter(m=>String(m.sender||"").trim()!=="خانم دهقان"&&!m.read);
 
     for(const m of incoming){ try{await cloudPost({action:"markMessageRead",id:m.id,status:"خوانده شد"});m.read=true;}catch(e){} }
 
@@ -6071,7 +6298,7 @@ function playPaymentSound(){
 
 function checkPaymentRequests(){
 
-    const pending=allMessages.find(m=>m.sender!=="خانم دهقان" && !isPaymentPaid(m) && String(m.text||"").includes("[TX:"));
+    const pending=allMessages.find(m=>String(m.sender||"").trim()!=="خانم دهقان" && !isPaymentPaid(m) && String(m.text||"").includes("[TX:"));
 
     if(!pending)return;
 
