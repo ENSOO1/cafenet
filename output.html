@@ -3398,56 +3398,56 @@ async function cloudPost(payload){
 
 ===================================================== */
 
-async function getCloudData(){
+function getCloudData(){
 
-    const response =
+    return new Promise((resolve,reject)=>{
 
-        await fetch(
+        const callbackName =
+            "janaGetData_" + Date.now() + "_" + Math.random().toString(36).slice(2);
 
-            API_URL +
+        const script = document.createElement("script");
 
-            "?action=getData&_=" +
+        let finished = false;
 
-            Date.now(),
+        const cleanup = ()=>{
+            finished = true;
+            clearTimeout(timer);
+            try{ delete window[callbackName]; }catch(e){ window[callbackName]=undefined; }
+            script.remove();
+        };
 
-            {
+        const timer = setTimeout(()=>{
+            if(finished)return;
+            cleanup();
+            reject(new Error("دریافت اطلاعات از Google Sheets زمان‌بر شد."));
+        },20000);
 
-                method:"GET",
+        window[callbackName] = (data)=>{
+            if(finished)return;
+            cleanup();
 
-                cache:"no-store"
-
+            if(!data || data.status !== "success"){
+                reject(new Error(data?.message || "خطا در دریافت اطلاعات"));
+                return;
             }
 
-        );
+            resolve(data);
+        };
 
-    if(!response.ok){
+        script.onerror = ()=>{
+            if(finished)return;
+            cleanup();
+            reject(new Error("ارتباط با Google Sheets برقرار نشد."));
+        };
 
-        throw new Error(
+        script.src =
+            API_URL +
+            "?action=getData&callback=" +
+            encodeURIComponent(callbackName) +
+            "&_=" + Date.now();
 
-            "HTTP " + response.status
-
-        );
-
-    }
-
-    const data =
-
-        await response.json();
-
-    if(data.status !== "success"){
-
-        throw new Error(
-
-            data.message ||
-
-            "خطا در دریافت اطلاعات"
-
-        );
-
-    }
-
-    return data;
-
+        document.head.appendChild(script);
+    });
 }
 
 /* =====================================================
