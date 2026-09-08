@@ -2684,7 +2684,7 @@ tbody tr:hover{
 
     </button>
 
-    <button class="globalMoneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن همه مبالغ">◉ نمایش مبالغ</button>
+    <button class="globalMoneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن همه مبالغ">👁️ نمایش مبالغ</button>
 
     <a href="./index.html" class="back">
 
@@ -3914,6 +3914,25 @@ function saveLocalTransactions(){
 
 ===================================================== */
 
+function isSameDateAsToday(value){
+    const raw=String(value??"").trim();
+    if(!raw)return false;
+    const norm=v=>String(v).replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+    const v=norm(raw).replace(/[.\-]/g,"/").replace(/\s/g,"");
+    const now=new Date();
+    const iso=`${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,"0")}/${String(now.getDate()).padStart(2,"0")}`;
+    if(v===iso)return true;
+    const fa=norm(new Intl.DateTimeFormat("fa-IR",{year:"numeric",month:"2-digit",day:"2-digit"}).format(now)).replace(/[.\-]/g,"/").replace(/\s/g,"");
+    return v===fa;
+}
+function methodMatchesFilter(method,filter){
+    if(filter==="all")return true;
+    if(isPosMethod(filter))return isPosMethod(method);
+    if(isCashMethod(filter))return isCashMethod(method);
+    if(isTransferMethod(filter))return isTransferMethod(method);
+    return normalizeMethod(method)===normalizeMethod(filter);
+}
+
 function updateStats(){
 
     const transactions =
@@ -3921,7 +3940,7 @@ function updateStats(){
         ? allTransactions
         : allTransactions.filter(
             item =>
-                normalizeMethod(item.method) === normalizeMethod(currentFilter)
+                methodMatchesFilter(item.method,currentFilter)
         );
 
     let todayTotal = 0;
@@ -3948,7 +3967,7 @@ function updateStats(){
         const itemDate =
             normalizeDateForCompare(item.date);
 
-        if(itemDate === todayKey){
+        if(isSameDateAsToday(item.date)){
             todayTotal += amount;
         }
 
@@ -4068,7 +4087,7 @@ function getFilteredTransactions(){
 
             item =>
 
-                normalizeMethod(item.method) === normalizeMethod(currentFilter)
+                methodMatchesFilter(item.method,currentFilter)
 
         );
 
@@ -4974,6 +4993,8 @@ async function togglePin(id){
 
     }
 
+    const cloudId = await ensureNoteCloudId(note);
+
     const oldPinned =
 
         !!note.pinned;
@@ -5002,7 +5023,7 @@ async function togglePin(id){
 
     */
 
-    if(!note.cloudId){
+    if(!cloudId){
 
         showToast(
 
@@ -5034,7 +5055,7 @@ async function togglePin(id){
 
             id:
 
-                note.cloudId,
+                cloudId,
 
             pinned:
 
@@ -5062,7 +5083,7 @@ async function togglePin(id){
 
                     String(item.id) ===
 
-                    String(note.cloudId)
+                    String(cloudId)
 
             )
 
@@ -5184,6 +5205,8 @@ async function toggleDone(id){
 
     }
 
+    const cloudId = await ensureNoteCloudId(note);
+
     const oldDone =
 
         !!note.done;
@@ -5206,7 +5229,7 @@ async function toggleDone(id){
 
     */
 
-    if(!note.cloudId){
+    if(!cloudId){
 
         showToast(
 
@@ -5232,7 +5255,7 @@ async function toggleDone(id){
 
             id:
 
-                note.cloudId,
+                cloudId,
 
             status:
 
@@ -5258,7 +5281,7 @@ async function toggleDone(id){
 
                     String(item.id) ===
 
-                    String(note.cloudId)
+                    String(cloudId)
 
             )
 
@@ -5364,6 +5387,8 @@ async function editNote(id){
 
     }
 
+    const cloudId = await ensureNoteCloudId(note);
+
     const newText =
 
         prompt(
@@ -5426,7 +5451,7 @@ async function editNote(id){
 
     */
 
-    if(!note.cloudId){
+    if(!cloudId){
 
         showToast(
 
@@ -5460,7 +5485,7 @@ async function editNote(id){
 
                     String(item.id) ===
 
-                    String(note.cloudId)
+                    String(cloudId)
 
             )
 
@@ -5564,6 +5589,8 @@ async function deleteNote(id){
 
     }
 
+    const cloudId = await ensureNoteCloudId(note);
+
     if(
 
         !confirm(
@@ -5608,7 +5635,7 @@ async function deleteNote(id){
 
     */
 
-    if(!note.cloudId){
+    if(!cloudId){
 
         showToast(
 
@@ -5630,7 +5657,7 @@ async function deleteNote(id){
 
             id:
 
-                note.cloudId
+                cloudId
 
         });
 
@@ -5648,7 +5675,7 @@ async function deleteNote(id){
 
                     String(item.id) ===
 
-                    String(note.cloudId)
+                    String(cloudId)
 
             );
 
@@ -6542,11 +6569,11 @@ function parsePaymentMessage(m){
 
     const tx=(text.match(/\[TX:([^\]]+)\]/i)||[])[1]||"";
 
-    const customer=(text.match(/مشتری:\s*([^|]+)/)||[])[1]?.trim()||"-";
+    const customer=(text.match(/مشتری\s*:\s*([^|\n]+)/i)||[])[1]?.trim()||"-";
 
-    const service=(text.match(/خدمت:\s*([^|]+)/)||[])[1]?.trim()||"-";
+    const service=(text.match(/خدمت\s*:\s*([^|\n]+)/i)||text.match(/درخواست پرداخت\s*:\s*([^|]+)/i)||[])[1]?.trim()||"-";
 
-    const amount=(text.match(/مبلغ:\s*([^|]+)/)||[])[1]?.trim()||"-";
+    const amount=(text.match(/مبلغ\s*:\s*([^|\n]+)/i)||text.match(/مبلغ\s+([^|\n]+)/i)||[])[1]?.trim()||"-";
 
     return {tx,customer,service,amount};
 
