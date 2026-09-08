@@ -2670,10 +2670,11 @@ tbody tr:hover{
 
 .paymentCard{width:min(480px,92vw);background:linear-gradient(145deg,rgba(11,28,43,.91),rgba(2,9,16,.94));border:1px solid rgba(255,255,255,.15);border-radius:25px;padding:24px;box-shadow:0 35px 100px rgba(0,0,0,.7),0 0 40px rgba(0,140,255,.08);backdrop-filter:blur(30px)}.paymentTop{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.paymentTitle{font-size:18px}.paymentSub{font-size:10px;color:#6d8aa1;margin-top:5px}.paymentInfo{display:grid;gap:9px}.paymentInfoRow{display:flex;justify-content:space-between;gap:15px;padding:11px 13px;border-radius:13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}.paymentInfoRow span:first-child{color:#6d879e;font-size:10px}.paymentInfoRow span:last-child{color:#dcecff;font-size:12px;text-align:left}.paymentAmount{color:#63bdff!important;font-weight:bold}.paymentActions{display:flex;gap:9px;margin-top:16px}.payConfirm{flex:1;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.10);color:#8ff0b5;padding:12px;border-radius:14px;cursor:pointer;font-family:inherit}.payConfirm:hover{background:rgba(34,197,94,.18)}.payDismiss{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:#91a8ba;padding:12px 18px;border-radius:14px;cursor:pointer;font-family:inherit}
 
-.paymentOverlay.open{animation:paymentOverlayIn .18s ease both}
+ .paymentOverlay.open{animation:paymentOverlayIn .18s ease both}
 .paymentOverlay.open .paymentCard{animation:paymentCardIn .24s cubic-bezier(.2,.8,.2,1) both}
 @keyframes paymentOverlayIn{from{opacity:0}to{opacity:1}}
 @keyframes paymentCardIn{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+
 @media(max-width:600px){.reportTitleCard{font-size:21px;padding:10px 13px}.miniChatBar{align-items:stretch;flex-direction:column;gap:8px;padding:9px}.miniChatHead{justify-content:space-between}.miniChatItems{width:100%;padding-bottom:2px}.miniChatItem{max-width:220px}.floatingTop,.floatingChat{width:50px;height:50px;bottom:88px}.floatingTop{left:14px}.floatingChat{right:14px}.chatOverlay,.paymentOverlay{padding:10px}.chatWindow{width:96vw;height:82vh;border-radius:20px}.chatMsg{max-width:84%}.chatComposer{flex-direction:row}.chatSend{width:78px}.paymentCard{padding:18px}.paymentInfoRow span:last-child{max-width:62%}}
 
 @media print{.floatingTop,.floatingChat,.chatOverlay,.paymentOverlay{display:none!important}}
@@ -3215,6 +3216,10 @@ let currentPaymentMessage = null;
 let moneyHidden = localStorage.getItem("jana_money_hidden") !== "false";
 
 let messagePollTimer = null;
+let messageLoading = false;
+let paymentAudioContext = null;
+let paymentAudioUnlocked = false;
+let pendingPaymentSound = false;
 
 function normalizeText(value){
 
@@ -6140,54 +6145,62 @@ function renderMiniChat(){
 }
 
 async function loadMessages(){
-    let loaded=false;
+    if(messageLoading)return allMessages;
+    messageLoading=true;
 
     try{
-        const response=await fetch(
-            API_URL+"?action=getMessages&_="+Date.now(),
-            {
-                method:"GET",
-                cache:"no-store"
-            }
-        );
+        let loaded=false;
 
-        if(!response.ok)throw new Error("HTTP "+response.status);
-
-        const data=await response.json();
-
-        if(data.status!=="success" && data.status!=="ok"){
-            throw new Error(data.message||"Messages endpoint failed");
-        }
-
-        allMessages=Array.isArray(data.messages)?data.messages:[];
-        loaded=true;
-    }catch(error){
-        console.warn("Direct Messages read failed:",error);
-    }
-
-    if(!loaded || !allMessages.length){
         try{
-            const fallback=await getCloudData();
+            const response=await fetch(
+                API_URL+"?action=getMessages&_="+Date.now(),
+                {
+                    method:"GET",
+                    cache:"no-store"
+                }
+            );
 
-            if(Array.isArray(fallback.messages)){
-                allMessages=fallback.messages;
-                loaded=true;
+            if(!response.ok)throw new Error("HTTP "+response.status);
+
+            const data=await response.json();
+
+            if(data.status!=="success" && data.status!=="ok"){
+                throw new Error(data.message||"Messages endpoint failed");
             }
+
+            allMessages=Array.isArray(data.messages)?data.messages:[];
+            loaded=true;
         }catch(error){
-            console.warn("Messages getData fallback failed:",error);
+            console.warn("Direct Messages read failed:",error);
         }
+
+        if(!loaded || !allMessages.length){
+            try{
+                const fallback=await getCloudData();
+
+                if(Array.isArray(fallback.messages)){
+                    allMessages=fallback.messages;
+                    loaded=true;
+                }
+            }catch(error){
+                console.warn("Messages getData fallback failed:",error);
+            }
+        }
+
+        if(!loaded)allMessages=[];
+
+        renderMiniChat();
+        renderChatMessages();
+        renderTransactions();
+        checkPaymentRequests();
+        updateChatBadge();
+
+        return allMessages;
+    }finally{
+        messageLoading=false;
     }
-
-    if(!loaded)allMessages=[];
-
-    renderMiniChat();
-    renderChatMessages();
-    renderTransactions();
-    checkPaymentRequests();
-    updateChatBadge();
-
-    return allMessages;
 }
+
 function updateChatBadge(){
 
     const unread=allMessages.filter(m=>String(m.sender||"").trim()!=="خانم دهقان" && !m.read).length;
@@ -6266,15 +6279,19 @@ function parsePaymentMessage(m){
 
 }
 
-let paymentAudioContext=null;
-let paymentAudioUnlocked=false;
-let pendingPaymentSound=false;
-
 function getPaymentAudioContext(){
-    const AudioCtx=window.AudioContext||window.webkitAudioContext;
-    if(!AudioCtx)return null;
-    if(!paymentAudioContext)paymentAudioContext=new AudioCtx();
-    return paymentAudioContext;
+    try{
+        const AudioCtx=window.AudioContext||window.webkitAudioContext;
+        if(!AudioCtx)return null;
+
+        if(!paymentAudioContext){
+            paymentAudioContext=new AudioCtx();
+        }
+
+        return paymentAudioContext;
+    }catch(e){
+        return null;
+    }
 }
 
 function unlockPaymentAudio(){
@@ -6285,6 +6302,7 @@ function unlockPaymentAudio(){
         if(ctx.state==="suspended"){
             ctx.resume().then(()=>{
                 paymentAudioUnlocked=true;
+
                 if(pendingPaymentSound){
                     pendingPaymentSound=false;
                     playPaymentSound(true);
@@ -6292,6 +6310,7 @@ function unlockPaymentAudio(){
             }).catch(()=>{});
         }else{
             paymentAudioUnlocked=true;
+
             if(pendingPaymentSound){
                 pendingPaymentSound=false;
                 playPaymentSound(true);
@@ -6306,35 +6325,65 @@ function playPaymentSound(force=false){
         if(!ctx)return;
 
         if(ctx.state==="suspended"){
-            if(!force)pendingPaymentSound=true;
+            pendingPaymentSound=true;
+
+            if(force){
+                ctx.resume().then(()=>{
+                    paymentAudioUnlocked=true;
+                    pendingPaymentSound=false;
+                    playPaymentSound(true);
+                }).catch(()=>{});
+            }
+
+            return;
+        }
+
+        if(!force && !paymentAudioUnlocked){
+            pendingPaymentSound=true;
             return;
         }
 
         paymentAudioUnlocked=true;
 
-        const gain=ctx.createGain();
-        const osc=ctx.createOscillator();
+        const now=ctx.currentTime;
+        const master=ctx.createGain();
 
-        osc.type="sine";
-        osc.frequency.setValueAtTime(880,ctx.currentTime);
-        osc.frequency.setValueAtTime(1175,ctx.currentTime+.10);
-        osc.frequency.setValueAtTime(988,ctx.currentTime+.20);
+        master.gain.setValueAtTime(.0001,now);
+        master.gain.exponentialRampToValueAtTime(.20,now+.025);
+        master.gain.exponentialRampToValueAtTime(.0001,now+.62);
 
-        gain.gain.setValueAtTime(.0001,ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(.20,ctx.currentTime+.025);
-        gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.48);
+        master.connect(ctx.destination);
 
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(ctx.currentTime);
-        osc.stop(ctx.currentTime+.50);
+        [
+            {frequency:880,start:0,duration:.16},
+            {frequency:1175,start:.12,duration:.18},
+            {frequency:988,start:.25,duration:.30}
+        ].forEach(tone=>{
+            const osc=ctx.createOscillator();
+            const gain=ctx.createGain();
+
+            osc.type="sine";
+            osc.frequency.setValueAtTime(tone.frequency,now+tone.start);
+
+            gain.gain.setValueAtTime(.0001,now+tone.start);
+            gain.gain.exponentialRampToValueAtTime(.65,now+tone.start+.015);
+            gain.gain.exponentialRampToValueAtTime(.0001,now+tone.start+tone.duration);
+
+            osc.connect(gain);
+            gain.connect(master);
+
+            osc.start(now+tone.start);
+            osc.stop(now+tone.start+tone.duration+.02);
+        });
     }catch(e){
         console.warn("Payment notification sound failed:",e);
     }
 }
 
-function showPaymentNotification(pending){
-    const p=parsePaymentMessage(pending);
+function showPaymentNotification(message){
+    currentPaymentMessage=message;
+
+    const p=parsePaymentMessage(message);
     const info=document.getElementById("paymentInfo");
 
     if(info){
@@ -6342,59 +6391,52 @@ function showPaymentNotification(pending){
             `<div class="paymentInfoRow"><span>مشتری</span><span>${escapeHTML(p.customer)}</span></div>`+
             `<div class="paymentInfoRow"><span>خدمت</span><span>${escapeHTML(p.service)}</span></div>`+
             `<div class="paymentInfoRow"><span>مبلغ</span><span class="paymentAmount">${escapeHTML(p.amount)}</span></div>`+
-            `<div class="paymentInfoRow"><span>تاریخ و ساعت</span><span>${escapeHTML((pending.date||"")+" • "+(pending.time||""))}</span></div>`;
+            `<div class="paymentInfoRow"><span>تاریخ و ساعت</span><span>${escapeHTML((message.date||"")+" • "+(message.time||""))}</span></div>`;
     }
 
     const overlay=document.getElementById("paymentOverlay");
+
     if(overlay){
+        overlay.classList.remove("open");
+        void overlay.offsetWidth;
         overlay.classList.add("open");
-        overlay.setAttribute("aria-hidden","false");
     }
 }
 
 function checkPaymentRequests(){
+    const pending=allMessages.find(m=>{
+        const sender=String(m?.sender||"").trim();
+        const text=String(m?.text||"");
+        const txMarker=/\[TX:[^\]]+\]/i.test(text);
+        const paymentRequest=/درخواست\s*پرداخت|درخواست\s*واریز/i.test(text);
 
-    const pending=allMessages.find(m=>
-        String(m.sender||"").trim()!=="خانم دهقان" &&
-        !isPaymentPaid(m) &&
-        String(m.text||"").includes("[TX:")
-    );
+        return sender!=="خانم دهقان" &&
+               !isPaymentPaid(m) &&
+               (txMarker || paymentRequest);
+    });
 
     if(!pending)return;
 
-    if(currentPaymentMessage && String(currentPaymentMessage.id||"")===String(pending.id||"")){
+    if(currentPaymentMessage && String(currentPaymentMessage.id)===String(pending.id)){
+        const overlay=document.getElementById("paymentOverlay");
+
+        if(overlay && !overlay.classList.contains("open")){
+            showPaymentNotification(pending);
+        }
+
         return;
     }
 
-    currentPaymentMessage=pending;
-
     const alertKey=String(pending.id||pending.text||"");
-    const lastAlert=localStorage.getItem("jana_last_payment_alert");
+    const isNewAlert=localStorage.getItem("jana_last_payment_alert")!==alertKey;
 
-    if(lastAlert!==alertKey){
+    if(isNewAlert){
         localStorage.setItem("jana_last_payment_alert",alertKey);
-
-        /* کارت فوراً باز می‌شود؛ صدا اگر مرورگر اجازه بدهد همان لحظه پخش می‌شود. */
         pendingPaymentSound=true;
         playPaymentSound();
     }
 
     showPaymentNotification(pending);
-}
-
-/* باز کردن مجوز صدای اعلان با اولین تعامل کاربر */
-document.addEventListener("pointerdown",unlockPaymentAudio,{passive:true});
-document.addEventListener("keydown",unlockPaymentAudio,{passive:true});
-
-
-    const p=parsePaymentMessage(pending);
-
-    const info=document.getElementById("paymentInfo");
-
-    if(info)info.innerHTML=`<div class="paymentInfoRow"><span>مشتری</span><span>${escapeHTML(p.customer)}</span></div><div class="paymentInfoRow"><span>خدمت</span><span>${escapeHTML(p.service)}</span></div><div class="paymentInfoRow"><span>مبلغ</span><span class="paymentAmount">${escapeHTML(p.amount)}</span></div><div class="paymentInfoRow"><span>تاریخ و ساعت</span><span>${escapeHTML((pending.date||"")+" • "+(pending.time||""))}</span></div>`;
-
-    document.getElementById("paymentOverlay")?.classList.add("open");
-
 }
 
 async function confirmPayment(){
@@ -6430,6 +6472,10 @@ function closePaymentFromBackdrop(e){if(e.target.id==="paymentOverlay")dismissPa
 function scrollToTop(){window.scrollTo({top:0,behavior:"smooth"})}
 
 window.addEventListener("scroll",()=>{const b=document.getElementById("floatingTop");if(b)b.classList.toggle("show",window.scrollY>350);},{passive:true});
+
+document.addEventListener("pointerdown",unlockPaymentAudio,{passive:true});
+document.addEventListener("keydown",unlockPaymentAudio,{passive:true});
+document.addEventListener("touchstart",unlockPaymentAudio,{passive:true});
 
 /* =====================================================
 
