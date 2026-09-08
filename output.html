@@ -3565,301 +3565,29 @@ async function loadCloudData(showMessage=true){
 
         saveLocalTransactions();
 
-        /* =========================
-
+                /* =========================
            CLOUD NOTES SYNC
-
-        ========================== */
+        ========================= */
 
         if(Array.isArray(data.notes)){
-
-            const oldNotes =
-
-                Array.isArray(localNotes)
-
-                ? [...localNotes]
-
-                : [];
-
-            const usedLocalIds =
-
-                new Set();
-
-            const cloudNotes =
-
-                data.notes
-
+            localNotes = data.notes
                 .filter(item => {
-
-                    const text =
-
-                        String(
-
-                            item.note ||
-
-                            item.text ||
-
-                            ""
-
-                        ).trim();
-
-                    /*
-
-                       حذف فقط یادداشت تستی
-
-                    */
-
-                    return (
-
-                        text &&
-
-                        text !== TEST_NOTE_TEXT
-
-                    );
-
+                    const text = String(item.text || item.note || "").trim();
+                    return text && text !== TEST_NOTE_TEXT;
                 })
-
-                .map((item,index) => {
-
-                    const text =
-
-                        String(
-
-                            item.note ||
-
-                            item.text ||
-
-                            ""
-
-                        ).trim();
-
-                    let existing =
-
-                        oldNotes.find(note => {
-
-                            return (
-
-                                note.cloudId &&
-
-                                String(
-
-                                    note.cloudId
-
-                                ) ===
-
-                                String(
-
-                                    item.id
-
-                                )
-
-                            );
-
-                        });
-
-                    /*
-
-                       اگر ID قبلاً ذخیره نشده بود،
-
-                       با متن یادداشت تطبیق می‌دهیم.
-
-                    */
-
-                    if(!existing){
-
-                        existing =
-
-                            oldNotes.find(note => {
-
-                                return (
-
-                                    !note.cloudId &&
-
-                                    !usedLocalIds.has(
-
-                                        note.id
-
-                                    ) &&
-
-                                    String(
-
-                                        note.text || ""
-
-                                    ).trim() === text &&
-
-                                    text !== TEST_NOTE_TEXT
-
-                                );
-
-                            });
-
-                    }
-
-                    if(existing){
-
-                        usedLocalIds.add(
-
-                            existing.id
-
-                        );
-
-                    }
-
-                    const date =
-
-                        String(
-
-                            item.date || ""
-
-                        );
-
-                    const time =
-
-                        String(
-
-                            item.time || ""
-
-                        );
-
-                    return {
-
-                        id:
-
-                            existing?.id ??
-
-                            (
-
-                                "cloud_" +
-
-                                String(item.id) +
-
-                                "_" +
-
-                                index
-
-                            ),
-
-                        cloudId:
-
-                            item.id,
-
-                        text:
-
-                            text,
-
-                        date:
-
-                            date,
-
-                        time:
-
-                            time,
-
-                        pinned:
-
-                            isPinnedValue(
-
-                                item.pinned
-
-                            ),
-
-                        done:
-
-                            String(
-
-                                item.status || ""
-
-                            ).trim() ===
-
-                            "انجام شد"
-
-                    };
-
-                });
-
-            const cloudIds =
-
-                new Set(
-
-                    cloudNotes.map(
-
-                        note =>
-
-                            String(
-
-                                note.cloudId
-
-                            )
-
-                    )
-
-                );
-
-            /*
-
-               یادداشت‌های محلی که هنوز
-
-               به ابر ارسال نشده‌اند حفظ می‌شوند.
-
-            */
-
-            const localOnly =
-
-                oldNotes.filter(note => {
-
-                    const text =
-
-                        String(
-
-                            note.text || ""
-
-                        ).trim();
-
-                    if(
-
-                        !text ||
-
-                        text === TEST_NOTE_TEXT
-
-                    ){
-
-                        return false;
-
-                    }
-
-                    if(
-
-                        !note.cloudId
-
-                    ){
-
-                        return true;
-
-                    }
-
-                    return !cloudIds.has(
-
-                        String(
-
-                            note.cloudId
-
-                        )
-
-                    );
-
-                });
-
-            localNotes = [
-
-                ...cloudNotes,
-
-                ...localOnly
-
-            ];
-
+                .map(item => ({
+                    id:String(item.id),
+                    cloudId:String(item.id),
+                    text:String(item.text || item.note || "").trim(),
+                    date:String(item.date || ""),
+                    time:String(item.time || ""),
+                    pinned:isPinnedValue(item.pinned),
+                    done:String(item.status || "").trim() === "انجام شد"
+                }));
         }
 
         saveNotes();
+
 
         updateStats();
 
@@ -4477,601 +4205,54 @@ function filterData(filter,button){
 ===================================================== */
 
 function loadNotes(){
-
     try{
-
-        const saved =
-
-            localStorage.getItem(
-
-                "cafe_notes"
-
-            );
-
-        localNotes =
-
-            saved
-
-            ? JSON.parse(saved)
-
-            : [];
-
-        if(
-
-            !Array.isArray(localNotes)
-
-        ){
-
-            localNotes = [];
-
-        }
-
-        /*
-
-           حذف یادداشت تستی فقط از
-
-           حافظه محلی پنل
-
-        */
-
-        localNotes =
-
-            localNotes.filter(note => {
-
-                return String(
-
-                    note.text || ""
-
-                ).trim() !== TEST_NOTE_TEXT;
-
-            });
-
-    }catch(error){
-
-        localNotes = [];
-
-    }
-
+        const saved=localStorage.getItem("cafe_notes");
+        const parsed=saved?JSON.parse(saved):[];
+        localNotes=Array.isArray(parsed)?parsed:[];
+    }catch(error){localNotes=[];}
 }
-
-/* =====================================================
-
-   SAVE NOTES
-
-===================================================== */
 
 function saveNotes(){
-
-    try{
-
-        /*
-
-           یادداشت آزمایشی هیچ‌وقت ذخیره نمی‌شود.
-
-        */
-
-        localNotes =
-
-            localNotes.filter(note => {
-
-                return String(
-
-                    note.text || ""
-
-                ).trim() !== TEST_NOTE_TEXT;
-
-            });
-
-        localStorage.setItem(
-
-            "cafe_notes",
-
-            JSON.stringify(
-
-                localNotes
-
-            )
-
-        );
-
-    }catch(error){
-
-        console.warn(
-
-            "Notes save failed:",
-
-            error
-
-        );
-
-    }
-
+    try{localStorage.setItem("cafe_notes",JSON.stringify(Array.isArray(localNotes)?localNotes:[]));}
+    catch(error){console.warn("Notes save failed:",error);}
 }
-
-/* =====================================================
-
-   NOTE DISPLAY DATE
-
-===================================================== */
 
 function noteDisplayDate(note){
-
-    if(
-
-        note.displayDate
-
-    ){
-
-        return note.displayDate;
-
-    }
-
-    if(
-
-        note.date &&
-
-        String(note.date).includes(" • ")
-
-    ){
-
-        return note.date;
-
-    }
-
-    return [
-
-        note.date || "",
-
-        note.time || ""
-
-    ]
-
-    .filter(Boolean)
-
-    .join(" • ");
-
+    if(note&&note.displayDate)return note.displayDate;
+    if(note&&note.date&&String(note.date).includes(" • "))return note.date;
+    return [note?.date||"",note?.time||""].filter(Boolean).join(" • ");
 }
 
-/* =====================================================
+function findLocalNote(id){
+    return localNotes.find(item=>String(item.id)===String(id)||String(item.cloudId||"")===String(id))||null;
+}
 
-   ADD NOTE
-
-===================================================== */
-
-async function addNote(){
-
-    const input =
-
-        document.getElementById(
-
-            "noteInput"
-
-        );
-
-    const text =
-
-        input.value.trim();
-
-    if(!text){
-
-        showToast(
-
-            "⚠️ اول متن یادداشت را بنویس."
-
-        );
-
-        input.focus();
-
-        return;
-
-    }
-
-    if(text === TEST_NOTE_TEXT){
-
-        showToast(
-
-            "⚠️ این یادداشت قابل ثبت نیست."
-
-        );
-
-        return;
-
-    }
-
-    const now =
-
-        new Date();
-
-    const date =
-
-        now.toLocaleDateString(
-
-            "fa-IR"
-
-        );
-
-    const time =
-
-        now.toLocaleTimeString(
-
-            "fa-IR",
-
-            {
-
-                hour:"2-digit",
-
-                minute:"2-digit"
-
-            }
-
-        );
-
-    const note = {
-
-        id:
-
-            "local_" +
-
-            Date.now(),
-
-        cloudId:
-
-            null,
-
-        text:
-
-            text,
-
-        date:
-
-            date,
-
-        time:
-
-            time,
-
-        pinned:
-
-            false,
-
-        done:
-
-            false
-
-    };
-
-    localNotes.unshift(
-
-        note
-
-    );
-
-    saveNotes();
-
-    input.value = "";
-
-    renderNotes();
-
+async function resolveNoteCloudId(note){
+    if(!note)return null;
+    if(note.cloudId)return String(note.cloudId);
     try{
-
-        const result =
-
-            await cloudPost({
-
-                action:
-
-                    "addNote",
-
-                date:
-
-                    date,
-
-                time:
-
-                    time,
-
-                note:
-
-                    text,
-
-                status:
-
-                    "باز",
-
-                pinned:
-
-                    false
-
-            });
-
-        /*
-
-           اگر بک‌اند ID واقعی را برگرداند،
-
-           مستقیماً همان را ذخیره می‌کنیم.
-
-        */
-
-        if(
-
-            result &&
-
-            result.id
-
-        ){
-
-            note.cloudId =
-
-                result.id;
-
-        }
-
-        /*
-
-           اگر ID از POST برنگشت،
-
-           از GET برای پیدا کردن رکورد جدید
-
-           استفاده می‌کنیم.
-
-        */
-
-        if(!note.cloudId){
-
-            const data =
-
-                await getCloudData();
-
-            if(
-
-                Array.isArray(data.notes)
-
-            ){
-
-                const matches =
-
-                    data.notes
-
-                    .filter(item => {
-
-                        return String(
-
-                            item.note ||
-
-                            item.text ||
-
-                            ""
-
-                        ).trim() === text;
-
-                    });
-
-                if(matches.length){
-
-                    /*
-
-                       جدیدترین رکورد را برمی‌داریم.
-
-                    */
-
-                    const match =
-
-                        matches
-
-                        .sort(
-
-                            (a,b) =>
-
-                                String(
-
-                                    b.id
-
-                                ).localeCompare(
-
-                                    String(
-
-                                        a.id
-
-                                    )
-
-                                )
-
-                        )[0];
-
-                    if(match){
-
-                        note.cloudId =
-
-                            match.id;
-
-                        note.date =
-
-                            match.date ||
-
-                            date;
-
-                        note.time =
-
-                            match.time ||
-
-                            time;
-
-                        note.pinned =
-
-                            isPinnedValue(
-
-                                match.pinned
-
-                            );
-
-                        note.done =
-
-                            String(
-
-                                match.status ||
-
-                                ""
-
-                            ).trim() ===
-
-                            "انجام شد";
-
-                    }
-
-                }
-
-            }
-
-        }
-
-        saveNotes();
-
-        await loadCloudData(false);
-
-        showToast(
-
-            "✅ یادداشت ثبت شد."
-
-        );
-
-    }catch(error){
-
-        console.error(
-
-            "Note cloud error:",
-
-            error
-
-        );
-
-        showToast(
-
-            "⚠️ یادداشت محلی ثبت شد؛ ارسال ابری ناموفق بود."
-
-        );
-
-    }
-
-}
-
-/* =====================================================
-
-   UPDATE NOTE CLOUD
-
-===================================================== */
-
-async function updateNoteCloud(note){
-
-    if(!note.cloudId){
-
-        return false;
-
-    }
-
-    await cloudPost({
-
-        action:
-
-            "updateNote",
-
-        id:
-
-            note.cloudId,
-
-        date:
-
-            note.date || "",
-
-        time:
-
-            note.time || "",
-
-        note:
-
-            note.text,
-
-        status:
-
-            note.done
-
-            ? "انجام شد"
-
-            : "باز",
-
-        pinned:
-
-            !!note.pinned
-
-    });
-
-    return true;
-
-}
-
-/* =====================================================
-
-   TOGGLE PIN
-
-===================================================== */
-
-async function ensureNoteCloudId(note){
-
-    if(!note || note.cloudId){
-        return note?.cloudId || null;
-    }
-
-    try{
-        const data = await getCloudData();
-
-        if(!Array.isArray(data.notes)){
-            return null;
-        }
-
-        const text = String(note.text || "").trim();
-        const date = String(note.date || "").trim();
-        const time = String(note.time || "").trim();
-
-        const matches = data.notes.filter(item => {
-            const itemText = String(
-                item.note || item.text || ""
-            ).trim();
-
-            if(itemText !== text){
-                return false;
-            }
-
-            const itemDate = String(item.date || "").trim();
-            const itemTime = String(item.time || "").trim();
-
-            return (
-                (!date || !itemDate || itemDate === date) &&
-                (!time || !itemTime || itemTime === time)
-            );
+        const data=await getCloudData();
+        if(!Array.isArray(data.notes))return null;
+        const text=String(note.text||"").trim();
+        const date=String(note.date||"").trim();
+        const time=String(note.time||"").trim();
+        const matches=data.notes.filter(item=>{
+            const itemText=String(item.text||item.note||"").trim();
+            if(itemText!==text)return false;
+            const itemDate=String(item.date||"").trim();
+            const itemTime=String(item.time||"").trim();
+            return (!date||!itemDate||itemDate===date)&&(!time||!itemTime||itemTime===time);
         });
-
-        if(!matches.length){
-            return null;
-        }
-
-        const match =
-            matches.sort((a,b) =>
-                String(b.id).localeCompare(String(a.id))
-            )[0];
-
-        if(match){
-            note.cloudId = String(match.id);
-            note.date = match.date || note.date;
-            note.time = match.time || note.time;
-            note.pinned = isPinnedValue(match.pinned);
-            note.done = String(match.status || "").trim() === "انجام شد";
-            saveNotes();
-            return note.cloudId;
-        }
-    }catch(error){
-        console.warn("Note cloud-id resolve failed:", error);
-    }
-
-    return null;
+        if(!matches.length)return null;
+        const match=matches[matches.length-1];
+        note.cloudId=String(match.id);
+        note.date=match.date||note.date;
+        note.time=match.time||note.time;
+        note.pinned=isPinnedValue(match.pinned);
+        note.done=String(match.status||"").trim()==="انجام شد";
+        saveNotes();
+        return note.cloudId;
+    }catch(error){console.warn("resolveNoteCloudId failed:",error);return null;}
 }
 
 function closeNoteModal(){
@@ -5085,551 +4266,134 @@ function closeNoteModalFromBackdrop(e){
     if(e.target.classList.contains("noteModal"))closeNoteModal();
 }
 
-async function resolveNoteCloudId(note){
-    if(!note)return null;
-    if(note.cloudId)return String(note.cloudId);
-
+async function addNote(){
+    const input=document.getElementById("noteInput");
+    if(!input)return;
+    const text=input.value.trim();
+    if(!text){showToast("⚠️ اول متن یادداشت را بنویس.");input.focus();return;}
+    if(text===TEST_NOTE_TEXT){showToast("⚠️ این یادداشت قابل ثبت نیست.");return;}
+    const now=new Date();
+    const date=now.toLocaleDateString("fa-IR");
+    const time=now.toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"});
+    const button=document.querySelector(".noteAdd");
+    if(button)button.disabled=true;
     try{
-        const data=await getCloudData();
-        if(!Array.isArray(data.notes))return null;
-
-        const text=String(note.text||"").trim();
-        const date=String(note.date||"").trim();
-        const time=String(note.time||"").trim();
-
-        const matches=data.notes.filter(item=>{
-            const itemText=String(item.note||item.text||"").trim();
-            if(itemText!==text)return false;
-
-            const itemDate=String(item.date||"").trim();
-            const itemTime=String(item.time||"").trim();
-
-            return (!date || !itemDate || itemDate===date) &&
-                   (!time || !itemTime || itemTime===time);
-        });
-
-        if(!matches.length)return null;
-
-        const match=matches[matches.length-1];
-        note.cloudId=String(match.id);
-        note.date=match.date||note.date;
-        note.time=match.time||note.time;
-        note.pinned=isPinnedValue(match.pinned);
-        note.done=String(match.status||"").trim()==="انجام شد";
-        saveNotes();
-
-        return note.cloudId;
-    }catch(error){
-        console.warn("resolveNoteCloudId failed:",error);
-        return null;
-    }
+        const result=await cloudPost({action:"addNote",date,time,note:text,status:"باز",pinned:false});
+        if(!result||result.status!=="success"||!result.id)throw new Error(result?.message||"ثبت یادداشت ناموفق بود");
+        input.value="";
+        await loadCloudData(false);
+        showToast("✅ یادداشت ثبت شد.");
+    }catch(error){console.error("Add note error:",error);showToast("⚠️ یادداشت در شیت ذخیره نشد.");}
+    finally{if(button)button.disabled=false;}
 }
 
-async function refreshSingleNoteFromCloud(cloudId){
-    const data=await getCloudData();
-    if(!Array.isArray(data.notes))return null;
-    return data.notes.find(item=>String(item.id)===String(cloudId))||null;
-}
-
-function findLocalNote(id){
-    return localNotes.find(item=>
-        String(item.id)===String(id) ||
-        String(item.cloudId||"")===String(id)
-    )||null;
+async function updateNoteCloud(note){
+    const cloudId=await resolveNoteCloudId(note);
+    if(!cloudId)return false;
+    const result=await cloudPost({action:"updateNote",id:String(cloudId),date:note.date||"",time:note.time||"",note:note.text||"",status:note.done?"انجام شد":"باز",pinned:!!note.pinned});
+    return !!result&&result.status==="success";
 }
 
 function openDeleteNoteModal(id){
-    const note=findLocalNote(id);
-    if(!note)return;
-
+    const note=findLocalNote(id); if(!note)return;
     window.currentDeleteNoteId=note.id;
-
     const preview=String(note.text||"").trim();
     const text=document.getElementById("noteConfirmText");
-
-    if(text){
-        text.textContent=
-            `آیا از حذف یادداشت «${preview.slice(0,90)}${preview.length>90?"…":""}» مطمئن هستید؟ این عملیات رکورد مربوط را از شیت یادداشت‌ها نیز حذف می‌کند.`;
-    }
-
+    if(text)text.textContent=`آیا از حذف یادداشت «${preview.slice(0,90)}${preview.length>90?"…":""}» مطمئن هستید؟ این عملیات رکورد مربوط را از شیت یادداشت‌ها نیز حذف می‌کند.`;
     document.getElementById("noteConfirmModal")?.classList.add("open");
-
     const btn=document.getElementById("noteConfirmButton");
-    if(btn)btn.onclick=confirmDeleteNote;
+    if(btn){btn.disabled=false;btn.onclick=confirmDeleteNote;}
 }
 
 async function confirmDeleteNote(){
-    const localId=window.currentDeleteNoteId;
-    const note=findLocalNote(localId);
-
-    if(!note){
-        closeNoteModal();
-        return;
-    }
-
-    const cloudId=await resolveNoteCloudId(note);
-
-    if(!cloudId){
-        closeNoteModal();
-        showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");
-        return;
-    }
-
-    const backup={...note};
-    const modal=document.getElementById("noteConfirmModal");
-    modal?.classList.remove("open");
-
-    const btn=document.getElementById("noteConfirmButton");
-    if(btn)btn.disabled=true;
-
+    const note=findLocalNote(window.currentDeleteNoteId);
+    if(!note){closeNoteModal();return;}
+    const btn=document.getElementById("noteConfirmButton"); if(btn)btn.disabled=true;
     try{
-        const result=await cloudPost({
-            action:"deleteNote",
-            id:String(cloudId)
-        });
-
-        if(result && result.status && result.status!=="success" && result.status!=="ok"){
-            throw new Error(result.message||"Delete failed");
-        }
-
-        const verify=await getCloudData();
-        const stillExists=Array.isArray(verify.notes) &&
-            verify.notes.some(item=>String(item.id)===String(cloudId));
-
-        if(stillExists){
-            throw new Error("Delete verification failed");
-        }
-
-        localNotes=localNotes.filter(item=>
-            String(item.id)!==String(note.id) &&
-            String(item.cloudId||"")!==String(cloudId)
-        );
-
-        saveNotes();
-        renderNotes();
-        showToast("🗑 یادداشت کاملاً از شیت ۲ و پنل حذف شد.");
-    }catch(error){
-        console.error("Delete note error:",error);
-
-        if(!localNotes.some(item=>String(item.id)===String(note.id))){
-            localNotes.unshift(backup);
-            saveNotes();
-            renderNotes();
-        }
-
-        showToast("⚠️ حذف از شیت انجام نشد؛ رکورد محلی حذف نشد.");
-    }finally{
-        if(btn)btn.disabled=false;
-        window.currentDeleteNoteId=null;
-    }
+        const cloudId=await resolveNoteCloudId(note);
+        if(!cloudId)throw new Error("شناسه یادداشت پیدا نشد");
+        const result=await cloudPost({action:"deleteNote",id:String(cloudId)});
+        if(!result||result.status!=="success")throw new Error(result?.message||"حذف یادداشت ناموفق بود");
+        closeNoteModal();
+        await loadCloudData(false);
+        showToast("🗑 یادداشت از شیت ۲ حذف شد.");
+    }catch(error){console.error("Delete note error:",error);showToast("⚠️ حذف یادداشت در شیت انجام نشد.");}
+    finally{if(btn)btn.disabled=false;}
 }
 
 function editNote(id){
-    const note=findLocalNote(id);
-    if(!note)return;
-
+    const note=findLocalNote(id); if(!note)return;
     window.currentEditingNoteId=note.id;
-
-    const input=document.getElementById("noteEditInput");
-    if(!input)return;
-
+    const input=document.getElementById("noteEditInput"); if(!input)return;
     input.value=note.text||"";
     document.getElementById("noteEditModal")?.classList.add("open");
-
-    setTimeout(()=>{
-        input.focus();
-        input.setSelectionRange(input.value.length,input.value.length);
-    },50);
+    setTimeout(()=>{input.focus();input.setSelectionRange(input.value.length,input.value.length);},50);
 }
 
 async function submitNoteEdit(){
-    const localId=window.currentEditingNoteId;
-    const note=findLocalNote(localId);
+    const note=findLocalNote(window.currentEditingNoteId);
     const input=document.getElementById("noteEditInput");
-
     if(!note||!input)return;
-
     const cleanText=input.value.trim();
-
-    if(!cleanText){
-        showToast("⚠️ متن یادداشت نمی‌تواند خالی باشد.");
-        return;
-    }
-
-    if(cleanText===TEST_NOTE_TEXT){
-        showToast("⚠️ این متن قابل استفاده نیست.");
-        return;
-    }
-
-    const oldText=note.text;
+    if(!cleanText){showToast("⚠️ متن یادداشت نمی‌تواند خالی باشد.");return;}
+    if(cleanText===TEST_NOTE_TEXT){showToast("⚠️ این متن قابل استفاده نیست.");return;}
     const cloudId=await resolveNoteCloudId(note);
-
-    if(!cloudId){
-        showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");
-        return;
-    }
-
-    const saveButton=document.querySelector("#noteEditModal .primary");
-    if(saveButton)saveButton.disabled=true;
-
+    if(!cloudId){showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");return;}
+    const saveButton=document.querySelector("#noteEditModal .primary"); if(saveButton)saveButton.disabled=true;
     try{
-        const result=await cloudPost({
-            action:"updateNote",
-            id:String(cloudId),
-            date:note.date||"",
-            time:note.time||"",
-            note:cleanText,
-            status:note.done?"انجام شد":"باز",
-            pinned:!!note.pinned
-        });
-
-        if(result && result.status && result.status!=="success" && result.status!=="ok"){
-            throw new Error(result.message||"Update failed");
-        }
-
-        const cloudNote=await refreshSingleNoteFromCloud(cloudId);
-        const cloudText=String(cloudNote?.note||cloudNote?.text||"").trim();
-
-        if(!cloudNote || cloudText!==cleanText){
-            throw new Error("Edit verification failed");
-        }
-
-        note.text=cleanText;
-        note.date=cloudNote.date||note.date;
-        note.time=cloudNote.time||note.time;
-        note.pinned=isPinnedValue(cloudNote.pinned);
-        note.done=String(cloudNote.status||"").trim()==="انجام شد";
-
-        saveNotes();
-        renderNotes();
+        const result=await cloudPost({action:"updateNote",id:String(cloudId),date:note.date||"",time:note.time||"",note:cleanText,status:note.done?"انجام شد":"باز",pinned:!!note.pinned});
+        if(!result||result.status!=="success")throw new Error(result?.message||"ویرایش یادداشت ناموفق بود");
         closeNoteModal();
-
-        showToast("✏️ یادداشت ویرایش شد و در شیت ۲ ذخیره شد.");
-    }catch(error){
-        console.error("Edit note error:",error);
-        note.text=oldText;
-        saveNotes();
-        renderNotes();
-        showToast("⚠️ ویرایش در شیت ذخیره نشد.");
-    }finally{
-        if(saveButton)saveButton.disabled=false;
-    }
+        await loadCloudData(false);
+        showToast("✏️ یادداشت ویرایش و در شیت ۲ ذخیره شد.");
+    }catch(error){console.error("Edit note error:",error);showToast("⚠️ ویرایش یادداشت در شیت انجام نشد.");}
+    finally{if(saveButton)saveButton.disabled=false;}
 }
 
 async function togglePin(id){
-    const note=findLocalNote(id);
-    if(!note)return;
-
-    const oldPinned=!!note.pinned;
-    const newPinned=!oldPinned;
-    const cloudId=await resolveNoteCloudId(note);
-
-    if(!cloudId){
-        showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");
-        return;
-    }
-
+    const note=findLocalNote(id); if(!note)return;
+    const cloudId=await resolveNoteCloudId(note); if(!cloudId){showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");return;}
+    const newPinned=!isPinnedValue(note.pinned);
     try{
-        await cloudPost({
-            action:"toggleNotePin",
-            id:String(cloudId),
-            pinned:newPinned
-        });
-
-        const cloudNote=await refreshSingleNoteFromCloud(cloudId);
-
-        if(!cloudNote || isPinnedValue(cloudNote.pinned)!==newPinned){
-            throw new Error("Pin verification failed");
-        }
-
-        note.pinned=newPinned;
-        saveNotes();
-        renderNotes();
-
-        showToast(newPinned?"📌 پین شد و در شیت ذخیره شد.":"📌 پین برداشته شد.");
-    }catch(error){
-        console.error("Pin note error:",error);
-        note.pinned=oldPinned;
-        saveNotes();
-        renderNotes();
-        showToast("⚠️ تغییر پین در شیت ذخیره نشد.");
-    }
+        const result=await cloudPost({action:"toggleNotePin",id:String(cloudId),pinned:newPinned});
+        if(!result||result.status!=="success")throw new Error(result?.message||"تغییر پین ناموفق بود");
+        await loadCloudData(false);
+        showToast(newPinned?"📌 یادداشت پین شد.":"📌 پین یادداشت برداشته شد.");
+    }catch(error){console.error("Pin note error:",error);showToast("⚠️ تغییر پین در شیت انجام نشد.");}
 }
 
 async function toggleDone(id){
-    const note=findLocalNote(id);
-    if(!note)return;
-
-    const oldDone=!!note.done;
-    const newDone=!oldDone;
-    const cloudId=await resolveNoteCloudId(note);
-
-    if(!cloudId){
-        showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");
-        return;
-    }
-
+    const note=findLocalNote(id); if(!note)return;
+    const cloudId=await resolveNoteCloudId(note); if(!cloudId){showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");return;}
+    const newDone=!Boolean(note.done);
     try{
-        await cloudPost({
-            action:"toggleNoteStatus",
-            id:String(cloudId),
-            status:newDone?"انجام شد":"باز"
-        });
-
-        const cloudNote=await refreshSingleNoteFromCloud(cloudId);
-
-        if(!cloudNote || (String(cloudNote.status||"").trim()==="انجام شد")!==newDone){
-            throw new Error("Done verification failed");
-        }
-
-        note.done=newDone;
-        saveNotes();
-        renderNotes();
-
-        showToast(newDone?"✅ تسک انجام شد و در شیت ذخیره شد.":"↩ تسک دوباره باز شد.");
-    }catch(error){
-        console.error("Done note error:",error);
-        note.done=oldDone;
-        saveNotes();
-        renderNotes();
-        showToast("⚠️ وضعیت تسک در شیت ذخیره نشد.");
-    }
+        const result=await cloudPost({action:"toggleNoteStatus",id:String(cloudId),status:newDone?"انجام شد":"باز"});
+        if(!result||result.status!=="success")throw new Error(result?.message||"تغییر وضعیت ناموفق بود");
+        await loadCloudData(false);
+        showToast(newDone?"✅ تسک انجام شد.":"↩ تسک دوباره باز شد.");
+    }catch(error){console.error("Done note error:",error);showToast("⚠️ وضعیت تسک در شیت ذخیره نشد.");}
 }
 
-/* =====================================================
-
-   NOTES RENDER
-
-===================================================== */
-
 function renderNotes(){
-
-    const container =
-
-        document.getElementById(
-
-            "notesContainer"
-
-        );
-
-    if(!container){
-
-        return;
-
-    }
-
-    /*
-
-       یادداشت تستی هیچ‌وقت نمایش داده نمی‌شود.
-
-    */
-
-    const notes =
-
-        [...localNotes]
-
-        .filter(note => {
-
-            return String(
-
-                note.text || ""
-
-            ).trim() !== TEST_NOTE_TEXT;
-
-        })
-
-        .sort(
-
-            (a,b) =>
-
-                Number(!!b.pinned) -
-
-                Number(!!a.pinned)
-
-        );
-
-    container.innerHTML = "";
-
-    if(!notes.length){
-
-        container.innerHTML = `
-
-            <div
-
-                class="empty"
-
-                style="grid-column:1/-1">
-
-                <div class="emptyIcon">
-
-                    📝
-
-                </div>
-
-                هنوز یادداشتی ثبت نشده است.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-    notes.forEach(note => {
-
-        const div =
-
-            document.createElement(
-
-                "div"
-
-            );
-
-        div.className =
-
-            "note" +
-
-            (
-
-                note.pinned
-
-                ? " pinned"
-
-                : ""
-
-            ) +
-
-            (
-
-                note.done
-
-                ? " done"
-
-                : ""
-
-            );
-
-        div.innerHTML = `
-
-            ${
-
-                note.pinned
-
-                ? '<div class="pinBadge">📌</div>'
-
-                : ""
-
-            }
-
-            <div class="noteText">
-
-                ${escapeHTML(
-
-                    note.text
-
-                )}
-
-            </div>
-
-            <div class="noteDate">
-
-                ${escapeHTML(
-
-                    noteDisplayDate(note)
-
-                )}
-
-            </div>
-
+    const container=document.getElementById("notesContainer"); if(!container)return;
+    const notes=[...localNotes].filter(note=>String(note.text||"").trim()!==TEST_NOTE_TEXT).sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));
+    container.innerHTML="";
+    if(!notes.length){container.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="emptyIcon">📝</div>هنوز یادداشتی ثبت نشده است.</div>`;return;}
+    notes.forEach(note=>{
+        const div=document.createElement("div");
+        div.className="note"+(note.pinned?" pinned":"")+(note.done?" done":"");
+        div.innerHTML=`
+            ${note.pinned?'<div class="pinBadge">📌</div>':""}
+            <div class="noteText">${escapeHTML(note.text||"")}</div>
+            <div class="noteDate">${escapeHTML(noteDisplayDate(note))}</div>
             <div class="noteActions">
-
-                <button
-
-                    class="doneBtn ${
-
-                        note.done
-
-                        ? "doneActive"
-
-                        : ""
-
-                    }"
-
-                    onclick="toggleDone(
-
-                        ${JSON.stringify(note.id)}
-
-                    )">
-
-                    ✓ انجام شد
-
-                </button>
-
-                <button
-
-                    class="${
-
-                        note.pinned
-
-                        ? "pinActive"
-
-                        : ""
-
-                    }"
-
-                    onclick="togglePin(
-
-                        ${JSON.stringify(note.id)}
-
-                    )">
-
-                    ${
-
-                        note.pinned
-
-                        ? "📌 برداشتن پین"
-
-                        : "📌 پین"
-
-                    }
-
-                </button>
-
-                <button
-
-                    class="edit"
-
-                    onclick="editNote(
-
-                        ${JSON.stringify(note.id)}
-
-                    )">
-
-                    ✏️ ویرایش
-
-                </button>
-
-                <button
-
-                    class="delete"
-
-                    onclick="openDeleteNoteModal(
-                        ${JSON.stringify(note.id)}
-                    )">
-
-                    🗑 حذف
-
-                </button>
-
-            </div>
-
-        `;
-
+                <button class="doneBtn ${note.done?"doneActive":""}" onclick="toggleDone(${JSON.stringify(note.id)})">✓ انجام شد</button>
+                <button class="${note.pinned?"pinActive":""}" onclick="togglePin(${JSON.stringify(note.id)})">${note.pinned?"📌 برداشتن پین":"📌 پین"}</button>
+                <button class="edit" onclick="editNote(${JSON.stringify(note.id)})">✏️ ویرایش</button>
+                <button class="delete" onclick="openDeleteNoteModal(${JSON.stringify(note.id)})">🗑 حذف</button>
+            </div>`;
         container.appendChild(div);
-
     });
-
 }
 
 /* =====================================================
