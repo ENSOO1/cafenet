@@ -2648,7 +2648,7 @@ tbody tr:hover{
 
 .paymentCard{width:min(480px,92vw);background:linear-gradient(145deg,rgba(11,28,43,.91),rgba(2,9,16,.94));border:1px solid rgba(255,255,255,.15);border-radius:25px;padding:24px;box-shadow:0 35px 100px rgba(0,0,0,.7),0 0 40px rgba(0,140,255,.08);backdrop-filter:blur(30px)}.paymentTop{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.paymentTitle{font-size:18px}.paymentSub{font-size:10px;color:#6d8aa1;margin-top:5px}.paymentInfo{display:grid;gap:9px}.paymentInfoRow{display:flex;justify-content:space-between;gap:15px;padding:11px 13px;border-radius:13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}.paymentInfoRow span:first-child{color:#6d879e;font-size:10px}.paymentInfoRow span:last-child{color:#dcecff;font-size:12px;text-align:left}.paymentAmount{color:#63bdff!important;font-weight:bold}.paymentActions{display:flex;gap:9px;margin-top:16px}.payConfirm{flex:1;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.10);color:#8ff0b5;padding:12px;border-radius:14px;cursor:pointer;font-family:inherit}.payConfirm:hover{background:rgba(34,197,94,.18)}.payDismiss{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:#91a8ba;padding:12px 18px;border-radius:14px;cursor:pointer;font-family:inherit}
 
-.paymentAlertPulse{animation .65s ease-out 2}\n@keyframes paymentAlertPulse{0%{transform(.94);box-shadow:0 35px 100px rgba(0,0,0,.7),0 0 0 rgba(0,140,255,0)}45%{transform(1.02);box-shadow:0 35px 100px rgba(0,0,0,.7),0 0 55px rgba(0,140,255,.35)}100%{transform(1);box-shadow:0 35px 100px rgba(0,0,0,.7),0 0 40px rgba(0,140,255,.08)}}\n\n@media(max-width:600px){.reportTitleCard{font-size:21px;padding:10px 13px}.miniChatBar{align-items:stretch;flex-direction:column;gap:8px;padding:9px}.miniChatHead{justify-content:space-between}.miniChatItems{width:100%;padding-bottom:2px}.miniChatItem{max-width:220px}.floatingTop,.floatingChat{width:50px;height:50px;bottom:88px}.floatingTop{left:14px}.floatingChat{right:14px}.chatOverlay,.paymentOverlay{padding:10px}.chatWindow{width:96vw;height:82vh;border-radius:20px}.chatMsg{max-width:84%}.chatComposer{flex-direction:row}.chatSend{width:78px}.paymentCard{padding:18px}.paymentInfoRow span:last-child{max-width:62%}}
+@media(max-width:600px){.reportTitleCard{font-size:21px;padding:10px 13px}.miniChatBar{align-items:stretch;flex-direction:column;gap:8px;padding:9px}.miniChatHead{justify-content:space-between}.miniChatItems{width:100%;padding-bottom:2px}.miniChatItem{max-width:220px}.floatingTop,.floatingChat{width:50px;height:50px;bottom:88px}.floatingTop{left:14px}.floatingChat{right:14px}.chatOverlay,.paymentOverlay{padding:10px}.chatWindow{width:96vw;height:82vh;border-radius:20px}.chatMsg{max-width:84%}.chatComposer{flex-direction:row}.chatSend{width:78px}.paymentCard{padding:18px}.paymentInfoRow span:last-child{max-width:62%}}
 
 @media print{.floatingTop,.floatingChat,.chatOverlay,.paymentOverlay{display:none!important}}
 
@@ -2666,339 +2666,339 @@ tbody tr:hover{
 
 <header class="header">
 
-    <div class="title">
+<div class="title">
 
-        <h1 class="reportTitleCard">📊  گــــــزارش</h1>
+    <h1 class="reportTitleCard">📊  گــــــزارش</h1>
 
-        <p>کافی‌نت جانا • گزارش مالی</p>
+    <p>کافی‌نت جانا • گزارش مالی</p>
 
-        <div class="liveDateTime" id="liveDateTime">📅 در حال بارگذاری... • 🕐 --:--:--</div>
+    <div class="liveDateTime" id="liveDateTime">📅 در حال بارگذاری... • 🕐 --:--:--</div>
 
-    </div>
+</div>
 
-    <div class="headerActions">
+<div class="headerActions">
 
-        <button class="printBtn" onclick="window.print()">
+    <button class="printBtn" onclick="window.print()">
 
-            🖨 چاپ گزارش
+        🖨 چاپ گزارش
 
-        </button>
+    </button>
 
-        <button class="globalMoneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن همه مبالغ">◉ نمایش مبالغ</button>
+    <button class="globalMoneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن همه مبالغ">◉ نمایش مبالغ</button>
 
-        <a href="./index.html" class="back">
+    <a href="./index.html" class="back">
 
-            ← صفحه اصلی
+        ← صفحه اصلی
 
-        </a>
+    </a>
 
-    </div>
+</div>
 
 </header>
 
 <section class="stats" id="income">
 
-    <div class="stat">
+<div class="stat">
 
-        <span class="statIcon">💰</span>
+    <span class="statIcon">💰</span>
 
-        <small>کل درآمد</small>
+    <small>جمع کل درآمد امروز</small>
 
-        <div class="moneyRow"><strong id="totalIncome">۰ تومان</strong></div>
+    <div class="moneyRow"><strong id="totalIncome">۰ تومان</strong></div>
 
-    </div>
+</div>
 
-    <div class="stat">
+<div class="stat">
 
-        <span class="statIcon">🧾</span>
+    <span class="statIcon">🧾</span>
 
-        <small>تعداد تراکنش</small>
+    <small>تعداد تراکنش</small>
 
-        <strong id="transactionCount">۰</strong>
+    <strong id="transactionCount">۰</strong>
 
-    </div>
+</div>
 
-    <div class="stat">
+<div class="stat">
 
-        <span class="statIcon">💳</span>
+    <span class="statIcon">💳</span>
 
-        <small>کارتخوان</small>
+    <small>کارتخوان</small>
 
-        <div class="moneyRow"><strong id="posTotal">۰</strong></div>
+    <div class="moneyRow"><strong id="posTotal">۰</strong></div>
 
-    </div>
+</div>
 
-    <div class="stat">
+<div class="stat">
 
-        <span class="statIcon">💵</span>
+    <span class="statIcon">💵</span>
 
-        <small>نقدی</small>
+    <small>نقدی</small>
 
-        <div class="moneyRow"><strong id="cashTotal">۰</strong></div>
+    <div class="moneyRow"><strong id="cashTotal">۰</strong></div>
 
-    </div>
+</div>
 
-    <div class="stat">
+<div class="stat">
 
-        <span class="statIcon">🔄</span>
+    <span class="statIcon">🔄</span>
 
-        <small>کارت‌به‌کارت</small>
+    <small>کارت‌به‌کارت</small>
 
-        <div class="moneyRow"><strong id="transferTotal">۰</strong></div>
+    <div class="moneyRow"><strong id="transferTotal">۰</strong></div>
 
-    </div>
+</div>
 
 </section>
 
 <section class="panel">
 
-    <div class="panelTitle">
+<div class="panelTitle">
 
-        <h2>📈 درآمد کل</h2>
+    <h2>📈 درآمد کل</h2>
 
-        <span id="chartInfo">
+    <span id="chartInfo">
 
-            نمای گرافیکی
+        نمای گرافیکی
 
-        </span>
+    </span>
 
-    </div>
+</div>
 
-    <div class="chartWrap">
+<div class="chartWrap">
 
-        <div class="incomeBubble">
+    <div class="incomeBubble">
 
-            <div class="bubbleContent">
+        <div class="bubbleContent">
 
-                <div class="bubbleIcon">
+            <div class="bubbleIcon">
 
-                    💰
-
-                </div>
-
-                <div class="bubbleLabel">
-
-                    کل درآمد
-
-                </div>
-
-                <div class="moneyRow"><div class="bubbleAmount" id="bubbleIncome">۰ تومان</div></div>
+                💰
 
             </div>
+
+            <div class="bubbleLabel">
+
+                کل درآمد
+
+            </div>
+
+            <div class="moneyRow"><div class="bubbleAmount" id="bubbleIncome">۰ تومان</div></div>
 
         </div>
 
     </div>
 
-    <div class="chartButtonWrap">
+</div>
 
-        <button
+<div class="chartButtonWrap">
 
-            class="chartButton"
+    <button
 
-            onclick="openChart()">
+        class="chartButton"
 
-            📊 مشاهده نمودار درآمد
+        onclick="openChart()">
 
-        </button>
+        📊 مشاهده نمودار درآمد
 
-    </div>
+    </button>
+
+</div>
 
 </section>
 
 <section
 
-    class="panel chartPanel"
+class="panel chartPanel"
 
-    id="chartSection">
+id="chartSection">
 
-    <div class="panelTitle">
+<div class="panelTitle">
 
-        <h2>📊 نمودار درآمد</h2>
+    <h2>📊 نمودار درآمد</h2>
 
-        <span>
+    <span>
 
-            نمایش درآمد بر اساس روز
+        نمایش درآمد بر اساس روز
 
-        </span>
+    </span>
 
-    </div>
+</div>
 
-    <div class="realChart">
+<div class="realChart">
 
-        <div
+    <div
 
-            class="chartBars"
+        class="chartBars"
 
-            id="chartBars">
+        id="chartBars">
 
-            <div class="chartEmpty">
+        <div class="chartEmpty">
 
-                در حال بارگذاری...
-
-            </div>
+            در حال بارگذاری...
 
         </div>
-
-        <div
-
-            class="chartSummary"
-
-            id="chartSummary">
-
-        </div>
-
-    </div>
-
-</section>
-
-<section class="panel" id="transactions">
-
-    <div class="panelTitle">
-
-        <h2>🧾 تراکنش‌ها</h2>
-
-        <span id="reportDate">
-
-            گزارش مالی
-
-        </span>
-
-    </div>
-
-    <div class="filterArea">
-
-        <div class="filters">
-
-            <button
-
-                class="active"
-
-                onclick="filterData('all',this)">
-
-                همه
-
-            </button>
-
-            <button
-
-                onclick="filterData('کارتخوان',this)">
-
-                کارتخوان
-
-            </button>
-
-            <button
-
-                onclick="filterData('نقدی',this)">
-
-                نقدی
-
-            </button>
-
-            <button
-
-                onclick="filterData('کارت به کارت',this)">
-
-                کارت به کارت
-
-            </button>
-
-        </div>
-
-        <div class="searchBox">
-
-            <input
-
-                id="searchInput"
-
-                type="text"
-
-                placeholder="🔎 جستجوی مشتری، خدمت..."
-
-                oninput="renderTransactions()">
-
-        </div>
-
-    </div>
-
-    <div class="tableWrap">
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>تاریخ</th>
-
-                    <th>ساعت</th>
-
-                    <th>مشتری</th>
-
-                    <th>خدمت</th>
-
-                    <th>مبلغ</th>
-
-                    <th>روش پرداخت</th>
-
-                    <th>وضعیت پرداخت</th>
-
-                    <th>توضیحات</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody id="transactionsBody"></tbody>
-
-        </table>
-
-    </div>
-
-</section>
-
-<section class="panel" id="notes">
-
-    <div class="panelTitle">
-
-        <h2>📝 یادداشت‌ها و کارها</h2>
-
-        <span>
-
-            Task Board
-
-        </span>
-
-    </div>
-
-    <div class="noteForm">
-
-        <textarea
-
-            id="noteInput"
-
-            placeholder="مثلاً: فردا قبض اینترنت پرداخت شود..."></textarea>
-
-        <button
-
-            class="noteAdd"
-
-            onclick="addNote()">
-
-            ＋ ثبت یادداشت
-
-        </button>
 
     </div>
 
     <div
 
-        class="notes"
+        class="chartSummary"
 
-        id="notesContainer">
+        id="chartSummary">
 
     </div>
+
+</div>
+
+</section>
+
+<section class="panel" id="transactions">
+
+<div class="panelTitle">
+
+    <h2>🧾 تراکنش‌ها</h2>
+
+    <span id="reportDate">
+
+        گزارش مالی
+
+    </span>
+
+</div>
+
+<div class="filterArea">
+
+    <div class="filters">
+
+        <button
+
+            class="active"
+
+            onclick="filterData('all',this)">
+
+            همه
+
+        </button>
+
+        <button
+
+            onclick="filterData('کارتخوان',this)">
+
+            کارتخوان
+
+        </button>
+
+        <button
+
+            onclick="filterData('نقدی',this)">
+
+            نقدی
+
+        </button>
+
+        <button
+
+            onclick="filterData('کارت به کارت',this)">
+
+            کارت به کارت
+
+        </button>
+
+    </div>
+
+    <div class="searchBox">
+
+        <input
+
+            id="searchInput"
+
+            type="text"
+
+            placeholder="🔎 جستجوی مشتری، خدمت..."
+
+            oninput="renderTransactions()">
+
+    </div>
+
+</div>
+
+<div class="tableWrap">
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>تاریخ</th>
+
+                <th>ساعت</th>
+
+                <th>مشتری</th>
+
+                <th>خدمت</th>
+
+                <th>مبلغ</th>
+
+                <th>روش پرداخت</th>
+
+                <th>وضعیت پرداخت</th>
+
+                <th>توضیحات</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="transactionsBody"></tbody>
+
+    </table>
+
+</div>
+
+</section>
+
+<section class="panel" id="notes">
+
+<div class="panelTitle">
+
+    <h2>📝 یادداشت‌ها و کارها</h2>
+
+    <span>
+
+        Task Board
+
+    </span>
+
+</div>
+
+<div class="noteForm">
+
+    <textarea
+
+        id="noteInput"
+
+        placeholder="مثلاً: فردا قبض اینترنت پرداخت شود..."></textarea>
+
+    <button
+
+        class="noteAdd"
+
+        onclick="addNote()">
+
+        ＋ ثبت یادداشت
+
+    </button>
+
+</div>
+
+<div
+
+    class="notes"
+
+    id="notesContainer">
+
+</div>
 
 </section>
 
@@ -3008,61 +3008,61 @@ tbody tr:hover{
 
 <a
 
-    href="#home"
+href="#home"
 
-    class="active"
+class="active"
 
-    onclick="setNav(this)">
+onclick="setNav(this)">
 
-    <span>⌂</span>
+<span>⌂</span>
 
-    خانه
-
-</a>
-
-<a
-
-    href="#income"
-
-    onclick="setNav(this)">
-
-    <span>📈</span>
-
-    درآمد
+خانه
 
 </a>
 
 <a
 
-    href="#transactions"
+href="#income"
 
-    onclick="setNav(this)">
+onclick="setNav(this)">
 
-    <span>🧾</span>
+<span>📈</span>
 
-    تراکنش‌ها
-
-</a>
-
-<a
-
-    href="#notes"
-
-    onclick="setNav(this)">
-
-    <span>📝</span>
-
-    یادداشت
+درآمد
 
 </a>
 
 <a
 
-    href="./index.html">
+href="#transactions"
 
-    <span>↩</span>
+onclick="setNav(this)">
 
-    خروج
+<span>🧾</span>
+
+تراکنش‌ها
+
+</a>
+
+<a
+
+href="#notes"
+
+onclick="setNav(this)">
+
+<span>📝</span>
+
+یادداشت
+
+</a>
+
+<a
+
+href="./index.html">
+
+<span>↩</span>
+
+خروج
 
 </a>
 
@@ -3076,23 +3076,23 @@ tbody tr:hover{
 
   <div class="chatWindow">
 
-    <div class="chatHeader">
+<div class="chatHeader">
 
-      <div><h3>💬 گفت‌وگوی پنل</h3><small id="chatStatus">پیام‌ها</small></div>
+  <div><h3>💬 گفت‌وگوی پنل</h3><small id="chatStatus">پیام‌ها</small></div>
 
-      <button class="chatClose" onclick="closeChat()">×</button>
+  <button class="chatClose" onclick="closeChat()">×</button>
 
-    </div>
+</div>
 
-    <div class="chatMessages" id="chatMessages"><div class="chartEmpty">در حال بارگذاری...</div></div>
+<div class="chatMessages" id="chatMessages"><div class="chartEmpty">در حال بارگذاری...</div></div>
 
-    <div class="chatComposer">
+<div class="chatComposer">
 
-      <textarea id="chatInput" placeholder="پیامتان را بنویسید..." onkeydown="chatKeydown(event)"></textarea>
+  <textarea id="chatInput" placeholder="پیامتان را بنویسید..." onkeydown="chatKeydown(event)"></textarea>
 
-      <button class="chatSend" onclick="sendChatMessage()">ارسال</button>
+  <button class="chatSend" onclick="sendChatMessage()">ارسال</button>
 
-    </div>
+</div>
 
   </div>
 
@@ -3102,23 +3102,23 @@ tbody tr:hover{
 
   <div class="paymentCard">
 
-    <div class="paymentTop">
+<div class="paymentTop">
 
-      <div><div class="paymentTitle">💳 درخواست پرداخت</div><div class="paymentSub">درخواست جدید از پنل ثبت</div></div>
+  <div><div class="paymentTitle">💳 درخواست پرداخت</div><div class="paymentSub">درخواست جدید از پنل ثبت</div></div>
 
-      <button class="paymentClose" onclick="dismissPayment()">×</button>
+  <button class="paymentClose" onclick="dismissPayment()">×</button>
 
-    </div>
+</div>
 
-    <div class="paymentInfo" id="paymentInfo"></div>
+<div class="paymentInfo" id="paymentInfo"></div>
 
-    <div class="paymentActions">
+<div class="paymentActions">
 
-      <button class="payConfirm" onclick="confirmPayment()">🟢 پرداخت شد</button>
+  <button class="payConfirm" onclick="confirmPayment()">🟢 پرداخت شد</button>
 
-      <button class="payDismiss" onclick="dismissPayment()">بستن</button>
+  <button class="payDismiss" onclick="dismissPayment()">بستن</button>
 
-    </div>
+</div>
 
   </div>
 
@@ -3126,9 +3126,9 @@ tbody tr:hover{
 
 <div
 
-    class="toast"
+class="toast"
 
-    id="toast">
+id="toast">
 
 </div>
 
@@ -3258,15 +3258,15 @@ function escapeHTML(value){
 
     return String(value ?? "")
 
-        .replace(/&/g,"&")
+        .replace(/&/g,"&amp;")
 
-        .replace(/</g,"<")
+        .replace(/</g,"&lt;")
 
-        .replace(/>/g,">")
+        .replace(/>/g,"&gt;")
 
-        .replace(/"/g,""")
+        .replace(/"/g,"&quot;")
 
-        .replace(/'/g,"'");
+        .replace(/'/g,"&#039;");
 
 }
 
@@ -3403,79 +3403,51 @@ function getCloudData(){
     return new Promise((resolve,reject)=>{
 
         const callbackName =
-
             "janaGetData_" + Date.now() + "_" + Math.random().toString(36).slice(2);
 
         const script = document.createElement("script");
 
         let finished = false;
 
-        let timer = null;
-
         const cleanup = ()=>{
-
             finished = true;
-
-            if(timer)clearTimeout(timer);
-
+            clearTimeout(timer);
             try{ delete window[callbackName]; }catch(e){ window[callbackName]=undefined; }
-
             script.remove();
-
         };
 
-        timer = setTimeout(()=>{
-
+        const timer = setTimeout(()=>{
             if(finished)return;
-
             cleanup();
-
             reject(new Error("دریافت اطلاعات از Google Sheets زمان‌بر شد."));
-
         },20000);
 
         window[callbackName] = (data)=>{
-
             if(finished)return;
-
             cleanup();
 
             if(!data || data.status !== "success"){
-
                 reject(new Error(data?.message || "خطا در دریافت اطلاعات"));
-
                 return;
-
             }
 
             resolve(data);
-
         };
 
         script.onerror = ()=>{
-
             if(finished)return;
-
             cleanup();
-
             reject(new Error("ارتباط با Google Sheets برقرار نشد."));
-
         };
 
         script.src =
-
             API_URL +
-
             "?action=getData&callback=" +
-
             encodeURIComponent(callbackName) +
-
             "&_=" + Date.now();
 
         document.head.appendChild(script);
-
     });
-
 }
 
 /* =====================================================
@@ -4012,7 +3984,7 @@ function updateStats(){
 
     ).textContent =
 
-        money(total);
+        secureMoney(getTodayIncome());
 
     document.getElementById(
 
@@ -4020,11 +3992,7 @@ function updateStats(){
 
     ).textContent =
 
-        faNumber(
-
-            transactions.length
-
-        );
+        moneyHidden ? "••••••" : faNumber(transactions.length);
 
     document.getElementById(
 
@@ -4032,7 +4000,7 @@ function updateStats(){
 
     ).textContent =
 
-        money(pos);
+        secureMoney(pos);
 
     document.getElementById(
 
@@ -4040,7 +4008,7 @@ function updateStats(){
 
     ).textContent =
 
-        money(cash);
+        secureMoney(cash);
 
     document.getElementById(
 
@@ -4048,7 +4016,7 @@ function updateStats(){
 
     ).textContent =
 
-        money(transfer);
+        secureMoney(transfer);
 
     updateBubble();
 
@@ -6432,7 +6400,7 @@ function renderMiniChat(){
 
         const unread=!m.read && String(m.sender||"").trim()!=="خانم دهقان";
 
-        const text=String(m.text||"").replace(/\[TX:[^\]]+\]/g,"").replace(/\s+/g," ").trim();
+        const text=String(m.text||"").replace(/\\[TX:[^\\]]+\\]/g,"").replace(/\s+/g," ").trim();
 
         return `<button type="button" class="miniChatItem ${unread?"unread":""}" onclick="openChat()">${unread?"🔵 ":""}${escapeHTML(text||"پیام")}</button>`;
 
@@ -6528,105 +6496,65 @@ async function sendChatMessage(){
 
 function parsePaymentMessage(m){
 
-    const text=String(m?.text||m?.message||"");
+    const text=String(m?.text||"");
 
     const tx=(text.match(/\[TX:([^\]]+)\]/i)||[])[1]?.trim()||"";
 
     let customer=(text.match(/مشتری:\s*(.+?)(?:\s*\[TX:|$)/)||[])[1]?.trim()||"";
-
     let service=(text.match(/خدمت:\s*([^|]+)/)||[])[1]?.trim()||"";
-
     let amount=(text.match(/مبلغ:\s*([^|]+)/)||[])[1]?.trim()||"";
 
     if(!service){
-
         service=(text.match(/درخواست پرداخت:\s*([^|]+)/)||[])[1]?.trim()||"-";
-
     }
-
     if(!amount){
-
         amount=(text.match(/مبلغ\s*([^|]+)/)||[])[1]?.replace(/تومان/g,"").trim()||"-";
-
-    }else{
-
-        amount=amount.replace(/تومان/g,"").trim()||"-";
-
     }
-
     if(!customer){
-
         customer=(text.match(/مشتری:\s*(.+?)(?:\s*\[TX:|$)/)||[])[1]?.trim()||"-";
-
     }
 
-    return {tx,customer||"-",service||"-",amount||"-"};
-
+    return {tx,customer:customer||"-",service:service||"-",amount:amount||"-"};
 }
 
 function playPaymentSound(){
-
-    try{
-
-        const AudioCtx=window.AudioContext||window.webkitAudioContext;
-
-        if(!AudioCtx)return;
-
-        const ctx=new AudioCtx();
-
-        const gain=ctx.createGain();
-
-        const osc=ctx.createOscillator();
-
-        osc.type="sine";
-
-        osc.frequency.setValueAtTime(880,ctx.currentTime);
-
-        osc.frequency.setValueAtTime(1175,ctx.currentTime+.10);
-
-        gain.gain.setValueAtTime(.0001,ctx.currentTime);
-
-        gain.gain.exponentialRampToValueAtTime(.16,ctx.currentTime+.02);
-
-        gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.34);
-
-        osc.connect(gain); gain.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime+.36);
-
-        setTimeout(()=>ctx.close().catch(()=>{}),500);
-
-    }catch(e){}
-
+   try{
+       const AudioCtx=window.AudioContext||window.webkitAudioContext;
+       if(!AudioCtx)return;
+       const ctx=new AudioCtx();
+       const now=ctx.currentTime;
+       const master=ctx.createGain();
+       master.gain.setValueAtTime(0.0001,now);
+       master.gain.exponentialRampToValueAtTime(0.22,now+0.03);
+       master.gain.exponentialRampToValueAtTime(0.0001,now+0.95);
+       master.connect(ctx.destination);
+       [[880,0],[1175,.13],[1568,.26],[1175,.42]].forEach(([freq,delay],i)=>{
+           const osc=ctx.createOscillator();
+           const gain=ctx.createGain();
+           osc.type=i===3?"sine":"triangle";
+           osc.frequency.setValueAtTime(freq,now+delay);
+           gain.gain.setValueAtTime(0.0001,now+delay);
+           gain.gain.exponentialRampToValueAtTime(i===3?0.12:0.16,now+delay+0.025);
+           gain.gain.exponentialRampToValueAtTime(0.0001,now+delay+0.24);
+           osc.connect(gain); gain.connect(master);
+           osc.start(now+delay); osc.stop(now+delay+0.26);
+       });
+       if(ctx.state==="suspended")ctx.resume().catch(()=>{});
+       setTimeout(()=>ctx.close().catch(()=>{}),1200);
+   }catch(e){}
 }
 
 function checkPaymentRequests(){
 
     const pending=[...allMessages]
-
-        .filter(m=>
-
-            String(m?.sender||"").trim()!=="خانم دهقان" &&
-
-            !isPaymentPaid(m) &&
-
-            String(m?.text||m?.message||"").includes("[TX:")
-
-        )
-
-        .sort((a,b)=>{
-
-            const aa=String(a?.date||"")+" "+String(a?.time||"");
-
-            const bb=String(b?.date||"")+" "+String(b?.time||"");
-
-            return bb.localeCompare(aa,"fa");
-
-        })[0];
+       .filter(m=>m.sender!=="خانم دهقان" && !isPaymentPaid(m) && String(m.text||"").includes("[TX:"))
+       .sort((a,b)=>(String(b.date||"")+" "+String(b.time||"")).localeCompare(String(a.date||"")+" "+String(a.time||""),"fa"))[0];
 
     if(!pending)return;
 
     if(currentPaymentMessage && String(currentPaymentMessage.id)===String(pending.id))return;
 
-    const alertKey=String(pending.id||pending.text||pending.message||"");
+    const alertKey=String(pending.id||pending.text||"");
 
     if(localStorage.getItem("jana_last_payment_alert")!==alertKey){
 
@@ -6642,9 +6570,10 @@ function checkPaymentRequests(){
 
     const info=document.getElementById("paymentInfo");
 
-    if(info)info.innerHTML=`<div class="paymentInfoRow"><span>مشتری</span><span>${escapeHTML(p.customer)}</span></div><div class="paymentInfoRow"><span>خدمت</span><span>${escapeHTML(p.service)}</span></div><div class="paymentInfoRow"><span>مبلغ</span><span class="paymentAmount">${escapeHTML(p.amount)} تومان</span></div><div class="paymentInfoRow"><span>تاریخ و ساعت</span><span>${escapeHTML((pending.date||"")+" • "+(pending.time||""))}</span></div>`;
+    if(info)info.innerHTML=`<div class="paymentInfoRow"><span>مشتری</span><span>${escapeHTML(p.customer)}</span></div><div class="paymentInfoRow"><span>خدمت</span><span>${escapeHTML(p.service)}</span></div><div class="paymentInfoRow"><span>مبلغ</span><span class="paymentAmount">${escapeHTML(p.amount)}</span></div><div class="paymentInfoRow"><span>تاریخ و ساعت</span><span>${escapeHTML((pending.date||"")+" • "+(pending.time||""))}</span></div>`;
 
-    const overlay=document.getElementById("paymentOverlay");\n\n    const card=overlay?.querySelector(".paymentCard");\n\n    card?.classList.remove("paymentAlertPulse");\n\n    void card?.offsetWidth;\n\n    card?.classList.add("paymentAlertPulse");\n\n    overlay?.classList.add("open");
+    document.getElementById("paymentOverlay")?.classList.add("open");
+   document.querySelector(".paymentCard")?.classList.add("paymentAlertPulse");
 
 }
 
@@ -6652,59 +6581,29 @@ async function confirmPayment(){
 
     if(!currentPaymentMessage)return;
 
-    const message=currentPaymentMessage;
-
-    const p=parsePaymentMessage(message);
-
-    if(!p.tx){
-
-        showToast("⚠️ شناسه تراکنش این درخواست پیدا نشد.");
-
-        return;
-
-    }
-
-    const button=document.querySelector(".payConfirm");
-
-    if(button){button.disabled=true;button.textContent="⏳ در حال ثبت پرداخت...";}
-
     try{
 
-        await cloudPost({action:"setMessagePayment",id:message.id,payment:"پرداخت شد"});
+        await cloudPost({action:"setMessagePayment",id:currentPaymentMessage.id,payment:"پرداخت شد"});
 
-        await cloudPost({action:"markMessageRead",id:message.id,status:"خوانده شد"});
+        await cloudPost({action:"markMessageRead",id:currentPaymentMessage.id,status:"خوانده شد"});
+
+        const p=parsePaymentMessage(currentPaymentMessage);
 
         const confirmation=`🟢 تایید پرداخت | [TX:${p.tx}] | خدمت: ${p.service} | مشتری: ${p.customer} | مبلغ: ${p.amount} | وضعیت: پرداخت شد`;
 
         await cloudPost({action:"addMessage",sender:"خانم دهقان",text:confirmation,message:confirmation,status:"خوانده نشده",payment:"پرداخت شد"});
 
-        message.paid=true;
-
-        message.payment="پرداخت شد";
-
-        message.read=true;
+        currentPaymentMessage.paid=true; currentPaymentMessage.payment="پرداخت شد"; currentPaymentMessage.read=true;
 
         showToast("🟢 پرداخت ثبت شد و تأیید به پنل ثبت ارسال شد.");
 
-        dismissPayment();
+        dismissPayment(); await loadMessages(); await loadCloudData(false);
 
-        await loadMessages();
-
-        await loadCloudData(false);
-
-    }catch(e){
-
-        console.error("Payment confirmation error:",e);
-
-        showToast("⚠️ ثبت پرداخت انجام نشد. دوباره تلاش کنید.");
-
-        if(button){button.disabled=false;button.textContent="🟢 پرداخت شد";}
-
-    }
+    }catch(e){console.error(e);showToast("⚠️ ثبت پرداخت انجام نشد.")}
 
 }
 
-function dismissPayment(){const overlay=document.getElementById("paymentOverlay");const card=overlay?.querySelector(".paymentCard");card?.classList.remove("paymentAlertPulse");overlay?.classList.remove("open");currentPaymentMessage=null}
+function dismissPayment(){document.getElementById("paymentOverlay")?.classList.remove("open");document.querySelector(".paymentCard")?.classList.remove("paymentAlertPulse");currentPaymentMessage=null}
 
 function closePaymentFromBackdrop(e){if(e.target.id==="paymentOverlay")dismissPayment()}
 
