@@ -4266,112 +4266,485 @@ function closeNoteModalFromBackdrop(e){
     if(e.target.classList.contains("noteModal"))closeNoteModal();
 }
 
-async function addNote(){
-    const input=document.getElementById("noteInput");
-    if(!input)return;
-    const text=input.value.trim();
-    if(!text){showToast("⚠️ اول متن یادداشت را بنویس.");input.focus();return;}
-    if(text===TEST_NOTE_TEXT){showToast("⚠️ این یادداشت قابل ثبت نیست.");return;}
-    const now=new Date();
-    const date=now.toLocaleDateString("fa-IR");
-    const time=now.toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"});
-    const button=document.querySelector(".noteAdd");
-    if(button)button.disabled=true;
+/* =====================================================
+   PROFESSIONAL NOTES ENGINE
+   Sheet2 = Source of Truth
+   ===================================================== */
+
+let noteOperationBusy = false;
+
+function getNoteById(id){
+    return findLocalNote(id);
+}
+
+async function refreshNotesFromCloud(){
+    const data = await getCloudData();
+
+    if(!Array.isArray(data.notes)){
+        throw new Error("داده یادداشت‌ها از سرور دریافت نشد");
+    }
+
+    localNotes = data.notes
+        .filter(item => {
+            const text = String(item.text || item.note || "").trim();
+            return text && text !== TEST_NOTE_TEXT;
+        })
+        .map(item => ({
+            id:String(item.id),
+            cloudId:String(item.id),
+            text:String(item.text || item.note || "").trim(),
+            date:String(item.date || ""),
+            time:String(item.time || ""),
+            pinned:isPinnedValue(item.pinned),
+            done:String(item.status || "").trim() === "انجام شد"
+        }));
+
+    saveNotes();
+    renderNotes();
+    return data.notes;
+}
+
+async function runNoteOperation(button, operation, successMessage, errorMessage){
+    if(noteOperationBusy)return false;
+
+    noteOperationBusy = true;
+
+    if(button){
+        button.disabled = true;
+        button.dataset.originalText = button.textContent;
+        button.textContent = "⏳";
+    }
+
     try{
-        const result=await cloudPost({action:"addNote",date,time,note:text,status:"باز",pinned:false});
-        if(!result||result.status!=="success"||!result.id)throw new Error(result?.message||"ثبت یادداشت ناموفق بود");
-        input.value="";
-        await loadCloudData(false);
-        showToast("✅ یادداشت ثبت شد.");
-    }catch(error){console.error("Add note error:",error);showToast("⚠️ یادداشت در شیت ذخیره نشد.");}
-    finally{if(button)button.disabled=false;}
+        await operation();
+        showToast(successMessage);
+        return true;
+    }catch(error){
+        console.error("Note operation error:",error);
+        showToast(errorMessage);
+        return false;
+    }finally{
+        noteOperationBusy = false;
+
+        if(button){
+            button.disabled = false;
+            if(button.dataset.originalText){
+                button.textContent = button.dataset.originalText;
+                delete button.dataset.originalText;
+            }
+        }
+    }
+}
+
+async function addNote(){
+    const input = document.getElementById("noteInput");
+    if(!input)return;
+
+    const text = input.value.trim();
+
+    if(!text){
+        showToast("⚠️ اول متن یادداشت را بنویس.");
+        input.focus();
+        return;
+    }
+
+    if(text === TEST_NOTE_TEXT){
+        showToast("⚠️ این یادداشت آزمایشی قابل ثبت نیست.");
+        return;
+    }
+
+    const button = document.querySelector(".noteAdd");
+
+    await runNoteOperation(
+        button,
+        async ()=>{
+            const now = new Date();
+
+            const date = now.toLocaleDateString("fa-IR");
+            const time = now.toLocaleTimeString(
+                "fa-IR",
+                {
+                    hour:"2-digit",
+                    minute:"2-digit"
+                }
+            );
+
+            /*
+               فقط یک عملیات ثبت انجام می‌شود.
+               هیچ رکورد محلیِ جعلی قبل از تأیید سرور ساخته نمی‌شود.
+            */
+            let postSucceeded = false;
+
+            try{
+                const result = await cloudPost({
+                    action:"addNote",
+                    date:date,
+                    time:time,
+                    note:text,
+                    status:"باز",
+                    pinned:false
+                });
+
+                postSucceeded =
+                    !result ||
+                    !result.status ||
+                    result.status === "success" ||
+                    result.status === "ok";
+            }catch(postError){
+                /*
+                   Apps Script ممکن است پاسخ POST را با تأخیر یا
+                   به‌شکل غیرقابل‌خواندن برگرداند، در حالی که appendRow
+                   انجام شده باشد. بنابراین قبل از اعلام شکست، GET می‌کنیم.
+                */
+                console.warn("Add note POST response issue:",postError);
+            }
+
+            const cloudNotes = await refreshNotesFromCloud();
+
+            const saved = cloudNotes.some(item=>{
+                const itemText =
+                    String(item.text || item.note || "").trim();
+
+                return (
+                    itemText === text &&
+                    String(item.date || "") === String(date || "") &&
+                    String(item.time || "") === String(time || "")
+                );
+            });
+
+            if(!saved && !postSucceeded){
+                throw new Error("یادداشت در Sheet2 پیدا نشد");
+            }
+
+            if(!saved){
+                /*
+                   اگر POST موفق گزارش شد اما GET بلافاصله رکورد را ندید،
+                   یک بار دیگر با تأخیر کوتاه بررسی می‌کنیم.
+                */
+                await new Promise(resolve=>setTimeout(resolve,450));
+
+                const retryNotes = await refreshNotesFromCloud();
+
+                const retrySaved = retryNotes.some(item=>{
+                    const itemText =
+                        String(item.text || item.note || "").trim();
+
+                    return (
+                        itemText === text &&
+                        String(item.date || "") === String(date || "") &&
+                        String(item.time || "") === String(time || "")
+                    );
+                });
+
+                if(!retrySaved){
+                    throw new Error("ثبت یادداشت توسط سرور تأیید نشد");
+                }
+            }
+
+            input.value = "";
+        },
+        "✅ یادداشت با موفقیت در Sheet2 ثبت شد.",
+        "⚠️ ثبت یادداشت تأیید نشد؛ اطلاعات قبلی دست‌نخورده باقی ماند."
+    );
 }
 
 async function updateNoteCloud(note){
-    const cloudId=await resolveNoteCloudId(note);
+    const cloudId = await resolveNoteCloudId(note);
     if(!cloudId)return false;
-    const result=await cloudPost({action:"updateNote",id:String(cloudId),date:note.date||"",time:note.time||"",note:note.text||"",status:note.done?"انجام شد":"باز",pinned:!!note.pinned});
-    return !!result&&result.status==="success";
+
+    const result = await cloudPost({
+        action:"updateNote",
+        id:String(cloudId),
+        date:note.date || "",
+        time:note.time || "",
+        note:note.text || "",
+        status:note.done ? "انجام شد" : "باز",
+        pinned:!!note.pinned
+    });
+
+    return (
+        !result ||
+        !result.status ||
+        result.status === "success" ||
+        result.status === "ok"
+    );
 }
 
 function openDeleteNoteModal(id){
-    const note=findLocalNote(id); if(!note)return;
-    window.currentDeleteNoteId=note.id;
-    const preview=String(note.text||"").trim();
-    const text=document.getElementById("noteConfirmText");
-    if(text)text.textContent=`آیا از حذف یادداشت «${preview.slice(0,90)}${preview.length>90?"…":""}» مطمئن هستید؟ این عملیات رکورد مربوط را از شیت یادداشت‌ها نیز حذف می‌کند.`;
-    document.getElementById("noteConfirmModal")?.classList.add("open");
-    const btn=document.getElementById("noteConfirmButton");
-    if(btn){btn.disabled=false;btn.onclick=confirmDeleteNote;}
+    const note = getNoteById(id);
+    if(!note)return;
+
+    window.currentDeleteNoteId = note.id;
+
+    const preview = String(note.text || "").trim();
+    const text = document.getElementById("noteConfirmText");
+
+    if(text){
+        text.textContent =
+            `آیا از حذف یادداشت «${preview.slice(0,90)}${preview.length>90?"…":""}» مطمئن هستید؟ این عملیات رکورد مربوط را از شیت یادداشت‌ها نیز حذف می‌کند.`;
+    }
+
+    document
+        .getElementById("noteConfirmModal")
+        ?.classList.add("open");
+
+    const btn = document.getElementById("noteConfirmButton");
+
+    if(btn){
+        btn.disabled = false;
+        btn.onclick = confirmDeleteNote;
+    }
 }
 
 async function confirmDeleteNote(){
-    const note=findLocalNote(window.currentDeleteNoteId);
-    if(!note){closeNoteModal();return;}
-    const btn=document.getElementById("noteConfirmButton"); if(btn)btn.disabled=true;
-    try{
-        const cloudId=await resolveNoteCloudId(note);
-        if(!cloudId)throw new Error("شناسه یادداشت پیدا نشد");
-        const result=await cloudPost({action:"deleteNote",id:String(cloudId)});
-        if(!result||result.status!=="success")throw new Error(result?.message||"حذف یادداشت ناموفق بود");
+    const note = getNoteById(window.currentDeleteNoteId);
+
+    if(!note){
         closeNoteModal();
-        await loadCloudData(false);
-        showToast("🗑 یادداشت از شیت ۲ حذف شد.");
-    }catch(error){console.error("Delete note error:",error);showToast("⚠️ حذف یادداشت در شیت انجام نشد.");}
-    finally{if(btn)btn.disabled=false;}
+        return;
+    }
+
+    const btn = document.getElementById("noteConfirmButton");
+
+    const ok = await runNoteOperation(
+        btn,
+        async ()=>{
+            const cloudId = await resolveNoteCloudId(note);
+
+            if(!cloudId){
+                throw new Error("شناسه یادداشت پیدا نشد");
+            }
+
+            let postSucceeded = false;
+
+            try{
+                const result = await cloudPost({
+                    action:"deleteNote",
+                    id:String(cloudId)
+                });
+
+                postSucceeded =
+                    !result ||
+                    !result.status ||
+                    result.status === "success" ||
+                    result.status === "ok";
+            }catch(postError){
+                console.warn("Delete note POST response issue:",postError);
+            }
+
+            const cloudNotes = await refreshNotesFromCloud();
+
+            const stillExists = cloudNotes.some(
+                item=>String(item.id) === String(cloudId)
+            );
+
+            if(stillExists){
+                await new Promise(resolve=>setTimeout(resolve,450));
+
+                const retryNotes = await refreshNotesFromCloud();
+
+                const retryExists = retryNotes.some(
+                    item=>String(item.id) === String(cloudId)
+                );
+
+                if(retryExists){
+                    throw new Error("حذف توسط سرور تأیید نشد");
+                }
+            }
+
+            if(!postSucceeded && stillExists){
+                throw new Error("حذف ناموفق بود");
+            }
+
+            closeNoteModal();
+        },
+        "🗑 یادداشت از Sheet2 حذف شد.",
+        "⚠️ حذف یادداشت تأیید نشد؛ رکورد حفظ شد."
+    );
+
+    if(!ok){
+        const modal = document.getElementById("noteConfirmModal");
+        if(modal)modal.classList.add("open");
+    }
 }
 
 function editNote(id){
-    const note=findLocalNote(id); if(!note)return;
-    window.currentEditingNoteId=note.id;
-    const input=document.getElementById("noteEditInput"); if(!input)return;
-    input.value=note.text||"";
-    document.getElementById("noteEditModal")?.classList.add("open");
-    setTimeout(()=>{input.focus();input.setSelectionRange(input.value.length,input.value.length);},50);
+    const note = getNoteById(id);
+    if(!note)return;
+
+    window.currentEditingNoteId = note.id;
+
+    const input = document.getElementById("noteEditInput");
+    if(!input)return;
+
+    input.value = note.text || "";
+
+    document
+        .getElementById("noteEditModal")
+        ?.classList.add("open");
+
+    setTimeout(()=>{
+        input.focus();
+        input.setSelectionRange(
+            input.value.length,
+            input.value.length
+        );
+    },50);
 }
 
 async function submitNoteEdit(){
-    const note=findLocalNote(window.currentEditingNoteId);
-    const input=document.getElementById("noteEditInput");
-    if(!note||!input)return;
-    const cleanText=input.value.trim();
-    if(!cleanText){showToast("⚠️ متن یادداشت نمی‌تواند خالی باشد.");return;}
-    if(cleanText===TEST_NOTE_TEXT){showToast("⚠️ این متن قابل استفاده نیست.");return;}
-    const cloudId=await resolveNoteCloudId(note);
-    if(!cloudId){showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");return;}
-    const saveButton=document.querySelector("#noteEditModal .primary"); if(saveButton)saveButton.disabled=true;
-    try{
-        const result=await cloudPost({action:"updateNote",id:String(cloudId),date:note.date||"",time:note.time||"",note:cleanText,status:note.done?"انجام شد":"باز",pinned:!!note.pinned});
-        if(!result||result.status!=="success")throw new Error(result?.message||"ویرایش یادداشت ناموفق بود");
-        closeNoteModal();
-        await loadCloudData(false);
-        showToast("✏️ یادداشت ویرایش و در شیت ۲ ذخیره شد.");
-    }catch(error){console.error("Edit note error:",error);showToast("⚠️ ویرایش یادداشت در شیت انجام نشد.");}
-    finally{if(saveButton)saveButton.disabled=false;}
+    const note = getNoteById(window.currentEditingNoteId);
+    const input = document.getElementById("noteEditInput");
+
+    if(!note || !input)return;
+
+    const cleanText = input.value.trim();
+
+    if(!cleanText){
+        showToast("⚠️ متن یادداشت نمی‌تواند خالی باشد.");
+        return;
+    }
+
+    if(cleanText === TEST_NOTE_TEXT){
+        showToast("⚠️ این متن آزمایشی قابل استفاده نیست.");
+        return;
+    }
+
+    const saveButton =
+        document.querySelector("#noteEditModal .primary");
+
+    await runNoteOperation(
+        saveButton,
+        async ()=>{
+            const cloudId = await resolveNoteCloudId(note);
+
+            if(!cloudId){
+                throw new Error("شناسه یادداشت پیدا نشد");
+            }
+
+            await cloudPost({
+                action:"updateNote",
+                id:String(cloudId),
+                date:note.date || "",
+                time:note.time || "",
+                note:cleanText,
+                status:note.done ? "انجام شد" : "باز",
+                pinned:!!note.pinned
+            });
+
+            const cloudNotes = await refreshNotesFromCloud();
+
+            const savedNote = cloudNotes.find(
+                item=>String(item.id) === String(cloudId)
+            );
+
+            const savedText =
+                String(savedNote?.text || savedNote?.note || "").trim();
+
+            if(!savedNote || savedText !== cleanText){
+                throw new Error("ویرایش توسط سرور تأیید نشد");
+            }
+
+            closeNoteModal();
+        },
+        "✏️ یادداشت ویرایش و در Sheet2 ذخیره شد.",
+        "⚠️ ویرایش تأیید نشد؛ متن قبلی حفظ شد."
+    );
 }
 
 async function togglePin(id){
-    const note=findLocalNote(id); if(!note)return;
-    const cloudId=await resolveNoteCloudId(note); if(!cloudId){showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");return;}
-    const newPinned=!isPinnedValue(note.pinned);
-    try{
-        const result=await cloudPost({action:"toggleNotePin",id:String(cloudId),pinned:newPinned});
-        if(!result||result.status!=="success")throw new Error(result?.message||"تغییر پین ناموفق بود");
-        await loadCloudData(false);
-        showToast(newPinned?"📌 یادداشت پین شد.":"📌 پین یادداشت برداشته شد.");
-    }catch(error){console.error("Pin note error:",error);showToast("⚠️ تغییر پین در شیت انجام نشد.");}
+    const note = getNoteById(id);
+    if(!note)return;
+
+    const button =
+        document.querySelector(
+            `.note button[onclick*='togglePin(${JSON.stringify(id)})']`
+        );
+
+    const cloudId = await resolveNoteCloudId(note);
+
+    if(!cloudId){
+        showToast("⚠️ شناسه یادداشت پیدا نشد.");
+        return;
+    }
+
+    const newPinned = !isPinnedValue(note.pinned);
+
+    await runNoteOperation(
+        button,
+        async ()=>{
+            await cloudPost({
+                action:"toggleNotePin",
+                id:String(cloudId),
+                pinned:newPinned
+            });
+
+            const cloudNotes = await refreshNotesFromCloud();
+
+            const savedNote = cloudNotes.find(
+                item=>String(item.id) === String(cloudId)
+            );
+
+            if(
+                !savedNote ||
+                isPinnedValue(savedNote.pinned) !== newPinned
+            ){
+                throw new Error("وضعیت پین توسط سرور تأیید نشد");
+            }
+        },
+        newPinned
+            ? "📌 یادداشت پین شد و در Sheet2 ذخیره شد."
+            : "📌 پین یادداشت برداشته شد.",
+        "⚠️ تغییر پین تأیید نشد."
+    );
 }
 
 async function toggleDone(id){
-    const note=findLocalNote(id); if(!note)return;
-    const cloudId=await resolveNoteCloudId(note); if(!cloudId){showToast("⚠️ شناسه ابری یادداشت پیدا نشد.");return;}
-    const newDone=!Boolean(note.done);
-    try{
-        const result=await cloudPost({action:"toggleNoteStatus",id:String(cloudId),status:newDone?"انجام شد":"باز"});
-        if(!result||result.status!=="success")throw new Error(result?.message||"تغییر وضعیت ناموفق بود");
-        await loadCloudData(false);
-        showToast(newDone?"✅ تسک انجام شد.":"↩ تسک دوباره باز شد.");
-    }catch(error){console.error("Done note error:",error);showToast("⚠️ وضعیت تسک در شیت ذخیره نشد.");}
+    const note = getNoteById(id);
+    if(!note)return;
+
+    const button =
+        document.querySelector(
+            `.note button[onclick*='toggleDone(${JSON.stringify(id)})']`
+        );
+
+    const cloudId = await resolveNoteCloudId(note);
+
+    if(!cloudId){
+        showToast("⚠️ شناسه یادداشت پیدا نشد.");
+        return;
+    }
+
+    const newDone = !Boolean(note.done);
+
+    await runNoteOperation(
+        button,
+        async ()=>{
+            await cloudPost({
+                action:"toggleNoteStatus",
+                id:String(cloudId),
+                status:newDone ? "انجام شد" : "باز"
+            });
+
+            const cloudNotes = await refreshNotesFromCloud();
+
+            const savedNote = cloudNotes.find(
+                item=>String(item.id) === String(cloudId)
+            );
+
+            const savedDone =
+                String(savedNote?.status || "").trim() === "انجام شد" ||
+                Boolean(savedNote?.done);
+
+            if(!savedNote || savedDone !== newDone){
+                throw new Error("وضعیت انجام توسط سرور تأیید نشد");
+            }
+        },
+        newDone
+            ? "✅ تسک انجام شد و در Sheet2 ذخیره شد."
+            : "↩ تسک دوباره باز شد.",
+        "⚠️ تغییر وضعیت تأیید نشد."
+    );
 }
 
 function renderNotes(){
