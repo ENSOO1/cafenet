@@ -4564,8 +4564,17 @@ async function confirmDeleteNote(){
                 id:id
             });
 
+            /*
+               حذف روی Sheet2 با موفقیت انجام شد.
+               حالا همان لحظه نسخه محلی را هم حذف می‌کنیم تا کارت
+               بدون نیاز به Refresh از صفحه ناپدید شود.
+            */
+            localNotes=localNotes.filter(note=>
+                String(note.cloudId||note.id||"")!==id
+            );
+            saveNotes();
+            renderNotes();
             closeNoteModal();
-            await refreshNotesBestEffort();
         },
         "🗑 یادداشت از Sheet2 حذف شد.",
         "⚠️ حذف یادداشت انجام نشد."
@@ -4635,8 +4644,15 @@ async function submitNoteEdit(){
                 pinned:!!note.pinned
             });
 
+            /*
+               ویرایش روی Sheet2 با موفقیت انجام شد.
+               نسخه محلی را هم همان لحظه تغییر می‌دهیم تا کارت
+               بدون Refresh متن جدید را نشان دهد.
+            */
+            note.text=cleanText;
+            saveNotes();
+            renderNotes();
             closeNoteModal();
-            await refreshNotesBestEffort();
         },
         "✏️ یادداشت ویرایش و در Sheet2 ذخیره شد.",
         "⚠️ ویرایش انجام نشد."
