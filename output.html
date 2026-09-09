@@ -2132,6 +2132,9 @@ tbody tr:hover{
 .noteModal{position:fixed;inset:0;z-index:13000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(3,8,15,.58);backdrop-filter:blur(18px) saturate(135%);-webkit-backdrop-filter:blur(18px) saturate(135%)}
 .noteModal.open{display:flex;animation:modalFade .22s ease}
 .noteModalCard{position:relative;width:min(560px,94vw);max-height:min(760px,90vh);overflow:auto;background:linear-gradient(145deg,rgba(255,255,255,.105),rgba(255,255,255,.035) 48%,rgba(0,10,22,.28));border:1px solid rgba(255,255,255,.18);border-top-color:rgba(255,255,255,.30);border-radius:28px;padding:25px;box-shadow:0 35px 100px rgba(0,0,0,.72),0 0 55px rgba(0,140,255,.12),inset 0 1px rgba(255,255,255,.16),inset 0 -1px rgba(0,0,0,.18);backdrop-filter:blur(38px) saturate(150%);-webkit-backdrop-filter:blur(38px) saturate(150%);animation:modalUp .25s ease}
+.noteModalClose{position:absolute;top:12px;left:12px;z-index:2;width:38px;height:38px;border:1px solid rgba(255,255,255,.16);border-radius:50%;background:rgba(255,255,255,.07);color:#d9e8f2;font-size:25px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.22s;box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.18)}
+.noteModalClose:hover{transform:rotate(90deg) scale(1.06);background:rgba(255,75,75,.16);border-color:rgba(255,120,120,.42);color:#fff;box-shadow:0 0 24px rgba(255,80,80,.15)}
+.noteModalClose:active{transform:scale(.94)}
 .noteModalCard:before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.10),transparent 35%,transparent 70%,rgba(0,140,255,.06));}
 .noteModalTitle{position:relative;font-size:18px;font-weight:800;color:#eef7ff;margin-bottom:9px}
 .noteModalText{position:relative;color:#9bb1c2;font-size:12px;line-height:2;margin-bottom:17px}
@@ -3159,6 +3162,7 @@ href="./index.html">
 
 <div class="noteModal" id="noteConfirmModal" onclick="closeNoteModalFromBackdrop(event)">
     <div class="noteModalCard" role="dialog" aria-modal="true" aria-labelledby="noteConfirmTitle">
+        <button type="button" class="noteModalClose" aria-label="بستن" title="بستن" onclick="event.stopPropagation(); closeNoteModal()">×</button>
         <div class="noteModalTitle" id="noteConfirmTitle">🗑 حذف یادداشت</div>
         <div class="noteModalText" id="noteConfirmText">آیا از حذف این یادداشت مطمئن هستید؟ این عملیات رکورد مربوط را از شیت یادداشت‌ها نیز حذف می‌کند.</div>
         <div class="noteModalActions">
@@ -3172,6 +3176,7 @@ href="./index.html">
 
 <div class="noteModal" id="noteEditModal" onclick="closeNoteModalFromBackdrop(event)">
     <div class="noteModalCard" role="dialog" aria-modal="true" aria-labelledby="noteEditTitle">
+        <button type="button" class="noteModalClose" aria-label="بستن" title="بستن" onclick="event.stopPropagation(); closeNoteModal()">×</button>
         <div class="noteModalTitle" id="noteEditTitle">✏️ ویرایش یادداشت</div>
         <div class="noteModalText">متن یادداشت را ویرایش کنید؛ تغییرات مستقیماً در شیت یادداشت‌ها ذخیره می‌شود.</div>
         <textarea class="noteModalTextarea" id="noteEditInput" placeholder="متن یادداشت..."></textarea>
@@ -4513,6 +4518,32 @@ function safeCssEscape(value){
     return String(value).replace(/[^a-zA-Z0-9_-]/g,function(ch){
         return "\\" + ch;
     });
+}
+
+/* =========================
+   NOTE MODAL CLOSE
+========================= */
+function closeNoteModal(){
+    const confirmModal=document.getElementById("noteConfirmModal");
+    const editModal=document.getElementById("noteEditModal");
+
+    if(confirmModal)confirmModal.classList.remove("open");
+    if(editModal)editModal.classList.remove("open");
+
+    window.currentDeleteNoteId="";
+    window.currentEditingNoteId="";
+
+    const confirmButton=document.getElementById("noteConfirmButton");
+    if(confirmButton){
+        confirmButton.disabled=false;
+        confirmButton.onclick=confirmDeleteNote;
+    }
+}
+
+function closeNoteModalFromBackdrop(event){
+    if(event.target===event.currentTarget){
+        closeNoteModal();
+    }
 }
 
 /* =========================
