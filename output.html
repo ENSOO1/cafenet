@@ -536,9 +536,9 @@ body::after{
 
     position:relative;
 
-    width:285px;
+    width:275px;
 
-    height:285px;
+    height:275px;
 
     border-radius:50%;
 
@@ -3124,7 +3124,7 @@ tbody tr:hover{
 
 .chatHeader{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.07)}
 
-.chatHeader h3{font-size:16px}.chatHeader small{display:block;color:#6d8ba5;font-size:10px;margin-top:4px}.chatClose,.paymentClose{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#9ab4ca;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.22s;box-shadow:inset 0 1px rgba(255,255,255,.06),0 8px 22px rgba(0,0,0,.16)}.paymentClose:hover{transform:rotate(90deg) scale(1.08);background:rgba(255,75,75,.16);border-color:rgba(255,120,120,.42);color:#fff;box-shadow:0 0 24px rgba(255,80,80,.15)}.paymentClose:active{transform:scale(.94)}
+.chatHeader h3{font-size:16px}.chatHeader small{display:block;color:#6d8ba5;font-size:10px;margin-top:4px}.chatClose,.paymentClose{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#9ab4ca;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.22s;box-shadow:inset 0 1px rgba(255,255,255,.06),0 8px 22px rgba(0,0,0,.16)}.chatClose:hover,.paymentClose:hover{transform:rotate(90deg) scale(1.08);background:rgba(255,75,75,.16);border-color:rgba(255,120,120,.42);color:#fff;box-shadow:0 0 24px rgba(255,80,80,.15)}.chatClose:active,.paymentClose:active{transform:scale(.94)}
 
 .chatMessages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px}.chatMessages::-webkit-scrollbar{width:5px}.chatMessages::-webkit-scrollbar-thumb{background:rgba(0,140,255,.25);border-radius:10px}
 
@@ -4479,6 +4479,38 @@ function getFilteredTransactions(){
 
 }
 
+function formatTransactionDatePersian(value){
+
+    const raw=String(value??"").trim();
+    if(!raw)return "-";
+
+    const normalizeDigits=value=>String(value??"")
+        .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+        .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+
+    const normalized=normalizeDigits(raw);
+
+    /* اگر تاریخ از قبل شمسی باشد، فقط ارقام را فارسی و مرتب نمایش بده. */
+    const fa=normalized.match(/^(13\d{2}|14\d{2}|15\d{2})[\/.-](\d{1,2})[\/.-](\d{1,2})/);
+    if(fa){
+        return [fa[1],String(fa[2]).padStart(2,"0"),String(fa[3]).padStart(2,"0")]
+            .join("/")
+            .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
+    }
+
+    /* timestamp یا تاریخ میلادی را به تاریخ شمسی ایران تبدیل می‌کنیم. */
+    const parsed=new Date(normalized);
+    if(!Number.isNaN(parsed.getTime())){
+        try{
+            return new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
+                year:"numeric",month:"2-digit",day:"2-digit"
+            }).format(parsed);
+        }catch(e){}
+    }
+
+    return raw;
+}
+
 function renderTransactions(){
 
     const body =
@@ -4575,7 +4607,7 @@ function renderTransactions(){
 
                 ${escapeHTML(
 
-                    item.date || "-"
+                    formatTransactionDatePersian(item.date)
 
                 )}
 
@@ -6170,7 +6202,12 @@ function closeChat(){document.getElementById("chatOverlay")?.classList.remove("o
 
 function closeChatFromBackdrop(e){if(e.target.id==="chatOverlay")closeChat()}
 
-function chatKeydown(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChatMessage()}}
+function chatKeydown(e){
+    if(e.key!=="Enter" || e.shiftKey || e.isComposing)return;
+    e.preventDefault();
+    if(e.repeat)return;
+    sendChatMessage();
+}
 
 async function sendChatMessage(){
 
