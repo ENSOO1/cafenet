@@ -4525,7 +4525,7 @@ function openDeleteNoteModal(id){
     const note=getNoteById(id);
     if(!note)return;
 
-    window.currentDeleteNoteId=note.id;
+    window.currentDeleteNoteId=String(note.cloudId||note.id||id);
 
     const preview=String(note.text||"").trim();
     const text=document.getElementById("noteConfirmText");
@@ -4539,7 +4539,6 @@ function openDeleteNoteModal(id){
     if(modal)modal.classList.add("open");
 
     const btn=document.getElementById("noteConfirmButton");
-
     if(btn){
         btn.disabled=false;
         btn.onclick=confirmDeleteNote;
@@ -4548,84 +4547,61 @@ function openDeleteNoteModal(id){
 
 /* =========================
    DELETE NOTE
-========================= */
-
+   ========================= */
 async function confirmDeleteNote(){
-    const note=getNoteById(window.currentDeleteNoteId);
-
-    if(!note){
-        closeNoteModal();
+    const id=String(window.currentDeleteNoteId||"").trim();
+    if(!id){
+        showToast("⚠️ شناسه یادداشت پیدا نشد.");
         return;
     }
 
     const btn=document.getElementById("noteConfirmButton");
-
-    const ok=await runNoteOperation(
+    await runNoteOperation(
         btn,
         async()=>{
-            /*
-               getFreshNoteInfo باعث می‌شود اگر ID داخل localStorage
-               قدیمی باشد، ID واقعی ستون E در Sheet2 پیدا شود.
-            */
-            const fresh=await getFreshNoteInfo(note);
-
-            if(!fresh){
-                throw new Error("یادداشت موردنظر در Sheet2 پیدا نشد");
-            }
-
             await cloudPost({
                 action:"deleteNote",
-                id:String(fresh.id)
+                id:id
             });
 
             closeNoteModal();
-
-            /* بعد از پاسخ موفق POST فقط یک sync عادی انجام می‌دهیم. */
             await refreshNotesBestEffort();
         },
         "🗑 یادداشت از Sheet2 حذف شد.",
-        "⚠️ حذف یادداشت انجام نشد؛ رکورد قبلی حفظ شد."
+        "⚠️ حذف یادداشت انجام نشد."
     );
-
-    if(!ok){
-        const modal=document.getElementById("noteConfirmModal");
-        if(modal)modal.classList.add("open");
-    }
 }
 
 /* =========================
    EDIT NOTE
-========================= */
-
+   ========================= */
 function editNote(id){
     const note=getNoteById(id);
     if(!note)return;
 
-    window.currentEditingNoteId=note.id;
+    window.currentEditingNoteId=String(note.cloudId||note.id||id);
 
     const input=document.getElementById("noteEditInput");
-    if(!input)return;
+    const modal=document.getElementById("noteEditModal");
+    if(!input||!modal)return;
 
     input.value=note.text||"";
-
-    document
-        .getElementById("noteEditModal")
-        ?.classList.add("open");
+    modal.classList.add("open");
 
     setTimeout(()=>{
         input.focus();
-        input.setSelectionRange(
-            input.value.length,
-            input.value.length
-        );
+        input.setSelectionRange(input.value.length,input.value.length);
     },50);
 }
 
 async function submitNoteEdit(){
-    const note=getNoteById(window.currentEditingNoteId);
+    const id=String(window.currentEditingNoteId||"").trim();
     const input=document.getElementById("noteEditInput");
 
-    if(!note || !input)return;
+    if(!id||!input){
+        showToast("⚠️ یادداشت موردنظر پیدا نشد.");
+        return;
+    }
 
     const cleanText=input.value.trim();
 
@@ -4639,63 +4615,63 @@ async function submitNoteEdit(){
         return;
     }
 
-    const saveButton=
-        document.querySelector("#noteEditModal .primary");
+    const note=getNoteById(id);
+    const saveButton=document.querySelector("#noteEditModal .primary");
 
     await runNoteOperation(
         saveButton,
         async()=>{
-            const fresh=await getFreshNoteInfo(note);
-
-            if(!fresh){
-                throw new Error("یادداشت موردنظر در Sheet2 پیدا نشد");
+            if(!note){
+                throw new Error("یادداشت موردنظر پیدا نشد");
             }
 
             await cloudPost({
                 action:"updateNote",
-                id:String(fresh.id),
-                date:fresh.date||"",
-                time:fresh.time||"",
+                id:id,
+                date:note.date||"",
+                time:note.time||"",
                 note:cleanText,
-                status:fresh.done ? "انجام شد" : "باز",
-                pinned:!!fresh.pinned
+                status:note.done ? "انجام شد" : "باز",
+                pinned:!!note.pinned
             });
 
             closeNoteModal();
             await refreshNotesBestEffort();
         },
         "✏️ یادداشت ویرایش و در Sheet2 ذخیره شد.",
-        "⚠️ ویرایش انجام نشد؛ متن قبلی حفظ شد."
+        "⚠️ ویرایش انجام نشد."
     );
 }
 
 /* =========================
    PIN NOTE
-   مقدار صریح pinned در updateNote ذخیره می‌شود.
-========================= */
-
+   مقدار صریح pinned مستقیماً برای Apps Script ارسال می‌شود.
+   ========================= */
 async function togglePin(id){
     const note=getNoteById(id);
-    if(!note)return;
+    if(!note){
+        showToast("⚠️ یادداشت موردنظر پیدا نشد.");
+        return;
+    }
+
+    const cloudId=String(note.cloudId||note.id||"").trim();
+    if(!cloudId){
+        showToast("⚠️ شناسه یادداشت پیدا نشد.");
+        return;
+    }
 
     const newPinned=!isPinnedValue(note.pinned);
 
     await runNoteOperation(
         null,
         async()=>{
-            const fresh=await getFreshNoteInfo(note);
-
-            if(!fresh){
-                throw new Error("یادداشت موردنظر در Sheet2 پیدا نشد");
-            }
-
             await cloudPost({
                 action:"updateNote",
-                id:String(fresh.id),
-                date:fresh.date||"",
-                time:fresh.time||"",
-                note:fresh.text||"",
-                status:fresh.done ? "انجام شد" : "باز",
+                id:cloudId,
+                date:note.date||"",
+                time:note.time||"",
+                note:note.text||"",
+                status:note.done ? "انجام شد" : "باز",
                 pinned:newPinned
             });
 
@@ -4710,32 +4686,34 @@ async function togglePin(id){
 
 /* =========================
    DONE NOTE
-   مقدار صریح status در updateNote ذخیره می‌شود.
-========================= */
-
+   مقدار صریح status مستقیماً برای Apps Script ارسال می‌شود.
+   ========================= */
 async function toggleDone(id){
     const note=getNoteById(id);
-    if(!note)return;
+    if(!note){
+        showToast("⚠️ یادداشت موردنظر پیدا نشد.");
+        return;
+    }
+
+    const cloudId=String(note.cloudId||note.id||"").trim();
+    if(!cloudId){
+        showToast("⚠️ شناسه یادداشت پیدا نشد.");
+        return;
+    }
 
     const newDone=!Boolean(note.done);
 
     await runNoteOperation(
         null,
         async()=>{
-            const fresh=await getFreshNoteInfo(note);
-
-            if(!fresh){
-                throw new Error("یادداشت موردنظر در Sheet2 پیدا نشد");
-            }
-
             await cloudPost({
                 action:"updateNote",
-                id:String(fresh.id),
-                date:fresh.date||"",
-                time:fresh.time||"",
-                note:fresh.text||"",
+                id:cloudId,
+                date:note.date||"",
+                time:note.time||"",
+                note:note.text||"",
                 status:newDone ? "انجام شد" : "باز",
-                pinned:!!fresh.pinned
+                pinned:!!note.pinned
             });
 
             await refreshNotesBestEffort();
