@@ -1017,25 +1017,9 @@ body::after{
 
 }
 
-.chartPageTopActions{
-
-    padding:8px 2px 4px;
-
-}
-
-.chartTotalOption{
-
-    width:100%;
-
-    min-height:82px;
-
-}
-
 .incomeDetailPanel{
 
     display:none;
-
-    will-change:transform,opacity;
 
 }
 
@@ -3163,6 +3147,19 @@ tbody tr:hover{
 
 <div class="incomeHubOptions">
 
+    <button type="button" class="incomeHubOption totalOption" onclick="showTotalIncome()">
+
+        <span class="incomeHubOptionIcon">💰</span>
+
+        <span class="incomeHubOptionText">
+            <strong>مشاهده درآمد کل</strong>
+            <small>نمایش مبلغ کل در حباب شیشه‌ای</small>
+        </span>
+
+        <span class="incomeHubArrow">←</span>
+
+    </button>
+
     <button type="button" class="incomeHubOption chartOption" onclick="openChart()">
 
         <span class="incomeHubOptionIcon">📊</span>
@@ -3195,22 +3192,8 @@ tbody tr:hover{
 </div>
 
 
-<div class="chartWrap incomeHubBubbleWrap">
-
-    <div class="incomeBubble">
-
-        <div class="bubbleContent">
-            <div class="bubbleIcon">💰</div>
-            <div class="bubbleLabel">درآمد کل</div>
-            <div class="moneyRow"><div class="bubbleAmount" id="totalIncomeBubble">۰ تومان</div></div>
-        </div>
-
-    </div>
-
-</div>
-
 <div class="incomeBackWrap">
-    <button type="button" class="incomeBackButton" onclick="backToIncomeOptions()">↩ بازگشت به صفحه درآمد</button>
+    <button type="button" class="incomeBackButton" onclick="backToIncomeOptions()">↩ بازگشت به گزینه‌ها</button>
 </div>
 
 </section>
@@ -3229,21 +3212,15 @@ tbody tr:hover{
 
 </div>
 
-<div class="chartPageTopActions">
-
-    <button type="button" class="incomeHubOption totalOption chartTotalOption" onclick="showTotalIncome()">
-
+<div class="chartIncomeTotalAction">
+    <button type="button" class="incomeHubOption totalOption" onclick="showTotalIncome()">
         <span class="incomeHubOptionIcon">💰</span>
-
         <span class="incomeHubOptionText">
             <strong>مشاهده درآمد کل</strong>
             <small>نمایش مجموع تمام درآمدهای ثبت‌شده</small>
         </span>
-
         <span class="incomeHubArrow">←</span>
-
     </button>
-
 </div>
 
 <div class="realChart">
@@ -3270,10 +3247,6 @@ tbody tr:hover{
 
     </div>
 
-</div>
-
-<div class="incomeBackWrap">
-    <button type="button" class="incomeBackButton" onclick="backToIncomeOptions()">↩ بازگشت به صفحه درآمد</button>
 </div>
 
 </section>
@@ -4219,14 +4192,6 @@ function updateStats(){
     if(totalIncome){
         totalIncome.textContent =
             secureMoney(todayTotal);
-    }
-
-    const totalIncomeBubble=document.getElementById("totalIncomeBubble");
-    if(totalIncomeBubble){
-        const allTimeIncome=transactions.reduce((sum,item)=>
-            sum + Number(item.amount || 0),0);
-        totalIncomeBubble.textContent=
-            secureMoney(allTimeIncome) + " تومان";
     }
 
     const transactionCount =
@@ -5360,30 +5325,66 @@ function drawIncomeChart(){
         .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
         .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
 
-    const normalizeDate=value=>normalizeDigits(String(value??"").trim())
-        .replace(/[\.\-]/g,"/")
-        .replace(/\s+/g,"");
+    const persianDateKeyFromDate=date=>{
+        if(!(date instanceof Date) || Number.isNaN(date.getTime()))return "";
+        const parts=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
+            year:"numeric",
+            month:"2-digit",
+            day:"2-digit"
+        }).formatToParts(date);
+        const get=type=>parts.find(x=>x.type===type)?.value||"";
+        return `${get("year")}/${get("month")}/${get("day")}`;
+    };
 
-    const todayLabel=new Intl.DateTimeFormat("fa-IR",{year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
-    const todayKey=normalizeDate(todayLabel);
+    const parseIncomeDate=value=>{
+        const raw=normalizeDigits(String(value??"").trim());
+        if(!raw)return {key:"",label:""};
+
+        /* تاریخ شمسی مثل ۱۴۰۵/۰۶/۱۸ */
+        const faMatch=raw.match(/^(13\d{2}|14\d{2}|15\d{2})[\/.-](\d{1,2})[\/.-](\d{1,2})/);
+        if(faMatch){
+            const key=`${faMatch[1]}/${String(faMatch[2]).padStart(2,"0")}/${String(faMatch[3]).padStart(2,"0")}`;
+            return {key,label:key};
+        }
+
+        /* تاریخ میلادی یا timestamp مثل 2026-09-07T09:59:10.741Z */
+        const parsed=new Date(raw);
+        if(!Number.isNaN(parsed.getTime())){
+            const key=persianDateKeyFromDate(parsed);
+            return {key,label:key};
+        }
+
+        /* fallback برای رشته‌های تاریخ میلادی ساده */
+        const g=raw.match(/^(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})/);
+        if(g){
+            const parsedLocal=new Date(Number(g[1]),Number(g[2])-1,Number(g[3]));
+            const key=persianDateKeyFromDate(parsedLocal);
+            return {key,label:key};
+        }
+
+        return {key:raw,label:raw};
+    };
+
+    const todayKey=persianDateKeyFromDate(new Date());
     const dailyMap={};
     const displayMap={};
 
     allTransactions.forEach(item=>{
-        const key=normalizeDate(item.date);
-        if(!key)return;
+        const parsed=parseIncomeDate(item.date);
+        if(!parsed.key)return;
+
         const amount=Number(item.amount||0);
-        dailyMap[key]=(dailyMap[key]||0)+amount;
-        if(!displayMap[key])displayMap[key]=String(item.date||key).trim();
+        dailyMap[parsed.key]=(dailyMap[parsed.key]||0)+amount;
+        displayMap[parsed.key]=parsed.label;
     });
 
     /* روز جاری همیشه آخر نمودار است؛ حتی اگر هنوز تراکنشی نداشته باشد. */
     dailyMap[todayKey]=dailyMap[todayKey]||0;
-    displayMap[todayKey]=todayLabel;
+    displayMap[todayKey]=todayKey;
 
     const keys=Object.keys(dailyMap);
     const parseKey=key=>{
-        const m=key.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/);
+        const m=String(key).match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/);
         if(!m)return null;
         return [Number(m[1]),Number(m[2]),Number(m[3])];
     };
@@ -5395,18 +5396,21 @@ function drawIncomeChart(){
     });
 
     const recentKeys=keys.slice(-30);
-    if(!recentKeys.includes(todayKey)){
-        recentKeys.push(todayKey);
-    }
+    if(!recentKeys.includes(todayKey))recentKeys.push(todayKey);
+
     recentKeys.sort((a,b)=>{
         const pa=parseKey(a),pb=parseKey(b);
         if(pa&&pb)return pa[0]-pb[0]||pa[1]-pb[1]||pa[2]-pb[2];
         return a.localeCompare(b);
     });
 
-    const entries=recentKeys.map(key=>[key,dailyMap[key]||0,displayMap[key]||key]);
-    const maxValue=Math.max(...entries.map(x=>x[1]),1);
+    const entries=recentKeys.map(key=>[
+        key,
+        dailyMap[key]||0,
+        displayMap[key]||key
+    ]);
 
+    const maxValue=Math.max(...entries.map(x=>x[1]),1);
     chartBars.innerHTML="";
 
     entries.forEach(([key,value,labelText])=>{
@@ -5432,11 +5436,11 @@ function drawIncomeChart(){
     });
 
     const chartTotal=entries.reduce((sum,x)=>sum+x[1],0);
-    const days=entries.length;
-    const average=days?chartTotal/days:0;
     const todayTotal=dailyMap[todayKey]||0;
     const previousEntries=entries.filter(x=>x[0]!==todayKey);
-    const previousAverage=previousEntries.length?previousEntries.reduce((sum,x)=>sum+x[1],0)/previousEntries.length:0;
+    const previousAverage=previousEntries.length
+        ? previousEntries.reduce((sum,x)=>sum+x[1],0)/previousEntries.length
+        : 0;
 
     chartSummary.innerHTML=`
         <div class="chartSummaryItem">۳۰ روز اخیر <strong>${secureMoney(chartTotal)}</strong></div>
@@ -5459,12 +5463,6 @@ function showIncomeDetail(sectionId){
     const hub=document.getElementById("incomeHub");
     const section=document.getElementById(sectionId);
 
-    /*
-       اسکرول کاربر دست‌نخورده می‌ماند؛ هیچ scrollIntoView یا پرش به پایین نداریم.
-       فقط خود پنل‌ها با انیمیشن نرم جابه‌جا می‌شوند.
-    */
-    const currentScroll=window.scrollY;
-
     if(totalSection)totalSection.classList.remove("incomeDetailOpen","incomeSlideIn");
     if(chartSection)chartSection.classList.remove("incomeDetailOpen","incomeSlideIn");
 
@@ -5476,13 +5474,7 @@ function showIncomeDetail(sectionId){
     }
 
     if(section){
-        section.style.display="block";
-        section.classList.add("incomeDetailOpen");
-
-        requestAnimationFrame(()=>{
-            window.scrollTo(0,currentScroll);
-            section.classList.add("incomeSlideIn");
-        });
+        section.classList.add("incomeDetailOpen","incomeSlideIn");
     }
 
 }
@@ -5496,7 +5488,6 @@ function backToIncomeOptions(){
     const totalSection=document.getElementById("totalIncomeSection");
     const chartSection=document.getElementById("chartSection");
     const hub=document.getElementById("incomeHub");
-    const currentScroll=window.scrollY;
 
     if(totalSection)totalSection.classList.remove("incomeDetailOpen","incomeSlideIn");
     if(chartSection)chartSection.classList.remove("incomeDetailOpen","incomeSlideIn");
@@ -5504,9 +5495,6 @@ function backToIncomeOptions(){
     if(hub){
         hub.style.display="block";
         hub.classList.remove("incomeSlideAway");
-        requestAnimationFrame(()=>{
-            window.scrollTo(0,currentScroll);
-        });
     }
 
 }
