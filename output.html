@@ -814,6 +814,35 @@ body::after{
 
 }
 
+.incomeHubBubbleWrap{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:6px 0 22px;
+}
+
+.incomeHubBubbleWrap .incomeBubble{
+    margin:0 auto;
+}
+
+.incomeHubPanel.incomeSlideAway{
+    animation:incomeSlideOut .38s cubic-bezier(.22,.8,.2,1) both;
+}
+
+.incomeDetailPanel.incomeSlideIn{
+    animation:incomeSlideIn .42s cubic-bezier(.22,.8,.2,1) both;
+}
+
+@keyframes incomeSlideOut{
+    from{opacity:1;transform:translateX(0);}
+    to{opacity:0;transform:translateX(-90px);}
+}
+
+@keyframes incomeSlideIn{
+    from{opacity:0;transform:translateX(90px);}
+    to{opacity:1;transform:translateX(0);}
+}
+
 .incomeHubOptions{
 
     display:grid;
@@ -1131,6 +1160,16 @@ body::after{
     gap:7px;
 
 }
+
+.chartBarItem.currentDay .chartBar{
+    box-shadow:0 0 28px rgba(0,190,255,.28),inset 0 0 18px rgba(255,255,255,.1);
+}
+
+.chartBarItem.currentDay .chartBarLabel{
+    color:#8edcff;
+    font-weight:700;
+}
+
 
 .chartBarValue{
 
@@ -3088,6 +3127,24 @@ tbody tr:hover{
 
 </div>
 
+<div class="chartWrap incomeHubBubbleWrap">
+
+    <div class="incomeBubble">
+
+        <div class="bubbleContent">
+
+            <div class="bubbleIcon">💰</div>
+
+            <div class="bubbleLabel">درآمد امروز</div>
+
+            <div class="moneyRow"><div class="bubbleAmount" id="bubbleIncome">۰ تومان</div></div>
+
+        </div>
+
+    </div>
+
+</div>
+
 <div class="incomeHubOptions">
 
     <button type="button" class="incomeHubOption totalOption" onclick="showTotalIncome()">
@@ -3134,31 +3191,6 @@ tbody tr:hover{
 
 </div>
 
-<div class="chartWrap">
-
-    <div class="incomeBubble">
-
-        <div class="bubbleContent">
-
-            <div class="bubbleIcon">
-
-                💰
-
-            </div>
-
-            <div class="bubbleLabel">
-
-                کل درآمد
-
-            </div>
-
-            <div class="moneyRow"><div class="bubbleAmount" id="bubbleIncome">۰ تومان</div></div>
-
-        </div>
-
-    </div>
-
-</div>
 
 <div class="incomeBackWrap">
     <button type="button" class="incomeBackButton" onclick="backToIncomeOptions()">↩ بازگشت به گزینه‌ها</button>
@@ -5275,60 +5307,96 @@ function parseDateKey(value){
 function drawIncomeChart(){
 
     const chartBars=document.getElementById("chartBars");
-
     const chartSummary=document.getElementById("chartSummary");
-
     if(!chartBars)return;
 
+    const normalizeDigits=value=>String(value??"")
+        .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+        .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+
+    const normalizeDate=value=>normalizeDigits(String(value??"").trim())
+        .replace(/[\.\-]/g,"/")
+        .replace(/\s+/g,"");
+
+    const todayLabel=new Intl.DateTimeFormat("fa-IR",{year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+    const todayKey=normalizeDate(todayLabel);
     const dailyMap={};
+    const displayMap={};
 
     allTransactions.forEach(item=>{
-
-        const date=String(item.date||"").trim();
-
-        if(!date)return;
-
-        dailyMap[date]=(dailyMap[date]||0)+Number(item.amount||0);
-
+        const key=normalizeDate(item.date);
+        if(!key)return;
+        const amount=Number(item.amount||0);
+        dailyMap[key]=(dailyMap[key]||0)+amount;
+        if(!displayMap[key])displayMap[key]=String(item.date||key).trim();
     });
 
-    const entries=Object.entries(dailyMap).sort((a,b)=>{
+    /* روز جاری همیشه آخر نمودار است؛ حتی اگر هنوز تراکنشی نداشته باشد. */
+    dailyMap[todayKey]=dailyMap[todayKey]||0;
+    displayMap[todayKey]=todayLabel;
 
-        const pa=a[0].replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+    const keys=Object.keys(dailyMap);
+    const parseKey=key=>{
+        const m=key.match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/);
+        if(!m)return null;
+        return [Number(m[1]),Number(m[2]),Number(m[3])];
+    };
 
-        const pb=b[0].replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+    keys.sort((a,b)=>{
+        const pa=parseKey(a),pb=parseKey(b);
+        if(pa&&pb)return pa[0]-pb[0]||pa[1]-pb[1]||pa[2]-pb[2];
+        return a.localeCompare(b);
+    });
 
-        return pa.localeCompare(pb);
+    const recentKeys=keys.slice(-30);
+    if(!recentKeys.includes(todayKey)){
+        recentKeys.push(todayKey);
+    }
+    recentKeys.sort((a,b)=>{
+        const pa=parseKey(a),pb=parseKey(b);
+        if(pa&&pb)return pa[0]-pb[0]||pa[1]-pb[1]||pa[2]-pb[2];
+        return a.localeCompare(b);
+    });
 
-    }).slice(-30);
-
-    if(!entries.length){chartBars.innerHTML='<div class="chartEmpty">📊 هنوز اطلاعاتی برای نمودار وجود ندارد.</div>';chartSummary.innerHTML="";return;}
-
+    const entries=recentKeys.map(key=>[key,dailyMap[key]||0,displayMap[key]||key]);
     const maxValue=Math.max(...entries.map(x=>x[1]),1);
 
     chartBars.innerHTML="";
 
-    entries.forEach(([date,value])=>{
+    entries.forEach(([key,value,labelText])=>{
+        const item=document.createElement("div");
+        item.className="chartBarItem";
+        if(key===todayKey)item.classList.add("currentDay");
 
-        const item=document.createElement("div"); item.className="chartBarItem";
+        const valueBox=document.createElement("div");
+        valueBox.className="chartBarValue";
+        valueBox.textContent=secureMoney(value);
 
-        const valueBox=document.createElement("div"); valueBox.className="chartBarValue"; valueBox.textContent=secureMoney(value);
+        const bar=document.createElement("div");
+        bar.className="chartBar";
+        bar.style.height=Math.max(5,(value/maxValue)*235)+"px";
+        bar.title=(key===todayKey?"امروز • ":"")+money(value);
 
-        const bar=document.createElement("div"); bar.className="chartBar"; bar.style.height=Math.max(5,(value/maxValue)*235)+"px"; bar.title=money(value);
+        const label=document.createElement("div");
+        label.className="chartBarLabel";
+        label.textContent=labelText;
 
-        const label=document.createElement("div"); label.className="chartBarLabel"; label.textContent=date;
-
-        item.append(valueBox,bar,label); chartBars.appendChild(item);
-
+        item.append(valueBox,bar,label);
+        chartBars.appendChild(item);
     });
 
     const chartTotal=entries.reduce((sum,x)=>sum+x[1],0);
-
     const days=entries.length;
-
     const average=days?chartTotal/days:0;
+    const todayTotal=dailyMap[todayKey]||0;
+    const previousEntries=entries.filter(x=>x[0]!==todayKey);
+    const previousAverage=previousEntries.length?previousEntries.reduce((sum,x)=>sum+x[1],0)/previousEntries.length:0;
 
-    chartSummary.innerHTML=`<div class="chartSummaryItem">مجموع ۳۰ روز اخیر <strong>${secureMoney(chartTotal)}</strong></div><div class="chartSummaryItem">تعداد روزها <strong>${faNumber(days)}</strong></div><div class="chartSummaryItem">میانگین روزانه <strong>${secureMoney(average)}</strong></div>`;
+    chartSummary.innerHTML=`
+        <div class="chartSummaryItem">۳۰ روز اخیر <strong>${secureMoney(chartTotal)}</strong></div>
+        <div class="chartSummaryItem">امروز <strong>${secureMoney(todayTotal)}</strong></div>
+        <div class="chartSummaryItem">میانگین روزهای قبل <strong>${secureMoney(previousAverage)}</strong></div>
+    `;
 
 }
 
@@ -5341,49 +5409,46 @@ function drawIncomeChart(){
 function showIncomeDetail(sectionId){
 
     const totalSection=document.getElementById("totalIncomeSection");
-
     const chartSection=document.getElementById("chartSection");
+    const hub=document.getElementById("incomeHub");
+    const section=document.getElementById(sectionId);
 
-    const section= document.getElementById(sectionId);
+    if(totalSection)totalSection.classList.remove("incomeDetailOpen","incomeSlideIn");
+    if(chartSection)chartSection.classList.remove("incomeDetailOpen","incomeSlideIn");
 
-    if(totalSection)totalSection.classList.remove("incomeDetailOpen");
-
-    if(chartSection)chartSection.classList.remove("incomeDetailOpen");
+    if(hub){
+        hub.classList.add("incomeSlideAway");
+        setTimeout(()=>{
+            hub.style.display="none";
+        },380);
+    }
 
     if(section){
-
-        section.classList.add("incomeDetailOpen");
-
+        section.classList.add("incomeDetailOpen","incomeSlideIn");
         setTimeout(()=>{
             section.scrollIntoView({behavior:"smooth",block:"start"});
-        },20);
-
+        },40);
     }
 
 }
 
 function showTotalIncome(){
-
     showIncomeDetail("totalIncomeSection");
-
 }
 
 function backToIncomeOptions(){
 
     const totalSection=document.getElementById("totalIncomeSection");
-
     const chartSection=document.getElementById("chartSection");
-
     const hub=document.getElementById("incomeHub");
 
-    if(totalSection)totalSection.classList.remove("incomeDetailOpen");
-
-    if(chartSection)chartSection.classList.remove("incomeDetailOpen");
+    if(totalSection)totalSection.classList.remove("incomeDetailOpen","incomeSlideIn");
+    if(chartSection)chartSection.classList.remove("incomeDetailOpen","incomeSlideIn");
 
     if(hub){
-
+        hub.style.display="block";
+        hub.classList.remove("incomeSlideAway");
         hub.scrollIntoView({behavior:"smooth",block:"start"});
-
     }
 
 }
@@ -5391,7 +5456,6 @@ function backToIncomeOptions(){
 function openChart(){
 
     drawIncomeChart();
-
     showIncomeDetail("chartSection");
 
 }
