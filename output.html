@@ -4767,29 +4767,89 @@ function renderNotes(){
             <div class="noteDate">${escapeHTML(noteDisplayDate(note))}</div>
             <div class="noteActions">
                 <button
+                    type="button"
                     class="doneBtn ${note.done?"doneActive":""}"
-                    onclick="toggleDone(${JSON.stringify(note.id)})"
+                    data-note-action="done"
+                    data-note-id="${escapeHTML(String(note.id||""))}"
                 >✓ انجام شد</button>
 
                 <button
+                    type="button"
                     class="${note.pinned?"pinActive":""}"
-                    onclick="togglePin(${JSON.stringify(note.id)})"
+                    data-note-action="pin"
+                    data-note-id="${escapeHTML(String(note.id||""))}"
                 >${note.pinned?"📌 برداشتن پین":"📌 پین"}</button>
 
                 <button
+                    type="button"
                     class="edit"
-                    onclick="editNote(${JSON.stringify(note.id)})"
+                    data-note-action="edit"
+                    data-note-id="${escapeHTML(String(note.id||""))}"
                 >✏️ ویرایش</button>
 
                 <button
+                    type="button"
                     class="delete"
-                    onclick="openDeleteNoteModal(${JSON.stringify(note.id)})"
+                    data-note-action="delete"
+                    data-note-id="${escapeHTML(String(note.id||""))}"
                 >🗑 حذف</button>
             </div>`;
 
         container.appendChild(div);
     });
 }
+
+/* =========================
+   NOTE BUTTON WIRING
+   اتصال مستقیم دکمه‌های یادداشت
+   بدون وابستگی به onclick داخل HTML
+========================= */
+(function setupNoteButtonWiring(){
+    function bind(){
+        const container=document.getElementById("notesContainer");
+        if(!container || container.dataset.noteWired==="1")return;
+
+        container.dataset.noteWired="1";
+
+        container.addEventListener("click",function(event){
+            const button=event.target.closest("button[data-note-action]");
+            if(!button || !container.contains(button))return;
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            const id=button.getAttribute("data-note-id") || "";
+            const action=button.getAttribute("data-note-action");
+
+            if(!id){
+                showToast("⚠️ شناسه یادداشت پیدا نشد.");
+                return;
+            }
+
+            if(action==="done"){
+                toggleDone(id);
+            }else if(action==="pin"){
+                togglePin(id);
+            }else if(action==="edit"){
+                editNote(id);
+            }else if(action==="delete"){
+                openDeleteNoteModal(id);
+            }
+        });
+    }
+
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);
+    else bind();
+})();
+
+/* توابع یادداشت عمداً روی window هم قرار می‌گیرند تا از هر بخش صفحه
+   و حتی در صورت وجود اسکریپت‌های قدیمی، قابل دسترسی باشند. */
+window.openDeleteNoteModal=openDeleteNoteModal;
+window.confirmDeleteNote=confirmDeleteNote;
+window.editNote=editNote;
+window.submitNoteEdit=submitNoteEdit;
+window.togglePin=togglePin;
+window.toggleDone=toggleDone;
 
 /* =====================================================
 
