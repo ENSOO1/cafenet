@@ -1019,17 +1019,26 @@ body::after{
 
 .incomeDetailPanel{
 
-    display:none;
+    display:none !important;
+    opacity:0;
+    transform:translateX(34px);
 
 }
 
 .incomeDetailPanel.incomeDetailOpen{
 
-    display:block;
-
-    animation:incomePanelIn .28s ease both;
+    display:block !important;
+    opacity:1;
+    transform:translateX(0);
+    animation:incomePanelIn .46s cubic-bezier(.22,.8,.2,1) both;
 
 }
+
+.totalIncomeBubbleWrap{
+    padding-top:18px;
+    padding-bottom:26px;
+}
+
 
 @keyframes incomePanelIn{
 
@@ -3147,19 +3156,6 @@ tbody tr:hover{
 
 <div class="incomeHubOptions">
 
-    <button type="button" class="incomeHubOption totalOption" onclick="showTotalIncome()">
-
-        <span class="incomeHubOptionIcon">💰</span>
-
-        <span class="incomeHubOptionText">
-            <strong>مشاهده درآمد کل</strong>
-            <small>نمایش مبلغ کل در حباب شیشه‌ای</small>
-        </span>
-
-        <span class="incomeHubArrow">←</span>
-
-    </button>
-
     <button type="button" class="incomeHubOption chartOption" onclick="openChart()">
 
         <span class="incomeHubOptionIcon">📊</span>
@@ -3183,17 +3179,22 @@ tbody tr:hover{
 
     <h2>💰 درآمد کل</h2>
 
-    <span>
-
-        نمای حبابی
-
-    </span>
+    <span>نمای حبابی</span>
 
 </div>
 
+<div class="chartWrap incomeHubBubbleWrap totalIncomeBubbleWrap">
+    <div class="incomeBubble">
+        <div class="bubbleContent">
+            <div class="bubbleIcon">💰</div>
+            <div class="bubbleLabel">درآمد کل</div>
+            <div class="moneyRow"><div class="bubbleAmount" id="totalBubbleIncome">۰ تومان</div></div>
+        </div>
+    </div>
+</div>
 
 <div class="incomeBackWrap">
-    <button type="button" class="incomeBackButton" onclick="backToIncomeOptions()">↩ بازگشت به گزینه‌ها</button>
+    <button type="button" class="incomeBackButton" onclick="backToIncomeOptions()">↩ بازگشت به صفحه درآمد</button>
 </div>
 
 </section>
@@ -4268,6 +4269,11 @@ function updateBubble(){
 
             secureMoney(total);
 
+    }
+
+    const totalBubble = document.getElementById("totalBubbleIncome");
+    if(totalBubble){
+        totalBubble.textContent = secureMoney(total);
     }
 
 }
@@ -5463,6 +5469,7 @@ function showIncomeDetail(sectionId){
     const hub=document.getElementById("incomeHub");
     const section=document.getElementById(sectionId);
 
+    /* همیشه فقط یک صفحه درآمد باز باشد. */
     if(totalSection)totalSection.classList.remove("incomeDetailOpen","incomeSlideIn");
     if(chartSection)chartSection.classList.remove("incomeDetailOpen","incomeSlideIn");
 
@@ -5474,12 +5481,14 @@ function showIncomeDetail(sectionId){
     }
 
     if(section){
+        section.style.display="block";
         section.classList.add("incomeDetailOpen","incomeSlideIn");
     }
 
 }
 
 function showTotalIncome(){
+    updateBubble();
     showIncomeDetail("totalIncomeSection");
 }
 
@@ -5489,12 +5498,22 @@ function backToIncomeOptions(){
     const chartSection=document.getElementById("chartSection");
     const hub=document.getElementById("incomeHub");
 
-    if(totalSection)totalSection.classList.remove("incomeDetailOpen","incomeSlideIn");
-    if(chartSection)chartSection.classList.remove("incomeDetailOpen","incomeSlideIn");
+    if(totalSection){
+        totalSection.classList.remove("incomeDetailOpen","incomeSlideIn");
+        totalSection.style.display="none";
+    }
+    if(chartSection){
+        chartSection.classList.remove("incomeDetailOpen","incomeSlideIn");
+        chartSection.style.display="none";
+    }
 
     if(hub){
         hub.style.display="block";
         hub.classList.remove("incomeSlideAway");
+        hub.style.animation="incomeSlideIn .46s cubic-bezier(.22,.8,.2,1) both";
+        setTimeout(()=>{
+            hub.style.animation="";
+        },470);
     }
 
 }
