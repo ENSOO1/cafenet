@@ -804,6 +804,254 @@ body::after{
 
 /* =========================
 
+   Income Hub
+
+========================= */
+
+.incomeHubPanel{
+
+    overflow:hidden;
+
+}
+
+.incomeHubOptions{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,minmax(0,1fr));
+
+    gap:16px;
+
+    padding:8px 2px 2px;
+
+}
+
+.incomeHubOption{
+
+    position:relative;
+
+    min-height:92px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:18px 20px;
+
+    border-radius:22px;
+
+    border:1px solid rgba(255,255,255,.13);
+
+    background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+
+    color:#d9e8f2;
+
+    cursor:pointer;
+
+    text-align:right;
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    box-shadow:inset 0 1px rgba(255,255,255,.08),0 14px 38px rgba(0,0,0,.18);
+
+    transition:.24s ease;
+
+    overflow:hidden;
+
+}
+
+.incomeHubOption::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:120px;
+
+    height:120px;
+
+    border-radius:50%;
+
+    left:-55px;
+
+    top:-55px;
+
+    background:rgba(0,140,255,.08);
+
+    filter:blur(2px);
+
+}
+
+.incomeHubOption:hover{
+
+    transform:translateY(-4px);
+
+    border-color:rgba(110,200,255,.35);
+
+    background:linear-gradient(145deg,rgba(0,140,255,.13),rgba(255,255,255,.05));
+
+    box-shadow:inset 0 1px rgba(255,255,255,.1),0 20px 45px rgba(0,0,0,.25),0 0 28px rgba(0,140,255,.08);
+
+}
+
+.incomeHubOption:active{
+
+    transform:translateY(-1px) scale(.99);
+
+}
+
+.incomeHubOptionIcon{
+
+    position:relative;
+
+    z-index:1;
+
+    flex:0 0 54px;
+
+    width:54px;
+
+    height:54px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:25px;
+
+    background:rgba(255,255,255,.07);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:inset 0 1px rgba(255,255,255,.1),0 8px 22px rgba(0,0,0,.16);
+
+}
+
+.incomeHubOptionText{
+
+    position:relative;
+
+    z-index:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+    min-width:0;
+
+}
+
+.incomeHubOptionText strong{
+
+    font-size:15px;
+
+    color:#f0f7fc;
+
+}
+
+.incomeHubOptionText small{
+
+    color:#7f9bb0;
+
+    font-size:10px;
+
+}
+
+.incomeHubArrow{
+
+    position:relative;
+
+    z-index:1;
+
+    margin-right:auto;
+
+    color:#6ec8ff;
+
+    font-size:20px;
+
+    transition:.22s;
+
+}
+
+.incomeHubOption:hover .incomeHubArrow{
+
+    transform:translateX(-5px);
+
+}
+
+.incomeDetailPanel{
+
+    display:none;
+
+}
+
+.incomeDetailPanel.incomeDetailOpen{
+
+    display:block;
+
+    animation:incomePanelIn .28s ease both;
+
+}
+
+@keyframes incomePanelIn{
+
+    from{opacity:0;transform:translateY(10px);}
+
+    to{opacity:1;transform:translateY(0);}
+
+}
+
+.incomeBackWrap{
+
+    display:flex;
+
+    justify-content:center;
+
+    padding-top:4px;
+
+}
+
+.incomeBackButton{
+
+    border:1px solid rgba(255,255,255,.11);
+
+    background:rgba(255,255,255,.045);
+
+    color:#8da8ba;
+
+    padding:10px 18px;
+
+    border-radius:13px;
+
+    cursor:pointer;
+
+    transition:.22s;
+
+}
+
+.incomeBackButton:hover{
+
+    transform:translateY(-2px);
+
+    color:#dcecf7;
+
+    border-color:rgba(110,200,255,.28);
+
+    background:rgba(0,140,255,.08);
+
+}
+
+/* =========================
+
    Real Chart
 
 ========================= */
@@ -1796,6 +2044,46 @@ tbody tr:hover{
 
     }
 
+    .incomeHubOptions{
+
+        grid-template-columns:1fr;
+
+        gap:11px;
+
+    }
+
+    .incomeHubOption{
+
+        min-height:82px;
+
+        padding:15px;
+
+        border-radius:19px;
+
+    }
+
+    .incomeHubOptionIcon{
+
+        flex-basis:48px;
+        width:48px;
+        height:48px;
+        border-radius:15px;
+        font-size:22px;
+
+    }
+
+    .incomeHubOptionText strong{
+
+        font-size:13px;
+
+    }
+
+    .incomeHubOptionText small{
+
+        font-size:9px;
+
+    }
+
     .filterArea{
 
         align-items:stretch;
@@ -2196,6 +2484,8 @@ tbody tr:hover{
     .noteActions,
 
     .mobileNav,
+
+    .incomeHubPanel,
 
     .chartWrap,
 
@@ -2784,15 +3074,61 @@ tbody tr:hover{
 
 </section>
 
-<section class="panel">
+<section class="panel incomeHubPanel" id="incomeHub">
 
 <div class="panelTitle">
 
-    <h2>📈 درآمد کل</h2>
+    <h2>📈 درآمد</h2>
 
-    <span id="chartInfo">
+    <span>
 
-        نمای گرافیکی
+        یک گزینه را انتخاب کنید
+
+    </span>
+
+</div>
+
+<div class="incomeHubOptions">
+
+    <button type="button" class="incomeHubOption totalOption" onclick="showTotalIncome()">
+
+        <span class="incomeHubOptionIcon">💰</span>
+
+        <span class="incomeHubOptionText">
+            <strong>مشاهده درآمد کل</strong>
+            <small>نمایش مبلغ کل در حباب شیشه‌ای</small>
+        </span>
+
+        <span class="incomeHubArrow">←</span>
+
+    </button>
+
+    <button type="button" class="incomeHubOption chartOption" onclick="openChart()">
+
+        <span class="incomeHubOptionIcon">📊</span>
+
+        <span class="incomeHubOptionText">
+            <strong>نمودار درآمد</strong>
+            <small>نمایش درآمد روزانه در نمودار</small>
+        </span>
+
+        <span class="incomeHubArrow">←</span>
+
+    </button>
+
+</div>
+
+</section>
+
+<section class="panel incomeDetailPanel" id="totalIncomeSection">
+
+<div class="panelTitle">
+
+    <h2>💰 درآمد کل</h2>
+
+    <span>
+
+        نمای حبابی
 
     </span>
 
@@ -2824,27 +3160,13 @@ tbody tr:hover{
 
 </div>
 
-<div class="chartButtonWrap">
-
-    <button
-
-        class="chartButton"
-
-        onclick="openChart()">
-
-        📊 مشاهده نمودار درآمد
-
-    </button>
-
+<div class="incomeBackWrap">
+    <button type="button" class="incomeBackButton" onclick="backToIncomeOptions()">↩ بازگشت به گزینه‌ها</button>
 </div>
 
 </section>
 
-<section
-
-class="panel chartPanel"
-
-id="chartSection">
+<section class="panel chartPanel incomeDetailPanel" id="chartSection">
 
 <div class="panelTitle">
 
@@ -5016,29 +5338,61 @@ function drawIncomeChart(){
 
 ===================================================== */
 
-function openChart(){
+function showIncomeDetail(sectionId){
 
-    const section =
+    const totalSection=document.getElementById("totalIncomeSection");
 
-        document.getElementById(
+    const chartSection=document.getElementById("chartSection");
 
-            "chartSection"
+    const section= document.getElementById(sectionId);
 
-        );
+    if(totalSection)totalSection.classList.remove("incomeDetailOpen");
 
-    drawIncomeChart();
+    if(chartSection)chartSection.classList.remove("incomeDetailOpen");
 
     if(section){
 
-        section.scrollIntoView({
+        section.classList.add("incomeDetailOpen");
 
-            behavior:"smooth",
-
-            block:"start"
-
-        });
+        setTimeout(()=>{
+            section.scrollIntoView({behavior:"smooth",block:"start"});
+        },20);
 
     }
+
+}
+
+function showTotalIncome(){
+
+    showIncomeDetail("totalIncomeSection");
+
+}
+
+function backToIncomeOptions(){
+
+    const totalSection=document.getElementById("totalIncomeSection");
+
+    const chartSection=document.getElementById("chartSection");
+
+    const hub=document.getElementById("incomeHub");
+
+    if(totalSection)totalSection.classList.remove("incomeDetailOpen");
+
+    if(chartSection)chartSection.classList.remove("incomeDetailOpen");
+
+    if(hub){
+
+        hub.scrollIntoView({behavior:"smooth",block:"start"});
+
+    }
+
+}
+
+function openChart(){
+
+    drawIncomeChart();
+
+    showIncomeDetail("chartSection");
 
 }
 
