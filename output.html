@@ -2667,7 +2667,7 @@ tbody tr:hover{
 
 .chatHeader{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.07)}
 
-.chatHeader h3{font-size:16px}.chatHeader small{display:block;color:#6d8ba5;font-size:10px;margin-top:4px}.chatClose,.paymentClose{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#9ab4ca;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px}
+.chatHeader h3{font-size:16px}.chatHeader small{display:block;color:#6d8ba5;font-size:10px;margin-top:4px}.chatClose,.paymentClose{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#9ab4ca;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.22s;box-shadow:inset 0 1px rgba(255,255,255,.06),0 8px 22px rgba(0,0,0,.16)}.paymentClose:hover{transform:rotate(90deg) scale(1.08);background:rgba(255,75,75,.16);border-color:rgba(255,120,120,.42);color:#fff;box-shadow:0 0 24px rgba(255,80,80,.15)}.paymentClose:active{transform:scale(.94)}
 
 .chatMessages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px}.chatMessages::-webkit-scrollbar{width:5px}.chatMessages::-webkit-scrollbar-thumb{background:rgba(0,140,255,.25);border-radius:10px}
 
@@ -5745,25 +5745,38 @@ async function confirmPayment(){
 
     if(!currentPaymentMessage)return;
 
+    const message=currentPaymentMessage;
+    const p=parsePaymentMessage(message);
+
+    /*
+       کارت را بلافاصله از صفحه جمع می‌کنیم تا UI منتظر رفت‌وبرگشت
+       سه درخواست شبکه و رفرش کامل اطلاعات نماند.
+    */
+    message.paid=true;
+    message.payment="پرداخت شد";
+    message.read=true;
+    allMessages=allMessages.map(m=>String(m.id)===String(message.id)?message:m);
+    dismissPayment();
+    renderMiniChat();
+    showToast("🟢 پرداخت در حال ثبت است...");
+
     try{
 
-        await cloudPost({action:"setMessagePayment",id:currentPaymentMessage.id,payment:"پرداخت شد"});
+        await cloudPost({action:"setMessagePayment",id:message.id,payment:"پرداخت شد"});
 
-        await cloudPost({action:"markMessageRead",id:currentPaymentMessage.id,status:"خوانده شد"});
-
-        const p=parsePaymentMessage(currentPaymentMessage);
+        await cloudPost({action:"markMessageRead",id:message.id,status:"خوانده شد"});
 
         const confirmation=`🟢 تایید پرداخت | [TX:${p.tx}] | خدمت: ${p.service} | مشتری: ${p.customer} | مبلغ: ${p.amount} | وضعیت: پرداخت شد`;
 
         await cloudPost({action:"addMessage",sender:"خانم دهقان",text:confirmation,message:confirmation,status:"خوانده نشده",payment:"پرداخت شد"});
 
-        currentPaymentMessage.paid=true; currentPaymentMessage.payment="پرداخت شد"; currentPaymentMessage.read=true;
-
         showToast("🟢 پرداخت ثبت شد و تأیید به پنل ثبت ارسال شد.");
 
-        dismissPayment(); await loadMessages(); await loadCloudData(false);
-
-    }catch(e){console.error(e);showToast("⚠️ ثبت پرداخت انجام نشد.")}
+    }catch(e){
+        console.error(e);
+        /* وضعیت واقعی از سرور در polling بعدی دوباره خوانده می‌شود. */
+        showToast("⚠️ ثبت پرداخت با مشکل مواجه شد؛ دوباره بررسی می‌شود.");
+    }
 
 }
 
