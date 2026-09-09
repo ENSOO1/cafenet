@@ -290,6 +290,8 @@ body::after{
 
 .stats{
 
+    direction:ltr;
+
     display:grid;
 
     grid-template-columns:repeat(5,1fr);
@@ -301,6 +303,8 @@ body::after{
 }
 
 .stat{
+
+    direction:rtl;
 
     position:relative;
 
@@ -534,9 +538,9 @@ body::after{
 
     position:relative;
 
-    width:235px;
+    width:285px;
 
-    height:235px;
+    height:285px;
 
     border-radius:50%;
 
@@ -845,13 +849,59 @@ body::after{
 
 .incomeHubOptions{
 
-    display:grid;
+    display:flex;
 
-    grid-template-columns:repeat(2,minmax(0,1fr));
+    justify-content:center;
 
-    gap:16px;
+    align-items:center;
 
-    padding:8px 2px 2px;
+    padding:0 0 8px;
+
+}
+
+.incomeHubOptions .incomeHubOption{
+
+    width:min(310px,88%);
+
+    min-height:58px;
+
+    padding:11px 15px;
+
+    border-radius:17px;
+
+    gap:10px;
+
+}
+
+.incomeHubOptions .incomeHubOptionIcon{
+
+    flex:0 0 38px;
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:12px;
+
+    font-size:18px;
+
+}
+
+.incomeHubOptions .incomeHubOptionText{
+
+    gap:2px;
+
+}
+
+.incomeHubOptions .incomeHubOptionText strong{
+
+    font-size:13px;
+
+}
+
+.incomeHubOptions .incomeHubOptionText small{
+
+    font-size:9px;
 
 }
 
@@ -1085,6 +1135,66 @@ body::after{
     border-color:rgba(110,200,255,.28);
 
     background:rgba(0,140,255,.08);
+
+}
+
+.chartIncomeTotalAction{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin-top:18px;
+
+    padding:0 0 4px;
+
+}
+
+.chartIncomeTotalAction .incomeHubOption{
+
+    width:min(310px,88%);
+
+    min-height:58px;
+
+    padding:11px 15px;
+
+    border-radius:17px;
+
+    gap:10px;
+
+}
+
+.chartIncomeTotalAction .incomeHubOptionIcon{
+
+    flex:0 0 38px;
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:12px;
+
+    font-size:18px;
+
+}
+
+.chartIncomeTotalAction .incomeHubOptionText{
+
+    gap:2px;
+
+}
+
+.chartIncomeTotalAction .incomeHubOptionText strong{
+
+    font-size:13px;
+
+}
+
+.chartIncomeTotalAction .incomeHubOptionText small{
+
+    font-size:9px;
 
 }
 
@@ -2491,6 +2601,13 @@ tbody tr:hover{
 @keyframes modalFade{from{opacity:0}to{opacity:1}}
 @keyframes modalUp{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 
+@media(max-width:600px){
+    .incomeHubOptions .incomeHubOption,
+    .chartIncomeTotalAction .incomeHubOption{
+        width:min(300px,90vw);
+    }
+}
+
 @media print{
 
     @page{
@@ -3213,17 +3330,6 @@ tbody tr:hover{
 
 </div>
 
-<div class="chartIncomeTotalAction">
-    <button type="button" class="incomeHubOption totalOption" onclick="showTotalIncome()">
-        <span class="incomeHubOptionIcon">💰</span>
-        <span class="incomeHubOptionText">
-            <strong>مشاهده درآمد کل</strong>
-            <small>نمایش مجموع تمام درآمدهای ثبت‌شده</small>
-        </span>
-        <span class="incomeHubArrow">←</span>
-    </button>
-</div>
-
 <div class="realChart">
 
     <div
@@ -3248,6 +3354,17 @@ tbody tr:hover{
 
     </div>
 
+</div>
+
+<div class="chartIncomeTotalAction">
+    <button type="button" class="incomeHubOption totalOption" onclick="showTotalIncome()">
+        <span class="incomeHubOptionIcon">💰</span>
+        <span class="incomeHubOptionText">
+            <strong>مشاهده درآمد کل</strong>
+            <small>نمایش مجموع تمام درآمدهای ثبت‌شده</small>
+        </span>
+        <span class="incomeHubArrow">←</span>
+    </button>
 </div>
 
 </section>
@@ -5488,8 +5605,21 @@ function showIncomeDetail(sectionId){
 }
 
 function showTotalIncome(){
-    updateBubble();
-    showIncomeDetail("totalIncomeSection");
+
+    /* همان حباب اصلی صفحه درآمد را با مبلغ کل نشان می‌دهیم. */
+    const total = allTransactions.reduce(
+        (sum,item)=>sum + Number(item.amount || 0),
+        0
+    );
+
+    const bubble=document.getElementById("bubbleIncome");
+    const label=document.querySelector("#incomeHub .bubbleLabel");
+
+    if(bubble)bubble.textContent=secureMoney(total);
+    if(label)label.textContent="درآمد کل";
+
+    backToIncomeOptions();
+
 }
 
 function backToIncomeOptions(){
