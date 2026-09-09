@@ -4508,6 +4508,13 @@ async function updateNoteCloud(note,changes={}){
     return true;
 }
 
+function safeCssEscape(value){
+    if(window.CSS && typeof window.CSS.escape==="function") return window.CSS.escape(String(value));
+    return String(value).replace(/[^a-zA-Z0-9_-]/g,function(ch){
+        return "\\" + ch;
+    });
+}
+
 /* =========================
    DELETE NOTE MODAL
 ========================= */
@@ -4573,6 +4580,21 @@ async function confirmDeleteNote(){
                 String(note.cloudId||note.id||"")!==id
             );
             saveNotes();
+
+            /*
+               اول خود کارت موجود روی صفحه را مستقیم حذف می‌کنیم.
+               این کار مستقل از renderNotes است و باعث می‌شود کارت
+               دقیقاً همان لحظه از صفحه ناپدید شود.
+            */
+            const deleteButton=document.querySelector(
+                `#notesContainer button[data-note-action="delete"][data-note-id="${safeCssEscape(id)}"]`
+            );
+            const noteCard=deleteButton ? deleteButton.closest(".note") : null;
+            if(noteCard){
+                noteCard.remove();
+            }
+
+            /* برای هماهنگ ماندن کل لیست، یک رندر هم انجام می‌دهیم. */
             renderNotes();
             closeNoteModal();
         },
@@ -4651,6 +4673,20 @@ async function submitNoteEdit(){
             */
             note.text=cleanText;
             saveNotes();
+
+            /*
+               متن کارت را مستقیم روی DOM هم عوض می‌کنیم تا حتی اگر
+               رندر لیست خطایی داشت، تغییر بلافاصله روی صفحه دیده شود.
+            */
+            const editButton=document.querySelector(
+                `#notesContainer button[data-note-action="edit"][data-note-id="${safeCssEscape(id)}"]`
+            );
+            const editCard=editButton ? editButton.closest(".note") : null;
+            const editText=editCard ? editCard.querySelector(".noteText") : null;
+            if(editText){
+                editText.innerHTML=escapeHTML(cleanText);
+            }
+
             renderNotes();
             closeNoteModal();
         },
