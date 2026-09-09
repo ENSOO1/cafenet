@@ -1017,9 +1017,25 @@ body::after{
 
 }
 
+.chartPageTopActions{
+
+    padding:8px 2px 4px;
+
+}
+
+.chartTotalOption{
+
+    width:100%;
+
+    min-height:82px;
+
+}
+
 .incomeDetailPanel{
 
     display:none;
+
+    will-change:transform,opacity;
 
 }
 
@@ -3147,19 +3163,6 @@ tbody tr:hover{
 
 <div class="incomeHubOptions">
 
-    <button type="button" class="incomeHubOption totalOption" onclick="showTotalIncome()">
-
-        <span class="incomeHubOptionIcon">💰</span>
-
-        <span class="incomeHubOptionText">
-            <strong>مشاهده درآمد کل</strong>
-            <small>نمایش مبلغ کل در حباب شیشه‌ای</small>
-        </span>
-
-        <span class="incomeHubArrow">←</span>
-
-    </button>
-
     <button type="button" class="incomeHubOption chartOption" onclick="openChart()">
 
         <span class="incomeHubOptionIcon">📊</span>
@@ -3192,8 +3195,22 @@ tbody tr:hover{
 </div>
 
 
+<div class="chartWrap incomeHubBubbleWrap">
+
+    <div class="incomeBubble">
+
+        <div class="bubbleContent">
+            <div class="bubbleIcon">💰</div>
+            <div class="bubbleLabel">درآمد کل</div>
+            <div class="moneyRow"><div class="bubbleAmount" id="totalIncomeBubble">۰ تومان</div></div>
+        </div>
+
+    </div>
+
+</div>
+
 <div class="incomeBackWrap">
-    <button type="button" class="incomeBackButton" onclick="backToIncomeOptions()">↩ بازگشت به گزینه‌ها</button>
+    <button type="button" class="incomeBackButton" onclick="backToIncomeOptions()">↩ بازگشت به صفحه درآمد</button>
 </div>
 
 </section>
@@ -3209,6 +3226,23 @@ tbody tr:hover{
         نمایش درآمد بر اساس روز
 
     </span>
+
+</div>
+
+<div class="chartPageTopActions">
+
+    <button type="button" class="incomeHubOption totalOption chartTotalOption" onclick="showTotalIncome()">
+
+        <span class="incomeHubOptionIcon">💰</span>
+
+        <span class="incomeHubOptionText">
+            <strong>مشاهده درآمد کل</strong>
+            <small>نمایش مجموع تمام درآمدهای ثبت‌شده</small>
+        </span>
+
+        <span class="incomeHubArrow">←</span>
+
+    </button>
 
 </div>
 
@@ -3236,6 +3270,10 @@ tbody tr:hover{
 
     </div>
 
+</div>
+
+<div class="incomeBackWrap">
+    <button type="button" class="incomeBackButton" onclick="backToIncomeOptions()">↩ بازگشت به صفحه درآمد</button>
 </div>
 
 </section>
@@ -4181,6 +4219,14 @@ function updateStats(){
     if(totalIncome){
         totalIncome.textContent =
             secureMoney(todayTotal);
+    }
+
+    const totalIncomeBubble=document.getElementById("totalIncomeBubble");
+    if(totalIncomeBubble){
+        const allTimeIncome=transactions.reduce((sum,item)=>
+            sum + Number(item.amount || 0),0);
+        totalIncomeBubble.textContent=
+            secureMoney(allTimeIncome) + " تومان";
     }
 
     const transactionCount =
@@ -5413,6 +5459,12 @@ function showIncomeDetail(sectionId){
     const hub=document.getElementById("incomeHub");
     const section=document.getElementById(sectionId);
 
+    /*
+       اسکرول کاربر دست‌نخورده می‌ماند؛ هیچ scrollIntoView یا پرش به پایین نداریم.
+       فقط خود پنل‌ها با انیمیشن نرم جابه‌جا می‌شوند.
+    */
+    const currentScroll=window.scrollY;
+
     if(totalSection)totalSection.classList.remove("incomeDetailOpen","incomeSlideIn");
     if(chartSection)chartSection.classList.remove("incomeDetailOpen","incomeSlideIn");
 
@@ -5424,10 +5476,13 @@ function showIncomeDetail(sectionId){
     }
 
     if(section){
-        section.classList.add("incomeDetailOpen","incomeSlideIn");
-        setTimeout(()=>{
-            section.scrollIntoView({behavior:"smooth",block:"start"});
-        },40);
+        section.style.display="block";
+        section.classList.add("incomeDetailOpen");
+
+        requestAnimationFrame(()=>{
+            window.scrollTo(0,currentScroll);
+            section.classList.add("incomeSlideIn");
+        });
     }
 
 }
@@ -5441,6 +5496,7 @@ function backToIncomeOptions(){
     const totalSection=document.getElementById("totalIncomeSection");
     const chartSection=document.getElementById("chartSection");
     const hub=document.getElementById("incomeHub");
+    const currentScroll=window.scrollY;
 
     if(totalSection)totalSection.classList.remove("incomeDetailOpen","incomeSlideIn");
     if(chartSection)chartSection.classList.remove("incomeDetailOpen","incomeSlideIn");
@@ -5448,7 +5504,9 @@ function backToIncomeOptions(){
     if(hub){
         hub.style.display="block";
         hub.classList.remove("incomeSlideAway");
-        hub.scrollIntoView({behavior:"smooth",block:"start"});
+        requestAnimationFrame(()=>{
+            window.scrollTo(0,currentScroll);
+        });
     }
 
 }
