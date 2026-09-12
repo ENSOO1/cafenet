@@ -1895,6 +1895,13 @@ tbody tr:hover{
 
 }
 
+.method.withdrawal{
+    color:#ff8b8b;
+    background:rgba(239,68,68,.10);
+    border:1px solid rgba(239,68,68,.18);
+    box-shadow:0 0 16px rgba(239,68,68,.05);
+}
+
 /* =========================
 
    Empty
@@ -3898,7 +3905,7 @@ href="./index.html">
 <div class="cashWithdrawalForm">
   <label>مبلغ برداشت</label>
   <div class="cashAmountInputWrap">
-    <input id="cashWithdrawalAmount" type="number" min="1" step="1" inputmode="numeric" placeholder="مثلاً ۵۰۰۰۰۰" autocomplete="off">
+    <input id="cashWithdrawalAmount" type="text" inputmode="numeric" placeholder="مثلاً ۵۰۰٬۰۰۰" autocomplete="off">
     <span>تومان</span>
   </div>
 
@@ -4142,6 +4149,25 @@ function money(number){
 
     return faNumber(number) + " تومان";
 
+}
+
+function formatCashInputValue(value){
+    const digits=String(value??"").replace(/[^0-9۰-۹٠-٩]/g,"");
+    if(!digits)return "";
+    const latin=digits
+        .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+        .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+    const number=Number(latin);
+    if(!Number.isFinite(number))return "";
+    return number.toLocaleString("fa-IR");
+}
+
+function cashInputNumber(value){
+    const digits=String(value??"")
+        .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+        .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d))
+        .replace(/[^0-9]/g,"");
+    return Number(digits||0);
 }
 
 /* =====================================================
@@ -4804,7 +4830,7 @@ async function submitCashWithdrawal(){
     const descriptionInput=document.getElementById("cashWithdrawalDescription");
     const button=document.getElementById("cashWithdrawBtn");
 
-    const amount=Math.round(Number(amountInput?.value||0));
+    const amount=Math.round(cashInputNumber(amountInput?.value||0));
     const description=String(descriptionInput?.value||"").trim();
 
     if(!Number.isFinite(amount)||amount<=0){
@@ -4879,6 +4905,15 @@ document.addEventListener("keydown",event=>{
         closeCashWithdrawal();
     }
 });
+
+const cashWithdrawalAmountInput=document.getElementById("cashWithdrawalAmount");
+if(cashWithdrawalAmountInput){
+    cashWithdrawalAmountInput.addEventListener("input",event=>{
+        const input=event.currentTarget;
+        const digits=String(input.value||"").replace(/[^0-9۰-۹٠-٩]/g,"");
+        input.value=formatCashInputValue(digits);
+    });
+}
 
 /* =====================================================
 
@@ -5084,6 +5119,20 @@ function renderTransactions(){
 
         }
 
+        if(
+
+            isWithdrawalMethod(item.method)
+
+        ){
+
+            methodClass = "withdrawal";
+
+        }
+
+        const methodLabel=isWithdrawalMethod(item.method)
+            ? `برداشت نقدی − ${money(Math.abs(Number(item.amount||0)))}`
+            : (item.method || "-");
+
         row.innerHTML = `
 
             <td>
@@ -5138,11 +5187,7 @@ function renderTransactions(){
 
                     class="method ${methodClass}">
 
-                    ${escapeHTML(
-
-                        item.method || "-"
-
-                    )}
+                    ${escapeHTML(methodLabel)}
 
                 </span>
 
