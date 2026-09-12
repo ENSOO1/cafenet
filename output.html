@@ -499,25 +499,36 @@ body::after{
 .cashWithdrawalSub{font-size:10px;color:#6f8da3;margin-top:5px}
 
 .cashWithdrawalToggle{
-    width:37px;
-    height:37px;
-    flex:0 0 37px;
+    position:absolute;
+    left:50%;
+    bottom:-19px;
+    transform:translateX(-50%);
+    width:38px;
+    height:38px;
+    z-index:5;
     border-radius:50%;
-    border:1px solid rgba(110,200,255,.20);
-    background:rgba(0,120,255,.07);
+    border:1px solid rgba(110,200,255,.24);
+    background:rgba(5,22,35,.94);
     color:#7ecbff;
     cursor:pointer;
     font-size:19px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     transition:.25s;
+    box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 18px rgba(0,140,255,.10);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
 }
 
 .cashWithdrawalToggle:hover{
-    transform:translateY(3px) scale(1.06);
+    transform:translateX(-50%) translateY(2px) scale(1.08);
     background:rgba(0,140,255,.14);
-    box-shadow:0 0 22px rgba(0,140,255,.14);
+    box-shadow:0 0 24px rgba(0,140,255,.18),0 10px 28px rgba(0,0,0,.35);
 }
 
-.cashWithdrawalToggle.open{transform:rotate(180deg)}
+.cashWithdrawalToggle.open{transform:translateX(-50%) rotate(180deg)}
+.cashWithdrawalToggle.open:hover{transform:translateX(-50%) rotate(180deg) scale(1.06)}
 
 .cashWithdrawalForm{display:grid;gap:8px}
 .cashWithdrawalForm label{color:#7893a8;font-size:10px;margin-top:4px}
@@ -1900,6 +1911,11 @@ tbody tr:hover{
     background:rgba(239,68,68,.10);
     border:1px solid rgba(239,68,68,.18);
     box-shadow:0 0 16px rgba(239,68,68,.05);
+}
+
+.amount.withdrawalAmount{
+    color:#ff5f5f !important;
+    font-weight:700;
 }
 
 /* =========================
@@ -3899,7 +3915,7 @@ href="./index.html">
     <div class="cashWithdrawalTitle" id="cashWithdrawalTitle">💵 برداشت نقدی</div>
     <div class="cashWithdrawalSub">برداشت دستی از موجودی نقدی</div>
   </div>
-  <button type="button" class="cashWithdrawalToggle" id="cashWithdrawalToggle" aria-label="نمایش برداشت‌های ثبت‌شده" title="برداشت‌های ثبت‌شده" onclick="toggleCashWithdrawals(event)">⌄</button>
+
 </div>
 
 <div class="cashWithdrawalForm">
@@ -3921,6 +3937,7 @@ href="./index.html">
 <div class="cashWithdrawalHistory" id="cashWithdrawalHistory">
   <div class="cashHistoryEmpty">هنوز برداشت نقدی دستی ثبت نشده است.</div>
 </div>
+<button type="button" class="cashWithdrawalToggle" id="cashWithdrawalToggle" aria-label="نمایش برداشت‌های ثبت‌شده" title="فقط برداشت‌های ثبت‌شده" onclick="toggleCashWithdrawals(event)">⌄</button>
 
   </div>
 </div>
@@ -4404,14 +4421,21 @@ async function loadCloudData(showMessage=true){
 
         );
 
-        allTransactions =
-
-            Array.isArray(data.transactions)
-
+        const cloudTransactions = Array.isArray(data.transactions)
             ? data.transactions
-
             : [];
 
+        /* برداشت‌های ثبت‌شده در رفرش‌های پس‌زمینه گم نشوند. */
+        const existingWithdrawals = Array.isArray(allTransactions)
+            ? allTransactions.filter(item=>isWithdrawalMethod(item?.method))
+            : [];
+        const cloudIds = new Set(cloudTransactions.map(item=>String(item?.id??item?.cloudId??"")));
+        const missingWithdrawals = existingWithdrawals.filter(item=>{
+            const id=String(item?.id??item?.cloudId??"");
+            return id && !cloudIds.has(id);
+        });
+
+        allTransactions = [...missingWithdrawals, ...cloudTransactions];
         saveLocalTransactions();
 
                 /* =========================
@@ -4803,7 +4827,13 @@ function renderCashWithdrawalHistory(){
     const box=document.getElementById("cashWithdrawalHistory");
     if(!box)return;
 
-    const withdrawals=getCashWithdrawals();
+    const withdrawals=allTransactions
+        .filter(item=>isWithdrawalMethod(item?.method))
+        .sort((a,b)=>{
+            const aa=String(a?.date||"")+" "+String(a?.time||"");
+            const bb=String(b?.date||"")+" "+String(b?.time||"");
+            return bb.localeCompare(aa,"fa");
+        });
 
     if(!withdrawals.length){
         box.innerHTML='<div class="cashHistoryTitle">برداشت‌های ثبت‌شده</div><div class="cashHistoryEmpty">هنوز برداشت نقدی دستی ثبت نشده است.</div>';
@@ -4884,6 +4914,9 @@ async function submitCashWithdrawal(){
 
         if(amountInput)amountInput.value="";
         if(descriptionInput)descriptionInput.value="";
+
+        /* بعد از ثبت موفق، کارت همان لحظه از صفحه جمع شود. */
+        closeCashWithdrawal();
 
         showToast("✅ برداشت نقدی ثبت شد و از جمع نقدی و درآمد کم شد.");
     }catch(error){
@@ -5130,7 +5163,7 @@ function renderTransactions(){
         }
 
         const methodLabel=isWithdrawalMethod(item.method)
-            ? `برداشت نقدی − ${money(Math.abs(Number(item.amount||0)))}`
+            ? "برداشت نقدی"
             : (item.method || "-");
 
         row.innerHTML = `
@@ -5175,7 +5208,7 @@ function renderTransactions(){
 
             </td>
 
-            <td class="amount">
+            <td class="amount ${isWithdrawalMethod(item.method)?"withdrawalAmount":""}">
 
                 ${secureMoney(item.amount)}
 
@@ -6997,6 +7030,11 @@ updateMoneyEyes();
 loadCloudData();
 
 loadMessages();
+
+/* بروزرسانی سبک و مداوم اطلاعات؛ بدون رفرش صفحه و بدون پرش UI. */
+window.janaDataRefreshTimer=setInterval(()=>{
+    loadCloudData(false).catch(error=>console.warn("Background refresh failed:",error));
+},5000);
 
 messagePollTimer=setInterval(loadMessages,1000);
 
