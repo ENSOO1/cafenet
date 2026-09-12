@@ -376,6 +376,275 @@ body::after{
 
 }
 
+.cashStatCard{
+    cursor:pointer;
+    user-select:none;
+}
+
+.cashStatCard:focus-visible{
+    outline:2px solid rgba(0,140,255,.55);
+    outline-offset:3px;
+}
+
+.cashCardHint{
+    position:absolute;
+    right:22px;
+    bottom:14px;
+    color:#62839c;
+    font-size:9px;
+    opacity:.9;
+}
+
+.cashCardArrow{
+    position:absolute;
+    left:18px;
+    bottom:12px;
+    width:25px;
+    height:25px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    border:1px solid rgba(110,200,255,.20);
+    background:rgba(0,140,255,.07);
+    color:#73c8ff;
+    font-size:17px;
+    transition:.25s;
+}
+
+.cashStatCard:hover .cashCardArrow{
+    transform:translateY(3px);
+    background:rgba(0,140,255,.14);
+    box-shadow:0 0 18px rgba(0,140,255,.15);
+}
+
+.cashWithdrawalOverlay{
+    position:fixed;
+    inset:0;
+    z-index:12500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.54);
+    backdrop-filter:blur(9px);
+    -webkit-backdrop-filter:blur(9px);
+}
+
+.cashWithdrawalOverlay.open{
+    display:flex;
+    animation:cashOverlayIn .18s ease both;
+}
+
+.cashWithdrawalCard{
+    position:relative;
+    width:min(500px,94vw);
+    max-height:min(720px,88vh);
+    overflow:auto;
+    direction:rtl;
+    padding:25px;
+    border-radius:27px;
+    border:1px solid rgba(255,255,255,.16);
+    background:linear-gradient(145deg,rgba(10,29,44,.94),rgba(2,9,16,.96));
+    backdrop-filter:blur(32px);
+    -webkit-backdrop-filter:blur(32px);
+    box-shadow:0 35px 100px rgba(0,0,0,.72),0 0 45px rgba(0,140,255,.10),inset 0 1px rgba(255,255,255,.08);
+    animation:cashCardIn .30s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.cashWithdrawalCard::-webkit-scrollbar{width:5px}
+.cashWithdrawalCard::-webkit-scrollbar-thumb{background:rgba(0,140,255,.25);border-radius:10px}
+
+.cashWithdrawalClose{
+    position:absolute;
+    top:13px;
+    left:13px;
+    z-index:3;
+    width:39px;
+    height:39px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.055);
+    color:#b7cddd;
+    font-size:25px;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.24s;
+    box-shadow:inset 0 1px rgba(255,255,255,.08),0 9px 25px rgba(0,0,0,.22);
+}
+
+.cashWithdrawalClose:hover{
+    transform:rotate(90deg) scale(1.08);
+    background:rgba(255,75,75,.16);
+    border-color:rgba(255,120,120,.45);
+    color:#fff;
+    box-shadow:0 0 26px rgba(255,80,80,.16);
+}
+
+.cashWithdrawalClose:active{transform:scale(.93)}
+
+.cashWithdrawalHead{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding-left:50px;
+    margin-bottom:21px;
+}
+
+.cashWithdrawalTitle{font-size:19px;color:#eaf6ff;font-weight:700}
+.cashWithdrawalSub{font-size:10px;color:#6f8da3;margin-top:5px}
+
+.cashWithdrawalToggle{
+    width:37px;
+    height:37px;
+    flex:0 0 37px;
+    border-radius:50%;
+    border:1px solid rgba(110,200,255,.20);
+    background:rgba(0,120,255,.07);
+    color:#7ecbff;
+    cursor:pointer;
+    font-size:19px;
+    transition:.25s;
+}
+
+.cashWithdrawalToggle:hover{
+    transform:translateY(3px) scale(1.06);
+    background:rgba(0,140,255,.14);
+    box-shadow:0 0 22px rgba(0,140,255,.14);
+}
+
+.cashWithdrawalToggle.open{transform:rotate(180deg)}
+
+.cashWithdrawalForm{display:grid;gap:8px}
+.cashWithdrawalForm label{color:#7893a8;font-size:10px;margin-top:4px}
+
+.cashAmountInputWrap{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:0 13px;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.035);
+    transition:.22s;
+}
+
+.cashAmountInputWrap:focus-within{
+    border-color:rgba(0,140,255,.40);
+    box-shadow:0 0 24px rgba(0,140,255,.08);
+}
+
+.cashAmountInputWrap input{
+    width:100%;
+    min-height:48px;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:#fff;
+    font-family:inherit;
+    font-size:14px;
+}
+
+.cashAmountInputWrap span{color:#62849c;font-size:10px;white-space:nowrap}
+
+.cashWithdrawalForm textarea{
+    width:100%;
+    resize:vertical;
+    min-height:80px;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,.10);
+    outline:0;
+    background:rgba(255,255,255,.035);
+    color:#fff;
+    padding:12px;
+    font-family:inherit;
+    font-size:11px;
+    transition:.22s;
+}
+
+.cashWithdrawalForm textarea:focus{
+    border-color:rgba(0,140,255,.40);
+    box-shadow:0 0 24px rgba(0,140,255,.08);
+}
+
+.cashWithdrawalActions{
+    display:flex;
+    gap:9px;
+    margin-top:17px;
+}
+
+.cashWithdrawalActions button{
+    border-radius:14px;
+    min-height:45px;
+    padding:0 17px;
+    font-family:inherit;
+    cursor:pointer;
+    transition:.22s;
+}
+
+.cashCancelBtn{
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.04);
+    color:#91a8ba;
+}
+
+.cashCancelBtn:hover{
+    transform:translateY(-2px);
+    color:#fff;
+}
+
+.cashWithdrawBtn{
+    flex:1;
+    border:1px solid rgba(34,197,94,.28);
+    background:linear-gradient(135deg,rgba(34,197,94,.16),rgba(0,120,255,.10));
+    color:#9af2bd;
+    box-shadow:0 0 24px rgba(34,197,94,.06);
+}
+
+.cashWithdrawBtn:hover{
+    transform:translateY(-2px);
+    background:linear-gradient(135deg,rgba(34,197,94,.23),rgba(0,120,255,.14));
+}
+
+.cashWithdrawBtn:disabled{opacity:.55;cursor:wait;transform:none}
+
+.cashWithdrawalHistory{
+    display:none;
+    margin-top:17px;
+    padding-top:14px;
+    border-top:1px solid rgba(255,255,255,.07);
+}
+
+.cashWithdrawalHistory.open{display:block;animation:cashHistoryIn .24s ease both}
+
+.cashHistoryTitle{font-size:11px;color:#a9c8dc;margin-bottom:9px}
+
+.cashHistoryItem{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:10px 12px;
+    margin-top:7px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.035);
+}
+
+.cashHistoryMain{min-width:0}
+.cashHistoryAmount{color:#ff9b9b;font-weight:700;font-size:12px}
+.cashHistoryDesc{color:#7692a7;font-size:9px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:280px}
+.cashHistoryDate{color:#5f7b91;font-size:8px;white-space:nowrap}
+.cashHistoryEmpty{color:#5f7b91;font-size:10px;text-align:center;padding:14px 0}
+
+@keyframes cashOverlayIn{from{opacity:0}to{opacity:1}}
+@keyframes cashCardIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes cashHistoryIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+
 .stat small{
 
     color:#70869b;
@@ -3143,6 +3412,15 @@ tbody tr:hover{
 
 @media print{.floatingTop,.floatingChat,.chatOverlay,.paymentOverlay{display:none!important}}
 
+
+@media (max-width:600px){
+    .cashWithdrawalCard{padding:21px 17px;border-radius:23px}
+    .cashWithdrawalTitle{font-size:16px}
+    .cashWithdrawalActions{flex-direction:column}
+    .cashCancelBtn{order:2}
+    .cashWithdrawBtn{order:1}
+    .cashHistoryDesc{max-width:190px}
+}
 </style>
 
 </head>
@@ -3219,13 +3497,17 @@ tbody tr:hover{
 
 </div>
 
-<div class="stat">
+<div class="stat cashStatCard" id="cashStatCard" onclick="openCashWithdrawal()" role="button" tabindex="0" aria-label="باز کردن فرایند برداشت نقدی" onkeydown="if(event.key==="Enter"||event.key===" "){event.preventDefault();openCashWithdrawal();}">
 
     <span class="statIcon">💵</span>
 
     <small>نقدی</small>
 
     <div class="moneyRow"><strong id="cashTotal">۰</strong></div>
+
+    <span class="cashCardHint">برداشت نقدی</span>
+
+    <span class="cashCardArrow">⌄</span>
 
 </div>
 
@@ -3423,6 +3705,14 @@ tbody tr:hover{
 
         </button>
 
+        <button
+
+            onclick="filterData('برداشت نقدی',this)">
+
+            برداشت نقدی
+
+        </button>
+
     </div>
 
     <div class="searchBox">
@@ -3591,6 +3881,43 @@ href="./index.html">
 
 <button class="floatingChat" id="floatingChat" onclick="openChat()" aria-label="باز کردن چت">💬</button>
 
+<!-- CASH WITHDRAWAL MODAL -->
+
+<div class="cashWithdrawalOverlay" id="cashWithdrawalOverlay" onclick="closeCashWithdrawalFromBackdrop(event)">
+  <div class="cashWithdrawalCard" role="dialog" aria-modal="true" aria-labelledby="cashWithdrawalTitle">
+    <button type="button" class="cashWithdrawalClose" aria-label="بستن" title="بستن" onclick="event.stopPropagation();closeCashWithdrawal()">×</button>
+
+<div class="cashWithdrawalHead">
+  <div>
+    <div class="cashWithdrawalTitle" id="cashWithdrawalTitle">💵 برداشت نقدی</div>
+    <div class="cashWithdrawalSub">برداشت دستی از موجودی نقدی</div>
+  </div>
+  <button type="button" class="cashWithdrawalToggle" id="cashWithdrawalToggle" aria-label="نمایش برداشت‌های ثبت‌شده" title="برداشت‌های ثبت‌شده" onclick="toggleCashWithdrawals(event)">⌄</button>
+</div>
+
+<div class="cashWithdrawalForm">
+  <label>مبلغ برداشت</label>
+  <div class="cashAmountInputWrap">
+    <input id="cashWithdrawalAmount" type="number" min="1" step="1" inputmode="numeric" placeholder="مثلاً ۵۰۰۰۰۰" autocomplete="off">
+    <span>تومان</span>
+  </div>
+
+  <label>توضیحات</label>
+  <textarea id="cashWithdrawalDescription" placeholder="مثلاً: برداشت بابت خرید لوازم..." rows="3"></textarea>
+</div>
+
+<div class="cashWithdrawalActions">
+  <button type="button" class="cashCancelBtn" onclick="closeCashWithdrawal()">انصراف</button>
+  <button type="button" class="cashWithdrawBtn" id="cashWithdrawBtn" onclick="submitCashWithdrawal()">💵 برداشت</button>
+</div>
+
+<div class="cashWithdrawalHistory" id="cashWithdrawalHistory">
+  <div class="cashHistoryEmpty">هنوز برداشت نقدی دستی ثبت نشده است.</div>
+</div>
+
+  </div>
+</div>
+
 <div class="chatOverlay" id="chatOverlay" onclick="closeChatFromBackdrop(event)">
 
   <div class="chatWindow">
@@ -3728,6 +4055,8 @@ function isTransferMethod(value){ const x=normalizeMethod(value); return x.inclu
 function isPosMethod(value){ return normalizeMethod(value)==="کارتخوان"; }
 
 function isCashMethod(value){ return normalizeMethod(value)==="نقدی"; }
+function isWithdrawalMethod(value){ const x=normalizeMethod(value); return x.includes("برداشت نقدی") || x.includes("برداشتنقدی"); }
+function isRegularCashMethod(value){ return isCashMethod(value) && !isWithdrawalMethod(value); }
 
 function secureMoney(value){ return moneyHidden ? "••••••" : money(value); }
 
@@ -4246,8 +4575,9 @@ function isSameDateAsToday(value){
 }
 function methodMatchesFilter(method,filter){
     if(filter==="all")return true;
+    if(isWithdrawalMethod(filter))return isWithdrawalMethod(method);
     if(isPosMethod(filter))return isPosMethod(method);
-    if(isCashMethod(filter))return isCashMethod(method);
+    if(isCashMethod(filter))return isRegularCashMethod(method);
     if(isTransferMethod(filter))return isTransferMethod(method);
     return normalizeMethod(method)===normalizeMethod(filter);
 }
@@ -4298,7 +4628,7 @@ function updateStats(){
             pos += amount;
         }
 
-        if(isCashMethod(item.method)){
+        if(isCashMethod(item.method) || isWithdrawalMethod(item.method)){
             cash += amount;
         }
 
@@ -4396,6 +4726,159 @@ function updateBubble(){
     }
 
 }
+
+/* =====================================================
+   CASH WITHDRAWAL
+===================================================== */
+
+function getCashWithdrawals(){
+    return allTransactions
+        .filter(item=>isWithdrawalMethod(item.method))
+        .sort((a,b)=>{
+            const aa=String(a?.date||"")+" "+String(a?.time||"");
+            const bb=String(b?.date||"")+" "+String(b?.time||"");
+            return bb.localeCompare(aa,"fa");
+        });
+}
+
+function openCashWithdrawal(){
+    const overlay=document.getElementById("cashWithdrawalOverlay");
+    if(!overlay)return;
+
+    renderCashWithdrawalHistory();
+    overlay.classList.remove("open");
+    void overlay.offsetWidth;
+    overlay.classList.add("open");
+
+    setTimeout(()=>document.getElementById("cashWithdrawalAmount")?.focus(),120);
+}
+
+function closeCashWithdrawal(){
+    const overlay=document.getElementById("cashWithdrawalOverlay");
+    if(overlay)overlay.classList.remove("open");
+}
+
+function closeCashWithdrawalFromBackdrop(event){
+    if(event.target===event.currentTarget)closeCashWithdrawal();
+}
+
+function toggleCashWithdrawals(event){
+    event?.stopPropagation();
+    const history=document.getElementById("cashWithdrawalHistory");
+    const toggle=document.getElementById("cashWithdrawalToggle");
+    if(!history)return;
+
+    const open=history.classList.toggle("open");
+    if(toggle)toggle.classList.toggle("open",open);
+    if(open)renderCashWithdrawalHistory();
+}
+
+function renderCashWithdrawalHistory(){
+    const box=document.getElementById("cashWithdrawalHistory");
+    if(!box)return;
+
+    const withdrawals=getCashWithdrawals();
+
+    if(!withdrawals.length){
+        box.innerHTML='<div class="cashHistoryTitle">برداشت‌های ثبت‌شده</div><div class="cashHistoryEmpty">هنوز برداشت نقدی دستی ثبت نشده است.</div>';
+        return;
+    }
+
+    box.innerHTML='<div class="cashHistoryTitle">برداشت‌های ثبت‌شده</div>'+withdrawals.map(item=>{
+        const amount=Math.abs(Number(item.amount||0));
+        const desc=String(item.description||"").trim()||"بدون توضیحات";
+        const date=formatTransactionDatePersian(item.date);
+        const time=String(item.time||"");
+        return `<div class="cashHistoryItem">
+            <div class="cashHistoryMain">
+                <div class="cashHistoryAmount">− ${escapeHTML(money(amount))}</div>
+                <div class="cashHistoryDesc">${escapeHTML(desc)}</div>
+            </div>
+            <div class="cashHistoryDate">${escapeHTML(date)} ${escapeHTML(time)}</div>
+        </div>`;
+    }).join("");
+}
+
+async function submitCashWithdrawal(){
+    const amountInput=document.getElementById("cashWithdrawalAmount");
+    const descriptionInput=document.getElementById("cashWithdrawalDescription");
+    const button=document.getElementById("cashWithdrawBtn");
+
+    const amount=Math.round(Number(amountInput?.value||0));
+    const description=String(descriptionInput?.value||"").trim();
+
+    if(!Number.isFinite(amount)||amount<=0){
+        showToast("⚠️ مبلغ برداشت را وارد کنید.");
+        amountInput?.focus();
+        return;
+    }
+
+    if(button){
+        button.disabled=true;
+        button.textContent="⏳ در حال ثبت...";
+    }
+
+    const now=new Date();
+    const date=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).format(now);
+    const time=new Intl.DateTimeFormat("fa-IR",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(now);
+    const withdrawal={
+        id:"local-withdrawal-"+Date.now()+"-"+Math.random().toString(36).slice(2,8),
+        date,
+        time,
+        customer:"برداشت دستی",
+        service:"برداشت نقدی",
+        amount:-Math.abs(amount),
+        method:"برداشت نقدی",
+        description:description||"برداشت نقدی دستی",
+    };
+
+    try{
+        const response=await cloudPost({
+            action:"addTransaction",
+            date:withdrawal.date,
+            time:withdrawal.time,
+            customer:withdrawal.customer,
+            service:withdrawal.service,
+            amount:withdrawal.amount,
+            method:withdrawal.method,
+            description:withdrawal.description,
+            id:withdrawal.id
+        });
+
+        const returnedId=String(response?.id||response?.transaction?.id||withdrawal.id);
+        withdrawal.id=returnedId;
+        withdrawal.cloudId=returnedId;
+
+        allTransactions=[withdrawal,...allTransactions];
+        saveLocalTransactions();
+        updateStats();
+        renderTransactions();
+        drawIncomeChart();
+        renderCashWithdrawalHistory();
+
+        if(amountInput)amountInput.value="";
+        if(descriptionInput)descriptionInput.value="";
+
+        showToast("✅ برداشت نقدی ثبت شد و از جمع نقدی و درآمد کم شد.");
+    }catch(error){
+        console.error("Cash withdrawal failed:",error);
+        showToast("⚠️ ثبت برداشت انجام نشد.");
+    }finally{
+        if(button){
+            button.disabled=false;
+            button.textContent="💵 برداشت";
+        }
+    }
+}
+
+document.addEventListener("keydown",event=>{
+    const overlay=document.getElementById("cashWithdrawalOverlay");
+    if(!overlay?.classList.contains("open"))return;
+    if(event.key==="Escape"){
+        event.preventDefault();
+        closeCashWithdrawal();
+    }
+});
 
 /* =====================================================
 
