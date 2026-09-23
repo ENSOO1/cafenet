@@ -3733,20 +3733,76 @@ tbody tr:hover{
 }
 
 /* =====================================================
-PROFESSIONAL MONTHLY REPORT / THEME / STAT HOVER
+MONTHLY REPORT + PROFESSIONAL THEME CONTROLS
 ===================================================== */
-.stats .stat{position;overflow;isolation;}
-.stats .stat::after{content:"";position;left:18%;right:18%;bottom:0;height:2px;border-radius:999px;background(90deg,transparent,#00a8ff,#55e7ff,#00a8ff,transparent);box-shadow:0 0 7px rgba(0,168,255,.85),0 0 18px rgba(0,168,255,.45);transform(0);opacity:0;transition .35s cubic-bezier(.2,.8,.2,1),opacity .25s ease;z-index:5;}
+.stats .stat{position;overflow;}
+.stats .stat::after{
+content:"";position;left:18%;right:18%;bottom:0;height:3px;
+border-radius:999px;
+background(90deg,transparent,#00e5ff,#7c4dff,#00e5ff,transparent);
+transform(0);transform-origin;opacity:0;
+transition .35s ease,opacity .25s ease,filter .35s ease;
+filter(0 0 5px rgba(0,229,255,.9));
+}
 .stats .stat:hover::after,.stats .stat:focus-within::after{transform(1);opacity:1;}
-.stats .stat{transform(-3px);transition .28s ease,box-shadow .28s ease;}
-.janaMonthlyReport{width(1180px,calc(100% - 28px));margin:16px auto 0;position;display;align-items;justify-content;gap:10px;direction;}
-.janaMonthlyGlass{min-width(620px,calc(100% - 110px));padding:13px 18px;border:1px solid rgba(0,150,255,.20);border-radius:22px;background(135deg,rgba(255,255,255,.065),rgba(0,120,255,.045));backdrop-filter(22px);-webkit-backdrop-filter(22px);box-shadow 0 1px rgba(255,255,255,.08),0 16px 45px rgba(0,0,0,.16);text-align;}
-.janaMonthlyTitle{color:#9ed9ff;font-size:11px;margin-bottom:5px}.janaMonthlyTotal{font-size:22px;font-weight:900;color:#fff;text-shadow:0 0 18px rgba(0,170,255,.24)}.janaMonthlyMeta{margin-top:7px;display;justify-content;flex-wrap;gap:7px;color:#8da7ba;font-size:9px}.janaMonthlyMeta span{padding:5px 9px;border-radius:10px;border:1px solid rgba(255,255,255,.06);background(255,255,255,.025)}
-.janaMonthArrow{width:43px;height:43px;border-radius:50%;border:1px solid rgba(0,150,255,.24);color:#9ed9ff;background(255,255,255,.045);backdrop-filter(18px);-webkit-backdrop-filter(18px);cursor;font-size:20px;transition:.25s ease;box-shadow:0 0 20px rgba(0,130,255,.08)}.janaMonthArrow:hover(){transform(1.08);border-color(0,180,255,.58);box-shadow:0 0 25px rgba(0,150,255,.22)}.janaMonthArrow{opacity:.25;cursor}
-.janaResetButton{margin-top:8px;border:1px solid rgba(255,90,120,.20);background(255,80,110,.055);color:#ff9caf;border-radius:11px;padding:6px 12px;cursor;font-family;font-size:9px;transition:.22s}.janaResetButton{background(255,80,110,.12);border-color(255,90,120,.42);transform(-1px)}#monthlyResetInfo{margin-top:5px;color:#71899b;font-size:8px}
-.janaThemeFloat{position;left:20px;bottom:20px;z-index:9999;width:50px;height:50px;border-radius:50%;border:1px solid rgba(0,170,255,.28);background(145deg,rgba(255,255,255,.08),rgba(0,120,255,.08));color:#a9ddff;display;place-items;cursor;backdrop-filter(22px);-webkit-backdrop-filter(22px);box-shadow:0 0 24px rgba(0,130,255,.13),inset 0 1px rgba(255,255,255,.10);transition:.35s cubic-bezier(.2,.8,.2,1)}.janaThemeFloat::before{content:"";position;inset:4px;border:1px dashed rgba(0,190,255,.38);border-radius:50%;animation 7s linear infinite}.janaThemeFloat{transform(1.08) rotate(18deg);box-shadow:0 0 34px rgba(0,160,255,.27)}.janaThemeIcon{position;z-index:2;font-size:20px}@keyframes janaThemeSpin{to{transform(360deg)}}
-body.jana-light{background:#eef5fa !important;color:#173247}body.jana-light .stat,body.jana-light .panel,body.jana-light .janaMonthlyGlass{background(255,255,255,.72);border-color(30,100,140,.13);color:#173247}body.jana-light .stat small,body.jana-light .panelTitle span,body.jana-light .janaMonthlyMeta,body.jana-light #monthlyResetInfo{color:#5b7485}body.jana-light .janaMonthlyTotal{color:#153448;text-shadow}
-@media(max-width:700px){.janaMonthlyGlass{min-width(100% - 84px);padding:12px 10px}.janaMonthlyTotal{font-size:18px}.janaMonthArrow{width:38px;height:38px;font-size:17px}.janaMonthlyMeta span{font-size:8px;padding:4px 7px}.janaThemeFloat{width:45px;height:45px;left:13px;bottom:13px}}
+.monthlyReportDock{
+position;margin:18px auto 22px;width(960px,94%);
+display;align-items;justify-content;gap:12px;
+direction;z-index:20;
+}
+.monthlyReportCard{
+flex:1;min-width:0;padding:15px 18px;border:1px solid rgba(255,255,255,.15);
+border-radius:24px;background(255,255,255,.09);
+backdrop-filter(18px);-webkit-backdrop-filter(18px);
+box-shadow:0 14px 40px rgba(0,0,0,.14);
+text-align;transition .3s ease,box-shadow .3s ease;
+}
+.monthlyReportCard{transform(-2px);box-shadow:0 18px 45px rgba(0,229,255,.12);}
+.monthlyReportTitle{font-weight:900;font-size:15px}
+.monthlyReportValue{font-size:23px;font-weight:1000;margin-top:5px}
+.monthlyReportMeta{font-size:12px;opacity:.78;margin-top:5px}
+.monthlyReportNav{
+width:46px;height:46px;flex:0 0 46px;border:1px solid rgba(255,255,255,.2);
+border-radius:50%;background(255,255,255,.11);color;cursor;
+display;place-items;font-size:22px;backdrop-filter(16px);
+-webkit-backdrop-filter(16px);box-shadow:0 10px 30px rgba(0,0,0,.14);
+transition .25s ease,box-shadow .25s ease,opacity .25s ease;
+}
+.monthlyReportNav{transform(-2px) scale(1.06);box-shadow:0 0 22px rgba(0,229,255,.3);}
+.monthlyReportNav{opacity:.35;cursor;transform}
+.monthlyReportActions{
+position;left:10px;top:-4px;display;gap:8px;align-items;
+}
+.monthlyResetBtn{
+border:1px solid rgba(255,90,90,.3);background(255,70,70,.1);
+color;border-radius:16px;padding:8px 11px;cursor;font-weight:800;
+backdrop-filter(12px);
+}
+.monthlyResetBtn{box-shadow:0 0 18px rgba(255,70,70,.25)}
+.themeFloatBtn{
+position;left:22px;bottom:22px;width:58px;height:58px;border-radius:50%;
+border:1px solid rgba(255,255,255,.24);background(255,255,255,.12);
+color;display;place-items;cursor;z-index:9999;font-size:25px;
+backdrop-filter(18px);-webkit-backdrop-filter(18px);
+box-shadow:0 12px 35px rgba(0,0,0,.2),0 0 18px rgba(0,229,255,.12);
+transition .55s cubic-bezier(.2,.8,.2,1),box-shadow .3s ease;
+}
+.themeFloatBtn{transform(180deg) scale(1.08);box-shadow:0 0 28px rgba(0,229,255,.35)}
+body.jana-dark-mode{background:#071015 !important;color:#eefaff !important;}
+body.jana-dark-mode .panel,body.jana-dark-mode .stat,body.jana-dark-mode .monthlyReportCard,
+body.jana-dark-mode .themeFloatBtn,body.jana-dark-mode .monthlyReportNav{
+background(7,18,24,.72) !important;color:#eefaff !important;
+border-color(91,220,255,.16) !important;
+}
+body.jana-dark-mode input,body.jana-dark-mode textarea,body.jana-dark-mode select{
+background:#0c1a20 !important;color:#eefaff !important;border-color(91,220,255,.18) !important;
+}
+@media(max-width:700px){
+.monthlyReportDock{gap:7px;width:96%;flex-wrap}
+.monthlyReportCard{order:2;flex-basis:100%}.monthlyReportNav{order:1}
+.monthlyReportActions{position;order:3;width:100%;justify-content;margin-top:4px}
+.themeFloatBtn{left:14px;bottom:14px;width:52px;height:52px}
+}
 
 </style>
 
@@ -3848,23 +3904,6 @@ body.jana-light{background:#eef5fa !important;color:#173247}body.jana-light .sta
 
 </div>
 
-</section>
-
-<section class="janaMonthlyReport" id="janaMonthlyReport" aria-label="گزارش ماهانه">
-<button type="button" class="janaMonthArrow" id="monthlyNextBtn" onclick="changeMonthlyReport(1)" aria-label="ماه جاری">›</button>
-<div class="janaMonthlyGlass">
-<div class="janaMonthlyTitle" id="monthlyReportLabel">ماه جاری</div>
-<div class="janaMonthlyTotal" id="monthlyReportTotal">۰ تومان</div>
-<div class="janaMonthlyMeta">
-<span>تعداد: <b id="monthlyReportCount">۰</b></span>
-<span>کارتخوان: <b id="monthlyReportPos">۰</b></span>
-<span>نقدی: <b id="monthlyReportCash">۰</b></span>
-<span>کارت‌به‌کارت: <b id="monthlyReportTransfer">۰</b></span>
-</div>
-<button type="button" class="janaResetButton" onclick="resetCurrentMonthReport()">↺ صفر کردن دستی ماه جاری</button>
-<div id="monthlyResetInfo">صفر شدن ماهانه خودکار است و تراکنش‌های قبلی حذف نمی‌شوند.</div>
-</div>
-<button type="button" class="janaMonthArrow" id="monthlyPrevBtn" onclick="changeMonthlyReport(-1)" aria-label="ماه قبل">‹</button>
 </section>
 
 <section class="panel incomeHubPanel" id="incomeHub">
@@ -4406,6 +4445,23 @@ href="./index.html">
     </div>
 
 </div>
+
+<!-- Professional monthly report controls -->
+
+<div class="monthlyReportDock" id="monthlyReportDock">
+<button class="monthlyReportNav" id="monthlyPrevBtn" type="button" onclick="changeMonthlyReport(1)" aria-label="ماه قبل" title="ماه قبل">‹</button>
+<div class="monthlyReportCard" id="monthlyReportCard">
+<div class="monthlyReportTitle" id="monthlyReportTitle">ماه جاری</div>
+<div class="monthlyReportValue" id="monthlyReportValue">۰ تومان</div>
+<div class="monthlyReportMeta" id="monthlyReportMeta">۰ تراکنش • کارتخوان ۰ • نقدی ۰ • کارت‌به‌کارت ۰</div>
+</div>
+<button class="monthlyReportNav" id="monthlyNextBtn" type="button" onclick="changeMonthlyReport(-1)" aria-label="ماه جاری" title="ماه جاری">›</button>
+<div class="monthlyReportActions">
+<button class="monthlyResetBtn" type="button" onclick="manualResetCurrentMonth()">↺ صفر کردن گزارش ماه جاری</button>
+</div>
+</div>
+
+<button class="themeFloatBtn" id="janaThemeFloatBtn" type="button" onclick="toggleJanaTheme()" aria-label="تغییر حالت روشن و تاریک" title="حالت روشن / تاریک">☾</button>
 
 <div
 
@@ -5111,7 +5167,7 @@ function methodMatchesFilter(method,filter){
 
 }
 
-function updateStatsLegacy(){
+function updateStats(){
 
     const transactions =
 
@@ -5265,104 +5321,13 @@ function updateStatsLegacy(){
 
 }
 
-function normalizeDigitsGlobal(value){
-return String(value ?? "").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
-}
-function getPersianDateParts(value){
-const raw=String(value ?? "").trim(); if(!raw)return null;
-const normalized=normalizeDigitsGlobal(raw);
-const faMatch=normalized.match(/^(13\d{2}|14\d{2}|15\d{2})/-./-./);
-if(faMatch)return {year(faMatch[1]),month(faMatch[2]),day(faMatch[3]),key:${faMatch[1]}/${String(faMatch[2]).padStart(2,"0")}/${String(faMatch[3]).padStart(2,"0")}};
-const parsed=new Date(raw);
-if(!Number.isNaN(parsed.getTime())){
-const parts=new Intl.DateTimeFormat("en-US-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(parsed);
-const get=t=>parts.find(x=>x.type===t)?.value||"";
-if(get("year")&&get("month")&&get("day"))return {year(get("year")),month(get("month")),day(get("day")),key:${get("year")}/${get("month")}/${get("day")}};
-}
-return null;
-}
-function getCurrentPersianMonth(){
-const parts=new Intl.DateTimeFormat("en-US-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
-const get=t=>parts.find(x=>x.type===t)?.value||"";
-return {year(get("year")),month(get("month")),day(get("day"))};
-}
-function getPersianMonthLabel(year,month){
-const names=["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
-return ${names[month-1]||""} ${faNumber(year)};
-}
-function getMonthOffset(year,month,offset){
-let m=month+offset,y=year; while(m<1){m+=12;y--;} while(m>12){m-=12;y++;} return {year,month};
-}
-function getManualResetMonthState(){
-try{const raw=localStorage.getItem("jana_month_manual_reset");return raw?JSON.parse(raw);}catch(e){return null;}
-}
-function setManualResetMonthState(state){try{localStorage.setItem("jana_month_manual_reset",JSON.stringify(state));}catch(e){}}
-function getTransactionStableId(item,index){return String(item?.id??item?.cloudId??${item?.date||""}_${item?.time||""}_${item?.amount||0}_${index});}
-function isTransactionInPersianMonth(item,year,month){const d=getPersianDateParts(item?.date);return !!d&&d.year===year&&d.month===month;}
-function getMonthTransactions(year,month){
-let list=allTransactions.filter(item=>isTransactionInPersianMonth(item,year,month));
-const current=getCurrentPersianMonth(), reset=getManualResetMonthState();
-if(current.year===year&&current.month===month&&reset&&Number(reset.year)===year&&Number(reset.month)===month){
-const hidden=new Set(Array.isArray(reset.existingIds)?reset.existingIds.map(String):[]);
-list=list.filter((item,index)=>!hidden.has(getTransactionStableId(item,index)));
-}
-return list;
-}
-function getMonthTotal(year,month){return getMonthTransactions(year,month).reduce((sum,item)=>sum+Number(item?.amount||0),0);}
-function getMonthBreakdown(year,month){
-const list=getMonthTransactions(year,month); let pos=0,cash=0,transfer=0;
-list.forEach(item=>{const a=Number(item?.amount||0);if(isWithdrawalMethod(item?.method))cash-=Math.abs(a);else if(isPosMethod(item?.method))pos+=a;else if(isCashMethod(item?.method))cash+=a;else if(isTransferMethod(item?.method))transfer+=a;});
-return {pos,cash,transfer,count.length};
-}
-function updateMonthlyReportUI(){
-const current=getCurrentPersianMonth(); let offset=Number(window.janaSelectedMonthOffset||0); if(![-1,0].includes(offset))offset=0; window.janaSelectedMonthOffset=offset;
-const selected=getMonthOffset(current.year,current.month,offset), total=getMonthTotal(selected.year,selected.month), b=getMonthBreakdown(selected.year,selected.month);
-const label=document.getElementById("monthlyReportLabel"),totalEl=document.getElementById("monthlyReportTotal"),countEl=document.getElementById("monthlyReportCount"),posEl=document.getElementById("monthlyReportPos"),cashEl=document.getElementById("monthlyReportCash"),transferEl=document.getElementById("monthlyReportTransfer"),prev=document.getElementById("monthlyPrevBtn"),next=document.getElementById("monthlyNextBtn");
-if(label)label.textContent=offset===0?ماه جاری • ${getPersianMonthLabel(selected.year,selected.month)}:ماه قبل • ${getPersianMonthLabel(selected.year,selected.month)};
-if(totalEl)totalEl.textContent=secureMoney(total);
-if(countEl)countEl.textContent=moneyHidden?"••••••"(b.count);
-if(posEl)posEl.textContent=secureMoney(b.pos); if(cashEl)cashEl.textContent=secureMoney(b.cash); if(transferEl)transferEl.textContent=secureMoney(b.transfer);
-if(prev)prev.disabled=offset===-1; if(next)next.disabled=offset===0;
-const reset=getManualResetMonthState(),info=document.getElementById("monthlyResetInfo");
-if(info)info.textContent=reset&&Number(reset.year)===current.year&&Number(reset.month)===current.month?"صفر دستی فعال است؛ تراکنش‌های جدید این ماه از صفر محاسبه می‌شوند.":"صفر شدن ماهانه خودکار است و تراکنش‌های قبلی حذف نمی‌شوند.";
-}
-function changeMonthlyReport(offset){window.janaSelectedMonthOffset=Math.max(-1,Math.min(0,Number(window.janaSelectedMonthOffset||0)+offset));updateMonthlyReportUI();}
-function resetCurrentMonthReport(){
-const current=getCurrentPersianMonth(),tx=allTransactions.filter(item=>isTransactionInPersianMonth(item,current.year,current.month));
-setManualResetMonthState({year.year,month.month,resetAt Date().toISOString(),existingIds.map((item,index)=>getTransactionStableId(item,index))});
-window.janaSelectedMonthOffset=0; updateStats(); updateBubble(); updateMonthlyReportUI(); showToast("↺ گزارش ماه جاری صفر شد؛ هیچ تراکنشی حذف نشد.");
-}
-function isSameDateAsToday(value){const d=getPersianDateParts(value),n=getCurrentPersianMonth();return !!d&&d.year===n.year&&d.month===n.month&&d.day===n.day;}
-function methodMatchesFilter(method,filter){
-if(filter==="all")return true;if(isWithdrawalMethod(filter))return isWithdrawalMethod(method);if(isPosMethod(filter))return isPosMethod(method);if(isCashMethod(filter))return isRegularCashMethod(method);if(isTransferMethod(filter))return isTransferMethod(method);return normalizeMethod(method)===normalizeMethod(filter);
-}
-function updateStats(){
-const current=getCurrentPersianMonth(),monthTransactions=getMonthTransactions(current.year,current.month);
-const transactions=currentFilter==="all"?monthTransactions.filter(item=>methodMatchesFilter(item.method,currentFilter));
-let todayTotal=0,pos=0,cash=0,transfer=0;
-monthTransactions.forEach(item=>{
-const amount=Number(item.amount||0);
-if(isSameDateAsToday(item.date))todayTotal+=amount;
-if(isPosMethod(item.method))pos+=amount;
-if(isRegularCashMethod(item.method))cash+=amount;
-if(isTransferMethod(item.method))transfer+=amount;
-if(isWithdrawalMethod(item.method))cash-=Math.abs(amount);
-});
-const totalIncome=document.getElementById("totalIncome");if(totalIncome)totalIncome.textContent=secureMoney(todayTotal);
-const transactionCount=document.getElementById("transactionCount");if(transactionCount)transactionCount.textContent=moneyHidden?"••••••"(transactions.length);
-const posTotal=document.getElementById("posTotal");if(posTotal)posTotal.textContent=secureMoney(pos);
-const cashTotal=document.getElementById("cashTotal");if(cashTotal)cashTotal.textContent=secureMoney(cash);
-const transferTotal=document.getElementById("transferTotal");if(transferTotal)transferTotal.textContent=secureMoney(transfer);
-updateBubble();updateMonthlyReportUI();drawIncomeChart();
-}
-
 /* =====================================================
 
    BUBBLE
 
 ===================================================== */
 
-function updateBubbleLegacy(){
+function updateBubble(){
 
     const total =
 
@@ -5406,15 +5371,6 @@ function updateBubbleLegacy(){
 
     }
 
-}
-
-function updateBubble(){
-const current=getCurrentPersianMonth();
-const total=getMonthTotal(current.year,current.month);
-const bubble=document.getElementById("bubbleIncome");
-if(bubble)bubble.textContent=secureMoney(total);
-const totalBubble=document.getElementById("totalBubbleIncome");
-if(totalBubble)totalBubble.textContent=secureMoney(total);
 }
 
 /* =====================================================
@@ -8536,28 +8492,6 @@ document.addEventListener("keydown",unlockPaymentAudio,{passive:true});
 document.addEventListener("touchstart",unlockPaymentAudio,{passive:true});
 
 /* =====================================================
-MONTHLY REPORT / THEME CONTROLS
-===================================================== */
-function applyJanaTheme(theme){
-const isLight=theme==="light";
-document.body.classList.toggle("jana-light",isLight);
-const icon=document.getElementById("janaThemeIcon");
-if(icon)icon.textContent=isLight?"🌙":"☀️";
-try{localStorage.setItem("jana_theme",theme);}catch(e){}
-}
-function toggleJanaTheme(){
-const current=document.body.classList.contains("jana-light")?"light":"dark";
-applyJanaTheme(current==="dark"?"light":"dark");
-}
-function initJanaTheme(){
-let saved="dark";
-try{saved=localStorage.getItem("jana_theme")||"dark";}catch(e){}
-applyJanaTheme(saved);
-}
-window.janaSelectedMonthOffset=0;
-initJanaTheme();
-
-/* =====================================================
 
    START
 
@@ -8593,11 +8527,184 @@ window.janaDataRefreshTimer=setInterval(()=>{
 
 messagePollTimer=setInterval(loadMessages,1000);
 
+/* =====================================================
+SAFE MONTHLY REPORT LAYER
+Source transactions are never deleted or modified.
+===================================================== */
+let monthlyReportOffset=0;
+const MONTHLY_MAX_HISTORY=24;
+
+function janaNormalizeDigits(value){
+return String(value??"")
+.replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+.replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+}
+function janaPersianParts(dateObj){
+try{
+const parts=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
+year:"numeric",month:"numeric",day:"numeric"
+}).formatToParts(dateObj);
+const out={};
+parts.forEach(p=>{if(p.type!=="literal")out[p.type]=Number(janaNormalizeDigits(p.value));});
+return out;
+}catch(e){return null;}
+}
+function janaCurrentPersianMonth(){
+const p=janaPersianParts(new Date())||{};
+return {year(p.year)||1400,month(p.month)||1};
+}
+function janaShiftPersianMonth(year,month,offset){
+let index=Number(year)*12+(Number(month)-1)-Number(offset||0);
+return {year.floor(index/12),month:(index%12)+1};
+}
+function janaMonthKey(year,month){
+return ${String(year).padStart(4,"0")}-${String(month).padStart(2,"0")};
+}
+function janaTransactionMonthKey(item){
+const raw=String(item?.date??"").trim();
+if(!raw)return "";
+const normalized=janaNormalizeDigits(raw);
+const faMatch=normalized.match(/^(\d{4})/.-/.-/);
+if(faMatch && Number(faMatch[1])>=1200 && Number(faMatch[1])<=1600){
+return janaMonthKey(Number(faMatch[1]),Number(faMatch[2]));
+}
+const parsed=new Date(raw);
+if(!Number.isNaN(parsed.getTime())){
+const p=janaPersianParts(parsed);
+if(p)return janaMonthKey(p.year,p.month);
+}
+return "";
+}
+function janaTransactionSignature(item){
+return [item?.id,item?.date,item?.time,item?.amount,item?.customer,item?.service,item?.method]
+.map(v=>String(v??"").trim()).join("|");
+}
+function janaResetStorageKey(monthKey){return jana_month_reset_${monthKey};}
+function janaGetResetSet(monthKey){
+try{
+const raw=localStorage.getItem(janaResetStorageKey(monthKey));
+const arr=raw?JSON.parse(raw):[];
+return new Set(Array.isArray(arr)?arr:[]);
+}catch(e){return new Set();}
+}
+function janaIsResetExcluded(item,monthKey){
+const set=janaGetResetSet(monthKey);
+if(!set.size)return false;
+const id=String(item?.id??"").trim();
+const sig=janaTransactionSignature(item);
+return (id&&set.has("id:"+id))||set.has("sig:"+sig);
+}
+function janaMonthlyTransactions(offset=0){
+const current=janaCurrentPersianMonth();
+const target=janaShiftPersianMonth(current.year,current.month,offset);
+const key=janaMonthKey(target.year,target.month);
+let rows=Array.isArray(allTransactions)
+? allTransactions.filter(item=>janaTransactionMonthKey(item)===key):[];
+if(offset===0)rows=rows.filter(item=>!janaIsResetExcluded(item,key));
+return {rows,key,year.year,month.month};
+}
+function janaMonthlySums(rows){
+let pos=0,cash=0,transfer=0;
+rows.forEach(item=>{
+const amount=Number(item?.amount||0);
+if(isPosMethod(item?.method))pos+=amount;
+else if(isRegularCashMethod(item?.method))cash+=amount;
+else if(isTransferMethod(item?.method))transfer+=amount;
+});
+return {
+total.reduce((sum,item)=>sum+Number(item?.amount||0),0),
+count.length,pos,cash,transfer
+};
+}
+function renderMonthlyReport(){
+const info=janaMonthlyTransactions(monthlyReportOffset);
+const sums=janaMonthlySums(info.rows);
+const title=document.getElementById("monthlyReportTitle");
+const value=document.getElementById("monthlyReportValue");
+const meta=document.getElementById("monthlyReportMeta");
+const prev=document.getElementById("monthlyPrevBtn");
+const next=document.getElementById("monthlyNextBtn");
+if(title)title.textContent=
+monthlyReportOffset===0
+? 📅 ماه جاری • ${faNumber(info.year)}/${faNumber(info.month)}
+: 📊 ماه قبل • ${faNumber(info.year)}/${faNumber(info.month)};
+if(value)value.textContent=secureMoney(sums.total);
+if(meta)meta.textContent=
+${faNumber(sums.count)} تراکنش • کارتخوان ${secureMoney(sums.pos)} • نقدی ${secureMoney(sums.cash)} • کارت‌به‌کارت ${secureMoney(sums.transfer)};
+if(prev)prev.disabled=monthlyReportOffset>=MONTHLY_MAX_HISTORY;
+if(next)next.disabled=monthlyReportOffset<=0;
+}
+function changeMonthlyReport(delta){
+const next=monthlyReportOffset+Number(delta||0);
+monthlyReportOffset=Math.max(0,Math.min(MONTHLY_MAX_HISTORY,next));
+renderMonthlyReport();
+const dock=document.getElementById("monthlyReportDock");
+if(dock)dock.animate(
+[{transform:"translateX(0)",opacity:.72},
+{transform:translateX(${delta>0?"-8px":"8px"}),opacity:1},
+{transform:"translateX(0)",opacity:1}],
+{duration:280,easing:"ease-out"}
+);
+}
+function manualResetCurrentMonth(){
+const info=janaMonthlyTransactions(0);
+if(!info.rows.length){
+showToast("ℹ️ در گزارش ماه جاری تراکنشی برای صفر کردن وجود ندارد.");
+return;
+}
+const ok=window.confirm(
+"گزارش ماه جاری از این لحظه صفر شود؟\n\nهیچ تراکنشی از شیت یا اطلاعات اصلی حذف نمی‌شود؛ فقط تراکنش‌های فعلی از محاسبه گزارش ماه جاری کنار گذاشته می‌شوند."
+);
+if(!ok)return;
+try{
+const markers=[];
+info.rows.forEach(item=>{
+const id=String(item?.id??"").trim();
+markers.push(id?"id:"+id:"sig:"+janaTransactionSignature(item));
+});
+localStorage.setItem(janaResetStorageKey(info.key),JSON.stringify(markers));
+monthlyReportOffset=0;
+renderMonthlyReport();
+updateStats();
+showToast("✅ گزارش ماه جاری صفر شد؛ تراکنش‌ها حذف نشده‌اند.");
+}catch(e){
+console.error(e);
+showToast("⚠️ ذخیره صفر کردن گزارش انجام نشد.");
+}
+}
+function applyJanaTheme(theme){
+const dark=theme==="dark";
+document.body.classList.toggle("jana-dark-mode",dark);
+const btn=document.getElementById("janaThemeFloatBtn");
+if(btn){
+btn.textContent=dark?"☀":"☾";
+btn.title=dark?"حالت روشن":"حالت تاریک";
+}
+try{localStorage.setItem("jana_theme",dark?"dark":"light");}catch(e){}
+}
+function toggleJanaTheme(){
+applyJanaTheme(document.body.classList.contains("jana-dark-mode")?"light":"dark");
+}
+function initJanaProfessionalControls(){
+let saved="light";
+try{saved=localStorage.getItem("jana_theme")||"light";}catch(e){}
+applyJanaTheme(saved==="dark"?"dark":"light");
+renderMonthlyReport();
+}
+
+/* Refresh only the new report layer after existing data refreshes. */
+const janaOriginalLoadCloudData=window.loadCloudData;
+if(typeof janaOriginalLoadCloudData==="function"){
+window.loadCloudData=async function(...args){
+const result=await janaOriginalLoadCloudData.apply(this,args);
+renderMonthlyReport();
+return result;
+};
+}
+
+initJanaProfessionalControls();
 </script>
 
-<button type="button" class="janaThemeFloat" id="janaThemeFloat" onclick="toggleJanaTheme()" aria-label="تغییر حالت روشن و تاریک" title="حالت روشن / تاریک">
-<span class="janaThemeIcon" id="janaThemeIcon">☀️</span>
-</button>
 </body>
 
 </html>
