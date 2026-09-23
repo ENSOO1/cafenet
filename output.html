@@ -178,67 +178,6 @@ body::after{
 
 }
 
-
-/* =========================
-   PROFESSIONAL MONTH NAV + THEME
-========================= */
-.monthControlDock{
-    position:fixed; right:18px; top:50%; transform:translateY(-50%);
-    z-index:9000; display:flex; flex-direction:column; align-items:center; gap:8px;
-    padding:10px; border:1px solid rgba(0,140,255,.28); border-radius:22px;
-    background:rgba(5,14,24,.62); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
-    box-shadow:0 18px 55px rgba(0,0,0,.38),0 0 28px rgba(0,140,255,.10),inset 0 1px rgba(255,255,255,.08);
-}
-.monthControlDock button,.themeFloat{
-    width:42px;height:42px;border:1px solid rgba(0,140,255,.28);border-radius:14px;
-    background:linear-gradient(145deg,rgba(0,140,255,.16),rgba(255,255,255,.035));
-    color:#a9dcff;cursor:pointer;font:inherit;display:grid;place-items:center;transition:.3s ease;
-    box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 25px rgba(0,0,0,.22);
-}
-.monthControlDock button:hover,.themeFloat:hover{
-    transform:translateY(-2px) scale(1.05);border-color:rgba(0,170,255,.72);
-    box-shadow:0 0 22px rgba(0,150,255,.24),inset 0 1px rgba(255,255,255,.14);
-}
-.monthControlLabel{min-width:92px;text-align:center;color:#8fcaff;font-size:11px;line-height:1.6}
-.monthControlAmount{color:#fff;font-weight:800;font-size:12px}
-.monthControlReset{width:auto!important;min-width:92px;padding:0 10px;font-size:10px!important}
-.themeFloat{
-    position:fixed;left:18px;top:50%;transform:translateY(-50%);z-index:9001;
-    width:50px;height:50px;border-radius:50%;font-size:21px;
-}
-.themeFloat.spinning{animation:themeSpin .55s ease}
-@keyframes themeSpin{
-    0%{transform:translateY(-50%) rotate(0deg) scale(1)}
-    55%{transform:translateY(-50%) rotate(180deg) scale(1.08)}
-    100%{transform:translateY(-50%) rotate(360deg) scale(1)}
-}
-body.light{
-    background:radial-gradient(circle at 85% 5%,rgba(0,140,255,.12),transparent 30%),
-               radial-gradient(circle at 10% 90%,rgba(0,80,255,.08),transparent 30%),#eef6fb;
-    color:#102033;
-}
-body.light .stat,body.light .panel,body.light .note,body.light .monthControlDock{
-    background:rgba(255,255,255,.72);border-color:rgba(20,110,180,.16);
-    box-shadow:0 20px 55px rgba(32,78,110,.12),inset 0 1px rgba(255,255,255,.85);
-}
-body.light .stat small,body.light .panelTitle span,body.light .noteDate,body.light .monthControlLabel{color:#557089}
-body.light .stat strong,body.light .panelTitle h2,body.light .noteText,body.light .monthControlAmount{color:#12324b}
-body.light .filters button{background:rgba(0,120,255,.06);color:#176aa1;border-color:rgba(0,120,255,.20)}
-body.light .searchBox input,body.light textarea,body.light input{background:rgba(255,255,255,.84);color:#17324a;border-color:rgba(20,110,180,.20)}
-body.light .tableWrap,body.light table{background:rgba(255,255,255,.72)}
-body.light th{background:rgba(0,120,255,.08);color:#24506e}
-body.light td{color:#24445d;border-color:rgba(30,90,130,.10)}
-body.light .incomeBubble{box-shadow:inset 12px 12px 35px rgba(255,255,255,.55),inset -15px -15px 35px rgba(0,80,180,.05),0 25px 70px rgba(32,78,110,.18)}
-body.light .toast{background:rgba(255,255,255,.92);color:#17324a;border-color:rgba(0,140,255,.25)}
-body.light .monthControlDock button,body.light .themeFloat{background:rgba(255,255,255,.78);color:#176aa1;border-color:rgba(0,120,255,.22)}
-.stat::before{
-    content:"";position:absolute;left:14%;right:14%;bottom:0;height:2px;border-radius:99px;
-    background:linear-gradient(90deg,transparent,#00aaff,#74d7ff,transparent);
-    box-shadow:0 0 0 rgba(0,170,255,0);transform:scaleX(.08);transform-origin:center;
-    opacity:0;transition:.35s ease;z-index:4;
-}
-.stat:hover::before{transform:scaleX(1);opacity:1;box-shadow:0 0 7px #00aaff,0 0 18px rgba(0,170,255,.8)}
-
 /* =========================
 
    Container
@@ -363,6 +302,8 @@ body.light .monthControlDock button,body.light .themeFloat{background:rgba(255,2
 
 .stat{
 
+    direction:rtl;
+
     position:relative;
 
     overflow:hidden;
@@ -434,6 +375,492 @@ body.light .monthControlDock button,body.light .themeFloat{background:rgba(255,2
         0 0 30px rgba(0,140,255,.08);
 
 }
+
+.cashStatCard{
+
+    cursor:pointer;
+
+    user-select:none;
+
+}
+
+.cashStatCard:focus-visible{
+
+    outline:2px solid rgba(0,140,255,.55);
+
+    outline-offset:3px;
+
+}
+
+.cashCardHint{
+
+    position:absolute;
+
+    right:22px;
+
+    bottom:14px;
+
+    color:#62839c;
+
+    font-size:9px;
+
+    opacity:.9;
+
+}
+
+.cashCardArrow{
+
+    position:absolute;
+
+    left:18px;
+
+    bottom:12px;
+
+    width:25px;
+
+    height:25px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    border:1px solid rgba(110,200,255,.20);
+
+    background:rgba(0,140,255,.07);
+
+    color:#73c8ff;
+
+    font-size:17px;
+
+    transition:.25s;
+
+}
+
+.cashStatCard:hover .cashCardArrow{
+
+    transform:translateY(3px);
+
+    background:rgba(0,140,255,.14);
+
+    box-shadow:0 0 18px rgba(0,140,255,.15);
+
+}
+
+.cashWithdrawalOverlay{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:12500;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    background:rgba(0,0,0,.54);
+
+    backdrop-filter:blur(9px);
+
+    -webkit-backdrop-filter:blur(9px);
+
+}
+
+.cashWithdrawalOverlay.open{
+
+    display:flex;
+
+    animation:cashOverlayIn .18s ease both;
+
+}
+
+.cashWithdrawalCard{
+
+    position:relative;
+
+    width:min(500px,94vw);
+
+    max-height:min(720px,88vh);
+
+    overflow:auto;
+
+    direction:rtl;
+
+    padding:25px;
+
+    border-radius:27px;
+
+    border:1px solid rgba(255,255,255,.16);
+
+    background:linear-gradient(145deg,rgba(10,29,44,.94),rgba(2,9,16,.96));
+
+    backdrop-filter:blur(32px);
+
+    -webkit-backdrop-filter:blur(32px);
+
+    box-shadow:0 35px 100px rgba(0,0,0,.72),0 0 45px rgba(0,140,255,.10),inset 0 1px rgba(255,255,255,.08);
+
+    animation:cashCardIn .30s cubic-bezier(.2,.8,.2,1) both;
+
+}
+
+.cashWithdrawalCard::-webkit-scrollbar{width:5px}
+
+.cashWithdrawalCard::-webkit-scrollbar-thumb{background:rgba(0,140,255,.25);border-radius:10px}
+
+.cashWithdrawalClose{
+
+    position:absolute;
+
+    top:13px;
+
+    left:13px;
+
+    z-index:3;
+
+    width:39px;
+
+    height:39px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(255,255,255,.15);
+
+    background:rgba(255,255,255,.055);
+
+    color:#b7cddd;
+
+    font-size:25px;
+
+    line-height:1;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:.24s;
+
+    box-shadow:inset 0 1px rgba(255,255,255,.08),0 9px 25px rgba(0,0,0,.22);
+
+}
+
+.cashWithdrawalClose:hover{
+
+    transform:rotate(90deg) scale(1.08);
+
+    background:rgba(255,75,75,.16);
+
+    border-color:rgba(255,120,120,.45);
+
+    color:#fff;
+
+    box-shadow:0 0 26px rgba(255,80,80,.16);
+
+}
+
+.cashWithdrawalClose:active{transform:scale(.93)}
+
+.cashWithdrawalHead{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding-left:50px;
+
+    margin-bottom:21px;
+
+}
+
+.cashWithdrawalTitle{font-size:19px;color:#eaf6ff;font-weight:700}
+
+.cashWithdrawalSub{font-size:10px;color:#6f8da3;margin-top:5px}
+
+.cashWithdrawalToggle{
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:-19px;
+
+    transform:translateX(-50%);
+
+    width:38px;
+
+    height:38px;
+
+    z-index:5;
+
+    border-radius:50%;
+
+    border:1px solid rgba(110,200,255,.24);
+
+    background:rgba(5,22,35,.94);
+
+    color:#7ecbff;
+
+    cursor:pointer;
+
+    font-size:19px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:.25s;
+
+    box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 18px rgba(0,140,255,.10);
+
+    backdrop-filter:blur(14px);
+
+    -webkit-backdrop-filter:blur(14px);
+
+}
+
+.cashWithdrawalToggle:hover{
+
+    transform:translateX(-50%) translateY(2px) scale(1.08);
+
+    background:rgba(0,140,255,.14);
+
+    box-shadow:0 0 24px rgba(0,140,255,.18),0 10px 28px rgba(0,0,0,.35);
+
+}
+
+.cashWithdrawalToggle.open{transform:translateX(-50%) rotate(180deg)}
+
+.cashWithdrawalToggle.open:hover{transform:translateX(-50%) rotate(180deg) scale(1.06)}
+
+.cashWithdrawalForm{display:grid;gap:8px}
+
+.cashWithdrawalForm label{color:#7893a8;font-size:10px;margin-top:4px}
+
+.cashAmountInputWrap{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:0 13px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(255,255,255,.10);
+
+    background:rgba(255,255,255,.035);
+
+    transition:.22s;
+
+}
+
+.cashAmountInputWrap:focus-within{
+
+    border-color:rgba(0,140,255,.40);
+
+    box-shadow:0 0 24px rgba(0,140,255,.08);
+
+}
+
+.cashAmountInputWrap input{
+
+    width:100%;
+
+    min-height:48px;
+
+    border:0;
+
+    outline:0;
+
+    background:transparent;
+
+    color:#fff;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+}
+
+.cashAmountInputWrap span{color:#62849c;font-size:10px;white-space:nowrap}
+
+.cashWithdrawalForm textarea{
+
+    width:100%;
+
+    resize:vertical;
+
+    min-height:80px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(255,255,255,.10);
+
+    outline:0;
+
+    background:rgba(255,255,255,.035);
+
+    color:#fff;
+
+    padding:12px;
+
+    font-family:inherit;
+
+    font-size:11px;
+
+    transition:.22s;
+
+}
+
+.cashWithdrawalForm textarea:focus{
+
+    border-color:rgba(0,140,255,.40);
+
+    box-shadow:0 0 24px rgba(0,140,255,.08);
+
+}
+
+.cashWithdrawalActions{
+
+    display:flex;
+
+    gap:9px;
+
+    margin-top:17px;
+
+}
+
+.cashWithdrawalActions button{
+
+    border-radius:14px;
+
+    min-height:45px;
+
+    padding:0 17px;
+
+    font-family:inherit;
+
+    cursor:pointer;
+
+    transition:.22s;
+
+}
+
+.cashCancelBtn{
+
+    border:1px solid rgba(255,255,255,.09);
+
+    background:rgba(255,255,255,.04);
+
+    color:#91a8ba;
+
+}
+
+.cashCancelBtn:hover{
+
+    transform:translateY(-2px);
+
+    color:#fff;
+
+}
+
+.cashWithdrawBtn{
+
+    flex:1;
+
+    border:1px solid rgba(34,197,94,.28);
+
+    background:linear-gradient(135deg,rgba(34,197,94,.16),rgba(0,120,255,.10));
+
+    color:#9af2bd;
+
+    box-shadow:0 0 24px rgba(34,197,94,.06);
+
+}
+
+.cashWithdrawBtn:hover{
+
+    transform:translateY(-2px);
+
+    background:linear-gradient(135deg,rgba(34,197,94,.23),rgba(0,120,255,.14));
+
+}
+
+.cashWithdrawBtn:disabled{opacity:.55;cursor:wait;transform:none}
+
+.cashWithdrawalHistory{
+
+    display:none;
+
+    margin-top:17px;
+
+    padding-top:14px;
+
+    border-top:1px solid rgba(255,255,255,.07);
+
+}
+
+.cashWithdrawalHistory.open{display:block;animation:cashHistoryIn .24s ease both}
+
+.cashHistoryTitle{font-size:11px;color:#a9c8dc;margin-bottom:9px}
+
+.cashHistoryItem{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    padding:10px 12px;
+
+    margin-top:7px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.07);
+
+    background:rgba(255,255,255,.035);
+
+}
+
+.cashHistoryMain{min-width:0}
+
+.cashHistoryAmount{color:#ff9b9b;font-weight:700;font-size:12px}
+
+.cashHistoryDesc{color:#7692a7;font-size:9px;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:280px}
+
+.cashHistoryDate{color:#5f7b91;font-size:8px;white-space:nowrap}
+
+.cashHistoryEmpty{color:#5f7b91;font-size:10px;text-align:center;padding:14px 0}
+
+@keyframes cashOverlayIn{from{opacity:0}to{opacity:1}}
+
+@keyframes cashCardIn{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+@keyframes cashHistoryIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
 
 .stat small{
 
@@ -595,9 +1022,9 @@ body.light .monthControlDock button,body.light .themeFloat{background:rgba(255,2
 
     position:relative;
 
-    width:235px;
+    width:275px;
 
-    height:235px;
+    height:275px;
 
     border-radius:50%;
 
@@ -865,6 +1292,422 @@ body.light .monthControlDock button,body.light .themeFloat{background:rgba(255,2
 
 /* =========================
 
+   Income Hub
+
+========================= */
+
+.incomeHubPanel{
+
+    overflow:hidden;
+
+}
+
+.incomeHubBubbleWrap{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:6px 0 22px;
+
+}
+
+.incomeHubBubbleWrap .incomeBubble{
+
+    margin:0 auto;
+
+}
+
+.incomeHubPanel.incomeSlideAway{
+
+    animation:incomeSlideOut .38s cubic-bezier(.22,.8,.2,1) both;
+
+}
+
+.incomeDetailPanel.incomeSlideIn{
+
+    animation:incomeSlideIn .42s cubic-bezier(.22,.8,.2,1) both;
+
+}
+
+@keyframes incomeSlideOut{
+
+    from{opacity:1;transform:translateX(0);}
+
+    to{opacity:0;transform:translateX(-90px);}
+
+}
+
+@keyframes incomeSlideIn{
+
+    from{opacity:0;transform:translateX(90px);}
+
+    to{opacity:1;transform:translateX(0);}
+
+}
+
+.incomeHubOptions{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:0 0 8px;
+
+}
+
+.incomeHubOptions .incomeHubOption{
+
+    width:min(310px,88%);
+
+    min-height:58px;
+
+    padding:11px 15px;
+
+    border-radius:17px;
+
+    gap:10px;
+
+}
+
+.incomeHubOptions .incomeHubOptionIcon{
+
+    flex:0 0 38px;
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:12px;
+
+    font-size:18px;
+
+}
+
+.incomeHubOptions .incomeHubOptionText{
+
+    gap:2px;
+
+}
+
+.incomeHubOptions .incomeHubOptionText strong{
+
+    font-size:13px;
+
+}
+
+.incomeHubOptions .incomeHubOptionText small{
+
+    font-size:9px;
+
+}
+
+.incomeHubOption{
+
+    position:relative;
+
+    min-height:92px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:18px 20px;
+
+    border-radius:22px;
+
+    border:1px solid rgba(255,255,255,.13);
+
+    background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+
+    color:#d9e8f2;
+
+    cursor:pointer;
+
+    text-align:right;
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    box-shadow:inset 0 1px rgba(255,255,255,.08),0 14px 38px rgba(0,0,0,.18);
+
+    transition:.24s ease;
+
+    overflow:hidden;
+
+}
+
+.incomeHubOption::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:120px;
+
+    height:120px;
+
+    border-radius:50%;
+
+    left:-55px;
+
+    top:-55px;
+
+    background:rgba(0,140,255,.08);
+
+    filter:blur(2px);
+
+}
+
+.incomeHubOption:hover{
+
+    transform:translateY(-4px);
+
+    border-color:rgba(110,200,255,.35);
+
+    background:linear-gradient(145deg,rgba(0,140,255,.13),rgba(255,255,255,.05));
+
+    box-shadow:inset 0 1px rgba(255,255,255,.1),0 20px 45px rgba(0,0,0,.25),0 0 28px rgba(0,140,255,.08);
+
+}
+
+.incomeHubOption:active{
+
+    transform:translateY(-1px) scale(.99);
+
+}
+
+.incomeHubOptionIcon{
+
+    position:relative;
+
+    z-index:1;
+
+    flex:0 0 54px;
+
+    width:54px;
+
+    height:54px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:25px;
+
+    background:rgba(255,255,255,.07);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:inset 0 1px rgba(255,255,255,.1),0 8px 22px rgba(0,0,0,.16);
+
+}
+
+.incomeHubOptionText{
+
+    position:relative;
+
+    z-index:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+    min-width:0;
+
+}
+
+.incomeHubOptionText strong{
+
+    font-size:15px;
+
+    color:#f0f7fc;
+
+}
+
+.incomeHubOptionText small{
+
+    color:#7f9bb0;
+
+    font-size:10px;
+
+}
+
+.incomeHubArrow{
+
+    position:relative;
+
+    z-index:1;
+
+    margin-right:auto;
+
+    color:#6ec8ff;
+
+    font-size:20px;
+
+    transition:.22s;
+
+}
+
+.incomeHubOption:hover .incomeHubArrow{
+
+    transform:translateX(-5px);
+
+}
+
+.incomeDetailPanel{
+
+    display:none !important;
+
+    opacity:0;
+
+    transform:translateX(34px);
+
+}
+
+.incomeDetailPanel.incomeDetailOpen{
+
+    display:block !important;
+
+    opacity:1;
+
+    transform:translateX(0);
+
+    animation:incomePanelIn .46s cubic-bezier(.22,.8,.2,1) both;
+
+}
+
+.totalIncomeBubbleWrap{
+
+    padding-top:18px;
+
+    padding-bottom:26px;
+
+}
+
+@keyframes incomePanelIn{
+
+    from{opacity:0;transform:translateY(10px);}
+
+    to{opacity:1;transform:translateY(0);}
+
+}
+
+.incomeBackWrap{
+
+    display:flex;
+
+    justify-content:center;
+
+    padding-top:4px;
+
+}
+
+.incomeBackButton{
+
+    border:1px solid rgba(255,255,255,.11);
+
+    background:rgba(255,255,255,.045);
+
+    color:#8da8ba;
+
+    padding:10px 18px;
+
+    border-radius:13px;
+
+    cursor:pointer;
+
+    transition:.22s;
+
+}
+
+.incomeBackButton:hover{
+
+    transform:translateY(-2px);
+
+    color:#dcecf7;
+
+    border-color:rgba(110,200,255,.28);
+
+    background:rgba(0,140,255,.08);
+
+}
+
+.chartIncomeTotalAction{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin-top:18px;
+
+    padding:0 0 4px;
+
+}
+
+.chartIncomeTotalAction .incomeHubOption{
+
+    width:min(310px,88%);
+
+    min-height:58px;
+
+    padding:11px 15px;
+
+    border-radius:17px;
+
+    gap:10px;
+
+}
+
+.chartIncomeTotalAction .incomeHubOptionIcon{
+
+    flex:0 0 38px;
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:12px;
+
+    font-size:18px;
+
+}
+
+.chartIncomeTotalAction .incomeHubOptionText{
+
+    gap:2px;
+
+}
+
+.chartIncomeTotalAction .incomeHubOptionText strong{
+
+    font-size:13px;
+
+}
+
+.chartIncomeTotalAction .incomeHubOptionText small{
+
+    font-size:9px;
+
+}
+
+/* =========================
+
    Real Chart
 
 ========================= */
@@ -888,6 +1731,8 @@ body.light .monthControlDock button,body.light .themeFloat{background:rgba(255,2
 }
 
 .chartBars{
+
+    direction:ltr;
 
     height:290px;
 
@@ -929,6 +1774,8 @@ body.light .monthControlDock button,body.light .themeFloat{background:rgba(255,2
 
 .chartBarItem{
 
+    direction:rtl;
+
     min-width:55px;
 
     height:100%;
@@ -942,6 +1789,20 @@ body.light .monthControlDock button,body.light .themeFloat{background:rgba(255,2
     align-items:center;
 
     gap:7px;
+
+}
+
+.chartBarItem.currentDay .chartBar{
+
+    box-shadow:0 0 28px rgba(0,190,255,.28),inset 0 0 18px rgba(255,255,255,.1);
+
+}
+
+.chartBarItem.currentDay .chartBarLabel{
+
+    color:#8edcff;
+
+    font-weight:700;
 
 }
 
@@ -1276,6 +2137,26 @@ tbody tr:hover{
     color:#ffca70;
 
     background:rgba(245,158,11,.08);
+
+}
+
+.method.withdrawal{
+
+    color:#ff8b8b;
+
+    background:rgba(239,68,68,.10);
+
+    border:1px solid rgba(239,68,68,.18);
+
+    box-shadow:0 0 16px rgba(239,68,68,.05);
+
+}
+
+.amount.withdrawalAmount{
+
+    color:#ff5f5f !important;
+
+    font-weight:700;
 
 }
 
@@ -1857,6 +2738,50 @@ tbody tr:hover{
 
     }
 
+    .incomeHubOptions{
+
+        grid-template-columns:1fr;
+
+        gap:11px;
+
+    }
+
+    .incomeHubOption{
+
+        min-height:82px;
+
+        padding:15px;
+
+        border-radius:19px;
+
+    }
+
+    .incomeHubOptionIcon{
+
+        flex-basis:48px;
+
+        width:48px;
+
+        height:48px;
+
+        border-radius:15px;
+
+        font-size:22px;
+
+    }
+
+    .incomeHubOptionText strong{
+
+        font-size:13px;
+
+    }
+
+    .incomeHubOptionText small{
+
+        font-size:9px;
+
+    }
+
     .filterArea{
 
         align-items:stretch;
@@ -2187,6 +3112,74 @@ tbody tr:hover{
 
 ========================= */
 
+/* =========================
+
+   NOTE MODALS
+
+========================= */
+
+.noteModal{position:fixed;inset:0;z-index:13000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(3,8,15,.58);backdrop-filter:blur(18px) saturate(135%);-webkit-backdrop-filter:blur(18px) saturate(135%)}
+
+.noteModal.open{display:flex;animation:modalFade .22s ease}
+
+.noteModalCard{position:relative;width:min(560px,94vw);max-height:min(760px,90vh);overflow:auto;background:linear-gradient(145deg,rgba(255,255,255,.105),rgba(255,255,255,.035) 48%,rgba(0,10,22,.28));border:1px solid rgba(255,255,255,.18);border-top-color:rgba(255,255,255,.30);border-radius:28px;padding:25px;box-shadow:0 35px 100px rgba(0,0,0,.72),0 0 55px rgba(0,140,255,.12),inset 0 1px rgba(255,255,255,.16),inset 0 -1px rgba(0,0,0,.18);backdrop-filter:blur(38px) saturate(150%);-webkit-backdrop-filter:blur(38px) saturate(150%);animation:modalUp .25s ease}
+
+.noteModalClose{position:absolute;top:12px;left:12px;z-index:2;width:38px;height:38px;border:1px solid rgba(255,255,255,.16);border-radius:50%;background:rgba(255,255,255,.07);color:#d9e8f2;font-size:25px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.22s;box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.18)}
+
+.noteModalClose:hover{transform:rotate(90deg) scale(1.06);background:rgba(255,75,75,.16);border-color:rgba(255,120,120,.42);color:#fff;box-shadow:0 0 24px rgba(255,80,80,.15)}
+
+.noteModalClose:active{transform:scale(.94)}
+
+.noteModalCard:before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.10),transparent 35%,transparent 70%,rgba(0,140,255,.06));}
+
+.noteModalTitle{position:relative;font-size:18px;font-weight:800;color:#eef7ff;margin-bottom:9px}
+
+.noteModalText{position:relative;color:#9bb1c2;font-size:12px;line-height:2;margin-bottom:17px}
+
+.noteModalTextarea{position:relative;box-sizing:border-box;width:100%;min-height:170px;resize:vertical;border:1px solid rgba(255,255,255,.14);outline:none;border-radius:18px;background:rgba(255,255,255,.075);color:#fff;padding:15px;font-family:inherit;font-size:14px;line-height:2;box-shadow:inset 0 1px rgba(255,255,255,.06),0 8px 30px rgba(0,0,0,.12)}
+
+.noteModalTextarea:focus{border-color:rgba(90,180,255,.65);background:rgba(255,255,255,.09);box-shadow:0 0 28px rgba(0,140,255,.12),inset 0 1px rgba(255,255,255,.08)}
+
+.noteModalActions{position:relative;display:flex;justify-content:flex-end;gap:10px;margin-top:17px}
+
+.noteModalActions button{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#c3d3df;border-radius:14px;padding:11px 17px;cursor:pointer;font-family:inherit;font-weight:600;transition:.22s;box-shadow:inset 0 1px rgba(255,255,255,.07)}
+
+.noteModalActions button:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.11);color:#fff}
+
+.noteModalActions button:disabled{opacity:.55;cursor:not-allowed;transform:none}
+
+.noteModalActions .danger{background:linear-gradient(135deg,rgba(255,65,65,.20),rgba(130,15,25,.16));border-color:rgba(255,100,100,.32);color:#ffb0b0}
+
+.noteModalActions .danger:hover{background:linear-gradient(135deg,rgba(255,65,65,.30),rgba(130,15,25,.24));border-color:rgba(255,120,120,.48)}
+
+.noteModalActions .primary{background:linear-gradient(135deg,rgba(0,123,255,.82),rgba(0,82,204,.78));border-color:rgba(100,190,255,.45);color:#fff}
+
+@media(max-width:600px){.noteModal{padding:12px}.noteModalCard{width:100%;padding:20px;border-radius:23px}.noteModalActions{flex-direction:column}.noteModalActions button{width:100%}}
+
+.eyeIcon{width:20px;height:13px;border:2px solid currentColor;border-radius:75% 25% 75% 25%/70% 30% 70% 30%;display:inline-block;transform:rotate(-45deg);position:relative;vertical-align:middle;margin-left:7px}
+
+.eyeIcon:after{content:"";position:absolute;width:5px;height:5px;border-radius:50%;background:currentColor;left:50%;top:50%;transform:translate(-50%,-50%) rotate(45deg)}
+
+.globalMoneyEye.isHidden .eyeIcon{opacity:.8}
+
+.globalMoneyEye.isHidden .eyeIcon:before{content:"";position:absolute;width:24px;height:2px;background:currentColor;left:-4px;top:4px;transform:rotate(45deg);border-radius:4px}
+
+@keyframes modalFade{from{opacity:0}to{opacity:1}}
+
+@keyframes modalUp{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+@media(max-width:600px){
+
+    .incomeHubOptions .incomeHubOption,
+
+    .chartIncomeTotalAction .incomeHubOption{
+
+        width:min(300px,90vw);
+
+    }
+
+}
+
 @media print{
 
     @page{
@@ -2228,6 +3221,8 @@ tbody tr:hover{
     .noteActions,
 
     .mobileNav,
+
+    .incomeHubPanel,
 
     .chartWrap,
 
@@ -2699,7 +3694,7 @@ tbody tr:hover{
 
 .chatHeader{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.07)}
 
-.chatHeader h3{font-size:16px}.chatHeader small{display:block;color:#6d8ba5;font-size:10px;margin-top:4px}.chatClose,.paymentClose{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#9ab4ca;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px}
+.chatHeader h3{font-size:16px}.chatHeader small{display:block;color:#6d8ba5;font-size:10px;margin-top:4px}.chatClose,.paymentClose{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#9ab4ca;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.22s;box-shadow:inset 0 1px rgba(255,255,255,.06),0 8px 22px rgba(0,0,0,.16)}.chatClose:hover,.paymentClose:hover{transform:rotate(90deg) scale(1.08);background:rgba(255,75,75,.16);border-color:rgba(255,120,120,.42);color:#fff;box-shadow:0 0 24px rgba(255,80,80,.15)}.chatClose:active,.paymentClose:active{transform:scale(.94)}
 
 .chatMessages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px}.chatMessages::-webkit-scrollbar{width:5px}.chatMessages::-webkit-scrollbar-thumb{background:rgba(0,140,255,.25);border-radius:10px}
 
@@ -2709,20 +3704,49 @@ tbody tr:hover{
 
 .paymentCard{width:min(480px,92vw);background:linear-gradient(145deg,rgba(11,28,43,.91),rgba(2,9,16,.94));border:1px solid rgba(255,255,255,.15);border-radius:25px;padding:24px;box-shadow:0 35px 100px rgba(0,0,0,.7),0 0 40px rgba(0,140,255,.08);backdrop-filter:blur(30px)}.paymentTop{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.paymentTitle{font-size:18px}.paymentSub{font-size:10px;color:#6d8aa1;margin-top:5px}.paymentInfo{display:grid;gap:9px}.paymentInfoRow{display:flex;justify-content:space-between;gap:15px;padding:11px 13px;border-radius:13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}.paymentInfoRow span:first-child{color:#6d879e;font-size:10px}.paymentInfoRow span:last-child{color:#dcecff;font-size:12px;text-align:left}.paymentAmount{color:#63bdff!important;font-weight:bold}.paymentActions{display:flex;gap:9px;margin-top:16px}.payConfirm{flex:1;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.10);color:#8ff0b5;padding:12px;border-radius:14px;cursor:pointer;font-family:inherit}.payConfirm:hover{background:rgba(34,197,94,.18)}.payDismiss{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);color:#91a8ba;padding:12px 18px;border-radius:14px;cursor:pointer;font-family:inherit}
 
-.paymentAlertPulse{animation:paymentAlertPulse .65s ease-out 2;}
-@keyframes paymentAlertPulse{0%{transform:scale(.94);box-shadow:0 35px 100px rgba(0,0,0,.7),0 0 0 rgba(0,140,255,0)}45%{transform:scale(1.02);box-shadow:0 35px 100px rgba(0,0,0,.7),0 0 55px rgba(0,140,255,.35)}100%{transform:scale(1);box-shadow:0 35px 100px rgba(0,0,0,.7),0 0 40px rgba(0,140,255,.08)}}
+ .paymentOverlay.open{animation:paymentOverlayIn .18s ease both}
+
+.paymentOverlay.open .paymentCard{animation:paymentCardIn .24s cubic-bezier(.2,.8,.2,1) both}
+
+@keyframes paymentOverlayIn{from{opacity:0}to{opacity:1}}
+
+@keyframes paymentCardIn{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+
 @media(max-width:600px){.reportTitleCard{font-size:21px;padding:10px 13px}.miniChatBar{align-items:stretch;flex-direction:column;gap:8px;padding:9px}.miniChatHead{justify-content:space-between}.miniChatItems{width:100%;padding-bottom:2px}.miniChatItem{max-width:220px}.floatingTop,.floatingChat{width:50px;height:50px;bottom:88px}.floatingTop{left:14px}.floatingChat{right:14px}.chatOverlay,.paymentOverlay{padding:10px}.chatWindow{width:96vw;height:82vh;border-radius:20px}.chatMsg{max-width:84%}.chatComposer{flex-direction:row}.chatSend{width:78px}.paymentCard{padding:18px}.paymentInfoRow span:last-child{max-width:62%}}
 
 @media print{.floatingTop,.floatingChat,.chatOverlay,.paymentOverlay{display:none!important}}
 
-@media (max-width:900px){
-    .monthControlDock{right:10px;top:auto;bottom:16px;transform:none;flex-direction:row;border-radius:18px;padding:7px}
-    .monthControlDock .monthControlLabel{min-width:82px}
-    .monthControlDock button{width:38px;height:38px}
-    .monthControlDock .monthControlReset{min-width:auto;width:auto!important}
-    .themeFloat{left:10px;top:auto;bottom:16px;transform:none;width:46px;height:46px}
-    .themeFloat:hover{transform:scale(1.05)}
+@media (max-width:600px){
+
+    .cashWithdrawalCard{padding:21px 17px;border-radius:23px}
+
+    .cashWithdrawalTitle{font-size:16px}
+
+    .cashWithdrawalActions{flex-direction:column}
+
+    .cashCancelBtn{order:2}
+
+    .cashWithdrawBtn{order:1}
+
+    .cashHistoryDesc{max-width:190px}
+
 }
+
+/* =====================================================
+PROFESSIONAL MONTHLY REPORT / THEME / STAT HOVER
+===================================================== */
+.stats .stat{position;overflow;isolation;}
+.stats .stat::after{content:"";position;left:18%;right:18%;bottom:0;height:2px;border-radius:999px;background(90deg,transparent,#00a8ff,#55e7ff,#00a8ff,transparent);box-shadow:0 0 7px rgba(0,168,255,.85),0 0 18px rgba(0,168,255,.45);transform(0);opacity:0;transition .35s cubic-bezier(.2,.8,.2,1),opacity .25s ease;z-index:5;}
+.stats .stat:hover::after,.stats .stat:focus-within::after{transform(1);opacity:1;}
+.stats .stat{transform(-3px);transition .28s ease,box-shadow .28s ease;}
+.janaMonthlyReport{width(1180px,calc(100% - 28px));margin:16px auto 0;position;display;align-items;justify-content;gap:10px;direction;}
+.janaMonthlyGlass{min-width(620px,calc(100% - 110px));padding:13px 18px;border:1px solid rgba(0,150,255,.20);border-radius:22px;background(135deg,rgba(255,255,255,.065),rgba(0,120,255,.045));backdrop-filter(22px);-webkit-backdrop-filter(22px);box-shadow 0 1px rgba(255,255,255,.08),0 16px 45px rgba(0,0,0,.16);text-align;}
+.janaMonthlyTitle{color:#9ed9ff;font-size:11px;margin-bottom:5px}.janaMonthlyTotal{font-size:22px;font-weight:900;color:#fff;text-shadow:0 0 18px rgba(0,170,255,.24)}.janaMonthlyMeta{margin-top:7px;display;justify-content;flex-wrap;gap:7px;color:#8da7ba;font-size:9px}.janaMonthlyMeta span{padding:5px 9px;border-radius:10px;border:1px solid rgba(255,255,255,.06);background(255,255,255,.025)}
+.janaMonthArrow{width:43px;height:43px;border-radius:50%;border:1px solid rgba(0,150,255,.24);color:#9ed9ff;background(255,255,255,.045);backdrop-filter(18px);-webkit-backdrop-filter(18px);cursor;font-size:20px;transition:.25s ease;box-shadow:0 0 20px rgba(0,130,255,.08)}.janaMonthArrow:hover(){transform(1.08);border-color(0,180,255,.58);box-shadow:0 0 25px rgba(0,150,255,.22)}.janaMonthArrow{opacity:.25;cursor}
+.janaResetButton{margin-top:8px;border:1px solid rgba(255,90,120,.20);background(255,80,110,.055);color:#ff9caf;border-radius:11px;padding:6px 12px;cursor;font-family;font-size:9px;transition:.22s}.janaResetButton{background(255,80,110,.12);border-color(255,90,120,.42);transform(-1px)}#monthlyResetInfo{margin-top:5px;color:#71899b;font-size:8px}
+.janaThemeFloat{position;left:20px;bottom:20px;z-index:9999;width:50px;height:50px;border-radius:50%;border:1px solid rgba(0,170,255,.28);background(145deg,rgba(255,255,255,.08),rgba(0,120,255,.08));color:#a9ddff;display;place-items;cursor;backdrop-filter(22px);-webkit-backdrop-filter(22px);box-shadow:0 0 24px rgba(0,130,255,.13),inset 0 1px rgba(255,255,255,.10);transition:.35s cubic-bezier(.2,.8,.2,1)}.janaThemeFloat::before{content:"";position;inset:4px;border:1px dashed rgba(0,190,255,.38);border-radius:50%;animation 7s linear infinite}.janaThemeFloat{transform(1.08) rotate(18deg);box-shadow:0 0 34px rgba(0,160,255,.27)}.janaThemeIcon{position;z-index:2;font-size:20px}@keyframes janaThemeSpin{to{transform(360deg)}}
+body.jana-light{background:#eef5fa !important;color:#173247}body.jana-light .stat,body.jana-light .panel,body.jana-light .janaMonthlyGlass{background(255,255,255,.72);border-color(30,100,140,.13);color:#173247}body.jana-light .stat small,body.jana-light .panelTitle span,body.jana-light .janaMonthlyMeta,body.jana-light #monthlyResetInfo{color:#5b7485}body.jana-light .janaMonthlyTotal{color:#153448;text-shadow}
+@media(max-width:700px){.janaMonthlyGlass{min-width(100% - 84px);padding:12px 10px}.janaMonthlyTotal{font-size:18px}.janaMonthArrow{width:38px;height:38px;font-size:17px}.janaMonthlyMeta span{font-size:8px;padding:4px 7px}.janaThemeFloat{width:45px;height:45px;left:13px;bottom:13px}}
 
 </style>
 
@@ -2733,18 +3757,6 @@ tbody tr:hover{
 <div class="mouseGlow" id="mouseGlow"></div>
 
 <div class="cursorDot" id="cursorDot"></div>
-
-<button class="themeFloat" id="themeFloat" onclick="toggleTheme()" aria-label="تغییر حالت روشن و تاریک" title="حالت روشن / تاریک">☾</button>
-
-<div class="monthControlDock" id="monthControlDock" aria-label="گزارش ماهانه">
-    <button type="button" onclick="changeReportMonth(-1)" aria-label="ماه قبل" title="ماه قبل">←</button>
-    <div class="monthControlLabel">
-        <div id="monthControlTitle">ماه جاری</div>
-        <div class="monthControlAmount" id="monthControlAmount">۰ تومان</div>
-    </div>
-    <button type="button" onclick="changeReportMonth(1)" aria-label="ماه جاری" title="ماه جاری">→</button>
-    <button type="button" class="monthControlReset" onclick="manualResetCurrentMonth()" title="فقط صفر کردن گزارش ماه جاری">↺ صفر ماه جاری</button>
-</div>
 
 <div class="container" id="home">
 
@@ -2768,7 +3780,7 @@ tbody tr:hover{
 
     </button>
 
-    <button class="globalMoneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن همه مبالغ">◉ نمایش مبالغ</button>
+    <button class="globalMoneyEye" id="globalMoneyEye" onclick="toggleMoneyVisibility()" aria-label="نمایش یا مخفی کردن همه مبالغ" title="نمایش یا مخفی کردن مبالغ"><span class="eyeIcon" aria-hidden="true"></span><span class="eyeText">نمایش مبالغ</span></button>
 
     <a href="./index.html" class="back">
 
@@ -2812,13 +3824,17 @@ tbody tr:hover{
 
 </div>
 
-<div class="stat">
+<div class="stat cashStatCard" id="cashStatCard" onclick="openCashWithdrawal()" role="button" tabindex="0" aria-label="باز کردن فرایند برداشت نقدی" onkeydown="if(event.key==="Enter"||event.key===" "){event.preventDefault();openCashWithdrawal();}">
 
     <span class="statIcon">💵</span>
 
     <small>نقدی</small>
 
     <div class="moneyRow"><strong id="cashTotal">۰</strong></div>
+
+    <span class="cashCardHint">برداشت نقدی</span>
+
+    <span class="cashCardArrow">⌄</span>
 
 </div>
 
@@ -2834,37 +3850,46 @@ tbody tr:hover{
 
 </section>
 
-<section class="panel">
+<section class="janaMonthlyReport" id="janaMonthlyReport" aria-label="گزارش ماهانه">
+<button type="button" class="janaMonthArrow" id="monthlyNextBtn" onclick="changeMonthlyReport(1)" aria-label="ماه جاری">›</button>
+<div class="janaMonthlyGlass">
+<div class="janaMonthlyTitle" id="monthlyReportLabel">ماه جاری</div>
+<div class="janaMonthlyTotal" id="monthlyReportTotal">۰ تومان</div>
+<div class="janaMonthlyMeta">
+<span>تعداد: <b id="monthlyReportCount">۰</b></span>
+<span>کارتخوان: <b id="monthlyReportPos">۰</b></span>
+<span>نقدی: <b id="monthlyReportCash">۰</b></span>
+<span>کارت‌به‌کارت: <b id="monthlyReportTransfer">۰</b></span>
+</div>
+<button type="button" class="janaResetButton" onclick="resetCurrentMonthReport()">↺ صفر کردن دستی ماه جاری</button>
+<div id="monthlyResetInfo">صفر شدن ماهانه خودکار است و تراکنش‌های قبلی حذف نمی‌شوند.</div>
+</div>
+<button type="button" class="janaMonthArrow" id="monthlyPrevBtn" onclick="changeMonthlyReport(-1)" aria-label="ماه قبل">‹</button>
+</section>
+
+<section class="panel incomeHubPanel" id="incomeHub">
 
 <div class="panelTitle">
 
-    <h2>📈 درآمد کل</h2>
+    <h2>📈 درآمد</h2>
 
-    <span id="chartInfo">
+    <span>
 
-        نمای گرافیکی
+        یک گزینه را انتخاب کنید
 
     </span>
 
 </div>
 
-<div class="chartWrap">
+<div class="chartWrap incomeHubBubbleWrap">
 
     <div class="incomeBubble">
 
         <div class="bubbleContent">
 
-            <div class="bubbleIcon">
+            <div class="bubbleIcon">💰</div>
 
-                💰
-
-            </div>
-
-            <div class="bubbleLabel">
-
-                کل درآمد
-
-            </div>
+            <div class="bubbleLabel">درآمد کل</div>
 
             <div class="moneyRow"><div class="bubbleAmount" id="bubbleIncome">۰ تومان</div></div>
 
@@ -2874,15 +3899,21 @@ tbody tr:hover{
 
 </div>
 
-<div class="chartButtonWrap">
+<div class="incomeHubOptions">
 
-    <button
+    <button type="button" class="incomeHubOption chartOption" onclick="openChart()">
 
-        class="chartButton"
+        <span class="incomeHubOptionIcon">📊</span>
 
-        onclick="openChart()">
+        <span class="incomeHubOptionText">
 
-        📊 مشاهده نمودار درآمد
+            <strong>نمودار درآمد</strong>
+
+            <small>نمایش درآمد روزانه در نمودار</small>
+
+        </span>
+
+        <span class="incomeHubArrow">←</span>
 
     </button>
 
@@ -2890,11 +3921,43 @@ tbody tr:hover{
 
 </section>
 
-<section
+<section class="panel incomeDetailPanel" id="totalIncomeSection">
 
-class="panel chartPanel"
+<div class="panelTitle">
 
-id="chartSection">
+    <h2>💰 درآمد کل</h2>
+
+    <span>نمای حبابی</span>
+
+</div>
+
+<div class="chartWrap incomeHubBubbleWrap totalIncomeBubbleWrap">
+
+    <div class="incomeBubble">
+
+        <div class="bubbleContent">
+
+            <div class="bubbleIcon">💰</div>
+
+            <div class="bubbleLabel">درآمد کل</div>
+
+            <div class="moneyRow"><div class="bubbleAmount" id="totalBubbleIncome">۰ تومان</div></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="incomeBackWrap">
+
+    <button type="button" class="incomeBackButton" onclick="backToIncomeOptions()">↩ بازگشت به صفحه درآمد</button>
+
+</div>
+
+</section>
+
+<section class="panel chartPanel incomeDetailPanel" id="chartSection">
 
 <div class="panelTitle">
 
@@ -2931,6 +3994,26 @@ id="chartSection">
         id="chartSummary">
 
     </div>
+
+</div>
+
+<div class="chartIncomeTotalAction">
+
+    <button type="button" class="incomeHubOption totalOption" onclick="showTotalIncome()">
+
+        <span class="incomeHubOptionIcon">💰</span>
+
+        <span class="incomeHubOptionText">
+
+            <strong>مشاهده درآمد کل</strong>
+
+            <small>نمایش مجموع تمام درآمدهای ثبت‌شده</small>
+
+        </span>
+
+        <span class="incomeHubArrow">←</span>
+
+    </button>
 
 </div>
 
@@ -2985,6 +4068,14 @@ id="chartSection">
             onclick="filterData('کارت به کارت',this)">
 
             کارت به کارت
+
+        </button>
+
+        <button
+
+            onclick="filterData('برداشت نقدی',this)">
+
+            برداشت نقدی
 
         </button>
 
@@ -3156,6 +4247,64 @@ href="./index.html">
 
 <button class="floatingChat" id="floatingChat" onclick="openChat()" aria-label="باز کردن چت">💬</button>
 
+<!-- CASH WITHDRAWAL MODAL -->
+
+<div class="cashWithdrawalOverlay" id="cashWithdrawalOverlay" onclick="closeCashWithdrawalFromBackdrop(event)">
+
+  <div class="cashWithdrawalCard" role="dialog" aria-modal="true" aria-labelledby="cashWithdrawalTitle">
+
+    <button type="button" class="cashWithdrawalClose" aria-label="بستن" title="بستن" onclick="event.stopPropagation();closeCashWithdrawal()">×</button>
+
+<div class="cashWithdrawalHead">
+
+  <div>
+
+    <div class="cashWithdrawalTitle" id="cashWithdrawalTitle">💵 برداشت نقدی</div>
+
+    <div class="cashWithdrawalSub">برداشت دستی از موجودی نقدی</div>
+
+  </div>
+
+</div>
+
+<div class="cashWithdrawalForm">
+
+  <label>مبلغ برداشت</label>
+
+  <div class="cashAmountInputWrap">
+
+    <input id="cashWithdrawalAmount" type="text" inputmode="numeric" placeholder="مثلاً ۵۰۰٬۰۰۰" autocomplete="off">
+
+    <span>تومان</span>
+
+  </div>
+
+  <label>توضیحات</label>
+
+  <textarea id="cashWithdrawalDescription" placeholder="مثلاً: برداشت بابت خرید لوازم..." rows="3"></textarea>
+
+</div>
+
+<div class="cashWithdrawalActions">
+
+  <button type="button" class="cashCancelBtn" onclick="closeCashWithdrawal()">انصراف</button>
+
+  <button type="button" class="cashWithdrawBtn" id="cashWithdrawBtn" onclick="submitCashWithdrawal()">💵 برداشت</button>
+
+</div>
+
+<div class="cashWithdrawalHistory" id="cashWithdrawalHistory">
+
+  <div class="cashHistoryEmpty">هنوز برداشت نقدی دستی ثبت نشده است.</div>
+
+</div>
+
+<button type="button" class="cashWithdrawalToggle" id="cashWithdrawalToggle" aria-label="نمایش برداشت‌های ثبت‌شده" title="فقط برداشت‌های ثبت‌شده" onclick="toggleCashWithdrawals(event)">⌄</button>
+
+  </div>
+
+</div>
+
 <div class="chatOverlay" id="chatOverlay" onclick="closeChatFromBackdrop(event)">
 
   <div class="chatWindow">
@@ -3208,6 +4357,56 @@ href="./index.html">
 
 </div>
 
+<!-- NOTE CONFIRM MODAL -->
+
+<div class="noteModal" id="noteConfirmModal" onclick="closeNoteModalFromBackdrop(event)">
+
+    <div class="noteModalCard" role="dialog" aria-modal="true" aria-labelledby="noteConfirmTitle">
+
+        <button type="button" class="noteModalClose" aria-label="بستن" title="بستن" onclick="event.stopPropagation(); closeNoteModal()">×</button>
+
+        <div class="noteModalTitle" id="noteConfirmTitle">🗑 حذف یادداشت</div>
+
+        <div class="noteModalText" id="noteConfirmText">آیا از حذف این یادداشت مطمئن هستید؟ این عملیات رکورد مربوط را از شیت یادداشت‌ها نیز حذف می‌کند.</div>
+
+        <div class="noteModalActions">
+
+            <button type="button" onclick="closeNoteModal()">انصراف</button>
+
+            <button type="button" class="danger" id="noteConfirmButton">🗑 بله، حذف شود</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- NOTE EDIT MODAL -->
+
+<div class="noteModal" id="noteEditModal" onclick="closeNoteModalFromBackdrop(event)">
+
+    <div class="noteModalCard" role="dialog" aria-modal="true" aria-labelledby="noteEditTitle">
+
+        <button type="button" class="noteModalClose" aria-label="بستن" title="بستن" onclick="event.stopPropagation(); closeNoteModal()">×</button>
+
+        <div class="noteModalTitle" id="noteEditTitle">✏️ ویرایش یادداشت</div>
+
+        <div class="noteModalText">متن یادداشت را ویرایش کنید؛ تغییرات مستقیماً در شیت یادداشت‌ها ذخیره می‌شود.</div>
+
+        <textarea class="noteModalTextarea" id="noteEditInput" placeholder="متن یادداشت..."></textarea>
+
+        <div class="noteModalActions">
+
+            <button type="button" onclick="closeNoteModal()">انصراف</button>
+
+            <button type="button" class="primary" onclick="submitNoteEdit()">💾 ذخیره تغییرات</button>
+
+        </div>
+
+    </div>
+
+</div>
+
 <div
 
 class="toast"
@@ -3226,7 +4425,7 @@ id="toast">
 
 const API_URL =
 
-"[https://script.google.com/macros/s/AKfycby4CtQL9ZEHkcjJFqVos0hQ1Z1C2xpI6ZO_dLGxiucGTCgLGzSoM3VgEuoRsOTXviQ4XA/exec](https://script.google.com/macros/s/AKfycby4CtQL9ZEHkcjJFqVos0hQ1Z1C2xpI6ZO_dLGxiucGTCgLGzSoM3VgEuoRsOTXviQ4XA/exec)";
+"https://script.google.com/macros/s/AKfycby4CtQL9ZEHkcjJFqVos0hQ1Z1C2xpI6ZO_dLGxiucGTCgLGzSoM3VgEuoRsOTXviQ4XA/exec";
 
 /* =====================================================
 
@@ -3248,9 +4447,17 @@ let moneyHidden = localStorage.getItem("jana_money_hidden") !== "false";
 
 let messagePollTimer = null;
 
+let messageLoading = false;
+
+let paymentAudioContext = null;
+
+let paymentAudioUnlocked = false;
+
+let pendingPaymentSound = false;
+
 function normalizeText(value){
 
-    return String(value ?? "").replace(/[يى]/g,"ی").replace(/ك/g,"ک").replace(/[u200cu200d]/g,"").replace(/s+/g," ").trim().toLowerCase();
+    return String(value ?? "").replace(/[يى]/g,"ی").replace(/ك/g,"ک").replace(/[\u200c\u200d]/g,"").replace(/\s+/g," ").trim().toLowerCase();
 
 }
 
@@ -3261,6 +4468,10 @@ function isTransferMethod(value){ const x=normalizeMethod(value); return x.inclu
 function isPosMethod(value){ return normalizeMethod(value)==="کارتخوان"; }
 
 function isCashMethod(value){ return normalizeMethod(value)==="نقدی"; }
+
+function isWithdrawalMethod(value){ const x=normalizeMethod(value); return x.includes("برداشت نقدی") || x.includes("برداشتنقدی"); }
+
+function isRegularCashMethod(value){ return isCashMethod(value) && !isWithdrawalMethod(value); }
 
 function secureMoney(value){ return moneyHidden ? "••••••" : money(value); }
 
@@ -3290,9 +4501,41 @@ function getTransactionPaymentBadge(item){
 
 }
 
-function toggleMoneyVisibility(){ moneyHidden=!moneyHidden; localStorage.setItem("jana_money_hidden",String(moneyHidden)); updateMoneyEyes(); updateStats(); updateBubble(); renderTransactions(); drawIncomeChart(); }
+function toggleMoneyVisibility(){
 
-function updateMoneyEyes(){ const b=document.querySelector('.globalMoneyEye'); if(b)b.textContent=moneyHidden?'◉ نمایش مبالغ':'◌ مخفی کردن مبالغ'; }
+    moneyHidden=!moneyHidden;
+
+    localStorage.setItem("jana_money_hidden",String(moneyHidden));
+
+    updateMoneyEyes();
+
+    updateStats();
+
+    updateBubble();
+
+    renderTransactions();
+
+    drawIncomeChart();
+
+}
+
+function updateMoneyEyes(){
+
+    const b=document.getElementById("globalMoneyEye");
+
+    if(!b)return;
+
+    const text=b.querySelector(".eyeText");
+
+    if(text)text.textContent=moneyHidden?"نمایش مبالغ":"مخفی کردن مبالغ";
+
+    b.classList.toggle("isHidden",moneyHidden);
+
+    b.setAttribute("aria-label",moneyHidden?"نمایش مبالغ":"مخفی کردن مبالغ");
+
+    b.setAttribute("title",moneyHidden?"نمایش مبالغ":"مخفی کردن مبالغ");
+
+}
 
 /* =====================================================
 
@@ -3332,6 +4575,40 @@ function money(number){
 
 }
 
+function formatCashInputValue(value){
+
+    const digits=String(value??"").replace(/[^0-9۰-۹٠-٩]/g,"");
+
+    if(!digits)return "";
+
+    const latin=digits
+
+        .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+
+        .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+
+    const number=Number(latin);
+
+    if(!Number.isFinite(number))return "";
+
+    return number.toLocaleString("fa-IR");
+
+}
+
+function cashInputNumber(value){
+
+    const digits=String(value??"")
+
+        .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+
+        .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d))
+
+        .replace(/[^0-9]/g,"");
+
+    return Number(digits||0);
+
+}
+
 /* =====================================================
 
    SAFE TEXT
@@ -3342,15 +4619,15 @@ function escapeHTML(value){
 
     return String(value ?? "")
 
-        .replace(/&/g,"&amp;")
+        .replace(/&/g,"&")
 
-        .replace(/</g,"&lt;")
+        .replace(/</g,"<")
 
-        .replace(/>/g,"&gt;")
+        .replace(/>/g,">")
 
-        .replace(/"/g,"&quot;")
+        .replace(/"/g,""")
 
-        .replace(/'/g,"&#039;");
+        .replace(/'/g,"'");
 
 }
 
@@ -3566,307 +4843,69 @@ async function loadCloudData(showMessage=true){
 
         );
 
-        allTransactions =
-
-            Array.isArray(data.transactions)
+        const cloudTransactions = Array.isArray(data.transactions)
 
             ? data.transactions
 
             : [];
 
+        /* برداشت‌های ثبت‌شده در رفرش‌های پس‌زمینه گم نشوند. */
+
+        const existingWithdrawals = Array.isArray(allTransactions)
+
+            ? allTransactions.filter(item=>isWithdrawalMethod(item?.method))
+
+            : [];
+
+        const cloudIds = new Set(cloudTransactions.map(item=>String(item?.id??item?.cloudId??"")));
+
+        const missingWithdrawals = existingWithdrawals.filter(item=>{
+
+            const id=String(item?.id??item?.cloudId??"");
+
+            return id && !cloudIds.has(id);
+
+        });
+
+        allTransactions = [...missingWithdrawals, ...cloudTransactions];
+
         saveLocalTransactions();
 
-        /* =========================
+                /* =========================
 
            CLOUD NOTES SYNC
 
-        ========================== */
+        ========================= */
 
         if(Array.isArray(data.notes)){
 
-            const oldNotes =
-
-                Array.isArray(localNotes)
-
-                ? [...localNotes]
-
-                : [];
-
-            const usedLocalIds =
-
-                new Set();
-
-            const cloudNotes =
-
-                data.notes
+            localNotes = data.notes
 
                 .filter(item => {
 
-                    const text =
+                    const text = String(item.text || item.note || "").trim();
 
-                        String(
-
-                            item.note ||
-
-                            item.text ||
-
-                            ""
-
-                        ).trim();
-
-                    /*
-
-                       حذف فقط یادداشت تستی
-
-                    */
-
-                    return (
-
-                        text &&
-
-                        text !== TEST_NOTE_TEXT
-
-                    );
+                    return text && text !== TEST_NOTE_TEXT;
 
                 })
 
-                .map((item,index) => {
+                .map(item => ({
 
-                    const text =
+                    id:String(item.id),
 
-                        String(
+                    cloudId:String(item.id),
 
-                            item.note ||
+                    text:String(item.text || item.note || "").trim(),
 
-                            item.text ||
+                    date:String(item.date || ""),
 
-                            ""
+                    time:String(item.time || ""),
 
-                        ).trim();
+                    pinned:isPinnedValue(item.pinned),
 
-                    let existing =
+                    done:String(item.status || "").trim() === "انجام شد"
 
-                        oldNotes.find(note => {
-
-                            return (
-
-                                note.cloudId &&
-
-                                String(
-
-                                    note.cloudId
-
-                                ) ===
-
-                                String(
-
-                                    item.id
-
-                                )
-
-                            );
-
-                        });
-
-                    /*
-
-                       اگر ID قبلاً ذخیره نشده بود،
-
-                       با متن یادداشت تطبیق می‌دهیم.
-
-                    */
-
-                    if(!existing){
-
-                        existing =
-
-                            oldNotes.find(note => {
-
-                                return (
-
-                                    !note.cloudId &&
-
-                                    !usedLocalIds.has(
-
-                                        note.id
-
-                                    ) &&
-
-                                    String(
-
-                                        note.text || ""
-
-                                    ).trim() === text &&
-
-                                    text !== TEST_NOTE_TEXT
-
-                                );
-
-                            });
-
-                    }
-
-                    if(existing){
-
-                        usedLocalIds.add(
-
-                            existing.id
-
-                        );
-
-                    }
-
-                    const date =
-
-                        String(
-
-                            item.date || ""
-
-                        );
-
-                    const time =
-
-                        String(
-
-                            item.time || ""
-
-                        );
-
-                    return {
-
-                        id:
-
-                            existing?.id ??
-
-                            (
-
-                                "cloud_" +
-
-                                String(item.id) +
-
-                                "_" +
-
-                                index
-
-                            ),
-
-                        cloudId:
-
-                            item.id,
-
-                        text:
-
-                            text,
-
-                        date:
-
-                            date,
-
-                        time:
-
-                            time,
-
-                        pinned:
-
-                            isPinnedValue(
-
-                                item.pinned
-
-                            ),
-
-                        done:
-
-                            String(
-
-                                item.status || ""
-
-                            ).trim() ===
-
-                            "انجام شد"
-
-                    };
-
-                });
-
-            const cloudIds =
-
-                new Set(
-
-                    cloudNotes.map(
-
-                        note =>
-
-                            String(
-
-                                note.cloudId
-
-                            )
-
-                    )
-
-                );
-
-            /*
-
-               یادداشت‌های محلی که هنوز
-
-               به ابر ارسال نشده‌اند حفظ می‌شوند.
-
-            */
-
-            const localOnly =
-
-                oldNotes.filter(note => {
-
-                    const text =
-
-                        String(
-
-                            note.text || ""
-
-                        ).trim();
-
-                    if(
-
-                        !text ||
-
-                        text === TEST_NOTE_TEXT
-
-                    ){
-
-                        return false;
-
-                    }
-
-                    if(
-
-                        !note.cloudId
-
-                    ){
-
-                        return true;
-
-                    }
-
-                    return !cloudIds.has(
-
-                        String(
-
-                            note.cloudId
-
-                        )
-
-                    );
-
-                });
-
-            localNotes = [
-
-                ...cloudNotes,
-
-                ...localOnly
-
-            ];
+                }));
 
         }
 
@@ -3998,95 +5037,323 @@ function saveLocalTransactions(){
 
 ===================================================== */
 
-function getPersianDateParts(dateValue=new Date()){
-    const d=dateValue instanceof Date?dateValue:new Date(dateValue);
-    if(Number.isNaN(d.getTime())) return null;
-    try{
-        const parts=new Intl.DateTimeFormat("en-US-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(d);
-        const y=parts.find(x=>x.type==="year")?.value,m=parts.find(x=>x.type==="month")?.value,day=parts.find(x=>x.type==="day")?.value;
-        return y&&m&&day?{year:String(y),month:String(m).padStart(2,"0"),day:String(day).padStart(2,"0")}:null;
-    }catch(e){return null}
-}
-function getCurrentPersianMonthKey(){const p=getPersianDateParts();return p?`${p.year}-${p.month}`:""}
-function getPersianMonthLabel(offset=0){
-    const d=new Date(); d.setMonth(d.getMonth()+offset); const p=getPersianDateParts(d);
-    if(!p)return offset===0?"ماه جاری":"ماه قبل";
-    const n=["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
-    return `${n[Number(p.month)-1]||p.month} ${p.year}`;
-}
-function getTransactionPersianParts(item){
-    const raw=String(item?.date??"").trim(); if(!raw)return null;
-    const x=raw.replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
-    const m=x.match(/(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})/);
-    if(m){
-        const year=Number(m[1]);
-        if(year>=1300&&year<=1600)return {year:String(year),month:String(Number(m[2])).padStart(2,"0"),day:String(Number(m[3])).padStart(2,"0")};
-        const d=new Date(raw); if(!Number.isNaN(d.getTime()))return getPersianDateParts(d);
+function isSameDateAsToday(value){
+
+    const raw=String(value??"").trim();
+
+    if(!raw)return false;
+
+    const normalizeDigits=v=>String(v)
+
+        .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+
+        .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+
+    const v=normalizeDigits(raw);
+
+    const now=new Date();
+
+    /* ISO / Gregorian dates, including timestamps */
+
+    const isoMatch=v.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
+
+    if(isoMatch){
+
+        return Number(isoMatch[1])===now.getFullYear() &&
+
+               Number(isoMatch[2])===now.getMonth()+1 &&
+
+               Number(isoMatch[3])===now.getDate();
+
     }
-    const d=new Date(raw); return Number.isNaN(d.getTime())?null:getPersianDateParts(d);
-}
-function getTransactionPersianMonthKey(item){
-    const p=getTransactionPersianParts(item); return p?`${p.year}-${p.month}`:"";
-}
-function getMonthResetTimestamp(monthKey){
-    try{return Number(localStorage.getItem(`jana_month_reset_${monthKey}`)||0)}catch(e){return 0}
-}
-function transactionTimestamp(item){
-    const rawDate=String(item?.date??"").trim(),rawTime=String(item?.time??"").trim(); if(!rawDate)return 0;
-    const x=rawDate.replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
-    const m=x.match(/(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})/);
-    if(m&&Number(m[1])>=1300){
-        const p=getTransactionPersianParts(item); if(!p)return 0;
-        const t=rawTime.match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
-        return Number(`${p.year}${p.month}${p.day}${String(Number(t?.[1]||0)).padStart(2,"0")}${String(Number(t?.[2]||0)).padStart(2,"0")}${String(Number(t?.[3]||0)).padStart(2,"0")}`);
+
+    /* Persian calendar date */
+
+    const fa=normalizeDigits(new Intl.DateTimeFormat("fa-IR",{year:"numeric",month:"2-digit",day:"2-digit"}).format(now));
+
+    const faClean=fa.replace(/[.\-]/g,"/").replace(/\s/g,"");
+
+    const rawClean=v.replace(/[.\-]/g,"/").replace(/\s/g,"");
+
+    if(rawClean===faClean)return true;
+
+    /* If backend sent a JavaScript-readable timestamp, compare its local date. */
+
+    const parsed=new Date(raw);
+
+    if(!Number.isNaN(parsed.getTime())){
+
+        return parsed.getFullYear()===now.getFullYear() &&
+
+               parsed.getMonth()===now.getMonth() &&
+
+               parsed.getDate()===now.getDate();
+
     }
-    const d=new Date(`${rawDate} ${rawTime}`.trim()); return Number.isNaN(d.getTime())?0:d.getTime();
+
+    return false;
+
 }
-function isIncludedInMonthlyStats(item,monthKey){
-    if(getTransactionPersianMonthKey(item)!==monthKey)return false;
-    const reset=getMonthResetTimestamp(monthKey); if(!reset)return true;
-    const ts=transactionTimestamp(item); return !ts||ts>reset;
+
+function methodMatchesFilter(method,filter){
+
+    if(filter==="all")return true;
+
+    if(isWithdrawalMethod(filter))return isWithdrawalMethod(method);
+
+    if(isPosMethod(filter))return isPosMethod(method);
+
+    if(isCashMethod(filter))return isRegularCashMethod(method);
+
+    if(isTransferMethod(filter))return isTransferMethod(method);
+
+    return normalizeMethod(method)===normalizeMethod(filter);
+
 }
-function getMonthlyTransactions(offset=0){
-    const d=new Date(); d.setMonth(d.getMonth()+offset); const p=getPersianDateParts(d); if(!p)return [];
-    const key=`${p.year}-${p.month}`;
-    return allTransactions.filter(item=>isIncludedInMonthlyStats(item,key));
+
+function updateStatsLegacy(){
+
+    const transactions =
+
+        currentFilter === "all"
+
+        ? allTransactions
+
+        : allTransactions.filter(
+
+            item =>
+
+                methodMatchesFilter(item.method,currentFilter)
+
+        );
+
+    let todayTotal = 0;
+
+    let pos = 0;
+
+    let cash = 0;
+
+    let transfer = 0;
+
+    /* جمع کل درآمد امروز همیشه از کل تراکنش‌های امروز محاسبه می‌شود؛
+
+       فیلتر جدول نباید عدد اصلی درآمد امروز را تغییر دهد. */
+
+    allTransactions.forEach(item => {
+
+        if(isSameDateAsToday(item.date)){
+
+            todayTotal += Number(item.amount || 0);
+
+        }
+
+    });
+
+    const today =
+
+        new Date().toLocaleDateString("fa-IR");
+
+    const normalizeDateForCompare = value =>
+
+        String(value ?? "")
+
+            .trim()
+
+            .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+
+            .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+
+    const todayKey = normalizeDateForCompare(today);
+
+    transactions.forEach(item => {
+
+        const amount =
+
+            Number(item.amount || 0);
+
+        const itemDate =
+
+            normalizeDateForCompare(item.date);
+
+        if(isPosMethod(item.method)){
+
+            pos += amount;
+
+        }
+
+        if(isCashMethod(item.method) || isWithdrawalMethod(item.method)){
+
+            cash += amount;
+
+        }
+
+        if(isTransferMethod(item.method)){
+
+            transfer += amount;
+
+        }
+
+    });
+
+    const totalIncome =
+
+        document.getElementById("totalIncome");
+
+    if(totalIncome){
+
+        totalIncome.textContent =
+
+            secureMoney(todayTotal);
+
+    }
+
+    const transactionCount =
+
+        document.getElementById("transactionCount");
+
+    if(transactionCount){
+
+        transactionCount.textContent =
+
+            moneyHidden
+
+            ? "••••••"
+
+            : faNumber(transactions.length);
+
+    }
+
+    const posTotal =
+
+        document.getElementById("posTotal");
+
+    if(posTotal){
+
+        posTotal.textContent =
+
+            secureMoney(pos);
+
+    }
+
+    const cashTotal =
+
+        document.getElementById("cashTotal");
+
+    if(cashTotal){
+
+        cashTotal.textContent =
+
+            secureMoney(cash);
+
+    }
+
+    const transferTotal =
+
+        document.getElementById("transferTotal");
+
+    if(transferTotal){
+
+        transferTotal.textContent =
+
+            secureMoney(transfer);
+
+    }
+
+    updateBubble();
+
+    drawIncomeChart();
+
 }
-function getMonthlyTotals(offset=0){
-    const transactions=getMonthlyTransactions(offset);
-    let total=0,pos=0,cash=0,transfer=0;
-    transactions.forEach(item=>{const a=Number(item.amount||0);total+=a;if(isPosMethod(item.method))pos+=a;if(isCashMethod(item.method))cash+=a;if(isTransferMethod(item.method))transfer+=a});
-    return {transactions,total,pos,cash,transfer,count:transactions.length};
+
+function normalizeDigitsGlobal(value){
+return String(value ?? "").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
 }
-let reportMonthOffset=0;
-function updateMonthlyNavigator(){
-    const title=document.getElementById("monthControlTitle"),amount=document.getElementById("monthControlAmount");
-    if(!title||!amount)return;
-    const totals=getMonthlyTotals(reportMonthOffset);
-    title.textContent=getPersianMonthLabel(reportMonthOffset);
-    amount.textContent=secureMoney(totals.total);
+function getPersianDateParts(value){
+const raw=String(value ?? "").trim(); if(!raw)return null;
+const normalized=normalizeDigitsGlobal(raw);
+const faMatch=normalized.match(/^(13\d{2}|14\d{2}|15\d{2})/-./-./);
+if(faMatch)return {year(faMatch[1]),month(faMatch[2]),day(faMatch[3]),key:${faMatch[1]}/${String(faMatch[2]).padStart(2,"0")}/${String(faMatch[3]).padStart(2,"0")}};
+const parsed=new Date(raw);
+if(!Number.isNaN(parsed.getTime())){
+const parts=new Intl.DateTimeFormat("en-US-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(parsed);
+const get=t=>parts.find(x=>x.type===t)?.value||"";
+if(get("year")&&get("month")&&get("day"))return {year(get("year")),month(get("month")),day(get("day")),key:${get("year")}/${get("month")}/${get("day")}};
 }
-function changeReportMonth(direction){
-    reportMonthOffset=Math.max(-12,Math.min(0,reportMonthOffset+Number(direction||0)));
-    updateMonthlyNavigator();
-    showToast(reportMonthOffset===0?"📊 گزارش ماه جاری":`📊 ${getPersianMonthLabel(reportMonthOffset)}`);
+return null;
 }
-function manualResetCurrentMonth(){
-    const key=getCurrentPersianMonthKey(); if(!key)return;
-    const label=getPersianMonthLabel(0);
-    if(!window.confirm(`گزارش ماه ${label} صفر شود؟\nتراکنش‌ها و اطلاعات ماه‌های قبل حذف نمی‌شوند.`))return;
-    try{localStorage.setItem(`jana_month_reset_${key}`,String(Date.now()))}catch(e){}
-    reportMonthOffset=0; updateStats(); updateMonthlyNavigator();
-    showToast("✅ گزارش ماه جاری صفر شد؛ هیچ تراکنشی حذف نشد.");
+function getCurrentPersianMonth(){
+const parts=new Intl.DateTimeFormat("en-US-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+const get=t=>parts.find(x=>x.type===t)?.value||"";
+return {year(get("year")),month(get("month")),day(get("day"))};
+}
+function getPersianMonthLabel(year,month){
+const names=["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+return ${names[month-1]||""} ${faNumber(year)};
+}
+function getMonthOffset(year,month,offset){
+let m=month+offset,y=year; while(m<1){m+=12;y--;} while(m>12){m-=12;y++;} return {year,month};
+}
+function getManualResetMonthState(){
+try{const raw=localStorage.getItem("jana_month_manual_reset");return raw?JSON.parse(raw);}catch(e){return null;}
+}
+function setManualResetMonthState(state){try{localStorage.setItem("jana_month_manual_reset",JSON.stringify(state));}catch(e){}}
+function getTransactionStableId(item,index){return String(item?.id??item?.cloudId??${item?.date||""}_${item?.time||""}_${item?.amount||0}_${index});}
+function isTransactionInPersianMonth(item,year,month){const d=getPersianDateParts(item?.date);return !!d&&d.year===year&&d.month===month;}
+function getMonthTransactions(year,month){
+let list=allTransactions.filter(item=>isTransactionInPersianMonth(item,year,month));
+const current=getCurrentPersianMonth(), reset=getManualResetMonthState();
+if(current.year===year&&current.month===month&&reset&&Number(reset.year)===year&&Number(reset.month)===month){
+const hidden=new Set(Array.isArray(reset.existingIds)?reset.existingIds.map(String):[]);
+list=list.filter((item,index)=>!hidden.has(getTransactionStableId(item,index)));
+}
+return list;
+}
+function getMonthTotal(year,month){return getMonthTransactions(year,month).reduce((sum,item)=>sum+Number(item?.amount||0),0);}
+function getMonthBreakdown(year,month){
+const list=getMonthTransactions(year,month); let pos=0,cash=0,transfer=0;
+list.forEach(item=>{const a=Number(item?.amount||0);if(isWithdrawalMethod(item?.method))cash-=Math.abs(a);else if(isPosMethod(item?.method))pos+=a;else if(isCashMethod(item?.method))cash+=a;else if(isTransferMethod(item?.method))transfer+=a;});
+return {pos,cash,transfer,count.length};
+}
+function updateMonthlyReportUI(){
+const current=getCurrentPersianMonth(); let offset=Number(window.janaSelectedMonthOffset||0); if(![-1,0].includes(offset))offset=0; window.janaSelectedMonthOffset=offset;
+const selected=getMonthOffset(current.year,current.month,offset), total=getMonthTotal(selected.year,selected.month), b=getMonthBreakdown(selected.year,selected.month);
+const label=document.getElementById("monthlyReportLabel"),totalEl=document.getElementById("monthlyReportTotal"),countEl=document.getElementById("monthlyReportCount"),posEl=document.getElementById("monthlyReportPos"),cashEl=document.getElementById("monthlyReportCash"),transferEl=document.getElementById("monthlyReportTransfer"),prev=document.getElementById("monthlyPrevBtn"),next=document.getElementById("monthlyNextBtn");
+if(label)label.textContent=offset===0?ماه جاری • ${getPersianMonthLabel(selected.year,selected.month)}:ماه قبل • ${getPersianMonthLabel(selected.year,selected.month)};
+if(totalEl)totalEl.textContent=secureMoney(total);
+if(countEl)countEl.textContent=moneyHidden?"••••••"(b.count);
+if(posEl)posEl.textContent=secureMoney(b.pos); if(cashEl)cashEl.textContent=secureMoney(b.cash); if(transferEl)transferEl.textContent=secureMoney(b.transfer);
+if(prev)prev.disabled=offset===-1; if(next)next.disabled=offset===0;
+const reset=getManualResetMonthState(),info=document.getElementById("monthlyResetInfo");
+if(info)info.textContent=reset&&Number(reset.year)===current.year&&Number(reset.month)===current.month?"صفر دستی فعال است؛ تراکنش‌های جدید این ماه از صفر محاسبه می‌شوند.":"صفر شدن ماهانه خودکار است و تراکنش‌های قبلی حذف نمی‌شوند.";
+}
+function changeMonthlyReport(offset){window.janaSelectedMonthOffset=Math.max(-1,Math.min(0,Number(window.janaSelectedMonthOffset||0)+offset));updateMonthlyReportUI();}
+function resetCurrentMonthReport(){
+const current=getCurrentPersianMonth(),tx=allTransactions.filter(item=>isTransactionInPersianMonth(item,current.year,current.month));
+setManualResetMonthState({year.year,month.month,resetAt Date().toISOString(),existingIds.map((item,index)=>getTransactionStableId(item,index))});
+window.janaSelectedMonthOffset=0; updateStats(); updateBubble(); updateMonthlyReportUI(); showToast("↺ گزارش ماه جاری صفر شد؛ هیچ تراکنشی حذف نشد.");
+}
+function isSameDateAsToday(value){const d=getPersianDateParts(value),n=getCurrentPersianMonth();return !!d&&d.year===n.year&&d.month===n.month&&d.day===n.day;}
+function methodMatchesFilter(method,filter){
+if(filter==="all")return true;if(isWithdrawalMethod(filter))return isWithdrawalMethod(method);if(isPosMethod(filter))return isPosMethod(method);if(isCashMethod(filter))return isRegularCashMethod(method);if(isTransferMethod(filter))return isTransferMethod(method);return normalizeMethod(method)===normalizeMethod(filter);
 }
 function updateStats(){
-    const monthTotals=getMonthlyTotals(0);
-    document.getElementById("totalIncome").textContent=money(getTodayIncome());
-    document.getElementById("transactionCount").textContent=faNumber(monthTotals.count);
-    document.getElementById("posTotal").textContent=secureMoney(monthTotals.pos);
-    document.getElementById("cashTotal").textContent=secureMoney(monthTotals.cash);
-    document.getElementById("transferTotal").textContent=secureMoney(monthTotals.transfer);
-    updateMonthlyNavigator(); updateBubble(); drawIncomeChart();
+const current=getCurrentPersianMonth(),monthTransactions=getMonthTransactions(current.year,current.month);
+const transactions=currentFilter==="all"?monthTransactions.filter(item=>methodMatchesFilter(item.method,currentFilter));
+let todayTotal=0,pos=0,cash=0,transfer=0;
+monthTransactions.forEach(item=>{
+const amount=Number(item.amount||0);
+if(isSameDateAsToday(item.date))todayTotal+=amount;
+if(isPosMethod(item.method))pos+=amount;
+if(isRegularCashMethod(item.method))cash+=amount;
+if(isTransferMethod(item.method))transfer+=amount;
+if(isWithdrawalMethod(item.method))cash-=Math.abs(amount);
+});
+const totalIncome=document.getElementById("totalIncome");if(totalIncome)totalIncome.textContent=secureMoney(todayTotal);
+const transactionCount=document.getElementById("transactionCount");if(transactionCount)transactionCount.textContent=moneyHidden?"••••••"(transactions.length);
+const posTotal=document.getElementById("posTotal");if(posTotal)posTotal.textContent=secureMoney(pos);
+const cashTotal=document.getElementById("cashTotal");if(cashTotal)cashTotal.textContent=secureMoney(cash);
+const transferTotal=document.getElementById("transferTotal");if(transferTotal)transferTotal.textContent=secureMoney(transfer);
+updateBubble();updateMonthlyReportUI();drawIncomeChart();
 }
 
 /* =====================================================
@@ -4095,38 +5362,7 @@ function updateStats(){
 
 ===================================================== */
 
-function normalizeDateKey(value){
-    const text = String(value ?? "").trim()
-        .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
-        .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
-    const m = text.match(/(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})/);
-    if(!m) return "";
-    return `${m[1]}-${String(m[2]).padStart(2,"0")}-${String(m[3]).padStart(2,"0")}`;
-}
-
-function getTodayDateKeys(){
-    const now = new Date();
-    const keys = new Set([`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`]);
-    try{
-        const parts = new Intl.DateTimeFormat("en-US-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(now);
-        const y=parts.find(x=>x.type==="year")?.value;
-        const m=parts.find(x=>x.type==="month")?.value;
-        const d=parts.find(x=>x.type==="day")?.value;
-        if(y&&m&&d) keys.add(`${y}-${m}-${d}`);
-    }catch(e){}
-    return keys;
-}
-
-function isTodayTransaction(item){
-    const key=normalizeDateKey(item?.date);
-    return key ? getTodayDateKeys().has(key) : false;
-}
-
-function getTodayIncome(){
-    return allTransactions.reduce((sum,item)=>sum+(isTodayTransaction(item)?Number(item.amount||0):0),0);
-}
-
-function updateBubble(){
+function updateBubbleLegacy(){
 
     const total =
 
@@ -4162,6 +5398,313 @@ function updateBubble(){
 
     }
 
+    const totalBubble = document.getElementById("totalBubbleIncome");
+
+    if(totalBubble){
+
+        totalBubble.textContent = secureMoney(total);
+
+    }
+
+}
+
+function updateBubble(){
+const current=getCurrentPersianMonth();
+const total=getMonthTotal(current.year,current.month);
+const bubble=document.getElementById("bubbleIncome");
+if(bubble)bubble.textContent=secureMoney(total);
+const totalBubble=document.getElementById("totalBubbleIncome");
+if(totalBubble)totalBubble.textContent=secureMoney(total);
+}
+
+/* =====================================================
+
+   CASH WITHDRAWAL
+
+===================================================== */
+
+function getCashWithdrawals(){
+
+    return allTransactions
+
+        .filter(item=>isWithdrawalMethod(item.method))
+
+        .sort((a,b)=>{
+
+            const aa=String(a?.date||"")+" "+String(a?.time||"");
+
+            const bb=String(b?.date||"")+" "+String(b?.time||"");
+
+            return bb.localeCompare(aa,"fa");
+
+        });
+
+}
+
+function openCashWithdrawal(){
+
+    const overlay=document.getElementById("cashWithdrawalOverlay");
+
+    if(!overlay)return;
+
+    renderCashWithdrawalHistory();
+
+    overlay.classList.remove("open");
+
+    void overlay.offsetWidth;
+
+    overlay.classList.add("open");
+
+    setTimeout(()=>document.getElementById("cashWithdrawalAmount")?.focus(),120);
+
+}
+
+function closeCashWithdrawal(){
+
+    const overlay=document.getElementById("cashWithdrawalOverlay");
+
+    if(overlay)overlay.classList.remove("open");
+
+}
+
+function closeCashWithdrawalFromBackdrop(event){
+
+    if(event.target===event.currentTarget)closeCashWithdrawal();
+
+}
+
+function toggleCashWithdrawals(event){
+
+    event?.stopPropagation();
+
+    const history=document.getElementById("cashWithdrawalHistory");
+
+    const toggle=document.getElementById("cashWithdrawalToggle");
+
+    if(!history)return;
+
+    const open=history.classList.toggle("open");
+
+    if(toggle)toggle.classList.toggle("open",open);
+
+    if(open)renderCashWithdrawalHistory();
+
+}
+
+function renderCashWithdrawalHistory(){
+
+    const box=document.getElementById("cashWithdrawalHistory");
+
+    if(!box)return;
+
+    const withdrawals=allTransactions
+
+        .filter(item=>isWithdrawalMethod(item?.method))
+
+        .sort((a,b)=>{
+
+            const aa=String(a?.date||"")+" "+String(a?.time||"");
+
+            const bb=String(b?.date||"")+" "+String(b?.time||"");
+
+            return bb.localeCompare(aa,"fa");
+
+        });
+
+    if(!withdrawals.length){
+
+        box.innerHTML='<div class="cashHistoryTitle">برداشت‌های ثبت‌شده</div><div class="cashHistoryEmpty">هنوز برداشت نقدی دستی ثبت نشده است.</div>';
+
+        return;
+
+    }
+
+    box.innerHTML='<div class="cashHistoryTitle">برداشت‌های ثبت‌شده</div>'+withdrawals.map(item=>{
+
+        const amount=Math.abs(Number(item.amount||0));
+
+        const desc=String(item.description||"").trim()||"بدون توضیحات";
+
+        const date=formatTransactionDatePersian(item.date);
+
+        const time=String(item.time||"");
+
+        return `<div class="cashHistoryItem">
+
+            <div class="cashHistoryMain">
+
+                <div class="cashHistoryAmount">− ${escapeHTML(money(amount))}</div>
+
+                <div class="cashHistoryDesc">${escapeHTML(desc)}</div>
+
+            </div>
+
+            <div class="cashHistoryDate">${escapeHTML(date)} ${escapeHTML(time)}</div>
+
+        </div>`;
+
+    }).join("");
+
+}
+
+async function submitCashWithdrawal(){
+
+    const amountInput=document.getElementById("cashWithdrawalAmount");
+
+    const descriptionInput=document.getElementById("cashWithdrawalDescription");
+
+    const button=document.getElementById("cashWithdrawBtn");
+
+    const amount=Math.round(cashInputNumber(amountInput?.value||0));
+
+    const description=String(descriptionInput?.value||"").trim();
+
+    if(!Number.isFinite(amount)||amount<=0){
+
+        showToast("⚠️ مبلغ برداشت را وارد کنید.");
+
+        amountInput?.focus();
+
+        return;
+
+    }
+
+    if(button){
+
+        button.disabled=true;
+
+        button.textContent="⏳ در حال ثبت...";
+
+    }
+
+    const now=new Date();
+
+    const date=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).format(now);
+
+    const time=new Intl.DateTimeFormat("fa-IR",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(now);
+
+    const withdrawal={
+
+        id:"local-withdrawal-"+Date.now()+"-"+Math.random().toString(36).slice(2,8),
+
+        date,
+
+        time,
+
+        customer:"برداشت دستی",
+
+        service:"برداشت نقدی",
+
+        amount:-Math.abs(amount),
+
+        method:"برداشت نقدی",
+
+        description:description||"برداشت نقدی دستی",
+
+    };
+
+    try{
+
+        const response=await cloudPost({
+
+            action:"addTransaction",
+
+            date:withdrawal.date,
+
+            time:withdrawal.time,
+
+            customer:withdrawal.customer,
+
+            service:withdrawal.service,
+
+            amount:withdrawal.amount,
+
+            method:withdrawal.method,
+
+            description:withdrawal.description,
+
+            id:withdrawal.id
+
+        });
+
+        const returnedId=String(response?.id||response?.transaction?.id||withdrawal.id);
+
+        withdrawal.id=returnedId;
+
+        withdrawal.cloudId=returnedId;
+
+        allTransactions=[withdrawal,...allTransactions];
+
+        saveLocalTransactions();
+
+        updateStats();
+
+        renderTransactions();
+
+        drawIncomeChart();
+
+        renderCashWithdrawalHistory();
+
+        if(amountInput)amountInput.value="";
+
+        if(descriptionInput)descriptionInput.value="";
+
+        /* بعد از ثبت موفق، کارت همان لحظه از صفحه جمع شود. */
+
+        closeCashWithdrawal();
+
+        showToast("✅ برداشت نقدی ثبت شد و از جمع نقدی و درآمد کم شد.");
+
+    }catch(error){
+
+        console.error("Cash withdrawal failed:",error);
+
+        showToast("⚠️ ثبت برداشت انجام نشد.");
+
+    }finally{
+
+        if(button){
+
+            button.disabled=false;
+
+            button.textContent="💵 برداشت";
+
+        }
+
+    }
+
+}
+
+document.addEventListener("keydown",event=>{
+
+    const overlay=document.getElementById("cashWithdrawalOverlay");
+
+    if(!overlay?.classList.contains("open"))return;
+
+    if(event.key==="Escape"){
+
+        event.preventDefault();
+
+        closeCashWithdrawal();
+
+    }
+
+});
+
+const cashWithdrawalAmountInput=document.getElementById("cashWithdrawalAmount");
+
+if(cashWithdrawalAmountInput){
+
+    cashWithdrawalAmountInput.addEventListener("input",event=>{
+
+        const input=event.currentTarget;
+
+        const digits=String(input.value||"").replace(/[^0-9۰-۹٠-٩]/g,"");
+
+        input.value=formatCashInputValue(digits);
+
+    });
+
 }
 
 /* =====================================================
@@ -4182,7 +5725,7 @@ function getFilteredTransactions(){
 
             item =>
 
-                normalizeMethod(item.method) === normalizeMethod(currentFilter)
+                methodMatchesFilter(item.method,currentFilter)
 
         );
 
@@ -4243,6 +5786,56 @@ function getFilteredTransactions(){
     });
 
     return transactions;
+
+}
+
+function formatTransactionDatePersian(value){
+
+    const raw=String(value??"").trim();
+
+    if(!raw)return "-";
+
+    const normalizeDigits=value=>String(value??"")
+
+        .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+
+        .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+
+    const normalized=normalizeDigits(raw);
+
+    /* اگر تاریخ از قبل شمسی باشد، فقط ارقام را فارسی و مرتب نمایش بده. */
+
+    const fa=normalized.match(/^(13\d{2}|14\d{2}|15\d{2})[\/.-](\d{1,2})[\/.-](\d{1,2})/);
+
+    if(fa){
+
+        return [fa[1],String(fa[2]).padStart(2,"0"),String(fa[3]).padStart(2,"0")]
+
+            .join("/")
+
+            .replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
+
+    }
+
+    /* timestamp یا تاریخ میلادی را به تاریخ شمسی ایران تبدیل می‌کنیم. */
+
+    const parsed=new Date(normalized);
+
+    if(!Number.isNaN(parsed.getTime())){
+
+        try{
+
+            return new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
+
+                year:"numeric",month:"2-digit",day:"2-digit"
+
+            }).format(parsed);
+
+        }catch(e){}
+
+    }
+
+    return raw;
 
 }
 
@@ -4336,13 +5929,29 @@ function renderTransactions(){
 
         }
 
+        if(
+
+            isWithdrawalMethod(item.method)
+
+        ){
+
+            methodClass = "withdrawal";
+
+        }
+
+        const methodLabel=isWithdrawalMethod(item.method)
+
+            ? "برداشت نقدی"
+
+            : (item.method || "-");
+
         row.innerHTML = `
 
             <td>
 
                 ${escapeHTML(
 
-                    item.date || "-"
+                    formatTransactionDatePersian(item.date)
 
                 )}
 
@@ -4378,7 +5987,7 @@ function renderTransactions(){
 
             </td>
 
-            <td class="amount">
+            <td class="amount ${isWithdrawalMethod(item.method)?"withdrawalAmount":""}">
 
                 ${secureMoney(item.amount)}
 
@@ -4390,11 +5999,7 @@ function renderTransactions(){
 
                     class="method ${methodClass}">
 
-                    ${escapeHTML(
-
-                        item.method || "-"
-
-                    )}
+                    ${escapeHTML(methodLabel)}
 
                 </span>
 
@@ -4466,193 +6071,367 @@ function filterData(filter,button){
 
 /* =====================================================
 
-   NOTES STORAGE
+   NOTES STORAGE — SIMPLE CLOUD SYNC
 
 ===================================================== */
+
+let noteOperationBusy = false;
 
 function loadNotes(){
 
     try{
 
-        const saved =
+        const saved=localStorage.getItem("cafe_notes");
 
-            localStorage.getItem(
+        const parsed=saved?JSON.parse(saved):[];
 
-                "cafe_notes"
-
-            );
-
-        localNotes =
-
-            saved
-
-            ? JSON.parse(saved)
-
-            : [];
-
-        if(
-
-            !Array.isArray(localNotes)
-
-        ){
-
-            localNotes = [];
-
-        }
-
-        /*
-
-           حذف یادداشت تستی فقط از
-
-           حافظه محلی پنل
-
-        */
-
-        localNotes =
-
-            localNotes.filter(note => {
-
-                return String(
-
-                    note.text || ""
-
-                ).trim() !== TEST_NOTE_TEXT;
-
-            });
+        localNotes=Array.isArray(parsed)?parsed:[];
 
     }catch(error){
 
-        localNotes = [];
+        localNotes=[];
 
     }
 
 }
-
-/* =====================================================
-
-   SAVE NOTES
-
-===================================================== */
 
 function saveNotes(){
 
     try{
 
-        /*
-
-           یادداشت آزمایشی هیچ‌وقت ذخیره نمی‌شود.
-
-        */
-
-        localNotes =
-
-            localNotes.filter(note => {
-
-                return String(
-
-                    note.text || ""
-
-                ).trim() !== TEST_NOTE_TEXT;
-
-            });
-
         localStorage.setItem(
 
             "cafe_notes",
 
-            JSON.stringify(
-
-                localNotes
-
-            )
+            JSON.stringify(Array.isArray(localNotes)?localNotes:[])
 
         );
 
     }catch(error){
 
-        console.warn(
-
-            "Notes save failed:",
-
-            error
-
-        );
+        console.warn("Notes save failed:",error);
 
     }
 
 }
 
-/* =====================================================
-
-   NOTE DISPLAY DATE
-
-===================================================== */
-
 function noteDisplayDate(note){
 
-    if(
+    if(note&&note.displayDate)return note.displayDate;
 
-        note.displayDate
+    if(note&&note.date&&String(note.date).includes(" • "))return note.date;
 
-    ){
+    return [note?.date||"",note?.time||""].filter(Boolean).join(" • ");
 
-        return note.displayDate;
+}
+
+function findLocalNote(id){
+
+    return localNotes.find(
+
+        item =>
+
+            String(item.id)===String(id) ||
+
+            String(item.cloudId||"")===String(id)
+
+    ) || null;
+
+}
+
+function getNoteById(id){
+
+    return findLocalNote(id);
+
+}
+
+/*
+
+   تبدیل مقدار پین به boolean.
+
+   این تابع از قبل در فایل وجود دارد و اینجا دوباره تعریف نمی‌شود.
+
+*/
+
+/*
+
+   مهم:
+
+   برای عملیات ویرایش/حذف/پین/انجام‌شدن، قبل از POST یک بار
+
+   اطلاعات فعلی Sheet2 را می‌خوانیم.
+
+   اول ID را پیدا می‌کنیم؛ اگر ID قدیمی بود، با متن + تاریخ + ساعت
+
+   رکورد واقعی Sheet2 را پیدا می‌کنیم.
+
+*/
+
+async function getFreshNoteInfo(note){
+
+    if(!note)return null;
+
+    const data=await getCloudData();
+
+    if(!Array.isArray(data.notes)){
+
+        throw new Error("داده یادداشت‌ها از سرور دریافت نشد");
 
     }
 
-    if(
+    const notes=data.notes.filter(item=>{
 
-        note.date &&
+        const text=String(item.text||item.note||"").trim();
 
-        String(note.date).includes(" • ")
+        return text && text!==TEST_NOTE_TEXT;
 
-    ){
+    });
 
-        return note.date;
+    let match=null;
 
-    }
+    const possibleIds=[
 
-    return [
+        note.cloudId,
 
-        note.date || "",
-
-        note.time || ""
+        note.id
 
     ]
 
     .filter(Boolean)
 
-    .join(" • ");
+    .map(value=>String(value).trim())
+
+    .filter(Boolean);
+
+    for(const id of possibleIds){
+
+        match=notes.find(
+
+            item=>String(item.id||"").trim()===id
+
+        );
+
+        if(match)break;
+
+    }
+
+    /* اگر ID محلی قدیمی/اشتباه بود، رکورد را با مشخصاتش پیدا کن. */
+
+    if(!match){
+
+        const text=String(note.text||"").trim();
+
+        const date=String(note.date||"").trim();
+
+        const time=String(note.time||"").trim();
+
+        const matches=notes.filter(item=>{
+
+            const itemText=String(item.text||item.note||"").trim();
+
+            const itemDate=String(item.date||"").trim();
+
+            const itemTime=String(item.time||"").trim();
+
+            return (
+
+                itemText===text &&
+
+                (!date || !itemDate || itemDate===date) &&
+
+                (!time || !itemTime || itemTime===time)
+
+            );
+
+        });
+
+        if(matches.length){
+
+            match=matches[matches.length-1];
+
+        }
+
+    }
+
+    if(!match)return null;
+
+    const fresh={
+
+        id:String(match.id),
+
+        cloudId:String(match.id),
+
+        text:String(match.text||match.note||"").trim(),
+
+        date:String(match.date||""),
+
+        time:String(match.time||""),
+
+        pinned:isPinnedValue(match.pinned),
+
+        done:String(match.status||"").trim()==="انجام شد"
+
+    };
+
+    /* همان ID معتبر را روی نسخه محلی هم نگه می‌داریم. */
+
+    note.id=fresh.id;
+
+    note.cloudId=fresh.cloudId;
+
+    note.date=fresh.date;
+
+    note.time=fresh.time;
+
+    note.pinned=fresh.pinned;
+
+    note.done=fresh.done;
+
+    return fresh;
 
 }
 
-/* =====================================================
+/*
+
+   Sheet2 منبع اصلی یادداشت‌هاست.
+
+*/
+
+async function refreshNotesFromCloud(){
+
+    const data=await getCloudData();
+
+    if(!Array.isArray(data.notes)){
+
+        throw new Error("داده یادداشت‌ها از سرور دریافت نشد");
+
+    }
+
+    localNotes=data.notes
+
+        .filter(item=>{
+
+            const text=String(item.text||item.note||"").trim();
+
+            return text && text!==TEST_NOTE_TEXT;
+
+        })
+
+        .map(item=>({
+
+            id:String(item.id),
+
+            cloudId:String(item.id),
+
+            text:String(item.text||item.note||"").trim(),
+
+            date:String(item.date||""),
+
+            time:String(item.time||""),
+
+            pinned:isPinnedValue(item.pinned),
+
+            done:String(item.status||"").trim()==="انجام شد"
+
+        }));
+
+    saveNotes();
+
+    renderNotes();
+
+    return localNotes;
+
+}
+
+async function refreshNotesBestEffort(){
+
+    try{
+
+        await refreshNotesFromCloud();
+
+        return true;
+
+    }catch(error){
+
+        console.warn("Notes refresh failed:",error);
+
+        return false;
+
+    }
+
+}
+
+async function runNoteOperation(button,operation,successMessage,errorMessage){
+
+    if(noteOperationBusy)return false;
+
+    noteOperationBusy=true;
+
+    if(button){
+
+        button.disabled=true;
+
+        button.dataset.originalText=button.textContent;
+
+        button.textContent="⏳";
+
+    }
+
+    try{
+
+        await operation();
+
+        showToast(successMessage);
+
+        return true;
+
+    }catch(error){
+
+        console.error("Note operation error:",error);
+
+        showToast(error.message||errorMessage);
+
+        return false;
+
+    }finally{
+
+        noteOperationBusy=false;
+
+        if(button){
+
+            button.disabled=false;
+
+            if(button.dataset.originalText){
+
+                button.textContent=button.dataset.originalText;
+
+                delete button.dataset.originalText;
+
+            }
+
+        }
+
+    }
+
+}
+
+/* =========================
 
    ADD NOTE
 
-===================================================== */
+========================= */
 
 async function addNote(){
 
-    const input =
+    const input=document.getElementById("noteInput");
 
-        document.getElementById(
+    if(!input)return;
 
-            "noteInput"
-
-        );
-
-    const text =
-
-        input.value.trim();
+    const text=input.value.trim();
 
     if(!text){
 
-        showToast(
-
-            "⚠️ اول متن یادداشت را بنویس."
-
-        );
+        showToast("⚠️ اول متن یادداشت را بنویس.");
 
         input.focus();
 
@@ -4660,1337 +6439,851 @@ async function addNote(){
 
     }
 
-    if(text === TEST_NOTE_TEXT){
+    if(text===TEST_NOTE_TEXT){
 
-        showToast(
-
-            "⚠️ این یادداشت قابل ثبت نیست."
-
-        );
+        showToast("⚠️ این یادداشت آزمایشی قابل ثبت نیست.");
 
         return;
 
     }
 
-    const now =
+    const button=document.querySelector(".noteAdd");
 
-        new Date();
+    await runNoteOperation(
 
-    const date =
+        button,
 
-        now.toLocaleDateString(
+        async()=>{
 
-            "fa-IR"
+            const now=new Date();
 
-        );
+            const date=now.toLocaleDateString("fa-IR");
 
-    const time =
+            const time=now.toLocaleTimeString(
 
-        now.toLocaleTimeString(
+                "fa-IR",
 
-            "fa-IR",
+                {hour:"2-digit",minute:"2-digit"}
 
-            {
+            );
 
-                hour:"2-digit",
+            const result=await cloudPost({
 
-                minute:"2-digit"
+                action:"addNote",
 
-            }
+                date:date,
 
-        );
+                time:time,
 
-    const note = {
+                note:text,
 
-        id:
+                status:"باز",
 
-            "local_" +
-
-            Date.now(),
-
-        cloudId:
-
-            null,
-
-        text:
-
-            text,
-
-        date:
-
-            date,
-
-        time:
-
-            time,
-
-        pinned:
-
-            false,
-
-        done:
-
-            false
-
-    };
-
-    localNotes.unshift(
-
-        note
-
-    );
-
-    saveNotes();
-
-    input.value = "";
-
-    renderNotes();
-
-    try{
-
-        const result =
-
-            await cloudPost({
-
-                action:
-
-                    "addNote",
-
-                date:
-
-                    date,
-
-                time:
-
-                    time,
-
-                note:
-
-                    text,
-
-                status:
-
-                    "باز",
-
-                pinned:
-
-                    false
+                pinned:false
 
             });
 
-        /*
+            /* ID برگشتی Apps Script را اگر موجود بود نگه می‌داریم. */
 
-           اگر بک‌اند ID واقعی را برگرداند،
+            if(result && result.id){
 
-           مستقیماً همان را ذخیره می‌کنیم.
+                localNotes.unshift({
 
-        */
+                    id:String(result.id),
 
-        if(
+                    cloudId:String(result.id),
 
-            result &&
+                    text:text,
 
-            result.id
+                    date:date,
 
-        ){
+                    time:time,
 
-            note.cloudId =
+                    pinned:false,
 
-                result.id;
+                    done:false
 
-        }
+                });
 
-        /*
+                saveNotes();
 
-           اگر ID از POST برنگشت،
-
-           از GET برای پیدا کردن رکورد جدید
-
-           استفاده می‌کنیم.
-
-        */
-
-        if(!note.cloudId){
-
-            const data =
-
-                await getCloudData();
-
-            if(
-
-                Array.isArray(data.notes)
-
-            ){
-
-                const matches =
-
-                    data.notes
-
-                    .filter(item => {
-
-                        return String(
-
-                            item.note ||
-
-                            item.text ||
-
-                            ""
-
-                        ).trim() === text;
-
-                    });
-
-                if(matches.length){
-
-                    /*
-
-                       جدیدترین رکورد را برمی‌داریم.
-
-                    */
-
-                    const match =
-
-                        matches
-
-                        .sort(
-
-                            (a,b) =>
-
-                                String(
-
-                                    b.id
-
-                                ).localeCompare(
-
-                                    String(
-
-                                        a.id
-
-                                    )
-
-                                )
-
-                        )[0];
-
-                    if(match){
-
-                        note.cloudId =
-
-                            match.id;
-
-                        note.date =
-
-                            match.date ||
-
-                            date;
-
-                        note.time =
-
-                            match.time ||
-
-                            time;
-
-                        note.pinned =
-
-                            isPinnedValue(
-
-                                match.pinned
-
-                            );
-
-                        note.done =
-
-                            String(
-
-                                match.status ||
-
-                                ""
-
-                            ).trim() ===
-
-                            "انجام شد";
-
-                    }
-
-                }
+                renderNotes();
 
             }
 
-        }
+            input.value="";
 
-        saveNotes();
+            /* Sheet2 دوباره خوانده می‌شود تا UI دقیقاً با سرور یکی باشد. */
 
-        await loadCloudData(false);
+            await refreshNotesBestEffort();
 
-        showToast(
+        },
 
-            "✅ یادداشت ثبت شد."
+        "✅ یادداشت با موفقیت در Sheet2 ثبت شد.",
 
-        );
+        "⚠️ ثبت یادداشت انجام نشد؛ اطلاعات قبلی دست‌نخورده باقی ماند."
 
-    }catch(error){
-
-        console.error(
-
-            "Note cloud error:",
-
-            error
-
-        );
-
-        showToast(
-
-            "⚠️ یادداشت محلی ثبت شد؛ ارسال ابری ناموفق بود."
-
-        );
-
-    }
+    );
 
 }
 
-/* =====================================================
+/* =========================
 
-   UPDATE NOTE CLOUD
+   UPDATE NOTE
 
-===================================================== */
+========================= */
 
-async function updateNoteCloud(note){
+async function updateNoteCloud(note,changes={}){
 
-    if(!note.cloudId){
+    const fresh=await getFreshNoteInfo(note);
 
-        return false;
+    if(!fresh){
+
+        throw new Error("یادداشت موردنظر در Sheet2 پیدا نشد");
 
     }
 
-    await cloudPost({
+    const payload={
 
-        action:
+        action:"updateNote",
 
-            "updateNote",
+        id:String(fresh.id),
 
-        id:
+        date:changes.date!==undefined ? changes.date : fresh.date,
 
-            note.cloudId,
+        time:changes.time!==undefined ? changes.time : fresh.time,
 
-        date:
+        note:changes.text!==undefined ? changes.text : fresh.text,
 
-            note.date || "",
+        status:changes.status!==undefined
 
-        time:
+            ? changes.status
 
-            note.time || "",
+            : (fresh.done ? "انجام شد" : "باز"),
 
-        note:
+        pinned:changes.pinned!==undefined
 
-            note.text,
+            ? !!changes.pinned
 
-        status:
+            : !!fresh.pinned
 
-            note.done
+    };
 
-            ? "انجام شد"
-
-            : "باز",
-
-        pinned:
-
-            !!note.pinned
-
-    });
+    await cloudPost(payload);
 
     return true;
 
 }
 
-/* =====================================================
+function safeCssEscape(value){
 
-   TOGGLE PIN
+    if(window.CSS && typeof window.CSS.escape==="function") return window.CSS.escape(String(value));
 
-===================================================== */
+    return String(value).replace(/[^a-zA-Z0-9_-]/g,function(ch){
 
-async function togglePin(id){
+        return "\\" + ch;
 
-    const note =
+    });
 
-        localNotes.find(
+}
 
-            item =>
+/* =========================
 
-                String(item.id) ===
+   NOTE MODAL CLOSE
 
-                String(id)
+========================= */
 
-        );
+function closeNoteModal(){
 
-    if(!note){
+    const confirmModal=document.getElementById("noteConfirmModal");
 
-        return;
+    const editModal=document.getElementById("noteEditModal");
 
-    }
+    if(confirmModal)confirmModal.classList.remove("open");
 
-    const oldPinned =
+    if(editModal)editModal.classList.remove("open");
 
-        !!note.pinned;
+    window.currentDeleteNoteId="";
 
-    const newPinned =
+    window.currentEditingNoteId="";
 
-        !oldPinned;
+    const confirmButton=document.getElementById("noteConfirmButton");
 
-    /*
+    if(confirmButton){
 
-       تغییر فوری در صفحه
+        confirmButton.disabled=false;
 
-    */
-
-    note.pinned =
-
-        newPinned;
-
-    saveNotes();
-
-    renderNotes();
-
-    /*
-
-       یادداشت محلی هنوز ID ابری ندارد.
-
-    */
-
-    if(!note.cloudId){
-
-        showToast(
-
-            newPinned
-
-            ? "📌 پین شد."
-
-            : "📌 پین برداشته شد."
-
-        );
-
-        return;
-
-    }
-
-    try{
-
-        /*
-
-           مقدار جدید را صریحاً برای بک‌اند می‌فرستیم.
-
-        */
-
-        await cloudPost({
-
-            action:
-
-                "toggleNotePin",
-
-            id:
-
-                note.cloudId,
-
-            pinned:
-
-                newPinned
-
-        });
-
-        /*
-
-           بعد از تغییر، اطلاعات واقعی سرور را می‌گیریم.
-
-        */
-
-        const data =
-
-            await getCloudData();
-
-        const cloudNote =
-
-            Array.isArray(data.notes)
-
-            ? data.notes.find(
-
-                item =>
-
-                    String(item.id) ===
-
-                    String(note.cloudId)
-
-            )
-
-            : null;
-
-        if(!cloudNote){
-
-            throw new Error(
-
-                "Pin note not found after update"
-
-            );
-
-        }
-
-        const cloudPinned =
-
-            isPinnedValue(
-
-                cloudNote.pinned
-
-            );
-
-        /*
-
-           بررسی صحیح مقدار پین
-
-        */
-
-        if(
-
-            cloudPinned !== newPinned
-
-        ){
-
-            throw new Error(
-
-                "Pin verification failed"
-
-            );
-
-        }
-
-        /*
-
-           هماهنگ‌سازی کامل پنل
-
-        */
-
-        await loadCloudData(false);
-
-        showToast(
-
-            newPinned
-
-            ? "📌 پین شد."
-
-            : "📌 پین برداشته شد."
-
-        );
-
-    }catch(error){
-
-        console.error(
-
-            "Pin error:",
-
-            error
-
-        );
-
-        /*
-
-           برگشت به وضعیت قبلی
-
-        */
-
-        note.pinned =
-
-            oldPinned;
-
-        saveNotes();
-
-        renderNotes();
-
-        showToast(
-
-            "⚠️ تغییر پین ذخیره نشد."
-
-        );
+        confirmButton.onclick=confirmDeleteNote;
 
     }
 
 }
 
-/* =====================================================
+function closeNoteModalFromBackdrop(event){
 
-   TOGGLE DONE
+    if(event.target===event.currentTarget){
 
-===================================================== */
-
-async function toggleDone(id){
-
-    const note =
-
-        localNotes.find(
-
-            item =>
-
-                String(item.id) ===
-
-                String(id)
-
-        );
-
-    if(!note){
-
-        return;
-
-    }
-
-    const oldDone =
-
-        !!note.done;
-
-    const newDone =
-
-        !oldDone;
-
-    note.done =
-
-        newDone;
-
-    saveNotes();
-
-    renderNotes();
-
-    /*
-
-       اگر هنوز ابری نشده، محلی کافی است.
-
-    */
-
-    if(!note.cloudId){
-
-        showToast(
-
-            newDone
-
-            ? "✅ تسک انجام شد."
-
-            : "↩ تسک دوباره باز شد."
-
-        );
-
-        return;
-
-    }
-
-    try{
-
-        await cloudPost({
-
-            action:
-
-                "toggleNoteStatus",
-
-            id:
-
-                note.cloudId,
-
-            status:
-
-                newDone
-
-                ? "انجام شد"
-
-                : "باز"
-
-        });
-
-        const data =
-
-            await getCloudData();
-
-        const cloudNote =
-
-            Array.isArray(data.notes)
-
-            ? data.notes.find(
-
-                item =>
-
-                    String(item.id) ===
-
-                    String(note.cloudId)
-
-            )
-
-            : null;
-
-        if(!cloudNote){
-
-            throw new Error(
-
-                "Note not found after update"
-
-            );
-
-        }
-
-        const cloudDone =
-
-            String(
-
-                cloudNote.status || ""
-
-            ).trim() ===
-
-            "انجام شد";
-
-        if(
-
-            cloudDone !== newDone
-
-        ){
-
-            throw new Error(
-
-                "Status verification failed"
-
-            );
-
-        }
-
-        await loadCloudData(false);
-
-        showToast(
-
-            newDone
-
-            ? "✅ تسک انجام شد."
-
-            : "↩ تسک دوباره باز شد."
-
-        );
-
-    }catch(error){
-
-        console.error(
-
-            "Done error:",
-
-            error
-
-        );
-
-        note.done =
-
-            oldDone;
-
-        saveNotes();
-
-        renderNotes();
-
-        showToast(
-
-            "⚠️ وضعیت تسک ذخیره نشد."
-
-        );
+        closeNoteModal();
 
     }
 
 }
 
-/* =====================================================
+/* =========================
 
-   EDIT NOTE
+   DELETE NOTE MODAL
 
-===================================================== */
+========================= */
 
-async function editNote(id){
+document.addEventListener("keydown",function(event){
 
-    const note =
+    if(event.key!=="Escape") return;
 
-        localNotes.find(
+    const edit=document.getElementById("noteEditModal");
 
-            item =>
+    const confirm=document.getElementById("noteConfirmModal");
 
-                String(item.id) ===
+    if(edit?.classList.contains("open") || confirm?.classList.contains("open")){
 
-                String(id)
-
-        );
-
-    if(!note){
-
-        return;
+        closeNoteModal();
 
     }
 
-    const newText =
+});
 
-        prompt(
+function openDeleteNoteModal(id){
 
-            "متن جدید یادداشت:",
+    const note=getNoteById(id);
 
-            note.text
+    if(!note)return;
 
-        );
+    window.currentDeleteNoteId=String(note.cloudId||note.id||id);
 
-    if(newText === null){
+    const preview=String(note.text||"").trim();
 
-        return;
+    const text=document.getElementById("noteConfirmText");
 
-    }
+    if(text){
 
-    const cleanText =
+        text.textContent=
 
-        newText.trim();
-
-    if(!cleanText){
-
-        showToast(
-
-            "⚠️ متن یادداشت نمی‌تواند خالی باشد."
-
-        );
-
-        return;
+            `آیا از حذف یادداشت «${preview.slice(0,90)}${preview.length>90?"…":""}» مطمئن هستید؟ این عملیات رکورد مربوط را از شیت یادداشت‌ها نیز حذف می‌کند.`;
 
     }
 
-    if(cleanText === TEST_NOTE_TEXT){
+    const modal=document.getElementById("noteConfirmModal");
 
-        showToast(
+    if(modal)modal.classList.add("open");
 
-            "⚠️ این متن قابل استفاده نیست."
+    const btn=document.getElementById("noteConfirmButton");
 
-        );
+    if(btn){
 
-        return;
+        btn.disabled=false;
 
-    }
-
-    const oldText =
-
-        note.text;
-
-    note.text =
-
-        cleanText;
-
-    saveNotes();
-
-    renderNotes();
-
-    /*
-
-       یادداشت محلی
-
-    */
-
-    if(!note.cloudId){
-
-        showToast(
-
-            "✏️ یادداشت ویرایش شد."
-
-        );
-
-        return;
-
-    }
-
-    try{
-
-        await updateNoteCloud(
-
-            note
-
-        );
-
-        const data =
-
-            await getCloudData();
-
-        const cloudNote =
-
-            Array.isArray(data.notes)
-
-            ? data.notes.find(
-
-                item =>
-
-                    String(item.id) ===
-
-                    String(note.cloudId)
-
-            )
-
-            : null;
-
-        if(!cloudNote){
-
-            throw new Error(
-
-                "Note not found after edit"
-
-            );
-
-        }
-
-        const cloudText =
-
-            String(
-
-                cloudNote.note ||
-
-                cloudNote.text ||
-
-                ""
-
-            ).trim();
-
-        if(
-
-            cloudText !== cleanText
-
-        ){
-
-            throw new Error(
-
-                "Edit verification failed"
-
-            );
-
-        }
-
-        await loadCloudData(false);
-
-        showToast(
-
-            "✏️ یادداشت ویرایش شد."
-
-        );
-
-    }catch(error){
-
-        console.error(
-
-            "Edit error:",
-
-            error
-
-        );
-
-        note.text =
-
-            oldText;
-
-        saveNotes();
-
-        renderNotes();
-
-        showToast(
-
-            "⚠️ ویرایش ذخیره نشد."
-
-        );
+        btn.onclick=confirmDeleteNote;
 
     }
 
 }
 
-/* =====================================================
+/* =========================
 
    DELETE NOTE
 
-===================================================== */
+   ========================= */
 
-async function deleteNote(id){
+async function confirmDeleteNote(){
 
-    const note =
+    const id=String(window.currentDeleteNoteId||"").trim();
 
-        localNotes.find(
+    if(!id){
 
-            item =>
-
-                String(item.id) ===
-
-                String(id)
-
-        );
-
-    if(!note){
+        showToast("⚠️ شناسه یادداشت پیدا نشد.");
 
         return;
 
     }
 
-    if(
+    const btn=document.getElementById("noteConfirmButton");
 
-        !confirm(
+    await runNoteOperation(
 
-            "این یادداشت حذف شود؟"
+        btn,
 
-        )
+        async()=>{
 
-    ){
+            await cloudPost({
 
-        return;
+                action:"deleteNote",
 
-    }
+                id:id
 
-    const backup =
+            });
 
-        {
+            /*
 
-            ...note
+               حذف روی Sheet2 با موفقیت انجام شد.
 
-        };
+               حالا همان لحظه نسخه محلی را هم حذف می‌کنیم تا کارت
 
-    localNotes =
+               بدون نیاز به Refresh از صفحه ناپدید شود.
 
-        localNotes.filter(
+            */
 
-            item =>
+            localNotes=localNotes.filter(note=>
 
-                String(item.id) !==
-
-                String(id)
-
-        );
-
-    saveNotes();
-
-    renderNotes();
-
-    /*
-
-       اگر فقط محلی باشد.
-
-    */
-
-    if(!note.cloudId){
-
-        showToast(
-
-            "🗑 یادداشت حذف شد."
-
-        );
-
-        return;
-
-    }
-
-    try{
-
-        await cloudPost({
-
-            action:
-
-                "deleteNote",
-
-            id:
-
-                note.cloudId
-
-        });
-
-        const data =
-
-            await getCloudData();
-
-        const stillExists =
-
-            Array.isArray(data.notes) &&
-
-            data.notes.some(
-
-                item =>
-
-                    String(item.id) ===
-
-                    String(note.cloudId)
+                String(note.cloudId||note.id||"")!==id
 
             );
 
-        if(stillExists){
+            saveNotes();
 
-            throw new Error(
+            /*
 
-                "Delete verification failed"
+               اول خود کارت موجود روی صفحه را مستقیم حذف می‌کنیم.
+
+               این کار مستقل از renderNotes است و باعث می‌شود کارت
+
+               دقیقاً همان لحظه از صفحه ناپدید شود.
+
+            */
+
+            const deleteButton=document.querySelector(
+
+                `#notesContainer button[data-note-action="delete"][data-note-id="${safeCssEscape(id)}"]`
 
             );
 
-        }
+            const noteCard=deleteButton ? deleteButton.closest(".note") : null;
 
-        await loadCloudData(false);
+            if(noteCard){
 
-        showToast(
-
-            "🗑 یادداشت حذف شد."
-
-        );
-
-    }catch(error){
-
-        console.error(
-
-            "Delete error:",
-
-            error
-
-        );
-
-        localNotes.unshift(
-
-            backup
-
-        );
-
-        saveNotes();
-
-        renderNotes();
-
-        showToast(
-
-            "⚠️ حذف ذخیره نشد."
-
-        );
-
-    }
-
-}
-
-/* =====================================================
-
-   NOTES RENDER
-
-===================================================== */
-
-function renderNotes(){
-
-    const container =
-
-        document.getElementById(
-
-            "notesContainer"
-
-        );
-
-    if(!container){
-
-        return;
-
-    }
-
-    /*
-
-       یادداشت تستی هیچ‌وقت نمایش داده نمی‌شود.
-
-    */
-
-    const notes =
-
-        [...localNotes]
-
-        .filter(note => {
-
-            return String(
-
-                note.text || ""
-
-            ).trim() !== TEST_NOTE_TEXT;
-
-        })
-
-        .sort(
-
-            (a,b) =>
-
-                Number(!!b.pinned) -
-
-                Number(!!a.pinned)
-
-        );
-
-    container.innerHTML = "";
-
-    if(!notes.length){
-
-        container.innerHTML = `
-
-            <div
-
-                class="empty"
-
-                style="grid-column:1/-1">
-
-                <div class="emptyIcon">
-
-                    📝
-
-                </div>
-
-                هنوز یادداشتی ثبت نشده است.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-    notes.forEach(note => {
-
-        const div =
-
-            document.createElement(
-
-                "div"
-
-            );
-
-        div.className =
-
-            "note" +
-
-            (
-
-                note.pinned
-
-                ? " pinned"
-
-                : ""
-
-            ) +
-
-            (
-
-                note.done
-
-                ? " done"
-
-                : ""
-
-            );
-
-        div.innerHTML = `
-
-            ${
-
-                note.pinned
-
-                ? '<div class="pinBadge">📌</div>'
-
-                : ""
+                noteCard.remove();
 
             }
 
-            <div class="noteText">
+            /* برای هماهنگ ماندن کل لیست، یک رندر هم انجام می‌دهیم. */
 
-                ${escapeHTML(
+            renderNotes();
 
-                    note.text
+            closeNoteModal();
 
-                )}
+        },
 
-            </div>
+        "🗑 یادداشت از Sheet2 حذف شد.",
 
-            <div class="noteDate">
+        "⚠️ حذف یادداشت انجام نشد."
 
-                ${escapeHTML(
+    );
 
-                    noteDisplayDate(note)
+}
 
-                )}
+/* =========================
 
-            </div>
+   EDIT NOTE
+
+   ========================= */
+
+function editNote(id){
+
+    const note=getNoteById(id);
+
+    if(!note)return;
+
+    window.currentEditingNoteId=String(note.cloudId||note.id||id);
+
+    const input=document.getElementById("noteEditInput");
+
+    const modal=document.getElementById("noteEditModal");
+
+    if(!input||!modal)return;
+
+    input.value=note.text||"";
+
+    modal.classList.add("open");
+
+    setTimeout(()=>{
+
+        input.focus();
+
+        input.setSelectionRange(input.value.length,input.value.length);
+
+    },50);
+
+}
+
+async function submitNoteEdit(){
+
+    const id=String(window.currentEditingNoteId||"").trim();
+
+    const input=document.getElementById("noteEditInput");
+
+    if(!id||!input){
+
+        showToast("⚠️ یادداشت موردنظر پیدا نشد.");
+
+        return;
+
+    }
+
+    const cleanText=input.value.trim();
+
+    if(!cleanText){
+
+        showToast("⚠️ متن یادداشت نمی‌تواند خالی باشد.");
+
+        return;
+
+    }
+
+    if(cleanText===TEST_NOTE_TEXT){
+
+        showToast("⚠️ این متن آزمایشی قابل استفاده نیست.");
+
+        return;
+
+    }
+
+    const note=getNoteById(id);
+
+    const saveButton=document.querySelector("#noteEditModal .primary");
+
+    await runNoteOperation(
+
+        saveButton,
+
+        async()=>{
+
+            if(!note){
+
+                throw new Error("یادداشت موردنظر پیدا نشد");
+
+            }
+
+            await cloudPost({
+
+                action:"updateNote",
+
+                id:id,
+
+                date:note.date||"",
+
+                time:note.time||"",
+
+                note:cleanText,
+
+                status:note.done ? "انجام شد" : "باز",
+
+                pinned:!!note.pinned
+
+            });
+
+            /*
+
+               ویرایش روی Sheet2 با موفقیت انجام شد.
+
+               نسخه محلی را هم همان لحظه تغییر می‌دهیم تا کارت
+
+               بدون Refresh متن جدید را نشان دهد.
+
+            */
+
+            note.text=cleanText;
+
+            saveNotes();
+
+            /*
+
+               متن کارت را مستقیم روی DOM هم عوض می‌کنیم تا حتی اگر
+
+               رندر لیست خطایی داشت، تغییر بلافاصله روی صفحه دیده شود.
+
+            */
+
+            const editButton=document.querySelector(
+
+                `#notesContainer button[data-note-action="edit"][data-note-id="${safeCssEscape(id)}"]`
+
+            );
+
+            const editCard=editButton ? editButton.closest(".note") : null;
+
+            const editText=editCard ? editCard.querySelector(".noteText") : null;
+
+            if(editText){
+
+                editText.innerHTML=escapeHTML(cleanText);
+
+            }
+
+            renderNotes();
+
+            closeNoteModal();
+
+        },
+
+        "✏️ یادداشت ویرایش و در Sheet2 ذخیره شد.",
+
+        "⚠️ ویرایش انجام نشد."
+
+    );
+
+}
+
+/* =========================
+
+   PIN NOTE
+
+   مقدار صریح pinned مستقیماً برای Apps Script ارسال می‌شود.
+
+   ========================= */
+
+async function togglePin(id){
+
+    const note=getNoteById(id);
+
+    if(!note){
+
+        showToast("⚠️ یادداشت موردنظر پیدا نشد.");
+
+        return;
+
+    }
+
+    const cloudId=String(note.cloudId||note.id||"").trim();
+
+    if(!cloudId){
+
+        showToast("⚠️ شناسه یادداشت پیدا نشد.");
+
+        return;
+
+    }
+
+    const newPinned=!isPinnedValue(note.pinned);
+
+    await runNoteOperation(
+
+        null,
+
+        async()=>{
+
+            await cloudPost({
+
+                action:"updateNote",
+
+                id:cloudId,
+
+                date:note.date||"",
+
+                time:note.time||"",
+
+                note:note.text||"",
+
+                status:note.done ? "انجام شد" : "باز",
+
+                pinned:newPinned
+
+            });
+
+            await refreshNotesBestEffort();
+
+        },
+
+        newPinned
+
+            ? "📌 یادداشت پین شد و در Sheet2 ذخیره شد."
+
+            : "📌 پین یادداشت برداشته شد.",
+
+        "⚠️ تغییر پین انجام نشد."
+
+    );
+
+}
+
+/* =========================
+
+   DONE NOTE
+
+   مقدار صریح status مستقیماً برای Apps Script ارسال می‌شود.
+
+   ========================= */
+
+async function toggleDone(id){
+
+    const note=getNoteById(id);
+
+    if(!note){
+
+        showToast("⚠️ یادداشت موردنظر پیدا نشد.");
+
+        return;
+
+    }
+
+    const cloudId=String(note.cloudId||note.id||"").trim();
+
+    if(!cloudId){
+
+        showToast("⚠️ شناسه یادداشت پیدا نشد.");
+
+        return;
+
+    }
+
+    const newDone=!Boolean(note.done);
+
+    await runNoteOperation(
+
+        null,
+
+        async()=>{
+
+            await cloudPost({
+
+                action:"updateNote",
+
+                id:cloudId,
+
+                date:note.date||"",
+
+                time:note.time||"",
+
+                note:note.text||"",
+
+                status:newDone ? "انجام شد" : "باز",
+
+                pinned:!!note.pinned
+
+            });
+
+            await refreshNotesBestEffort();
+
+        },
+
+        newDone
+
+            ? "✅ تسک انجام شد و در Sheet2 ذخیره شد."
+
+            : "↩ تسک دوباره باز شد.",
+
+        "⚠️ تغییر وضعیت انجام نشد."
+
+    );
+
+}
+
+/* =========================
+
+   RENDER NOTES
+
+========================= */
+
+function renderNotes(){
+
+    const container=document.getElementById("notesContainer");
+
+    if(!container)return;
+
+    const notes=[...localNotes]
+
+        .filter(
+
+            note=>String(note.text||"").trim()!==TEST_NOTE_TEXT
+
+        )
+
+        .sort(
+
+            (a,b)=>
+
+                Number(!!b.pinned)-Number(!!a.pinned)
+
+        );
+
+    container.innerHTML="";
+
+    if(!notes.length){
+
+        container.innerHTML=
+
+            `<div class="empty" style="grid-column:1/-1">
+
+                <div class="emptyIcon">📝</div>
+
+                هنوز یادداشتی ثبت نشده است.
+
+            </div>`;
+
+        return;
+
+    }
+
+    notes.forEach(note=>{
+
+        const div=document.createElement("div");
+
+        div.className=
+
+            "note"+
+
+            (note.pinned?" pinned":"")+
+
+            (note.done?" done":"");
+
+        div.innerHTML=`
+
+            ${note.pinned?'<div class="pinBadge">📌</div>':""}
+
+            <div class="noteText">${escapeHTML(note.text||"")}</div>
+
+            <div class="noteDate">${escapeHTML(noteDisplayDate(note))}</div>
 
             <div class="noteActions">
 
                 <button
 
-                    class="doneBtn ${
+                    type="button"
 
-                        note.done
+                    class="doneBtn ${note.done?"doneActive":""}"
 
-                        ? "doneActive"
+                    data-note-action="done"
 
-                        : ""
+                    data-note-id="${escapeHTML(String(note.id||""))}"
 
-                    }"
-
-                    onclick="toggleDone(
-
-                        ${JSON.stringify(note.id)}
-
-                    )">
-
-                    ✓ انجام شد
-
-                </button>
+                >✓ انجام شد</button>
 
                 <button
 
-                    class="${
+                    type="button"
 
-                        note.pinned
+                    class="${note.pinned?"pinActive":""}"
 
-                        ? "pinActive"
+                    data-note-action="pin"
 
-                        : ""
+                    data-note-id="${escapeHTML(String(note.id||""))}"
 
-                    }"
-
-                    onclick="togglePin(
-
-                        ${JSON.stringify(note.id)}
-
-                    )">
-
-                    ${
-
-                        note.pinned
-
-                        ? "📌 برداشتن پین"
-
-                        : "📌 پین"
-
-                    }
-
-                </button>
+                >${note.pinned?"📌 برداشتن پین":"📌 پین"}</button>
 
                 <button
+
+                    type="button"
 
                     class="edit"
 
-                    onclick="editNote(
+                    data-note-action="edit"
 
-                        ${JSON.stringify(note.id)}
+                    data-note-id="${escapeHTML(String(note.id||""))}"
 
-                    )">
-
-                    ✏️ ویرایش
-
-                </button>
+                >✏️ ویرایش</button>
 
                 <button
 
+                    type="button"
+
                     class="delete"
 
-                    onclick="deleteNote(
+                    data-note-action="delete"
 
-                        ${JSON.stringify(note.id)}
+                    data-note-id="${escapeHTML(String(note.id||""))}"
 
-                    )">
+                >🗑 حذف</button>
 
-                    🗑 حذف
-
-                </button>
-
-            </div>
-
-        `;
+            </div>`;
 
         container.appendChild(div);
 
     });
 
 }
+
+/* =========================
+
+   NOTE BUTTON WIRING
+
+   اتصال مستقیم دکمه‌های یادداشت
+
+   بدون وابستگی به onclick داخل HTML
+
+========================= */
+
+(function setupNoteButtonWiring(){
+
+    function bind(){
+
+        const container=document.getElementById("notesContainer");
+
+        if(!container || container.dataset.noteWired==="1")return;
+
+        container.dataset.noteWired="1";
+
+        container.addEventListener("click",function(event){
+
+            const button=event.target.closest("button[data-note-action]");
+
+            if(!button || !container.contains(button))return;
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            const id=button.getAttribute("data-note-id") || "";
+
+            const action=button.getAttribute("data-note-action");
+
+            if(!id){
+
+                showToast("⚠️ شناسه یادداشت پیدا نشد.");
+
+                return;
+
+            }
+
+            if(action==="done"){
+
+                toggleDone(id);
+
+            }else if(action==="pin"){
+
+                togglePin(id);
+
+            }else if(action==="edit"){
+
+                editNote(id);
+
+            }else if(action==="delete"){
+
+                openDeleteNoteModal(id);
+
+            }
+
+        });
+
+    }
+
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);
+
+    else bind();
+
+})();
+
+/* توابع یادداشت عمداً روی window هم قرار می‌گیرند تا از هر بخش صفحه
+
+   و حتی در صورت وجود اسکریپت‌های قدیمی، قابل دسترسی باشند. */
+
+window.openDeleteNoteModal=openDeleteNoteModal;
+
+window.confirmDeleteNote=confirmDeleteNote;
+
+window.editNote=editNote;
+
+window.submitNoteEdit=submitNoteEdit;
+
+window.togglePin=togglePin;
+
+window.toggleDone=toggleDone;
 
 /* =====================================================
 
@@ -6016,55 +7309,211 @@ function drawIncomeChart(){
 
     if(!chartBars)return;
 
+    const normalizeDigits=value=>String(value??"")
+
+        .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+
+        .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+
+    const persianDateKeyFromDate=date=>{
+
+        if(!(date instanceof Date) || Number.isNaN(date.getTime()))return "";
+
+        const parts=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
+
+            year:"numeric",
+
+            month:"2-digit",
+
+            day:"2-digit"
+
+        }).formatToParts(date);
+
+        const get=type=>parts.find(x=>x.type===type)?.value||"";
+
+        return `${get("year")}/${get("month")}/${get("day")}`;
+
+    };
+
+    const parseIncomeDate=value=>{
+
+        const raw=normalizeDigits(String(value??"").trim());
+
+        if(!raw)return {key:"",label:""};
+
+        /* تاریخ شمسی مثل ۱۴۰۵/۰۶/۱۸ */
+
+        const faMatch=raw.match(/^(13\d{2}|14\d{2}|15\d{2})[\/.-](\d{1,2})[\/.-](\d{1,2})/);
+
+        if(faMatch){
+
+            const key=`${faMatch[1]}/${String(faMatch[2]).padStart(2,"0")}/${String(faMatch[3]).padStart(2,"0")}`;
+
+            return {key,label:key};
+
+        }
+
+        /* تاریخ میلادی یا timestamp مثل 2026-09-07T09:59:10.741Z */
+
+        const parsed=new Date(raw);
+
+        if(!Number.isNaN(parsed.getTime())){
+
+            const key=persianDateKeyFromDate(parsed);
+
+            return {key,label:key};
+
+        }
+
+        /* fallback برای رشته‌های تاریخ میلادی ساده */
+
+        const g=raw.match(/^(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})/);
+
+        if(g){
+
+            const parsedLocal=new Date(Number(g[1]),Number(g[2])-1,Number(g[3]));
+
+            const key=persianDateKeyFromDate(parsedLocal);
+
+            return {key,label:key};
+
+        }
+
+        return {key:raw,label:raw};
+
+    };
+
+    const todayKey=persianDateKeyFromDate(new Date());
+
     const dailyMap={};
+
+    const displayMap={};
 
     allTransactions.forEach(item=>{
 
-        const date=String(item.date||"").trim();
+        const parsed=parseIncomeDate(item.date);
 
-        if(!date)return;
+        if(!parsed.key)return;
 
-        dailyMap[date]=(dailyMap[date]||0)+Number(item.amount||0);
+        const amount=Number(item.amount||0);
+
+        dailyMap[parsed.key]=(dailyMap[parsed.key]||0)+amount;
+
+        displayMap[parsed.key]=parsed.label;
 
     });
 
-    const entries=Object.entries(dailyMap).sort((a,b)=>{
+    /* روز جاری همیشه آخر نمودار است؛ حتی اگر هنوز تراکنشی نداشته باشد. */
 
-        const pa=a[0].replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+    dailyMap[todayKey]=dailyMap[todayKey]||0;
 
-        const pb=b[0].replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+    displayMap[todayKey]=todayKey;
 
-        return pa.localeCompare(pb);
+    const keys=Object.keys(dailyMap);
 
-    }).slice(-30);
+    const parseKey=key=>{
 
-    if(!entries.length){chartBars.innerHTML='<div class="chartEmpty">📊 هنوز اطلاعاتی برای نمودار وجود ندارد.</div>';chartSummary.innerHTML="";return;}
+        const m=String(key).match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/);
+
+        if(!m)return null;
+
+        return [Number(m[1]),Number(m[2]),Number(m[3])];
+
+    };
+
+    keys.sort((a,b)=>{
+
+        const pa=parseKey(a),pb=parseKey(b);
+
+        if(pa&&pb)return pa[0]-pb[0]||pa[1]-pb[1]||pa[2]-pb[2];
+
+        return a.localeCompare(b);
+
+    });
+
+    const recentKeys=keys.slice(-30);
+
+    if(!recentKeys.includes(todayKey))recentKeys.push(todayKey);
+
+    recentKeys.sort((a,b)=>{
+
+        const pa=parseKey(a),pb=parseKey(b);
+
+        if(pa&&pb)return pa[0]-pb[0]||pa[1]-pb[1]||pa[2]-pb[2];
+
+        return a.localeCompare(b);
+
+    });
+
+    const entries=recentKeys.map(key=>[
+
+        key,
+
+        dailyMap[key]||0,
+
+        displayMap[key]||key
+
+    ]);
 
     const maxValue=Math.max(...entries.map(x=>x[1]),1);
 
     chartBars.innerHTML="";
 
-    entries.forEach(([date,value])=>{
+    entries.forEach(([key,value,labelText])=>{
 
-        const item=document.createElement("div"); item.className="chartBarItem";
+        const item=document.createElement("div");
 
-        const valueBox=document.createElement("div"); valueBox.className="chartBarValue"; valueBox.textContent=secureMoney(value);
+        item.className="chartBarItem";
 
-        const bar=document.createElement("div"); bar.className="chartBar"; bar.style.height=Math.max(5,(value/maxValue)*235)+"px"; bar.title=money(value);
+        if(key===todayKey)item.classList.add("currentDay");
 
-        const label=document.createElement("div"); label.className="chartBarLabel"; label.textContent=date;
+        const valueBox=document.createElement("div");
 
-        item.append(valueBox,bar,label); chartBars.appendChild(item);
+        valueBox.className="chartBarValue";
+
+        valueBox.textContent=secureMoney(value);
+
+        const bar=document.createElement("div");
+
+        bar.className="chartBar";
+
+        bar.style.height=Math.max(5,(value/maxValue)*235)+"px";
+
+        bar.title=(key===todayKey?"امروز • ":"")+money(value);
+
+        const label=document.createElement("div");
+
+        label.className="chartBarLabel";
+
+        label.textContent=labelText;
+
+        item.append(valueBox,bar,label);
+
+        chartBars.appendChild(item);
 
     });
 
     const chartTotal=entries.reduce((sum,x)=>sum+x[1],0);
 
-    const days=entries.length;
+    const todayTotal=dailyMap[todayKey]||0;
 
-    const average=days?chartTotal/days:0;
+    const previousEntries=entries.filter(x=>x[0]!==todayKey);
 
-    chartSummary.innerHTML=`<div class="chartSummaryItem">مجموع ۳۰ روز اخیر <strong>${secureMoney(chartTotal)}</strong></div><div class="chartSummaryItem">تعداد روزها <strong>${faNumber(days)}</strong></div><div class="chartSummaryItem">میانگین روزانه <strong>${secureMoney(average)}</strong></div>`;
+    const previousAverage=previousEntries.length
+
+        ? previousEntries.reduce((sum,x)=>sum+x[1],0)/previousEntries.length
+
+        : 0;
+
+    chartSummary.innerHTML=`
+
+        <div class="chartSummaryItem">۳۰ روز اخیر <strong>${secureMoney(chartTotal)}</strong></div>
+
+        <div class="chartSummaryItem">امروز <strong>${secureMoney(todayTotal)}</strong></div>
+
+        <div class="chartSummaryItem">میانگین روزهای قبل <strong>${secureMoney(previousAverage)}</strong></div>
+
+    `;
 
 }
 
@@ -6074,29 +7523,115 @@ function drawIncomeChart(){
 
 ===================================================== */
 
-function openChart(){
+function showIncomeDetail(sectionId){
 
-    const section =
+    const totalSection=document.getElementById("totalIncomeSection");
 
-        document.getElementById(
+    const chartSection=document.getElementById("chartSection");
 
-            "chartSection"
+    const hub=document.getElementById("incomeHub");
 
-        );
+    const section=document.getElementById(sectionId);
 
-    drawIncomeChart();
+    /* همیشه فقط یک صفحه درآمد باز باشد. */
+
+    if(totalSection)totalSection.classList.remove("incomeDetailOpen","incomeSlideIn");
+
+    if(chartSection)chartSection.classList.remove("incomeDetailOpen","incomeSlideIn");
+
+    if(hub){
+
+        hub.classList.add("incomeSlideAway");
+
+        setTimeout(()=>{
+
+            hub.style.display="none";
+
+        },380);
+
+    }
 
     if(section){
 
-        section.scrollIntoView({
+        section.style.display="block";
 
-            behavior:"smooth",
-
-            block:"start"
-
-        });
+        section.classList.add("incomeDetailOpen","incomeSlideIn");
 
     }
+
+}
+
+function showTotalIncome(){
+
+    /* همان حباب اصلی صفحه درآمد را با مبلغ کل نشان می‌دهیم. */
+
+    const total = allTransactions.reduce(
+
+        (sum,item)=>sum + Number(item.amount || 0),
+
+        0
+
+    );
+
+    const bubble=document.getElementById("bubbleIncome");
+
+    const label=document.querySelector("#incomeHub .bubbleLabel");
+
+    if(bubble)bubble.textContent=secureMoney(total);
+
+    if(label)label.textContent="درآمد کل";
+
+    backToIncomeOptions();
+
+}
+
+function backToIncomeOptions(){
+
+    const totalSection=document.getElementById("totalIncomeSection");
+
+    const chartSection=document.getElementById("chartSection");
+
+    const hub=document.getElementById("incomeHub");
+
+    if(totalSection){
+
+        totalSection.classList.remove("incomeDetailOpen","incomeSlideIn");
+
+        totalSection.style.display="none";
+
+    }
+
+    if(chartSection){
+
+        chartSection.classList.remove("incomeDetailOpen","incomeSlideIn");
+
+        chartSection.style.display="none";
+
+    }
+
+    if(hub){
+
+        hub.style.display="block";
+
+        hub.classList.remove("incomeSlideAway");
+
+        hub.style.animation="incomeSlideIn .46s cubic-bezier(.22,.8,.2,1) both";
+
+        setTimeout(()=>{
+
+            hub.style.animation="";
+
+        },470);
+
+    }
+
+}
+
+function openChart(){
+
+    drawIncomeChart();
+
+    showIncomeDetail("chartSection");
 
 }
 
@@ -6382,21 +7917,6 @@ if(noteInput){
 
 ===================================================== */
 
-function applyTheme(){
-    const theme=localStorage.getItem("jana_theme")||"dark";
-    document.body.classList.toggle("light",theme==="light");
-    const b=document.getElementById("themeFloat");
-    if(b){b.textContent=theme==="light"?"☀":"☾";b.title=theme==="light"?"حالت تاریک":"حالت روشن";}
-}
-function toggleTheme(){
-    const next=document.body.classList.contains("light")?"dark":"light";
-    localStorage.setItem("jana_theme",next);
-    const b=document.getElementById("themeFloat");
-    if(b){b.classList.remove("spinning");void b.offsetWidth;b.classList.add("spinning");}
-    applyTheme();
-}
-applyTheme();
-
 const mouseGlow =
 
     document.getElementById(
@@ -6511,7 +8031,7 @@ function renderMiniChat(){
 
         const unread=!m.read && String(m.sender||"").trim()!=="خانم دهقان";
 
-        const text=String(m.text||"").replace(/\[TX:[^\]]+\]/g,"").replace(/s+/g," ").trim();
+        const text=String(m.text||"").replace(/\[TX:[^\]]+\]/g,"").replace(/\s+/g," ").trim();
 
         return `<button type="button" class="miniChatItem ${unread?"unread":""}" onclick="openChat()">${unread?"🔵 ":""}${escapeHTML(text||"پیام")}</button>`;
 
@@ -6521,11 +8041,73 @@ function renderMiniChat(){
 
 async function loadMessages(){
 
+    if(messageLoading)return allMessages;
+
+    messageLoading=true;
+
     try{
 
-        const data=await getCloudData();
+        let loaded=false;
 
-        allMessages=Array.isArray(data.messages)?data.messages:[];
+        try{
+
+            const response=await fetch(
+
+                API_URL+"?action=getMessages&_="+Date.now(),
+
+                {
+
+                    method:"GET",
+
+                    cache:"no-store"
+
+                }
+
+            );
+
+            if(!response.ok)throw new Error("HTTP "+response.status);
+
+            const data=await response.json();
+
+            if(data.status!=="success" && data.status!=="ok"){
+
+                throw new Error(data.message||"Messages endpoint failed");
+
+            }
+
+            allMessages=Array.isArray(data.messages)?data.messages:[];
+
+            loaded=true;
+
+        }catch(error){
+
+            console.warn("Direct Messages read failed:",error);
+
+        }
+
+        if(!loaded || !allMessages.length){
+
+            try{
+
+                const fallback=await getCloudData();
+
+                if(Array.isArray(fallback.messages)){
+
+                    allMessages=fallback.messages;
+
+                    loaded=true;
+
+                }
+
+            }catch(error){
+
+                console.warn("Messages getData fallback failed:",error);
+
+            }
+
+        }
+
+        if(!loaded)allMessages=[];
 
         renderMiniChat();
 
@@ -6539,13 +8121,17 @@ async function loadMessages(){
 
         return allMessages;
 
-    }catch(e){ console.warn("Messages load failed",e); return []; }
+    }finally{
+
+        messageLoading=false;
+
+    }
 
 }
 
 function updateChatBadge(){
 
-    const unread=allMessages.filter(m=>m.sender!=="خانم دهقان" && !m.read).length;
+    const unread=allMessages.filter(m=>String(m.sender||"").trim()!=="خانم دهقان" && !m.read).length;
 
     const btn=document.getElementById("floatingChat");
 
@@ -6583,7 +8169,7 @@ async function openChat(){
 
     await loadMessages();
 
-    const incoming=allMessages.filter(m=>m.sender!=="خانم دهقان"&&!m.read);
+    const incoming=allMessages.filter(m=>String(m.sender||"").trim()!=="خانم دهقان"&&!m.read);
 
     for(const m of incoming){ try{await cloudPost({action:"markMessageRead",id:m.id,status:"خوانده شد"});m.read=true;}catch(e){} }
 
@@ -6595,7 +8181,17 @@ function closeChat(){document.getElementById("chatOverlay")?.classList.remove("o
 
 function closeChatFromBackdrop(e){if(e.target.id==="chatOverlay")closeChat()}
 
-function chatKeydown(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChatMessage()}}
+function chatKeydown(e){
+
+    if(e.key!=="Enter" || e.shiftKey || e.isComposing)return;
+
+    e.preventDefault();
+
+    if(e.repeat)return;
+
+    sendChatMessage();
+
+}
 
 async function sendChatMessage(){
 
@@ -6611,78 +8207,263 @@ function parsePaymentMessage(m){
 
     const tx=(text.match(/\[TX:([^\]]+)\]/i)||[])[1]||"";
 
-    const customer=(text.match(/مشتری:\s*([^|]+)/)||[])[1]?.trim()||"-";
+    const customer=(text.match(/مشتری\s*:\s*([^|\n]+)/i)||[])[1]?.trim()||"-";
 
-    const service=(text.match(/خدمت:\s*([^|]+)/)||[])[1]?.trim()||"-";
+    const service=(text.match(/خدمت\s*:\s*([^|\n]+)/i)||text.match(/درخواست پرداخت\s*:\s*([^|]+)/i)||[])[1]?.trim()||"-";
 
-    const amount=(text.match(/مبلغ:\s*([^|]+)/)||[])[1]?.trim()||"-";
+    const amount=(text.match(/مبلغ\s*:\s*([^|\n]+)/i)||text.match(/مبلغ\s+([^|\n]+)/i)||[])[1]?.trim()||"-";
 
     return {tx,customer,service,amount};
 
 }
 
-function playPaymentSound(){
+function getPaymentAudioContext(){
+
     try{
+
         const AudioCtx=window.AudioContext||window.webkitAudioContext;
-        if(!AudioCtx)return;
-        const ctx=new AudioCtx();
-        const playTone=(frequency,when,duration)=>{
-            const osc=ctx.createOscillator();
-            const gain=ctx.createGain();
-            osc.type="sine";
-            osc.frequency.setValueAtTime(frequency,when);
-            gain.gain.setValueAtTime(.0001,when);
-            gain.gain.exponentialRampToValueAtTime(.18,when+.015);
-            gain.gain.exponentialRampToValueAtTime(.0001,when+duration);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start(when);
-            osc.stop(when+duration+.02);
-        };
-        if(ctx.state==="suspended") ctx.resume().catch(()=>{});
-        const t=ctx.currentTime;
-        playTone(880,t,.20);
-        playTone(1175,t+.12,.25);
-        playTone(1320,t+.25,.30);
-        setTimeout(()=>ctx.close().catch(()=>{}),900);
+
+        if(!AudioCtx)return null;
+
+        if(!paymentAudioContext){
+
+            paymentAudioContext=new AudioCtx();
+
+        }
+
+        return paymentAudioContext;
+
+    }catch(e){
+
+        return null;
+
+    }
+
+}
+
+function unlockPaymentAudio(){
+
+    try{
+
+        const ctx=getPaymentAudioContext();
+
+        if(!ctx)return;
+
+        if(ctx.state==="suspended"){
+
+            ctx.resume().then(()=>{
+
+                paymentAudioUnlocked=true;
+
+                if(pendingPaymentSound){
+
+                    pendingPaymentSound=false;
+
+                    playPaymentSound(true);
+
+                }
+
+            }).catch(()=>{});
+
+        }else{
+
+            paymentAudioUnlocked=true;
+
+            if(pendingPaymentSound){
+
+                pendingPaymentSound=false;
+
+                playPaymentSound(true);
+
+            }
+
+        }
+
     }catch(e){}
+
+}
+
+function playPaymentSound(force=false){
+
+    try{
+
+        const ctx=getPaymentAudioContext();
+
+        if(!ctx)return;
+
+        if(ctx.state==="suspended"){
+
+            pendingPaymentSound=true;
+
+            if(force){
+
+                ctx.resume().then(()=>{
+
+                    paymentAudioUnlocked=true;
+
+                    pendingPaymentSound=false;
+
+                    playPaymentSound(true);
+
+                }).catch(()=>{});
+
+            }
+
+            return;
+
+        }
+
+        if(!force && !paymentAudioUnlocked){
+
+            pendingPaymentSound=true;
+
+            return;
+
+        }
+
+        paymentAudioUnlocked=true;
+
+        const now=ctx.currentTime;
+
+        const master=ctx.createGain();
+
+        master.gain.setValueAtTime(.0001,now);
+
+        master.gain.exponentialRampToValueAtTime(.20,now+.025);
+
+        master.gain.exponentialRampToValueAtTime(.0001,now+.62);
+
+        master.connect(ctx.destination);
+
+        [
+
+            {frequency:880,start:0,duration:.16},
+
+            {frequency:1175,start:.12,duration:.18},
+
+            {frequency:988,start:.25,duration:.30}
+
+        ].forEach(tone=>{
+
+            const osc=ctx.createOscillator();
+
+            const gain=ctx.createGain();
+
+            osc.type="sine";
+
+            osc.frequency.setValueAtTime(tone.frequency,now+tone.start);
+
+            gain.gain.setValueAtTime(.0001,now+tone.start);
+
+            gain.gain.exponentialRampToValueAtTime(.65,now+tone.start+.015);
+
+            gain.gain.exponentialRampToValueAtTime(.0001,now+tone.start+tone.duration);
+
+            osc.connect(gain);
+
+            gain.connect(master);
+
+            osc.start(now+tone.start);
+
+            osc.stop(now+tone.start+tone.duration+.02);
+
+        });
+
+    }catch(e){
+
+        console.warn("Payment notification sound failed:",e);
+
+    }
+
+}
+
+function showPaymentNotification(message){
+
+    currentPaymentMessage=message;
+
+    const p=parsePaymentMessage(message);
+
+    const info=document.getElementById("paymentInfo");
+
+    if(info){
+
+        info.innerHTML=
+
+            `<div class="paymentInfoRow"><span>مشتری</span><span>${escapeHTML(p.customer)}</span></div>`+
+
+            `<div class="paymentInfoRow"><span>خدمت</span><span>${escapeHTML(p.service)}</span></div>`+
+
+            `<div class="paymentInfoRow"><span>مبلغ</span><span class="paymentAmount">${escapeHTML(p.amount)}</span></div>`+
+
+            `<div class="paymentInfoRow"><span>تاریخ و ساعت</span><span>${escapeHTML((message.date||"")+" • "+(message.time||""))}</span></div>`;
+
+    }
+
+    const overlay=document.getElementById("paymentOverlay");
+
+    if(overlay){
+
+        overlay.classList.remove("open");
+
+        void overlay.offsetWidth;
+
+        overlay.classList.add("open");
+
+    }
+
 }
 
 function checkPaymentRequests(){
 
-    const pending=allMessages
-        .filter(m=>m.sender!=="خانم دهقان" && !isPaymentPaid(m) && String(m.text||"").includes("[TX:"))
-        .sort((a,b)=>{
-            const aa=String(a.date||"")+" "+String(a.time||"");
-            const bb=String(b.date||"")+" "+String(b.time||"");
-            return bb.localeCompare(aa,"fa");
-        })[0];
+    const pending=allMessages.find(m=>{
+
+        const sender=String(m?.sender||"").trim();
+
+        const text=String(m?.text||"");
+
+        const txMarker=/\[TX:[^\]]+\]/i.test(text);
+
+        const paymentRequest=/درخواست\s*پرداخت|درخواست\s*واریز/i.test(text);
+
+        return sender!=="خانم دهقان" &&
+
+               !isPaymentPaid(m) &&
+
+               (txMarker || paymentRequest);
+
+    });
 
     if(!pending)return;
 
-    if(currentPaymentMessage && String(currentPaymentMessage.id)===String(pending.id))return;
+    if(currentPaymentMessage && String(currentPaymentMessage.id)===String(pending.id)){
+
+        const overlay=document.getElementById("paymentOverlay");
+
+        if(overlay && !overlay.classList.contains("open")){
+
+            showPaymentNotification(pending);
+
+        }
+
+        return;
+
+    }
 
     const alertKey=String(pending.id||pending.text||"");
 
-    if(localStorage.getItem("jana_last_payment_alert")!==alertKey){
+    const isNewAlert=localStorage.getItem("jana_last_payment_alert")!==alertKey;
+
+    if(isNewAlert){
 
         localStorage.setItem("jana_last_payment_alert",alertKey);
+
+        pendingPaymentSound=true;
 
         playPaymentSound();
 
     }
 
-    currentPaymentMessage=pending;
-
-    const p=parsePaymentMessage(pending);
-
-    const info=document.getElementById("paymentInfo");
-
-    if(info)info.innerHTML=`<div class="paymentInfoRow"><span>مشتری</span><span>${escapeHTML(p.customer)}</span></div><div class="paymentInfoRow"><span>خدمت</span><span>${escapeHTML(p.service)}</span></div><div class="paymentInfoRow"><span>مبلغ</span><span class="paymentAmount">${escapeHTML(p.amount)}</span></div><div class="paymentInfoRow"><span>تاریخ و ساعت</span><span>${escapeHTML((pending.date||"")+" • "+(pending.time||""))}</span></div>`;
-
-    document.getElementById("paymentOverlay")?.classList.add("open");
-    document.querySelector(".paymentCard")?.classList.remove("paymentAlertPulse");
-    requestAnimationFrame(()=>document.querySelector(".paymentCard")?.classList.add("paymentAlertPulse"));
+    showPaymentNotification(pending);
 
 }
 
@@ -6690,25 +8471,53 @@ async function confirmPayment(){
 
     if(!currentPaymentMessage)return;
 
+    const message=currentPaymentMessage;
+
+    const p=parsePaymentMessage(message);
+
+    /*
+
+       کارت را بلافاصله از صفحه جمع می‌کنیم تا UI منتظر رفت‌وبرگشت
+
+       سه درخواست شبکه و رفرش کامل اطلاعات نماند.
+
+    */
+
+    message.paid=true;
+
+    message.payment="پرداخت شد";
+
+    message.read=true;
+
+    allMessages=allMessages.map(m=>String(m.id)===String(message.id)?message:m);
+
+    dismissPayment();
+
+    renderMiniChat();
+
+    showToast("🟢 پرداخت در حال ثبت است...");
+
     try{
 
-        await cloudPost({action:"setMessagePayment",id:currentPaymentMessage.id,payment:"پرداخت شد"});
+        await cloudPost({action:"setMessagePayment",id:message.id,payment:"پرداخت شد"});
 
-        await cloudPost({action:"markMessageRead",id:currentPaymentMessage.id,status:"خوانده شد"});
-
-        const p=parsePaymentMessage(currentPaymentMessage);
+        await cloudPost({action:"markMessageRead",id:message.id,status:"خوانده شد"});
 
         const confirmation=`🟢 تایید پرداخت | [TX:${p.tx}] | خدمت: ${p.service} | مشتری: ${p.customer} | مبلغ: ${p.amount} | وضعیت: پرداخت شد`;
 
         await cloudPost({action:"addMessage",sender:"خانم دهقان",text:confirmation,message:confirmation,status:"خوانده نشده",payment:"پرداخت شد"});
 
-        currentPaymentMessage.paid=true; currentPaymentMessage.payment="پرداخت شد"; currentPaymentMessage.read=true;
-
         showToast("🟢 پرداخت ثبت شد و تأیید به پنل ثبت ارسال شد.");
 
-        dismissPayment(); await loadMessages(); await loadCloudData(false);
+    }catch(e){
 
-    }catch(e){console.error(e);showToast("⚠️ ثبت پرداخت انجام نشد.")}
+        console.error(e);
+
+        /* وضعیت واقعی از سرور در polling بعدی دوباره خوانده می‌شود. */
+
+        showToast("⚠️ ثبت پرداخت با مشکل مواجه شد؛ دوباره بررسی می‌شود.");
+
+    }
 
 }
 
@@ -6719,6 +8528,34 @@ function closePaymentFromBackdrop(e){if(e.target.id==="paymentOverlay")dismissPa
 function scrollToTop(){window.scrollTo({top:0,behavior:"smooth"})}
 
 window.addEventListener("scroll",()=>{const b=document.getElementById("floatingTop");if(b)b.classList.toggle("show",window.scrollY>350);},{passive:true});
+
+document.addEventListener("pointerdown",unlockPaymentAudio,{passive:true});
+
+document.addEventListener("keydown",unlockPaymentAudio,{passive:true});
+
+document.addEventListener("touchstart",unlockPaymentAudio,{passive:true});
+
+/* =====================================================
+MONTHLY REPORT / THEME CONTROLS
+===================================================== */
+function applyJanaTheme(theme){
+const isLight=theme==="light";
+document.body.classList.toggle("jana-light",isLight);
+const icon=document.getElementById("janaThemeIcon");
+if(icon)icon.textContent=isLight?"🌙":"☀️";
+try{localStorage.setItem("jana_theme",theme);}catch(e){}
+}
+function toggleJanaTheme(){
+const current=document.body.classList.contains("jana-light")?"light":"dark";
+applyJanaTheme(current==="dark"?"light":"dark");
+}
+function initJanaTheme(){
+let saved="dark";
+try{saved=localStorage.getItem("jana_theme")||"dark";}catch(e){}
+applyJanaTheme(saved);
+}
+window.janaSelectedMonthOffset=0;
+initJanaTheme();
 
 /* =====================================================
 
@@ -6746,10 +8583,21 @@ loadCloudData();
 
 loadMessages();
 
-messagePollTimer=setInterval(loadMessages,5000);
+/* بروزرسانی سبک و مداوم اطلاعات؛ بدون رفرش صفحه و بدون پرش UI. */
+
+window.janaDataRefreshTimer=setInterval(()=>{
+
+    loadCloudData(false).catch(error=>console.warn("Background refresh failed:",error));
+
+},5000);
+
+messagePollTimer=setInterval(loadMessages,1000);
 
 </script>
 
+<button type="button" class="janaThemeFloat" id="janaThemeFloat" onclick="toggleJanaTheme()" aria-label="تغییر حالت روشن و تاریک" title="حالت روشن / تاریک">
+<span class="janaThemeIcon" id="janaThemeIcon">☀️</span>
+</button>
 </body>
 
 </html>
