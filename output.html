@@ -5491,9 +5491,12 @@ function updateStats(){
 ===================================================== */
 
 function updateBubble(){
-    /* حباب همیشه «درآمد کل» تمام تراکنش‌ها را نشان می‌دهد و به ماه انتخاب‌شده وابسته نیست. */
-    const total = Array.isArray(allTransactions)
-        ? allTransactions.reduce((sum,item)=>sum + Number(item.amount || 0), 0)
+    /* «درآمد کل» فقط جمع درآمدهای ماه انتخاب‌شده است؛ از روز اول تا آخر همان ماه. */
+    const monthTransactions = typeof getSelectedReportTransactions === "function"
+        ? getSelectedReportTransactions("all")
+        : [];
+    const total = Array.isArray(monthTransactions)
+        ? monthTransactions.reduce((sum,item)=>sum + Number(item.amount || 0), 0)
         : 0;
     const bubble = document.getElementById("bubbleIncome");
     if(bubble) bubble.textContent = secureMoney(total);
