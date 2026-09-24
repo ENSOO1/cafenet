@@ -4307,9 +4307,13 @@ body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,2
 
     <button
 
+        type="button"
+
         class="noteAdd"
 
-        onclick="addNote()">
+        id="noteAddButton"
+
+        onclick="addNote(); return false;">
 
         ＋ ثبت یادداشت
 
@@ -4473,7 +4477,7 @@ href="./index.html">
 
   <textarea id="chatInput" placeholder="پیامتان را بنویسید..." onkeydown="chatKeydown(event)"></textarea>
 
-  <button class="chatSend" onclick="sendChatMessage()">ارسال</button>
+  <button type="button" class="chatSend" id="chatSendButton" onclick="sendChatMessage(); return false;">ارسال</button>
 
 </div>
 
@@ -7369,6 +7373,21 @@ window.openDeleteNoteModal=openDeleteNoteModal;
 
 window.confirmDeleteNote=confirmDeleteNote;
 
+(function setupNoteAddButton(){
+    function bind(){
+        const button=document.getElementById("noteAddButton");
+        if(!button || button.dataset.noteAddWired==="1")return;
+        button.dataset.noteAddWired="1";
+        button.addEventListener("click",function(event){
+            event.preventDefault();
+            event.stopPropagation();
+            addNote();
+        });
+    }
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);
+    else bind();
+})();
+
 window.editNote=editNote;
 
 window.submitNoteEdit=submitNoteEdit;
@@ -7988,34 +8007,43 @@ async function loadMessages(){
     messageLoading=true;
     try{
         let loaded=false;
+        let lastError=null;
         try{
-            const data=await getCloudData();
-            if(Array.isArray(data.messages)){
-                allMessages=data.messages;
+            const response=await fetch(API_URL+"?action=getMessages&_="+Date.now(),{method:"GET",cache:"no-store"});
+            if(!response.ok)throw new Error("HTTP "+response.status);
+            const data=await response.json();
+            if(data.status==="success"||data.status==="ok"){
+                allMessages=Array.isArray(data.messages)?data.messages:[];
                 loaded=true;
+            }else{
+                throw new Error(data.message||"خطا در دریافت پیام‌ها");
             }
         }catch(error){
-            console.warn("Messages getData failed:",error);
+            lastError=error;
+            console.warn("Messages endpoint failed:",error);
         }
         if(!loaded){
             try{
-                const response=await fetch(API_URL+"?action=getMessages&_="+Date.now(),{method:"GET",cache:"no-store"});
-                if(!response.ok)throw new Error("HTTP "+response.status);
-                const data=await response.json();
-                if(data.status==="success"||data.status==="ok"){
-                    allMessages=Array.isArray(data.messages)?data.messages:[];
+                const data=await getCloudData();
+                if(Array.isArray(data.messages)){
+                    allMessages=data.messages;
                     loaded=true;
+                }else{
+                    throw new Error("داده پیام‌ها از سرور دریافت نشد");
                 }
             }catch(error){
-                console.warn("Messages endpoint failed:",error);
+                lastError=error;
+                console.warn("Messages getData failed:",error);
             }
         }
-        if(!loaded)allMessages=[];
-        renderMiniChat();
-        renderChatMessages();
-        renderTransactions();
-        checkPaymentRequests();
-        updateChatBadge();
+        if(!loaded){
+            console.warn("Messages could not be loaded:",lastError);
+            allMessages=[];
+        }
+        try{renderMiniChat();}catch(e){console.warn("renderMiniChat failed:",e);}
+        try{renderChatMessages();}catch(e){console.warn("renderChatMessages failed:",e);}
+        try{checkPaymentRequests();}catch(e){console.warn("checkPaymentRequests failed:",e);}
+        try{updateChatBadge();}catch(e){console.warn("updateChatBadge failed:",e);}
         return allMessages;
     }finally{
         messageLoading=false;
@@ -8057,17 +8085,27 @@ function renderChatMessages(){
 }
 
 async function openChat(){
-
-    document.getElementById("chatOverlay")?.classList.add("open");
-
-    await loadMessages();
-
-    const incoming=allMessages.filter(m=>String(m.sender||"").trim()!=="خانم دهقان"&&!m.read);
-
-    for(const m of incoming){ try{await cloudPost({action:"markMessageRead",id:m.id,status:"خوانده شد"});m.read=true;}catch(e){} }
-
-    updateChatBadge();
-
+    const overlay=document.getElementById("chatOverlay");
+    if(!overlay)return;
+    overlay.classList.add("open");
+    const status=document.getElementById("chatStatus");
+    if(status)status.textContent="در حال دریافت پیام‌ها…";
+    try{
+        await loadMessages();
+        const incoming=allMessages.filter(m=>String(m.sender||"").trim()!=="خانم دهقان"&&!m.read);
+        for(const m of incoming){
+            try{
+                await cloudPost({action:"markMessageRead",id:m.id,status:"خوانده شد"});
+                m.read=true;
+            }catch(e){console.warn("markMessageRead failed:",e);}
+        }
+        if(status)status.textContent=allMessages.length?"پیام‌ها آماده است":"هنوز پیامی ثبت نشده است";
+        updateChatBadge();
+    }catch(error){
+        console.error("openChat failed:",error);
+        if(status)status.textContent="خطا در دریافت پیام‌ها";
+        renderChatMessages();
+    }
 }
 
 function closeChat(){document.getElementById("chatOverlay")?.classList.remove("open")}
@@ -8087,11 +8125,24 @@ function chatKeydown(e){
 }
 
 async function sendChatMessage(){
-
-    const input=document.getElementById("chatInput"); const text=input?.value.trim(); if(!text)return;
-
-    try{await cloudPost({action:"addMessage",sender:"خانم دهقان",text:text,message:text,status:"خوانده نشده",payment:"پرداخت نشده"});input.value="";await loadMessages();showToast("✉️ پیام ارسال شد.");}catch(e){console.error(e);showToast("⚠️ ارسال پیام انجام نشد.")}
-
+    const input=document.getElementById("chatInput");
+    const button=document.getElementById("chatSendButton");
+    const text=input?.value.trim();
+    if(!text)return false;
+    if(button)button.disabled=true;
+    try{
+        await cloudPost({action:"addMessage",sender:"خانم دهقان",text:text,message:text,status:"خوانده نشده",payment:"پرداخت نشده"});
+        if(input)input.value="";
+        await loadMessages();
+        showToast("✉️ پیام ارسال شد.");
+        return true;
+    }catch(e){
+        console.error("sendChatMessage failed:",e);
+        showToast("⚠️ ارسال پیام انجام نشد.");
+        return false;
+    }finally{
+        if(button)button.disabled=false;
+    }
 }
 
 function parsePaymentMessage(m){
