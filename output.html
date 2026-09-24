@@ -3732,11 +3732,176 @@ tbody tr:hover{
 
 }
 
+
+/* ===== Monthly report controls ===== */
+.monthlyReportNavigator{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    margin:0 0 18px;
+    min-height:62px;
+    z-index:20;
+}
+.monthNavButton{
+    position:fixed;
+    top:50%;
+    transform:translateY(-50%);
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    border:1px solid rgba(0,140,255,.28);
+    background:rgba(5,18,30,.78);
+    color:#83caff;
+    font:700 22px Tahoma,Arial,sans-serif;
+    cursor:pointer;
+    z-index:10000;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 10px 35px rgba(0,0,0,.35),0 0 24px rgba(0,140,255,.08);
+    transition:.25s ease;
+}
+.monthNavButton:hover:not(:disabled){
+    transform:translateY(-50%) scale(1.08);
+    border-color:#168cff;
+    background:rgba(0,140,255,.14);
+    box-shadow:0 0 30px rgba(0,140,255,.22),0 12px 38px rgba(0,0,0,.4);
+}
+.monthNavButton:disabled{opacity:.25;cursor:not-allowed}
+.monthNavPrev{right:18px}
+.monthNavNext{left:18px}
+.monthNavCenter{
+    min-width:min(330px,80vw);
+    padding:11px 22px 12px;
+    border-radius:18px;
+    border:1px solid rgba(110,200,255,.18);
+    background:rgba(255,255,255,.045);
+    text-align:center;
+    box-shadow:inset 0 1px rgba(255,255,255,.06),0 12px 35px rgba(0,0,0,.18);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:0;
+}
+.monthNavTitle{display:block;color:#eaf6ff;font-size:15px;font-weight:700}
+.monthNavSub{display:block;color:#6f91aa;font-size:10px;margin-top:5px}
+.monthResetButton{
+    position:static;
+    z-index:10001;
+    margin-top:9px;
+    border:1px solid rgba(255,180,70,.25);
+    background:rgba(20,18,12,.82);
+    color:#ffd27a;
+    border-radius:12px;
+    padding:8px 13px;
+    font:700 10px Tahoma,Arial,sans-serif;
+    cursor:pointer;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 8px 22px rgba(0,0,0,.24),0 0 16px rgba(255,180,70,.06);
+    transition:.25s ease;
+}
+.monthResetButton:hover{transform:translateY(-3px);border-color:rgba(255,190,70,.55);box-shadow:0 0 25px rgba(255,180,70,.12),0 15px 40px rgba(0,0,0,.4)}
+.themeToggleButton{
+    position:fixed;
+    left:24px;
+    bottom:24px;
+    z-index:10001;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    border:1px solid rgba(110,200,255,.28);
+    background:rgba(5,18,30,.82);
+    color:#8edcff;
+    font-size:20px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 12px 35px rgba(0,0,0,.32),0 0 22px rgba(0,140,255,.08);
+    transition:.28s ease;
+}
+.themeToggleButton:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 0 28px rgba(0,140,255,.18),0 15px 40px rgba(0,0,0,.4)}
+.themeToggleButton.rotating{animation:themeRotate .55s cubic-bezier(.2,.8,.2,1)}
+@keyframes themeRotate{0%{transform:rotate(0) scale(1)}50%{transform:rotate(180deg) scale(1.12)}100%{transform:rotate(360deg) scale(1)}}
+
+.stats .stat::before{
+    content:"";
+    position:absolute;
+    left:12%;
+    right:12%;
+    bottom:0;
+    height:3px;
+    border-radius:999px;
+    background:linear-gradient(90deg,transparent,#00c8ff,#7c5cff,#00c8ff,transparent);
+    transform:scaleX(0);
+    transform-origin:center;
+    opacity:0;
+    transition:transform .4s ease,opacity .3s ease,filter .3s ease;
+    box-shadow:0 0 10px rgba(0,200,255,.65),0 0 24px rgba(124,92,255,.35);
+    z-index:4;
+}
+.stats .stat:hover::before{transform:scaleX(1);opacity:1;filter:brightness(1.35)}
+
+/* Light theme: intentionally additive so the original dark design remains the default. */
+body.janaLightTheme{
+    background:radial-gradient(circle at 85% 5%,rgba(0,140,255,.10),transparent 30%),radial-gradient(circle at 10% 90%,rgba(0,80,255,.08),transparent 30%),#eef5fb;
+    color:#132638;
+}
+body.janaLightTheme .stat,
+body.janaLightTheme .panel,
+body.janaLightTheme .monthNavCenter,
+body.janaLightTheme .incomeHubOption,
+body.janaLightTheme .chartSummaryItem,
+body.janaLightTheme .note,
+body.janaLightTheme .searchBox input,
+body.janaLightTheme .noteForm textarea,
+body.janaLightTheme .themeToggleButton,
+body.janaLightTheme .monthResetButton,
+body.janaLightTheme .monthNavButton{
+    background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(240,247,253,.78));
+    border-color:rgba(25,100,160,.16);
+    color:#17324a;
+    box-shadow:0 18px 45px rgba(25,70,110,.10),inset 0 1px rgba(255,255,255,.9);
+}
+body.janaLightTheme .stat small,
+body.janaLightTheme .panelTitle span,
+body.janaLightTheme .monthNavSub,
+body.janaLightTheme .incomeHubOptionText small,
+body.janaLightTheme .noteDate,
+body.janaLightTheme td,
+body.janaLightTheme th{color:#5b7285}
+body.janaLightTheme .panelTitle h2,
+body.janaLightTheme .incomeHubOptionText strong,
+body.janaLightTheme .monthNavTitle{color:#16364f}
+body.janaLightTheme .searchBox input,
+body.janaLightTheme .noteForm textarea{color:#183247;background:rgba(255,255,255,.8)}
+body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,255,.10)}
+
+@media(max-width:700px){
+    .monthNavButton{width:42px;height:42px;font-size:19px}
+    .monthNavPrev{right:8px}.monthNavNext{left:8px}
+    .monthNavCenter{min-width:210px;padding:9px 12px}
+    .monthNavTitle{font-size:12px}.monthNavSub{font-size:8px}
+    .monthResetButton{margin-top:7px;font-size:9px;padding:7px 10px}
+    .themeToggleButton{left:12px;bottom:12px;width:43px;height:43px}
+}
+
+
+/* Premium fixed light/dark toggle */
+#themeToggleButton{position:fixed!important;top:18px!important;right:22px!important;left:auto!important;bottom:auto!important;z-index:10050!important;width:52px!important;height:52px!important;border-radius:16px!important;border:1px solid rgba(255,255,255,.18)!important;background:rgba(20,24,32,.78)!important;color:#fff!important;display:flex!important;align-items:center!important;justify-content:center!important;cursor:pointer!important;backdrop-filter:blur(16px) saturate(150%)!important;-webkit-backdrop-filter:blur(16px) saturate(150%)!important;box-shadow:0 10px 30px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.12)!important;font-size:22px!important;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s ease,background .28s ease!important;}
+#themeToggleButton:hover{transform:translateY(-2px) rotate(12deg)!important;box-shadow:0 14px 38px rgba(0,0,0,.28),0 0 25px rgba(90,190,255,.2)!important}
+#themeToggleButton:active{transform:scale(.93) rotate(0)!important}
+@media(max-width:700px){#themeToggleButton{top:12px!important;right:12px!important;width:46px!important;height:46px!important;border-radius:14px!important;font-size:20px!important}}
 </style>
 
 </head>
 
 <body>
+<button type="button" class="themeToggleButton" id="themeToggleButton" onclick="toggleJanaTheme()" aria-label="تغییر حالت روشن و تاریک" title="تغییر حالت روشن و تاریک">☀️</button>
 
 <div class="mouseGlow" id="mouseGlow"></div>
 
@@ -3776,13 +3941,23 @@ tbody tr:hover{
 
 </header>
 
+<div class="monthlyReportNavigator" id="monthlyReportNavigator">
+    <button type="button" class="monthNavButton monthNavPrev" id="monthPrevButton" onclick="changeReportMonth(-1)" aria-label="ماه قبل">◀</button>
+    <div class="monthNavCenter">
+        <span class="monthNavTitle" id="selectedReportMonth">ماه جاری</span>
+        <span class="monthNavSub" id="selectedReportMonthSub">گزارش بر اساس ماه شمسی</span>
+        <button type="button" class="monthResetButton" id="monthResetButton" onclick="resetCurrentReportMonth()">↻ صفر کردن گزارش ماه</button>
+    </div>
+    <button type="button" class="monthNavButton monthNavNext" id="monthNextButton" onclick="changeReportMonth(1)" aria-label="ماه بعد">▶</button>
+</div>
+
 <section class="stats" id="income">
 
 <div class="stat">
 
     <span class="statIcon">💰</span>
 
-    <small>جمع کل درآمد امروز</small>
+    <small>جمع کل درآمد ماه</small>
 
     <div class="moneyRow"><strong id="totalIncome">۰ تومان</strong></div>
 
@@ -3856,7 +4031,7 @@ tbody tr:hover{
 
             <div class="bubbleIcon">💰</div>
 
-            <div class="bubbleLabel">درآمد امروز</div>
+            <div class="bubbleLabel">درآمد ماه جاری</div>
 
             <div class="moneyRow"><div class="bubbleAmount" id="bubbleIncome">۰ تومان</div></div>
 
@@ -4392,7 +4567,7 @@ id="toast">
 
 const API_URL =
 
-"https://script.google.com/macros/s/AKfycby4CtQL9ZEHkcjJFqVos0hQ1Z1C2xpI6ZO_dLGxiucGTCgLGzSoM3VgEuoRsOTXviQ4XA/exec";
+"[https://script.google.com/macros/s/AKfycby4CtQL9ZEHkcjJFqVos0hQ1Z1C2xpI6ZO_dLGxiucGTCgLGzSoM3VgEuoRsOTXviQ4XA/exec](https://script.google.com/macros/s/AKfycby4CtQL9ZEHkcjJFqVos0hQ1Z1C2xpI6ZO_dLGxiucGTCgLGzSoM3VgEuoRsOTXviQ4XA/exec)";
 
 /* =====================================================
 
@@ -4586,15 +4761,15 @@ function escapeHTML(value){
 
     return String(value ?? "")
 
-        .replace(/&/g,"&")
+        .replace(/&/g,"&amp;")
 
-        .replace(/</g,"<")
+        .replace(/</g,"&lt;")
 
-        .replace(/>/g,">")
+        .replace(/>/g,"&gt;")
 
-        .replace(/"/g,""")
+        .replace(/"/g,"&quot;")
 
-        .replace(/'/g,"'");
+        .replace(/'/g,"&#039;");
 
 }
 
@@ -4734,7 +4909,7 @@ async function getCloudData(){
 
             API_URL +
 
-            "?action=getData&_=" +
+            "?action=getData&\_=" +
 
             Date.now(),
 
@@ -5078,158 +5253,224 @@ function methodMatchesFilter(method,filter){
 
 }
 
+
+/* =====================================================
+   MONTHLY REPORT ENGINE — Jalali/Persian calendar
+   Transactions are never deleted. The selected month only changes
+   the report calculations shown in the cards and income bubbles.
+===================================================== */
+const JANA_MONTH_KEY = "jana_selected_report_month_v2";
+const JANA_RESET_KEY = "jana_report_month_resets_v2";
+const JANA_THEME_KEY = "jana_report_theme_v2";
+
+function normalizeDigitsForMonth(value){
+    return String(value ?? "")
+        .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+        .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+}
+
+function getCurrentJalaliMonth(){
+    const parts = new Intl.DateTimeFormat("en-US-u-ca-persian",{
+        year:"numeric",month:"2-digit",day:"2-digit"
+    }).formatToParts(new Date());
+    const y=Number(parts.find(p=>p.type==="year")?.value||0);
+    const m=Number(parts.find(p=>p.type==="month")?.value||0);
+    return {year:y,month:m,key:`${y}-${String(m).padStart(2,"0")}`};
+}
+
+function parseJalaliMonthFromDate(value){
+    const raw=normalizeDigitsForMonth(value).trim();
+    if(!raw)return null;
+
+    // Direct Persian/Jalali date such as 1405/01/03 or 1405-01-03.
+    const jalali=raw.match(/^(13|14)\d{2}[\/\-.](\d{1,2})[\/\-.](\d{1,2})/);
+    if(jalali){
+        const y=Number(raw.slice(0,4));
+        const m=Number(jalali[2]);
+        if(m>=1&&m<=12)return {year:y,month:m,key:`${y}-${String(m).padStart(2,"0")}`};
+    }
+
+    // Gregorian/ISO date or JS-readable timestamp -> Persian calendar.
+    const iso=raw.match(/^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})/);
+    let date=null;
+    if(iso){
+        date=new Date(Number(iso[1]),Number(iso[2])-1,Number(iso[3]));
+    }else{
+        const parsed=new Date(value);
+        if(!Number.isNaN(parsed.getTime())) date=parsed;
+    }
+    if(!date)return null;
+
+    const parts=new Intl.DateTimeFormat("en-US-u-ca-persian",{
+        year:"numeric",month:"2-digit",day:"2-digit"
+    }).formatToParts(date);
+    const y=Number(parts.find(p=>p.type==="year")?.value||0);
+    const m=Number(parts.find(p=>p.type==="month")?.value||0);
+    if(!y||!m)return null;
+    return {year:y,month:m,key:`${y}-${String(m).padStart(2,"0")}`};
+}
+
+function getTransactionReportMonth(item){
+    return parseJalaliMonthFromDate(item?.date) || parseJalaliMonthFromDate(item?.time);
+}
+
+function getTransactionStableKey(item){
+    const id=String(item?.id ?? item?.cloudId ?? "").trim();
+    if(id)return "id:"+id;
+    return [item?.date,item?.time,item?.customer,item?.service,item?.amount,item?.method,item?.description]
+        .map(v=>String(v??"").trim()).join("|");
+}
+
+function getMonthResetMap(){
+    try{
+        const raw=localStorage.getItem(JANA_RESET_KEY);
+        const parsed=raw?JSON.parse(raw):{};
+        return parsed && typeof parsed==="object" ? parsed : {};
+    }catch(e){return {};}
+}
+
+function saveMonthResetMap(map){
+    try{localStorage.setItem(JANA_RESET_KEY,JSON.stringify(map));}catch(e){console.warn("Month reset save failed",e);}
+}
+
+function getSelectedReportMonth(){
+    const current=getCurrentJalaliMonth();
+    const saved=String(localStorage.getItem(JANA_MONTH_KEY)||"");
+    if(!/^\d{4}-\d{2}$/.test(saved))return current;
+    const [year,month]=saved.split("-").map(Number);
+    if(year>current.year || (year===current.year && month>current.month))return current;
+    if(month<1||month>12)return current;
+    return {year,month,key:`${year}-${String(month).padStart(2,"0")}`};
+}
+
+function setSelectedReportMonth(monthObj){
+    const current=getCurrentJalaliMonth();
+    let y=Number(monthObj?.year),m=Number(monthObj?.month);
+    if(!y||!m)return;
+    if(y>current.year || (y===current.year && m>current.month)){y=current.year;m=current.month;}
+    while(m<1){y--;m+=12;} while(m>12){y++;m-=12;}
+    if(y>current.year || (y===current.year && m>current.month)){y=current.year;m=current.month;}
+    localStorage.setItem(JANA_MONTH_KEY,`${y}-${String(m).padStart(2,"0")}`);
+    refreshSelectedReportMonth();
+}
+
+function changeReportMonth(delta){
+    const selected=getSelectedReportMonth();
+    let y=selected.year,m=selected.month+Number(delta||0);
+    while(m<1){y--;m+=12;} while(m>12){y++;m-=12;}
+    const current=getCurrentJalaliMonth();
+    if(y>current.year || (y===current.year && m>current.month))return;
+    setSelectedReportMonth({year:y,month:m});
+}
+
+function getSelectedReportTransactions(filter){
+    const selected=getSelectedReportMonth();
+    const resetMap=getMonthResetMap();
+    const excluded=new Set(Array.isArray(resetMap[selected.key])?resetMap[selected.key]:[]);
+    let list=(Array.isArray(allTransactions)?allTransactions:[]).filter(item=>{
+        const month=getTransactionReportMonth(item);
+        return month && month.key===selected.key && !excluded.has(getTransactionStableKey(item));
+    });
+    if(filter && filter!=="all")list=list.filter(item=>methodMatchesFilter(item.method,filter));
+    return list;
+}
+
+function getReportMonthLabel(monthObj=getSelectedReportMonth()){
+    try{
+        const sample=new Date(2020,0,1);
+        // Use the Persian locale to obtain the localized month name.
+        const formatter=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{month:"long"});
+        const name=formatter.format(sample);
+        const names=["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+        return `${names[monthObj.month-1]||name} ${faNumber(monthObj.year)}`;
+    }catch(e){return `${monthObj.year}/${String(monthObj.month).padStart(2,"0")}`;}
+}
+function getReportMonthLabelShort(){return getReportMonthLabel();}
+
+function updateReportMonthUI(){
+    const selected=getSelectedReportMonth(), current=getCurrentJalaliMonth();
+    const title=document.getElementById("selectedReportMonth");
+    const sub=document.getElementById("selectedReportMonthSub");
+    const prev=document.getElementById("monthPrevButton");
+    const next=document.getElementById("monthNextButton");
+    if(title)title.textContent=getReportMonthLabel(selected);
+    if(sub)sub.textContent=selected.key===current.key?"ماه جاری • گزارش ماه شمسی":"گزارش ماه شمسی • اطلاعات قبلی حفظ شده است";
+    if(next)next.disabled=selected.key===current.key;
+    if(prev)prev.disabled=false;
+    const bubbleLabels=document.querySelectorAll(".bubbleLabel");
+    bubbleLabels.forEach(label=>{label.textContent=selected.key===current.key?"درآمد ماه جاری":`درآمد ${getReportMonthLabel(selected)}`;});
+}
+
+function refreshSelectedReportMonth(){
+    updateReportMonthUI();
+    updateStats();
+    updateBubble();
+    if(typeof drawIncomeChart==="function")drawIncomeChart();
+}
+
+function resetCurrentReportMonth(){
+    const selected=getSelectedReportMonth();
+    const monthTransactions=(Array.isArray(allTransactions)?allTransactions:[]).filter(item=>getTransactionReportMonth(item)?.key===selected.key);
+    if(!monthTransactions.length){
+        showToast("ℹ️ برای این ماه تراکنشی وجود ندارد.");
+        return;
+    }
+    const map=getMonthResetMap();
+    const existing=new Set(Array.isArray(map[selected.key])?map[selected.key]:[]);
+    monthTransactions.forEach(item=>existing.add(getTransactionStableKey(item)));
+    map[selected.key]=Array.from(existing);
+    saveMonthResetMap(map);
+    refreshSelectedReportMonth();
+    showToast(`✅ گزارش ${getReportMonthLabel(selected)} صفر شد؛ تراکنش‌ها حذف نشدند.`);
+}
+
+function applySavedJanaTheme(){
+    const light=localStorage.getItem(JANA_THEME_KEY)==="light";
+    document.body.classList.toggle("janaLightTheme",light);
+    const btn=document.getElementById("themeToggleButton");
+    if(btn){btn.textContent=light?"🌙":"☀️";btn.title=light?"فعال کردن حالت تاریک":"فعال کردن حالت روشن";}
+}
+function toggleJanaTheme(){
+    const light=!document.body.classList.contains("janaLightTheme");
+    localStorage.setItem(JANA_THEME_KEY,light?"light":"dark");
+    const btn=document.getElementById("themeToggleButton");
+    if(btn){btn.classList.remove("rotating");void btn.offsetWidth;btn.classList.add("rotating");}
+    applySavedJanaTheme();
+}
+
 function updateStats(){
-
-    const transactions =
-
-        currentFilter === "all"
-
-        ? allTransactions
-
-        : allTransactions.filter(
-
-            item =>
-
-                methodMatchesFilter(item.method,currentFilter)
-
-        );
-
-    let todayTotal = 0;
-
+    const transactions = getSelectedReportTransactions(currentFilter);
+    let totalIncome = 0;
     let pos = 0;
-
     let cash = 0;
-
     let transfer = 0;
 
-    /* جمع کل درآمد امروز همیشه از کل تراکنش‌های امروز محاسبه می‌شود؛
-
-       فیلتر جدول نباید عدد اصلی درآمد امروز را تغییر دهد. */
-
-    allTransactions.forEach(item => {
-
-        if(isSameDateAsToday(item.date)){
-
-            todayTotal += Number(item.amount || 0);
-
-        }
-
-    });
-
-    const today =
-
-        new Date().toLocaleDateString("fa-IR");
-
-    const normalizeDateForCompare = value =>
-
-        String(value ?? "")
-
-            .trim()
-
-            .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
-
-            .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
-
-    const todayKey = normalizeDateForCompare(today);
-
     transactions.forEach(item => {
-
-        const amount =
-
-            Number(item.amount || 0);
-
-        const itemDate =
-
-            normalizeDateForCompare(item.date);
-
-        if(isPosMethod(item.method)){
-
-            pos += amount;
-
-        }
-
-        if(isCashMethod(item.method) || isWithdrawalMethod(item.method)){
-
-            cash += amount;
-
-        }
-
-        if(isTransferMethod(item.method)){
-
-            transfer += amount;
-
-        }
-
+        const amount = Number(item.amount || 0);
+        totalIncome += amount;
+        if(isPosMethod(item.method)) pos += amount;
+        if(isCashMethod(item.method) || isWithdrawalMethod(item.method)) cash += amount;
+        if(isTransferMethod(item.method)) transfer += amount;
     });
 
-    const totalIncome =
+    const totalIncomeEl = document.getElementById("totalIncome");
+    if(totalIncomeEl) totalIncomeEl.textContent = secureMoney(totalIncome);
 
-        document.getElementById("totalIncome");
+    const transactionCount = document.getElementById("transactionCount");
+    if(transactionCount) transactionCount.textContent = moneyHidden ? "••••••" : faNumber(transactions.length);
 
-    if(totalIncome){
+    const posTotal = document.getElementById("posTotal");
+    if(posTotal) posTotal.textContent = secureMoney(pos);
 
-        totalIncome.textContent =
+    const cashTotal = document.getElementById("cashTotal");
+    if(cashTotal) cashTotal.textContent = secureMoney(cash);
 
-            secureMoney(todayTotal);
+    const transferTotal = document.getElementById("transferTotal");
+    if(transferTotal) transferTotal.textContent = secureMoney(transfer);
 
-    }
-
-    const transactionCount =
-
-        document.getElementById("transactionCount");
-
-    if(transactionCount){
-
-        transactionCount.textContent =
-
-            moneyHidden
-
-            ? "••••••"
-
-            : faNumber(transactions.length);
-
-    }
-
-    const posTotal =
-
-        document.getElementById("posTotal");
-
-    if(posTotal){
-
-        posTotal.textContent =
-
-            secureMoney(pos);
-
-    }
-
-    const cashTotal =
-
-        document.getElementById("cashTotal");
-
-    if(cashTotal){
-
-        cashTotal.textContent =
-
-            secureMoney(cash);
-
-    }
-
-    const transferTotal =
-
-        document.getElementById("transferTotal");
-
-    if(transferTotal){
-
-        transferTotal.textContent =
-
-            secureMoney(transfer);
-
-    }
-
+    updateReportMonthUI();
     updateBubble();
-
     drawIncomeChart();
-
 }
 
 /* =====================================================
@@ -5239,49 +5480,18 @@ function updateStats(){
 ===================================================== */
 
 function updateBubble(){
-
-    const total =
-
-        allTransactions.reduce(
-
-            (sum,item) =>
-
-                sum +
-
-                Number(
-
-                    item.amount || 0
-
-                ),
-
-            0
-
-        );
-
-    const bubble =
-
-        document.getElementById(
-
-            "bubbleIncome"
-
-        );
-
-    if(bubble){
-
-        bubble.textContent =
-
-            secureMoney(total);
-
-    }
-
+    const total = getSelectedReportTransactions("all").reduce(
+        (sum,item) => sum + Number(item.amount || 0), 0
+    );
+    const bubble = document.getElementById("bubbleIncome");
+    if(bubble) bubble.textContent = secureMoney(total);
     const totalBubble = document.getElementById("totalBubbleIncome");
+    if(totalBubble) totalBubble.textContent = secureMoney(total);
 
-    if(totalBubble){
-
-        totalBubble.textContent = secureMoney(total);
-
-    }
-
+    const labels = document.querySelectorAll(".bubbleLabel");
+    labels.forEach(label => {
+        if(label.id === "") label.textContent = getReportMonthLabelShort();
+    });
 }
 
 /* =====================================================
@@ -6446,9 +6656,9 @@ function safeCssEscape(value){
 
     if(window.CSS && typeof window.CSS.escape==="function") return window.CSS.escape(String(value));
 
-    return String(value).replace(/[^a-zA-Z0-9_-]/g,function(ch){
+    return String(value).replace(/[^a-zA-Z0-9\_-]/g,function(ch){
 
-        return "\\" + ch;
+        return "\\\\" + ch;
 
     });
 
@@ -7920,7 +8130,7 @@ async function loadMessages(){
 
             const response=await fetch(
 
-                API_URL+"?action=getMessages&_="+Date.now(),
+                API_URL+"?action=getMessages&\_="+Date.now(),
 
                 {
 
@@ -8074,11 +8284,11 @@ function parsePaymentMessage(m){
 
     const tx=(text.match(/\[TX:([^\]]+)\]/i)||[])[1]||"";
 
-    const customer=(text.match(/مشتری\s*:\s*([^|\n]+)/i)||[])[1]?.trim()||"-";
+    const customer=(text.match(/مشتری\s\*:\s\*([^|\n]+)/i)||[])[1]?.trim()||"-";
 
-    const service=(text.match(/خدمت\s*:\s*([^|\n]+)/i)||text.match(/درخواست پرداخت\s*:\s*([^|]+)/i)||[])[1]?.trim()||"-";
+    const service=(text.match(/خدمت\s\*:\s\*([^|\n]+)/i)||text.match(/درخواست پرداخت\s\*:\s\*([^|]+)/i)||[])[1]?.trim()||"-";
 
-    const amount=(text.match(/مبلغ\s*:\s*([^|\n]+)/i)||text.match(/مبلغ\s+([^|\n]+)/i)||[])[1]?.trim()||"-";
+    const amount=(text.match(/مبلغ\s\*:\s\*([^|\n]+)/i)||text.match(/مبلغ\s+([^|\n]+)/i)||[])[1]?.trim()||"-";
 
     return {tx,customer,service,amount};
 
@@ -8290,7 +8500,7 @@ function checkPaymentRequests(){
 
         const txMarker=/\[TX:[^\]]+\]/i.test(text);
 
-        const paymentRequest=/درخواست\s*پرداخت|درخواست\s*واریز/i.test(text);
+        const paymentRequest=/درخواست\s\*پرداخت|درخواست\s\*واریز/i.test(text);
 
         return sender!=="خانم دهقان" &&
 
@@ -8408,6 +8618,9 @@ document.addEventListener("touchstart",unlockPaymentAudio,{passive:true});
 
 ===================================================== */
 
+applySavedJanaTheme();
+updateReportMonthUI();
+
 loadNotes();
 
 showDate();
@@ -8442,157 +8655,7 @@ messagePollTimer=setInterval(loadMessages,1000);
 
 
 
-<style>
-/* Monthly report controls — additive only; existing project styles remain untouched. */
-.month-report-controls{display;align-items;justify-content;gap:10px;margin:10px auto 0;flex-wrap;direction}
-.month-report-arrow{width:44px;height:44px;border:1px solid rgba(0,220,255,.35);border-radius:50%;background(12,28,42,.72);color:#fff;display;place-items;font-size:22px;cursor;box-shadow:0 0 18px rgba(0,210,255,.13);backdrop-filter(14px);transition:.25s ease}
-.month-report-arrow{transform(-2px) scale(1.05);box-shadow:0 0 26px rgba(0,220,255,.35);border-color(0,220,255,.75)}
-.month-report-label{min-width:150px;text-align;padding:10px 18px;border-radius:18px;background(255,255,255,.055);border:1px solid rgba(255,255,255,.11);color;backdrop-filter(14px);font-weight:800}
-.month-report-hint{width:100%;text-align;font-size:11px;opacity:.62;margin-top:2px}
-body.light-mode .month-report-arrow{background(255,255,255,.82);color:#10202d;border-color(0,100,160,.18)}
-body.light-mode .month-report-label{background(255,255,255,.7);border-color(0,70,120,.12);color:#10202d}
-</style>
 
-<script>
-/* =====================================================
-MONTHLY REPORT LAYER — DOES NOT DELETE OR MODIFY TRANSACTIONS
-Existing transaction storage and features stay intact.
-===================================================== */
-(function(){
-let monthlyReportOffset=0;
-let monthlyReportActive=false;
-
-function normalizeDigits(v){
-return String(v??'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d));
-}
-
-function jalaliPartsFromValue(value){
-const raw=String(value??'').trim();
-if(!raw)return null;
-const n=normalizeDigits(raw);
-const m=n.match(/(14\d{2})\/\-\/\-/);
-if(m)return {y:+m[1],m:+m[2],d:+m[3]};
-const parsed=new Date(raw);
-if(Number.isNaN(parsed.getTime()))return null;
-const parts=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(parsed);
-const out={};
-parts.forEach(x=>{if(x.type==='year')out.y=+normalizeDigits(x.value);if(x.type==='month')out.m=+normalizeDigits(x.value);if(x.type==='day')out.d=+normalizeDigits(x.value)});
-return out.y&&out.m?out;
-}
-
-function currentJalaliMonth(){
-const parts=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
-const o={}; parts.forEach(x=>{if(x.type==='year')o.y=+normalizeDigits(x.value);if(x.type==='month')o.m=+normalizeDigits(x.value);});
-return o;
-}
-
-function shiftJalaliMonth(base,offset){
-let y=base.y, m=base.m+offset;
-while(m>12){m-=12;y++;} while(m<1){m+=12;y--;}
-return {y,m};
-}
-
-function monthKey(x){return String(x.y).padStart(4,'0')+'-'+String(x.m).padStart(2,'0');}
-function selectedMonth(){return shiftJalaliMonth(currentJalaliMonth(),monthlyReportOffset);}
-function txMonth(item){return jalaliPartsFromValue(item?.date);}
-function selectedTransactions(){
-const target=monthKey(selectedMonth());
-return (Array.isArray(window.allTransactions)?window.allTransactions:[]).filter(item=>{const p=txMonth(item);return p&&monthKey(p)===target;});
-}
-
-function formatMonthLabel(x){
-const names=['','فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
-return names[x.m]+' '+faNumberLocal(x.y);
-}
-function faNumberLocal(v){return String(v).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);}
-
-function ensureControls(){
-const host=document.querySelector('#incomeHub .chartOption');
-if(!host || document.getElementById('monthlyReportControls'))return;
-const wrap=document.createElement('div');
-wrap.id='monthlyReportControls'; wrap.className='month-report-controls';
-wrap.innerHTML='<button type="button" class="month-report-arrow" id="monthPrev" aria-label="ماه قبل" title="ماه قبل">‹</button><div class="month-report-label" id="monthReportLabel">ماه جاری</div><button type="button" class="month-report-arrow" id="monthNext" aria-label="ماه بعد" title="ماه بعد">›</button><div class="month-report-hint">برای دیدن جمع همان ماه، ماه را انتخاب کنید</div>';
-host.parentElement.appendChild(wrap);
-document.getElementById('monthPrev').addEventListener('click',()=>changeMonth(-1));
-document.getElementById('monthNext').addEventListener('click',()=>changeMonth(1));
-refreshMonthControls();
-}
-
-function refreshMonthControls(){
-const label=document.getElementById('monthReportLabel');
-const next=document.getElementById('monthNext');
-if(!label)return;
-label.textContent=monthlyReportActive?formatMonthLabel(selectedMonth()):'ماه جاری';
-const now=currentJalaliMonth();
-next.disabled=monthlyReportActive&&monthKey(selectedMonth())===monthKey(now);
-next.style.opacity=next.disabled?'.35':'1';
-}
-
-function changeMonth(step){
-if(step>0 && monthlyReportActive && monthKey(selectedMonth())===monthKey(currentJalaliMonth()))return;
-monthlyReportActive=true;
-monthlyReportOffset+=step;
-const now=currentJalaliMonth();
-if(monthlyReportOffset>0)monthlyReportOffset=0;
-refreshMonthControls();
-renderSelectedMonthReport();
-}
-
-function amount(item){return Number(String(item?.amount??0).replace(/[,٬،]/g,'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)))||0;}
-
-function monthlyStats(list){
-let total=0,pos=0,cash=0,transfer=0;
-list.forEach(item=>{const a=amount(item);if(typeof isPosMethod==='function'&&isPosMethod(item.method))pos+=a;else if(typeof isWithdrawalMethod==='function'&&isWithdrawalMethod(item.method))cash-=a;else if(typeof isCashMethod==='function'&&isCashMethod(item.method))cash+=a;else if(typeof isTransferMethod==='function'&&isTransferMethod(item.method))transfer+=a; if(!(typeof isWithdrawalMethod==='function'&&isWithdrawalMethod(item.method)))total+=a;});
-return {total,pos,cash,transfer,count.length};
-}
-
-function setText(id,value){const el=document.getElementById(id);if(el)el.textContent=typeof secureMoney==='function'?secureMoney(value)(value);}
-
-function renderSelectedMonthReport(){
-const list=selectedTransactions(), s=monthlyStats(list);
-setText('totalIncome',s.total); setText('posTotal',s.pos); setText('cashTotal',s.cash); setText('transferTotal',s.transfer);
-const count=document.getElementById('transactionCount'); if(count)count.textContent=(typeof moneyHidden!=='undefined'&&moneyHidden)?'••••••'(s.count);
-const bubble=document.getElementById('bubbleIncome'); if(bubble)bubble.textContent=typeof secureMoney==='function'?secureMoney(s.total)(s.total);
-const label=document.querySelector('#incomeHub .bubbleLabel'); if(label)label.textContent='درآمد '+formatMonthLabel(selectedMonth());
-const totalBubble=document.getElementById('totalBubbleIncome'); if(totalBubble)totalBubble.textContent=typeof secureMoney==='function'?secureMoney(s.total)(s.total);
-const date=document.getElementById('reportDate'); if(date)date.textContent='گزارش '+formatMonthLabel(selectedMonth());
-drawSelectedMonthChart(list);
-}
-
-function drawSelectedMonthChart(list){
-const bars=document.getElementById('chartBars'); const summary=document.getElementById('chartSummary'); if(!bars)return;
-const map={};
-list.forEach(item=>{const p=txMonth(item);if(!p)return;const key=String(p.d).padStart(2,'0');map[key]=(map[key]||0)+amount(item);});
-const entries=Object.keys(map).sort((a,b)=>+a-+b).map(d=>[d,map[d]]);
-if(!entries.length){bars.innerHTML='<div class="chartEmpty">برای این ماه تراکنشی ثبت نشده است.</div>';if(summary)summary.innerHTML='';return;}
-const max=Math.max(...entries.map(x=>x[1]),1); bars.innerHTML='';
-entries.forEach(([day,val])=>{const item=document.createElement('div');item.className='chartBarItem';const vb=document.createElement('div');vb.className='chartBarValue';vb.textContent=typeof secureMoney==='function'?secureMoney(val)(val);const bar=document.createElement('div');bar.className='chartBar';bar.style.height=Math.max(5,(val/max)*235)+'px';bar.title=val;const lab=document.createElement('div');lab.className='chartBarLabel';lab.textContent=faNumberLocal(day);item.append(vb,bar,lab);bars.appendChild(item);});
-if(summary)summary.innerHTML='<div class="chartSummaryItem">مجموع '+formatMonthLabel(selectedMonth())+' <strong>'+(typeof secureMoney==='function'?secureMoney(entries.reduce((s,x)=>s+x[1],0)).reduce((s,x)=>s+x[1],0))+'</strong></div><div class="chartSummaryItem">تعداد روزهای فعال <strong>'+faNumberLocal(entries.length)+'</strong></div>';
-}
-
-const originalOpenChart=window.openChart;
-window.openChart=function(){
-if(monthlyReportActive){renderSelectedMonthReport();if(typeof showIncomeDetail==='function')showIncomeDetail('chartSection');return;}
-if(typeof originalOpenChart==='function')return originalOpenChart();
-};
-
-const originalUpdateStats=window.updateStats;
-window.updateStats=function(){
-if(monthlyReportActive){renderSelectedMonthReport();return;}
-if(typeof originalUpdateStats==='function')return originalUpdateStats();
-};
-
-const originalUpdateBubble=window.updateBubble;
-window.updateBubble=function(){
-if(monthlyReportActive){const s=monthlyStats(selectedTransactions());const bubble=document.getElementById('bubbleIncome');if(bubble)bubble.textContent=typeof secureMoney==='function'?secureMoney(s.total)(s.total);const totalBubble=document.getElementById('totalBubbleIncome');if(totalBubble)totalBubble.textContent=typeof secureMoney==='function'?secureMoney(s.total)(s.total);return;}
-if(typeof originalUpdateBubble==='function')return originalUpdateBubble();
-};
-
-document.addEventListener('DOMContentLoaded',ensureControls);
-setTimeout(ensureControls,1000);
-setTimeout(ensureControls,2500);
-})();
-</script>
 </body>
 
 </html>
