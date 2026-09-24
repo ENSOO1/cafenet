@@ -5283,7 +5283,7 @@ function getCurrentJalaliMonth(){
     }).formatToParts(new Date());
     const y=Number(parts.find(p=>p.type==="year")?.value||0);
     const m=Number(parts.find(p=>p.type==="month")?.value||0);
-    return {year:y,month:m,key:`${y}-${String(m).padStart(2,"0")}`};
+    const d=Number(parts.find(p=>p.type==="day")?.value||0); return {year:y,month:m,day:d,key:`${y}-${String(m).padStart(2,"0")}`,monthKey:`${y}-${String(m).padStart(2,"0")}`,dayKey:`${y}-${String(m).padStart(2,"0")}/${String(d).padStart(2,"0")}`,dayLabel:String(d).padStart(2,"0")};
 }
 
 function parseJalaliMonthFromDate(value){
@@ -5295,7 +5295,7 @@ function parseJalaliMonthFromDate(value){
     if(jalali){
         const y=Number(raw.slice(0,4));
         const m=Number(jalali[2]);
-        if(m>=1&&m<=12)return {year:y,month:m,key:`${y}-${String(m).padStart(2,"0")}`};
+        if(m>=1&&m<=12){ const d=Number(jalali[3]); return {year:y,month:m,day:d,key:`${y}-${String(m).padStart(2,"0")}`,monthKey:`${y}-${String(m).padStart(2,"0")}`,dayKey:`${y}-${String(m).padStart(2,"0")}/${String(d).padStart(2,"0")}`,dayLabel:String(d).padStart(2,"0")}; }
     }
 
     // Gregorian/ISO date or JS-readable timestamp -> Persian calendar.
@@ -5314,8 +5314,9 @@ function parseJalaliMonthFromDate(value){
     }).formatToParts(date);
     const y=Number(parts.find(p=>p.type==="year")?.value||0);
     const m=Number(parts.find(p=>p.type==="month")?.value||0);
+    const d=Number(parts.find(p=>p.type==="day")?.value||0);
     if(!y||!m)return null;
-    return {year:y,month:m,key:`${y}-${String(m).padStart(2,"0")}`};
+    return {year:y,month:m,day:d,key:`${y}-${String(m).padStart(2,"0")}`,monthKey:`${y}-${String(m).padStart(2,"0")}`,dayKey:`${y}-${String(m).padStart(2,"0")}/${String(d).padStart(2,"0")}`,dayLabel:String(d).padStart(2,"0")};
 }
 
 function getTransactionReportMonth(item){
@@ -7242,7 +7243,7 @@ function renderNotes(){
 
                     data-note-action="done"
 
-                    data-note-id="${escapeHTML(String(note.id||""))}"
+                    data-note-id="${escapeHTML(String(note.cloudId||note.id||""))}"
 
                 >✓ انجام شد</button>
 
@@ -7254,7 +7255,7 @@ function renderNotes(){
 
                     data-note-action="pin"
 
-                    data-note-id="${escapeHTML(String(note.id||""))}"
+                    data-note-id="${escapeHTML(String(note.cloudId||note.id||""))}"
 
                 >${note.pinned?"📌 برداشتن پین":"📌 پین"}</button>
 
@@ -7266,7 +7267,7 @@ function renderNotes(){
 
                     data-note-action="edit"
 
-                    data-note-id="${escapeHTML(String(note.id||""))}"
+                    data-note-id="${escapeHTML(String(note.cloudId||note.id||""))}"
 
                 >✏️ ویرایش</button>
 
@@ -7278,7 +7279,7 @@ function renderNotes(){
 
                     data-note-action="delete"
 
-                    data-note-id="${escapeHTML(String(note.id||""))}"
+                    data-note-id="${escapeHTML(String(note.cloudId||note.id||""))}"
 
                 >🗑 حذف</button>
 
@@ -7398,9 +7399,8 @@ function drawIncomeChart(){
     if(!chartBars)return;
 
     /* نمودار دقیقاً از اول تا اول ماه شمسی انتخاب‌شده محاسبه می‌شود. */
-    const monthKey = (typeof selectedReportMonth !== "undefined" && selectedReportMonth)
-        ? selectedReportMonth
-        : getCurrentJalaliMonth();
+    const selectedMonthObj = getSelectedReportMonth();
+    const monthKey = selectedMonthObj ? selectedMonthObj.key : getCurrentJalaliMonth().key;
     const monthTransactions = getSelectedReportTransactions("all");
     const normalizeDigits=value=>String(value??"")
         .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
@@ -7417,7 +7417,7 @@ function drawIncomeChart(){
         displayMap[dayKey]=parsed.dayLabel || dayKey;
     });
 
-    const monthMatch=String(monthKey).match(/^(\d{4})\/(\d{1,2})$/);
+    const monthMatch=String(monthKey).match(/^(\d{4})-(\d{1,2})$/);
     let daysInMonth=31;
     if(monthMatch){
         const y=Number(monthMatch[1]), m=Number(monthMatch[2]);
@@ -7984,93 +7984,42 @@ function renderMiniChat(){
 }
 
 async function loadMessages(){
-
     if(messageLoading)return allMessages;
-
     messageLoading=true;
-
     try{
-
         let loaded=false;
-
         try{
-
-            const response=await fetch(
-
-                API_URL+"?action=getMessages&\_="+Date.now(),
-
-                {
-
-                    method:"GET",
-
-                    cache:"no-store"
-
-                }
-
-            );
-
-            if(!response.ok)throw new Error("HTTP "+response.status);
-
-            const data=await response.json();
-
-            if(data.status!=="success" && data.status!=="ok"){
-
-                throw new Error(data.message||"Messages endpoint failed");
-
+            const data=await getCloudData();
+            if(Array.isArray(data.messages)){
+                allMessages=data.messages;
+                loaded=true;
             }
-
-            allMessages=Array.isArray(data.messages)?data.messages:[];
-
-            loaded=true;
-
         }catch(error){
-
-            console.warn("Direct Messages read failed:",error);
-
+            console.warn("Messages getData failed:",error);
         }
-
-        if(!loaded || !allMessages.length){
-
+        if(!loaded){
             try{
-
-                const fallback=await getCloudData();
-
-                if(Array.isArray(fallback.messages)){
-
-                    allMessages=fallback.messages;
-
+                const response=await fetch(API_URL+"?action=getMessages&_="+Date.now(),{method:"GET",cache:"no-store"});
+                if(!response.ok)throw new Error("HTTP "+response.status);
+                const data=await response.json();
+                if(data.status==="success"||data.status==="ok"){
+                    allMessages=Array.isArray(data.messages)?data.messages:[];
                     loaded=true;
-
                 }
-
             }catch(error){
-
-                console.warn("Messages getData fallback failed:",error);
-
+                console.warn("Messages endpoint failed:",error);
             }
-
         }
-
         if(!loaded)allMessages=[];
-
         renderMiniChat();
-
         renderChatMessages();
-
         renderTransactions();
-
         checkPaymentRequests();
-
         updateChatBadge();
-
         return allMessages;
-
     }finally{
-
         messageLoading=false;
-
     }
-
 }
 
 function updateChatBadge(){
@@ -8146,19 +8095,20 @@ async function sendChatMessage(){
 }
 
 function parsePaymentMessage(m){
-
-    const text=String(m.text||"");
-
-    const tx=(text.match(/\[TX:([^\]]+)\]/i)||[])[1]||"";
-
-    const customer=(text.match(/مشتری\s\*:\s\*([^|\n]+)/i)||[])[1]?.trim()||"-";
-
-    const service=(text.match(/خدمت\s\*:\s\*([^|\n]+)/i)||text.match(/درخواست پرداخت\s\*:\s\*([^|]+)/i)||[])[1]?.trim()||"-";
-
-    const amount=(text.match(/مبلغ\s\*:\s\*([^|\n]+)/i)||text.match(/مبلغ\s+([^|\n]+)/i)||[])[1]?.trim()||"-";
-
-    return {tx,customer,service,amount};
-
+    const text=String(m?.text||m?.message||"");
+    const clean=value=>String(value??"").replace(/[*_`]/g,"").trim();
+    const tx=(text.match(/\[TX:([^\]]+)\]/i)||[])[1]||String(m?.transactionId||m?.txId||m?.transaction?.id||"");
+    const pick=(patterns)=>{
+        for(const re of patterns){
+            const hit=text.match(re);
+            if(hit?.[1])return clean(hit[1]);
+        }
+        return "-";
+    };
+    const customer=pick([/مشتری\s*[:：]\s*([^|\n]+)/i,/نام مشتری\s*[:：]\s*([^|\n]+)/i])!=="-" ? pick([/مشتری\s*[:：]\s*([^|\n]+)/i,/نام مشتری\s*[:：]\s*([^|\n]+)/i]) : clean(m?.customer||m?.transaction?.customer||"-");
+    const service=pick([/خدمت\s*[:：]\s*([^|\n]+)/i,/سرویس\s*[:：]\s*([^|\n]+)/i,/درخواست پرداخت\s*[:：]\s*([^|\n]+)/i])!=="-" ? pick([/خدمت\s*[:：]\s*([^|\n]+)/i,/سرویس\s*[:：]\s*([^|\n]+)/i,/درخواست پرداخت\s*[:：]\s*([^|\n]+)/i]) : clean(m?.service||m?.transaction?.service||"-");
+    const amount=pick([/مبلغ\s*[:：]\s*([^|\n]+)/i,/مبلغ\s+([^|\n]+)/i,/amount\s*[:=]\s*([^|\n]+)/i])!=="-" ? pick([/مبلغ\s*[:：]\s*([^|\n]+)/i,/مبلغ\s+([^|\n]+)/i,/amount\s*[:=]\s*([^|\n]+)/i]) : clean(m?.amount||m?.transaction?.amount||"-");
+    return {tx:clean(tx),customer,service,amount};
 }
 
 function getPaymentAudioContext(){
@@ -8367,7 +8317,7 @@ function checkPaymentRequests(){
 
         const txMarker=/\[TX:[^\]]+\]/i.test(text);
 
-        const paymentRequest=/درخواست\s\*پرداخت|درخواست\s\*واریز/i.test(text);
+        const paymentRequest=/درخواست\s*[:：-]?\s*(پرداخت|واریز)|پرداخت\s*[:：-]?\s*(درخواست|جدید)/i.test(text);
 
         return sender!=="خانم دهقان" &&
 
