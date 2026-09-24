@@ -3896,6 +3896,14 @@ body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,2
 #themeToggleButton:hover{transform:translateY(-2px) rotate(12deg)!important;box-shadow:0 14px 38px rgba(0,0,0,.28),0 0 25px rgba(90,190,255,.2)!important}
 #themeToggleButton:active{transform:scale(.93) rotate(0)!important}
 @media(max-width:700px){#themeToggleButton{top:12px!important;right:12px!important;width:46px!important;height:46px!important;border-radius:14px!important;font-size:20px!important}}
+
+/* اسکرول افقی حرفه‌ای نمودار درآمد */
+#chartBars{overflow-x:auto!important;overflow-y:hidden!important;display:flex!important;gap:12px!important;align-items:flex-end!important;justify-content:flex-start!important;scroll-behavior:smooth!important;scrollbar-width:thin;padding:14px 8px 18px!important;touch-action:pan-x;cursor:grab;}
+#chartBars:active{cursor:grabbing;}
+#chartBars .chartBarItem{flex:0 0 72px!important;min-width:72px!important;}
+#chartBars::-webkit-scrollbar{height:7px;}
+#chartBars::-webkit-scrollbar-thumb{border-radius:99px;background:rgba(120,120,140,.55);}
+#chartBars::-webkit-scrollbar-track{background:rgba(120,120,140,.10);border-radius:99px;}
 </style>
 
 </head>
@@ -3957,7 +3965,7 @@ body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,2
 
     <span class="statIcon">💰</span>
 
-    <small>جمع کل درآمد ماه</small>
+    <small>جمع کل روزانه</small>
 
     <div class="moneyRow"><strong id="totalIncome">۰ تومان</strong></div>
 
@@ -4031,7 +4039,7 @@ body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,2
 
             <div class="bubbleIcon">💰</div>
 
-            <div class="bubbleLabel">درآمد ماه جاری</div>
+            <div class="bubbleLabel">درآمد کل</div>
 
             <div class="moneyRow"><div class="bubbleAmount" id="bubbleIncome">۰ تومان</div></div>
 
@@ -5440,6 +5448,8 @@ function toggleJanaTheme(){
 
 function updateStats(){
     const transactions = getSelectedReportTransactions(currentFilter);
+    const todayKey = getCurrentJalaliMonth ? (function(){ const now=new Date(); const parts=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(now); const g=t=>parts.find(x=>x.type===t)?.value||""; return `${g("year")}/${g("month")}/${g("day")}`; })() : "";
+    const dailyTransactions = transactions.filter(item=>{ const p=parseJalaliMonthFromDate(item?.date); return p && p.dayKey===todayKey; });
     let totalIncome = 0;
     let pos = 0;
     let cash = 0;
@@ -5453,8 +5463,9 @@ function updateStats(){
         if(isTransferMethod(item.method)) transfer += amount;
     });
 
+    const dailyTotalIncome = dailyTransactions.reduce((sum,item)=>sum + Number(item.amount || 0), 0);
     const totalIncomeEl = document.getElementById("totalIncome");
-    if(totalIncomeEl) totalIncomeEl.textContent = secureMoney(totalIncome);
+    if(totalIncomeEl) totalIncomeEl.textContent = secureMoney(dailyTotalIncome);
 
     const transactionCount = document.getElementById("transactionCount");
     if(transactionCount) transactionCount.textContent = moneyHidden ? "••••••" : faNumber(transactions.length);
@@ -5480,17 +5491,17 @@ function updateStats(){
 ===================================================== */
 
 function updateBubble(){
-    const total = getSelectedReportTransactions("all").reduce(
-        (sum,item) => sum + Number(item.amount || 0), 0
-    );
+    /* حباب همیشه «درآمد کل» تمام تراکنش‌ها را نشان می‌دهد و به ماه انتخاب‌شده وابسته نیست. */
+    const total = Array.isArray(allTransactions)
+        ? allTransactions.reduce((sum,item)=>sum + Number(item.amount || 0), 0)
+        : 0;
     const bubble = document.getElementById("bubbleIncome");
     if(bubble) bubble.textContent = secureMoney(total);
     const totalBubble = document.getElementById("totalBubbleIncome");
     if(totalBubble) totalBubble.textContent = secureMoney(total);
-
     const labels = document.querySelectorAll(".bubbleLabel");
     labels.forEach(label => {
-        if(label.id === "") label.textContent = getReportMonthLabelShort();
+        if(label.id === "") label.textContent = "درآمد کل";
     });
 }
 
@@ -7379,219 +7390,72 @@ function parseDateKey(value){
 }
 
 function drawIncomeChart(){
-
     const chartBars=document.getElementById("chartBars");
-
     const chartSummary=document.getElementById("chartSummary");
-
     if(!chartBars)return;
 
+    /* نمودار دقیقاً از اول تا اول ماه شمسی انتخاب‌شده محاسبه می‌شود. */
+    const monthKey = (typeof selectedReportMonth !== "undefined" && selectedReportMonth)
+        ? selectedReportMonth
+        : getCurrentJalaliMonth();
+    const monthTransactions = getSelectedReportTransactions("all");
     const normalizeDigits=value=>String(value??"")
-
         .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
-
         .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
-
-    const persianDateKeyFromDate=date=>{
-
-        if(!(date instanceof Date) || Number.isNaN(date.getTime()))return "";
-
-        const parts=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
-
-            year:"numeric",
-
-            month:"2-digit",
-
-            day:"2-digit"
-
-        }).formatToParts(date);
-
-        const get=type=>parts.find(x=>x.type===type)?.value||"";
-
-        return `${get("year")}/${get("month")}/${get("day")}`;
-
-    };
-
-    const parseIncomeDate=value=>{
-
-        const raw=normalizeDigits(String(value??"").trim());
-
-        if(!raw)return {key:"",label:""};
-
-        /* تاریخ شمسی مثل ۱۴۰۵/۰۶/۱۸ */
-
-        const faMatch=raw.match(/^(13\d{2}|14\d{2}|15\d{2})[\/.-](\d{1,2})[\/.-](\d{1,2})/);
-
-        if(faMatch){
-
-            const key=`${faMatch[1]}/${String(faMatch[2]).padStart(2,"0")}/${String(faMatch[3]).padStart(2,"0")}`;
-
-            return {key,label:key};
-
-        }
-
-        /* تاریخ میلادی یا timestamp مثل 2026-09-07T09:59:10.741Z */
-
-        const parsed=new Date(raw);
-
-        if(!Number.isNaN(parsed.getTime())){
-
-            const key=persianDateKeyFromDate(parsed);
-
-            return {key,label:key};
-
-        }
-
-        /* fallback برای رشته‌های تاریخ میلادی ساده */
-
-        const g=raw.match(/^(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})/);
-
-        if(g){
-
-            const parsedLocal=new Date(Number(g[1]),Number(g[2])-1,Number(g[3]));
-
-            const key=persianDateKeyFromDate(parsedLocal);
-
-            return {key,label:key};
-
-        }
-
-        return {key:raw,label:raw};
-
-    };
-
-    const todayKey=persianDateKeyFromDate(new Date());
-
     const dailyMap={};
-
     const displayMap={};
 
-    allTransactions.forEach(item=>{
-
-        const parsed=parseIncomeDate(item.date);
-
-        if(!parsed.key)return;
-
+    monthTransactions.forEach(item=>{
+        const parsed=parseJalaliMonthFromDate(item?.date);
+        if(!parsed || parsed.monthKey!==monthKey)return;
+        const dayKey=parsed.dayKey;
         const amount=Number(item.amount||0);
-
-        dailyMap[parsed.key]=(dailyMap[parsed.key]||0)+amount;
-
-        displayMap[parsed.key]=parsed.label;
-
+        dailyMap[dayKey]=(dailyMap[dayKey]||0)+amount;
+        displayMap[dayKey]=parsed.dayLabel || dayKey;
     });
 
-    /* روز جاری همیشه آخر نمودار است؛ حتی اگر هنوز تراکنشی نداشته باشد. */
+    const monthMatch=String(monthKey).match(/^(\d{4})\/(\d{1,2})$/);
+    let daysInMonth=31;
+    if(monthMatch){
+        const y=Number(monthMatch[1]), m=Number(monthMatch[2]);
+        daysInMonth = m<=6 ? 31 : (m<=11 ? 30 : ((y%4===3)?30:29));
+    }
 
-    dailyMap[todayKey]=dailyMap[todayKey]||0;
-
-    displayMap[todayKey]=todayKey;
-
-    const keys=Object.keys(dailyMap);
-
-    const parseKey=key=>{
-
-        const m=String(key).match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/);
-
-        if(!m)return null;
-
-        return [Number(m[1]),Number(m[2]),Number(m[3])];
-
-    };
-
-    keys.sort((a,b)=>{
-
-        const pa=parseKey(a),pb=parseKey(b);
-
-        if(pa&&pb)return pa[0]-pb[0]||pa[1]-pb[1]||pa[2]-pb[2];
-
-        return a.localeCompare(b);
-
-    });
-
-    const recentKeys=keys.slice(-30);
-
-    if(!recentKeys.includes(todayKey))recentKeys.push(todayKey);
-
-    recentKeys.sort((a,b)=>{
-
-        const pa=parseKey(a),pb=parseKey(b);
-
-        if(pa&&pb)return pa[0]-pb[0]||pa[1]-pb[1]||pa[2]-pb[2];
-
-        return a.localeCompare(b);
-
-    });
-
-    const entries=recentKeys.map(key=>[
-
-        key,
-
-        dailyMap[key]||0,
-
-        displayMap[key]||key
-
-    ]);
+    const entries=[];
+    for(let day=1;day<=daysInMonth;day++){
+        const dayKey=`${monthKey}/${String(day).padStart(2,"0")}`;
+        entries.push([dayKey,dailyMap[dayKey]||0,displayMap[dayKey]||String(day).padStart(2,"0")]);
+    }
 
     const maxValue=Math.max(...entries.map(x=>x[1]),1);
-
     chartBars.innerHTML="";
-
     entries.forEach(([key,value,labelText])=>{
-
         const item=document.createElement("div");
-
         item.className="chartBarItem";
-
-        if(key===todayKey)item.classList.add("currentDay");
-
         const valueBox=document.createElement("div");
-
         valueBox.className="chartBarValue";
-
         valueBox.textContent=secureMoney(value);
-
         const bar=document.createElement("div");
-
         bar.className="chartBar";
-
         bar.style.height=Math.max(5,(value/maxValue)*235)+"px";
-
-        bar.title=(key===todayKey?"امروز • ":"")+money(value);
-
+        bar.title=money(value);
         const label=document.createElement("div");
-
         label.className="chartBarLabel";
-
         label.textContent=labelText;
-
         item.append(valueBox,bar,label);
-
         chartBars.appendChild(item);
-
     });
 
     const chartTotal=entries.reduce((sum,x)=>sum+x[1],0);
-
-    const todayTotal=dailyMap[todayKey]||0;
-
-    const previousEntries=entries.filter(x=>x[0]!==todayKey);
-
-    const previousAverage=previousEntries.length
-
-        ? previousEntries.reduce((sum,x)=>sum+x[1],0)/previousEntries.length
-
-        : 0;
-
-    chartSummary.innerHTML=`
-
-        <div class="chartSummaryItem">۳۰ روز اخیر <strong>${secureMoney(chartTotal)}</strong></div>
-
-        <div class="chartSummaryItem">امروز <strong>${secureMoney(todayTotal)}</strong></div>
-
-        <div class="chartSummaryItem">میانگین روزهای قبل <strong>${secureMoney(previousAverage)}</strong></div>
-
-    `;
-
+    const activeDays=entries.filter(x=>x[1]>0);
+    const average=activeDays.length ? chartTotal/activeDays.length : 0;
+    if(chartSummary){
+        chartSummary.innerHTML=`
+            <div class="chartSummaryItem">درآمد این ماه <strong>${secureMoney(chartTotal)}</strong></div>
+            <div class="chartSummaryItem">روزهای دارای درآمد <strong>${faNumber(activeDays.length)}</strong></div>
+            <div class="chartSummaryItem">میانگین روزهای دارای درآمد <strong>${secureMoney(average)}</strong></div>
+        `;
+    }
 }
 
 /* =====================================================
