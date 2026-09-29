@@ -283,6 +283,11 @@ body::after{
 }
 
 /* =========================
+MONTH REPORT / THEME CONTROLS
+========================= */
+.reportMonthBar{position;z-index:20;display;align-items;justify-content;gap:12px;margin:0 0 18px;flex-wrap}.reportMonthTitle{min-width:220px;text-align;padding:12px 20px;border-radius:18px;border:1px solid rgba(0,140,255,.20);background(145deg,rgba(255,255,255,.07),rgba(0,110,255,.06));color:#dff2ff;box-shadow:0 14px 35px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.05)}.reportMonthTitle strong{display;font-size:14px;color:#fff}.reportMonthTitle small{display;margin-top:4px;color:#6f91aa;font-size:9px}.monthNavBtn,.reportResetBtn,.floatingTheme,.monthArrowFloating{border:1px solid rgba(0,140,255,.22);background(145deg,rgba(255,255,255,.10),rgba(0,100,255,.10));color:#8ed1ff;cursor;font-family;backdrop-filter(20px);-webkit-backdrop-filter(20px);box-shadow:0 14px 35px rgba(0,0,0,.30),inset 0 1px rgba(255,255,255,.07);transition:.28s}.monthNavBtn{width:46px;height:46px;border-radius:50%;font-size:20px}.monthNavBtn,.reportResetBtn,.floatingTheme,.monthArrowFloating{transform(-3px) scale(1.04);border-color(0,170,255,.55);box-shadow:0 18px 42px rgba(0,0,0,.38),0 0 28px rgba(0,140,255,.12)}.monthNavBtn:disabled{opacity:.30;cursor;transform;box-shadow}.reportResetBtn{padding:11px 16px;border-radius:14px;color:#ffcf91;border-color(255,170,70,.22);background(145deg,rgba(255,180,70,.10),rgba(255,90,60,.05))}.monthArrowFloating{position;top:50%;transform(-50%);width:50px;height:50px;border-radius:50%;z-index:9400;font-size:23px}.monthArrowFloating{transform(-50%) scale(1.06)}#prevMonthFloating{left:16px}#nextMonthFloating{right:16px}.floatingTheme{position;left:22px;bottom:98px;width:58px;height:58px;border-radius:50%;z-index:9500;font-size:24px;display;align-items;justify-content}.floatingTheme .themeIcon{display;transition .65s cubic-bezier(.2,.8,.2,1)}.floatingTheme.spin .themeIcon{transform(360deg)}body.lightTheme{background(circle at 85% 5%,rgba(0,140,255,.10),transparent 30%),radial-gradient(circle at 10% 90%,rgba(0,80,255,.08),transparent 30%),#eef6ff;color:#102235}body.lightTheme .stat,body.lightTheme .reportMonthTitle{background(145deg,rgba(255,255,255,.88),rgba(220,238,255,.72));border-color(0,90,160,.12);box-shadow:0 20px 45px rgba(40,90,130,.14),inset 0 1px rgba(255,255,255,.9)}body.lightTheme .stat small,body.lightTheme .reportMonthTitle small{color:#54738a}body.lightTheme .stat strong,body.lightTheme .reportMonthTitle strong{color:#102235}body.lightTheme .incomeBubble{background(145deg,rgba(255,255,255,.94),rgba(214,236,255,.84));border-color(0,100,180,.18);box-shadow:0 28px 65px rgba(30,80,120,.16),inset 0 1px rgba(255,255,255,.9)}body.lightTheme .bubbleLabel{color:#54738a}body.lightTheme .bubbleAmount{color:#0b5e9e}body.lightTheme .panel,body.lightTheme .tableWrap{background(255,255,255,.72);border-color(0,80,140,.10);box-shadow:0 18px 45px rgba(40,90,130,.10)}body.lightTheme .tableWrap th{color:#36566d}body.lightTheme .tableWrap td{color:#183247;border-color(0,80,140,.08)}body.lightTheme input,body.lightTheme textarea{background(255,255,255,.82)!important;color:#173047!important;border-color(0,80,140,.14)!important}body.lightTheme .header .title p,body.lightTheme .liveDateTime{color:#54738a}body.lightTheme .floatingTop,body.lightTheme .floatingChat,body.lightTheme .floatingTheme,body.lightTheme .monthArrowFloating,body.lightTheme .monthNavBtn{color:#075f9d;background(145deg,rgba(255,255,255,.90),rgba(220,239,255,.80));border-color(0,100,170,.16);box-shadow:0 18px 45px rgba(30,80,120,.18),inset 0 1px rgba(255,255,255,.95)}@media(max-width:700px){.reportMonthBar{gap:7px}.reportMonthTitle{min-width:175px;padding:10px 12px}.reportResetBtn{width:100%}.monthArrowFloating{width:44px;height:44px}.monthArrowFloating#prevMonthFloating{left:8px}.monthArrowFloating#nextMonthFloating{right:8px}.floatingTheme{left:14px;bottom:88px;width:50px;height:50px}}
+
+/* =========================
 
    Stats
 
@@ -362,6 +367,7 @@ body::after{
 
 }
 
+.stat::before{content:"";position;left:12%;right:12%;bottom:0;height:2px;border-radius:999px;background(90deg,transparent,#00b7ff,#8b5cff,#00b7ff,transparent);transform(0);transform-origin;opacity:0;box-shadow:0 0 14px rgba(0,180,255,.75),0 0 28px rgba(120,80,255,.35)}.stat:hover::before{opacity:1;animation 1.35s linear infinite}@keyframes statNeonLine{0%{transform(.05);filter(0deg)}50%{transform(1);filter(70deg)}100%{transform(.05);filter(140deg)}}
 .stat:hover{
 
     transform:translateY(-7px);
@@ -3732,343 +3738,11 @@ tbody tr:hover{
 
 }
 
-/* ===== Monthly report controls ===== */
-
-.monthlyReportNavigator{
-
-    position:relative;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:18px;
-
-    margin:0 0 18px;
-
-    min-height:62px;
-
-    z-index:20;
-
-}
-
-.monthNavButton{
-
-    position:fixed;
-
-    top:50%;
-
-    transform:translateY(-50%);
-
-    width:48px;
-
-    height:48px;
-
-    border-radius:50%;
-
-    border:1px solid rgba(0,140,255,.28);
-
-    background:rgba(5,18,30,.78);
-
-    color:#83caff;
-
-    font:700 22px Tahoma,Arial,sans-serif;
-
-    cursor:pointer;
-
-    z-index:10000;
-
-    backdrop-filter:blur(14px);
-
-    -webkit-backdrop-filter:blur(14px);
-
-    box-shadow:0 10px 35px rgba(0,0,0,.35),0 0 24px rgba(0,140,255,.08);
-
-    transition:.25s ease;
-
-}
-
-.monthNavButton:hover:not(:disabled){
-
-    transform:translateY(-50%) scale(1.08);
-
-    border-color:#168cff;
-
-    background:rgba(0,140,255,.14);
-
-    box-shadow:0 0 30px rgba(0,140,255,.22),0 12px 38px rgba(0,0,0,.4);
-
-}
-
-.monthNavButton:disabled{opacity:.25;cursor:not-allowed}
-
-.monthNavPrev{right:18px}
-
-.monthNavNext{left:18px}
-
-.monthNavCenter{
-
-    min-width:min(330px,80vw);
-
-    padding:11px 22px 12px;
-
-    border-radius:18px;
-
-    border:1px solid rgba(110,200,255,.18);
-
-    background:rgba(255,255,255,.045);
-
-    text-align:center;
-
-    box-shadow:inset 0 1px rgba(255,255,255,.06),0 12px 35px rgba(0,0,0,.18);
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    gap:0;
-
-}
-
-.monthNavTitle{display:block;color:#eaf6ff;font-size:15px;font-weight:700}
-
-.monthNavSub{display:block;color:#6f91aa;font-size:10px;margin-top:5px}
-
-.monthResetButton{
-
-    position:static;
-
-    z-index:10001;
-
-    margin-top:9px;
-
-    border:1px solid rgba(255,180,70,.25);
-
-    background:rgba(20,18,12,.82);
-
-    color:#ffd27a;
-
-    border-radius:12px;
-
-    padding:8px 13px;
-
-    font:700 10px Tahoma,Arial,sans-serif;
-
-    cursor:pointer;
-
-    backdrop-filter:blur(14px);
-
-    -webkit-backdrop-filter:blur(14px);
-
-    box-shadow:0 8px 22px rgba(0,0,0,.24),0 0 16px rgba(255,180,70,.06);
-
-    transition:.25s ease;
-
-}
-
-.monthResetButton:hover{transform:translateY(-3px);border-color:rgba(255,190,70,.55);box-shadow:0 0 25px rgba(255,180,70,.12),0 15px 40px rgba(0,0,0,.4)}
-
-.themeToggleButton{
-
-    position:fixed;
-
-    left:24px;
-
-    bottom:24px;
-
-    z-index:10001;
-
-    width:48px;
-
-    height:48px;
-
-    border-radius:50%;
-
-    border:1px solid rgba(110,200,255,.28);
-
-    background:rgba(5,18,30,.82);
-
-    color:#8edcff;
-
-    font-size:20px;
-
-    cursor:pointer;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    backdrop-filter:blur(14px);
-
-    -webkit-backdrop-filter:blur(14px);
-
-    box-shadow:0 12px 35px rgba(0,0,0,.32),0 0 22px rgba(0,140,255,.08);
-
-    transition:.28s ease;
-
-}
-
-.themeToggleButton:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 0 28px rgba(0,140,255,.18),0 15px 40px rgba(0,0,0,.4)}
-
-.themeToggleButton.rotating{animation:themeRotate .55s cubic-bezier(.2,.8,.2,1)}
-
-@keyframes themeRotate{0%{transform:rotate(0) scale(1)}50%{transform:rotate(180deg) scale(1.12)}100%{transform:rotate(360deg) scale(1)}}
-
-.stats .stat::before{
-
-    content:"";
-
-    position:absolute;
-
-    left:12%;
-
-    right:12%;
-
-    bottom:0;
-
-    height:3px;
-
-    border-radius:999px;
-
-    background:linear-gradient(90deg,transparent,#00c8ff,#7c5cff,#00c8ff,transparent);
-
-    transform:scaleX(0);
-
-    transform-origin:center;
-
-    opacity:0;
-
-    transition:transform .4s ease,opacity .3s ease,filter .3s ease;
-
-    box-shadow:0 0 10px rgba(0,200,255,.65),0 0 24px rgba(124,92,255,.35);
-
-    z-index:4;
-
-}
-
-.stats .stat:hover::before{transform:scaleX(1);opacity:1;filter:brightness(1.35)}
-
-/* Light theme: intentionally additive so the original dark design remains the default. */
-
-body.janaLightTheme{
-
-    background:radial-gradient(circle at 85% 5%,rgba(0,140,255,.10),transparent 30%),radial-gradient(circle at 10% 90%,rgba(0,80,255,.08),transparent 30%),#eef5fb;
-
-    color:#132638;
-
-}
-
-body.janaLightTheme .stat,
-
-body.janaLightTheme .panel,
-
-body.janaLightTheme .monthNavCenter,
-
-body.janaLightTheme .incomeHubOption,
-
-body.janaLightTheme .chartSummaryItem,
-
-body.janaLightTheme .note,
-
-body.janaLightTheme .searchBox input,
-
-body.janaLightTheme .noteForm textarea,
-
-body.janaLightTheme .themeToggleButton,
-
-body.janaLightTheme .monthResetButton,
-
-body.janaLightTheme .monthNavButton{
-
-    background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(240,247,253,.78));
-
-    border-color:rgba(25,100,160,.16);
-
-    color:#17324a;
-
-    box-shadow:0 18px 45px rgba(25,70,110,.10),inset 0 1px rgba(255,255,255,.9);
-
-}
-
-body.janaLightTheme .stat small,
-
-body.janaLightTheme .panelTitle span,
-
-body.janaLightTheme .monthNavSub,
-
-body.janaLightTheme .incomeHubOptionText small,
-
-body.janaLightTheme .noteDate,
-
-body.janaLightTheme td,
-
-body.janaLightTheme th{color:#5b7285}
-
-body.janaLightTheme .panelTitle h2,
-
-body.janaLightTheme .incomeHubOptionText strong,
-
-body.janaLightTheme .monthNavTitle{color:#16364f}
-
-body.janaLightTheme .searchBox input,
-
-body.janaLightTheme .noteForm textarea{color:#183247;background:rgba(255,255,255,.8)}
-
-body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,255,.10)}
-
-@media(max-width:700px){
-
-    .monthNavButton{width:42px;height:42px;font-size:19px}
-
-    .monthNavPrev{right:8px}.monthNavNext{left:8px}
-
-    .monthNavCenter{min-width:210px;padding:9px 12px}
-
-    .monthNavTitle{font-size:12px}.monthNavSub{font-size:8px}
-
-    .monthResetButton{margin-top:7px;font-size:9px;padding:7px 10px}
-
-    .themeToggleButton{left:12px;bottom:12px;width:43px;height:43px}
-
-}
-
-/* Premium fixed light/dark toggle */
-
-#themeToggleButton{position:fixed!important;top:18px!important;right:22px!important;left:auto!important;bottom:auto!important;z-index:10050!important;width:52px!important;height:52px!important;border-radius:16px!important;border:1px solid rgba(255,255,255,.18)!important;background:rgba(20,24,32,.78)!important;color:#fff!important;display:flex!important;align-items:center!important;justify-content:center!important;cursor:pointer!important;backdrop-filter:blur(16px) saturate(150%)!important;-webkit-backdrop-filter:blur(16px) saturate(150%)!important;box-shadow:0 10px 30px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.12)!important;font-size:22px!important;transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s ease,background .28s ease!important;}
-
-#themeToggleButton:hover{transform:translateY(-2px) rotate(12deg)!important;box-shadow:0 14px 38px rgba(0,0,0,.28),0 0 25px rgba(90,190,255,.2)!important}
-
-#themeToggleButton:active{transform:scale(.93) rotate(0)!important}
-
-@media(max-width:700px){#themeToggleButton{top:12px!important;right:12px!important;width:46px!important;height:46px!important;border-radius:14px!important;font-size:20px!important}}
-
-/* اسکرول افقی حرفه‌ای نمودار درآمد */
-
-#chartBars{overflow-x:auto!important;overflow-y:hidden!important;display:flex!important;gap:12px!important;align-items:flex-end!important;justify-content:flex-start!important;scroll-behavior:smooth!important;scrollbar-width:thin;padding:14px 8px 18px!important;touch-action:pan-x;cursor:grab;}
-
-#chartBars:active{cursor:grabbing;}
-
-#chartBars .chartBarItem{flex:0 0 72px!important;min-width:72px!important;}
-
-#chartBars::-webkit-scrollbar{height:7px;}
-
-#chartBars::-webkit-scrollbar-thumb{border-radius:99px;background:rgba(120,120,140,.55);}
-
-#chartBars::-webkit-scrollbar-track{background:rgba(120,120,140,.10);border-radius:99px;}
-
 </style>
 
 </head>
 
 <body>
-
-<button type="button" class="themeToggleButton" id="themeToggleButton" onclick="toggleJanaTheme()" aria-label="تغییر حالت روشن و تاریک" title="تغییر حالت روشن و تاریک">☀️</button>
 
 <div class="mouseGlow" id="mouseGlow"></div>
 
@@ -4108,23 +3782,12 @@ body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,2
 
 </header>
 
-<div class="monthlyReportNavigator" id="monthlyReportNavigator">
-
-    <button type="button" class="monthNavButton monthNavPrev" id="monthPrevButton" onclick="changeReportMonth(-1)" aria-label="ماه قبل">◀</button>
-
-    <div class="monthNavCenter">
-
-        <span class="monthNavTitle" id="selectedReportMonth">ماه جاری</span>
-
-        <span class="monthNavSub" id="selectedReportMonthSub">گزارش بر اساس ماه شمسی</span>
-
-        <button type="button" class="monthResetButton" id="monthResetButton" onclick="resetCurrentReportMonth()">↻ صفر کردن گزارش ماه</button>
-
-    </div>
-
-    <button type="button" class="monthNavButton monthNavNext" id="monthNextButton" onclick="changeReportMonth(1)" aria-label="ماه بعد">▶</button>
-
-</div>
+<section class="reportMonthBar" id="reportMonthBar" aria-label="انتخاب ماه گزارش">
+\    <button type="button" class="monthNavBtn" id="prevMonthBtn" onclick="changeReportMonth(-1)" aria-label="ماه قبل">◀</button>
+\    <div class="reportMonthTitle"><strong id="reportMonthLabel">ماه جاری</strong><small id="reportMonthSubLabel">گزارش بر اساس ماه شمسی</small></div>
+\    <button type="button" class="monthNavBtn" id="nextMonthBtn" onclick="changeReportMonth(1)" aria-label="ماه بعد">▶</button>
+\    <button type="button" class="reportResetBtn" onclick="resetCurrentMonthReport()">🔄 صفر کردن گزارش ماه جاری</button>
+</section>
 
 <section class="stats" id="income">
 
@@ -4132,7 +3795,7 @@ body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,2
 
     <span class="statIcon">💰</span>
 
-    <small>جمع کل روزانه</small>
+    <small>جمع کل درآمد ماه</small>
 
     <div class="moneyRow"><strong id="totalIncome">۰ تومان</strong></div>
 
@@ -4206,7 +3869,7 @@ body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,2
 
             <div class="bubbleIcon">💰</div>
 
-            <div class="bubbleLabel">درآمد کل</div>
+            <div class="bubbleLabel">درآمد ماه</div>
 
             <div class="moneyRow"><div class="bubbleAmount" id="bubbleIncome">۰ تومان</div></div>
 
@@ -4474,13 +4137,9 @@ body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,2
 
     <button
 
-        type="button"
-
         class="noteAdd"
 
-        id="noteAddButton"
-
-        onclick="addNote(); return false;">
+        onclick="addNote()">
 
         ＋ ثبت یادداشت
 
@@ -4564,6 +4223,10 @@ href="./index.html">
 
 </nav>
 
+<button class="monthArrowFloating" id="prevMonthFloating" onclick="changeReportMonth(-1)" aria-label="ماه قبل" title="ماه قبل">◀</button>
+<button class="monthArrowFloating" id="nextMonthFloating" onclick="changeReportMonth(1)" aria-label="ماه بعد" title="ماه بعد">▶</button>
+<button class="floatingTheme" id="floatingTheme" onclick="toggleTheme()" aria-label="تغییر حالت روشن و تاریک" title="تغییر حالت روشن و تاریک"><span class="themeIcon">🌗</span></button>
+
 <button class="floatingTop" id="floatingTop" onclick="scrollToTop()" aria-label="رفتن به بالای صفحه">↑</button>
 
 <button class="floatingChat" id="floatingChat" onclick="openChat()" aria-label="باز کردن چت">💬</button>
@@ -4644,7 +4307,7 @@ href="./index.html">
 
   <textarea id="chatInput" placeholder="پیامتان را بنویسید..." onkeydown="chatKeydown(event)"></textarea>
 
-  <button type="button" class="chatSend" id="chatSendButton" onclick="sendChatMessage(); return false;">ارسال</button>
+  <button class="chatSend" onclick="sendChatMessage()">ارسال</button>
 
 </div>
 
@@ -4757,6 +4420,11 @@ const API_URL =
 let allTransactions = [];
 
 let currentFilter = "all";
+
+let selectedReportMonthKey = "";
+const REPORT_RESET_STORAGE_KEY = "jana_month_report_resets_v1";
+let reportResetMap = {};
+try{reportResetMap=JSON.parse(localStorage.getItem(REPORT_RESET_STORAGE_KEY)||"{}")||{};}catch(e){reportResetMap={};}
 
 let localNotes = [];
 
@@ -5088,7 +4756,7 @@ async function getCloudData(){
 
             API_URL +
 
-            "?action=getData&\_=" +
+            "?action=getData&_=" +
 
             Date.now(),
 
@@ -5353,6 +5021,25 @@ function saveLocalTransactions(){
 }
 
 /* =====================================================
+SHAMSI MONTH REPORT
+===================================================== */
+function normalizeDateDigits(value){return String(value??"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));}
+function persianPartsFromDate(date){if(!(date instanceof Date)||Number.isNaN(date.getTime()))return null;const parts=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(date);const get=t=>parts.find(x=>x.type===t)?.value||"";const y=Number(normalizeDateDigits(get("year"))),m=Number(normalizeDateDigits(get("month"))),d=Number(normalizeDateDigits(get("day")));return y&&m&&d?{year,month,day};}
+function getPersianDateParts(value){const raw=normalizeDateDigits(value).trim();if(!raw)return null;const fa=raw.match(/^(13\d{2}|14\d{2}|15\d{2})/.-/.-/);if(fa)return{year(fa[1]),month(fa[2]),day(fa[3])};const parsed=new Date(raw);if(!Number.isNaN(parsed.getTime()))return persianPartsFromDate(parsed);const g=raw.match(/^(\d{4})/.-/.-/);if(g)return persianPartsFromDate(new Date(Number(g[1]),Number(g[2])-1,Number(g[3])));return null;}
+function getPersianMonthKey(value){const p=getPersianDateParts(value);return p?${p.year}/${String(p.month).padStart(2,"0")}:"";}
+function currentPersianMonthKey(){const p=persianPartsFromDate(new Date());return p?${p.year}/${String(p.month).padStart(2,"0")}:"";}
+function monthKeyToParts(key){const m=String(key||"").match(/^(\d{4})/(\d{1,2})$/);return m?{year(m[1]),month(m[2])};}
+function compareMonthKeys(a,b){const pa=monthKeyToParts(a),pb=monthKeyToParts(b);return pa&&pb?(pa.year-pb.year)*12+pa.month-pb.month:0;}
+function monthKeyLabel(key){const p=monthKeyToParts(key);if(!p)return"ماه جاری";const names=["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];return ماه ${names[p.month-1]||p.month} ${p.year};}
+function getReportTransactions(options={}){const monthKey=options.monthKey||selectedReportMonthKey||currentPersianMonthKey(),currentMonth=currentPersianMonthKey();let list=allTransactions.filter(item=>getPersianMonthKey(item?.date)===monthKey);if(monthKey===currentMonth&&reportResetMap[monthKey]&&options.applyReset!==false){const ids=new Set((Array.isArray(reportResetMap[monthKey].ids)?reportResetMap[monthKey].ids:[]).map(String));list=list.filter(item=>!ids.has(String(item?.id??item?.cloudId??"")));}return list;}
+function saveReportResetMap(){try{localStorage.setItem(REPORT_RESET_STORAGE_KEY,JSON.stringify(reportResetMap));}catch(e){console.warn("Report reset save failed:",e);}}
+function updateReportMonthUI(){const current=currentPersianMonthKey();if(!selectedReportMonthKey)selectedReportMonthKey=current;if(compareMonthKeys(selectedReportMonthKey,current)>0)selectedReportMonthKey=current;const label=document.getElementById("reportMonthLabel");if(label)label.textContent=monthKeyLabel(selectedReportMonthKey);const sub=document.getElementById("reportMonthSubLabel");if(sub)sub.textContent=selectedReportMonthKey===current?"ماه جاری • گزارش بر اساس تقویم شمسی":"گزارش تاریخی • تقویم شمسی";const disabled=compareMonthKeys(selectedReportMonthKey,current)>=0;[document.getElementById("nextMonthBtn"),document.getElementById("nextMonthFloating")].forEach(b=>{if(b)b.disabled=disabled;});}
+function changeReportMonth(delta){const current=currentPersianMonthKey();if(!selectedReportMonthKey)selectedReportMonthKey=current;const p=monthKeyToParts(selectedReportMonthKey);if(!p)return;let y=p.year,m=p.month+Number(delta||0);while(m<1){m+=12;y--;}while(m>12){m-=12;y++;}const target=${y}/${String(m).padStart(2,"0")};if(compareMonthKeys(target,current)>0)return;selectedReportMonthKey=target;updateReportMonthUI();updateStats();renderTransactions();drawIncomeChart();}
+function resetCurrentMonthReport(){const current=currentPersianMonthKey();if(selectedReportMonthKey!==current){showToast("ℹ️ برای صفر کردن، ابتدا به ماه جاری بروید.");return;}const ids=allTransactions.filter(item=>getPersianMonthKey(item?.date)===current).map(item=>String(item?.id??item?.cloudId??"")).filter(Boolean);reportResetMap[current]={ids,resetAt Date().toISOString()};saveReportResetMap();updateStats();renderTransactions();drawIncomeChart();showToast("✅ گزارش ماه جاری صفر شد؛ هیچ تراکنشی حذف نشد.");}
+function toggleTheme(){const body=document.body,next=!body.classList.contains("lightTheme");body.classList.toggle("lightTheme",next);localStorage.setItem("jana_theme",next?"light":"dark");const b=document.getElementById("floatingTheme");if(b){b.classList.remove("spin");void b.offsetWidth;b.classList.add("spin");setTimeout(()=>b.classList.remove("spin"),700);const icon=b.querySelector(".themeIcon");if(icon)icon.textContent=next?"☀️":"🌗";}}
+function loadTheme(){const isLight=localStorage.getItem("jana_theme")==="light";document.body.classList.toggle("lightTheme",isLight);const icon=document.querySelector("#floatingTheme .themeIcon");if(icon)icon.textContent=isLight?"☀️":"🌗";}
+
+/* =====================================================
 
    STATS
 
@@ -5432,394 +5119,24 @@ function methodMatchesFilter(method,filter){
 
 }
 
-/* =====================================================
-
-   MONTHLY REPORT ENGINE — Jalali/Persian calendar
-
-   Transactions are never deleted. The selected month only changes
-
-   the report calculations shown in the cards and income bubbles.
-
-===================================================== */
-
-const JANA_MONTH_KEY = "jana_selected_report_month_v2";
-
-const JANA_RESET_KEY = "jana_report_month_resets_v2";
-
-const JANA_THEME_KEY = "jana_report_theme_v2";
-
-function normalizeDigitsForMonth(value){
-
-    return String(value ?? "")
-
-        .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
-
-        .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
-
-}
-
-function getCurrentJalaliMonth(){
-
-    const parts = new Intl.DateTimeFormat("en-US-u-ca-persian",{
-
-        year:"numeric",month:"2-digit",day:"2-digit"
-
-    }).formatToParts(new Date());
-
-    const y=Number(parts.find(p=>p.type==="year")?.value||0);
-
-    const m=Number(parts.find(p=>p.type==="month")?.value||0);
-
-    const d=Number(parts.find(p=>p.type==="day")?.value||0); return {year:y,month:m,day:d,key:`${y}-${String(m).padStart(2,"0")}`,monthKey:`${y}-${String(m).padStart(2,"0")}`,dayKey:`${y}-${String(m).padStart(2,"0")}/${String(d).padStart(2,"0")}`,dayLabel:String(d).padStart(2,"0")};
-
-}
-
-function parseJalaliMonthFromDate(value){
-
-    const raw=normalizeDigitsForMonth(value).trim();
-
-    if(!raw)return null;
-
-    // Direct Persian/Jalali date such as 1405/01/03 or 1405-01-03.
-
-    const jalali=raw.match(/^(13|14)\d{2}[\/\-.](\d{1,2})[\/\-.](\d{1,2})/);
-
-    if(jalali){
-
-        const y=Number(raw.slice(0,4));
-
-        const m=Number(jalali[2]);
-
-        if(m>=1&&m<=12){ const d=Number(jalali[3]); return {year:y,month:m,day:d,key:`${y}-${String(m).padStart(2,"0")}`,monthKey:`${y}-${String(m).padStart(2,"0")}`,dayKey:`${y}-${String(m).padStart(2,"0")}/${String(d).padStart(2,"0")}`,dayLabel:String(d).padStart(2,"0")}; }
-
-    }
-
-    // Gregorian/ISO date or JS-readable timestamp -> Persian calendar.
-
-    const iso=raw.match(/^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})/);
-
-    let date=null;
-
-    if(iso){
-
-        date=new Date(Number(iso[1]),Number(iso[2])-1,Number(iso[3]));
-
-    }else{
-
-        const parsed=new Date(value);
-
-        if(!Number.isNaN(parsed.getTime())) date=parsed;
-
-    }
-
-    if(!date)return null;
-
-    const parts=new Intl.DateTimeFormat("en-US-u-ca-persian",{
-
-        year:"numeric",month:"2-digit",day:"2-digit"
-
-    }).formatToParts(date);
-
-    const y=Number(parts.find(p=>p.type==="year")?.value||0);
-
-    const m=Number(parts.find(p=>p.type==="month")?.value||0);
-
-    const d=Number(parts.find(p=>p.type==="day")?.value||0);
-
-    if(!y||!m)return null;
-
-    return {year:y,month:m,day:d,key:`${y}-${String(m).padStart(2,"0")}`,monthKey:`${y}-${String(m).padStart(2,"0")}`,dayKey:`${y}-${String(m).padStart(2,"0")}/${String(d).padStart(2,"0")}`,dayLabel:String(d).padStart(2,"0")};
-
-}
-
-function getTransactionReportMonth(item){
-
-    return parseJalaliMonthFromDate(item?.date) || parseJalaliMonthFromDate(item?.time);
-
-}
-
-function getTransactionStableKey(item){
-
-    const id=String(item?.id ?? item?.cloudId ?? "").trim();
-
-    if(id)return "id:"+id;
-
-    return [item?.date,item?.time,item?.customer,item?.service,item?.amount,item?.method,item?.description]
-
-        .map(v=>String(v??"").trim()).join("|");
-
-}
-
-function getMonthResetMap(){
-
-    try{
-
-        const raw=localStorage.getItem(JANA_RESET_KEY);
-
-        const parsed=raw?JSON.parse(raw):{};
-
-        return parsed && typeof parsed==="object" ? parsed : {};
-
-    }catch(e){return {};}
-
-}
-
-function saveMonthResetMap(map){
-
-    try{localStorage.setItem(JANA_RESET_KEY,JSON.stringify(map));}catch(e){console.warn("Month reset save failed",e);}
-
-}
-
-function getSelectedReportMonth(){
-
-    const current=getCurrentJalaliMonth();
-
-    const saved=String(localStorage.getItem(JANA_MONTH_KEY)||"");
-
-    if(!/^\d{4}-\d{2}$/.test(saved))return current;
-
-    const [year,month]=saved.split("-").map(Number);
-
-    if(year>current.year || (year===current.year && month>current.month))return current;
-
-    if(month<1||month>12)return current;
-
-    return {year,month,key:`${year}-${String(month).padStart(2,"0")}`};
-
-}
-
-function setSelectedReportMonth(monthObj){
-
-    const current=getCurrentJalaliMonth();
-
-    let y=Number(monthObj?.year),m=Number(monthObj?.month);
-
-    if(!y||!m)return;
-
-    if(y>current.year || (y===current.year && m>current.month)){y=current.year;m=current.month;}
-
-    while(m<1){y--;m+=12;} while(m>12){y++;m-=12;}
-
-    if(y>current.year || (y===current.year && m>current.month)){y=current.year;m=current.month;}
-
-    localStorage.setItem(JANA_MONTH_KEY,`${y}-${String(m).padStart(2,"0")}`);
-
-    refreshSelectedReportMonth();
-
-}
-
-function changeReportMonth(delta){
-
-    const selected=getSelectedReportMonth();
-
-    let y=selected.year,m=selected.month+Number(delta||0);
-
-    while(m<1){y--;m+=12;} while(m>12){y++;m-=12;}
-
-    const current=getCurrentJalaliMonth();
-
-    if(y>current.year || (y===current.year && m>current.month))return;
-
-    setSelectedReportMonth({year:y,month:m});
-
-}
-
-function getSelectedReportTransactions(filter){
-
-    const selected=getSelectedReportMonth();
-
-    const resetMap=getMonthResetMap();
-
-    const excluded=new Set(Array.isArray(resetMap[selected.key])?resetMap[selected.key]:[]);
-
-    let list=(Array.isArray(allTransactions)?allTransactions:[]).filter(item=>{
-
-        const month=getTransactionReportMonth(item);
-
-        return month && month.key===selected.key && !excluded.has(getTransactionStableKey(item));
-
-    });
-
-    if(filter && filter!=="all")list=list.filter(item=>methodMatchesFilter(item.method,filter));
-
-    return list;
-
-}
-
-function getReportMonthLabel(monthObj=getSelectedReportMonth()){
-
-    try{
-
-        const sample=new Date(2020,0,1);
-
-        // Use the Persian locale to obtain the localized month name.
-
-        const formatter=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{month:"long"});
-
-        const name=formatter.format(sample);
-
-        const names=["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
-
-        return `${names[monthObj.month-1]||name} ${faNumber(monthObj.year)}`;
-
-    }catch(e){return `${monthObj.year}/${String(monthObj.month).padStart(2,"0")}`;}
-
-}
-
-function getReportMonthLabelShort(){return getReportMonthLabel();}
-
-function updateReportMonthUI(){
-
-    const selected=getSelectedReportMonth(), current=getCurrentJalaliMonth();
-
-    const title=document.getElementById("selectedReportMonth");
-
-    const sub=document.getElementById("selectedReportMonthSub");
-
-    const prev=document.getElementById("monthPrevButton");
-
-    const next=document.getElementById("monthNextButton");
-
-    if(title)title.textContent=getReportMonthLabel(selected);
-
-    if(sub)sub.textContent=selected.key===current.key?"ماه جاری • گزارش ماه شمسی":"گزارش ماه شمسی • اطلاعات قبلی حفظ شده است";
-
-    if(next)next.disabled=selected.key===current.key;
-
-    if(prev)prev.disabled=false;
-
-    const bubbleLabels=document.querySelectorAll(".bubbleLabel");
-
-    bubbleLabels.forEach(label=>{label.textContent=selected.key===current.key?"درآمد ماه جاری":`درآمد ${getReportMonthLabel(selected)}`;});
-
-}
-
-function refreshSelectedReportMonth(){
-
-    updateReportMonthUI();
-
-    updateStats();
-
-    updateBubble();
-
-    if(typeof drawIncomeChart==="function")drawIncomeChart();
-
-}
-
-function resetCurrentReportMonth(){
-
-    const selected=getSelectedReportMonth();
-
-    const monthTransactions=(Array.isArray(allTransactions)?allTransactions:[]).filter(item=>getTransactionReportMonth(item)?.key===selected.key);
-
-    if(!monthTransactions.length){
-
-        showToast("ℹ️ برای این ماه تراکنشی وجود ندارد.");
-
-        return;
-
-    }
-
-    const map=getMonthResetMap();
-
-    const existing=new Set(Array.isArray(map[selected.key])?map[selected.key]:[]);
-
-    monthTransactions.forEach(item=>existing.add(getTransactionStableKey(item)));
-
-    map[selected.key]=Array.from(existing);
-
-    saveMonthResetMap(map);
-
-    refreshSelectedReportMonth();
-
-    showToast(`✅ گزارش ${getReportMonthLabel(selected)} صفر شد؛ تراکنش‌ها حذف نشدند.`);
-
-}
-
-function applySavedJanaTheme(){
-
-    const light=localStorage.getItem(JANA_THEME_KEY)==="light";
-
-    document.body.classList.toggle("janaLightTheme",light);
-
-    const btn=document.getElementById("themeToggleButton");
-
-    if(btn){btn.textContent=light?"🌙":"☀️";btn.title=light?"فعال کردن حالت تاریک":"فعال کردن حالت روشن";}
-
-}
-
-function toggleJanaTheme(){
-
-    const light=!document.body.classList.contains("janaLightTheme");
-
-    localStorage.setItem(JANA_THEME_KEY,light?"light":"dark");
-
-    const btn=document.getElementById("themeToggleButton");
-
-    if(btn){btn.classList.remove("rotating");void btn.offsetWidth;btn.classList.add("rotating");}
-
-    applySavedJanaTheme();
-
-}
-
 function updateStats(){
-
-    const transactions = getSelectedReportTransactions(currentFilter);
-
-    const todayKey = getCurrentJalaliMonth ? (function(){ const now=new Date(); const parts=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(now); const g=t=>parts.find(x=>x.type===t)?.value||""; return normalizeDigitsForMonth(`${g("year")}/${g("month")}/${g("day")}`); })() : "";
-
-    const dailyTransactions = transactions.filter(item=>{ const p=parseJalaliMonthFromDate(item?.date); return p && p.dayKey===todayKey; });
-
-    let totalIncome = 0;
-
-    let pos = 0;
-
-    let cash = 0;
-
-    let transfer = 0;
-
-    transactions.forEach(item => {
-
-        const amount = Number(item.amount || 0);
-
-        totalIncome += amount;
-
-        if(isPosMethod(item.method)) pos += amount;
-
-        if(isCashMethod(item.method) || isWithdrawalMethod(item.method)) cash += amount;
-
-        if(isTransferMethod(item.method)) transfer += amount;
-
-    });
-
-    const dailyTotalIncome = dailyTransactions.reduce((sum,item)=>sum + Number(item.amount || 0), 0);
-
-    const totalIncomeEl = document.getElementById("totalIncome");
-
-    if(totalIncomeEl) totalIncomeEl.textContent = secureMoney(dailyTotalIncome);
-
-    const transactionCount = document.getElementById("transactionCount");
-
-    if(transactionCount) transactionCount.textContent = moneyHidden ? "••••••" : faNumber(transactions.length);
-
-    const posTotal = document.getElementById("posTotal");
-
-    if(posTotal) posTotal.textContent = secureMoney(pos);
-
-    const cashTotal = document.getElementById("cashTotal");
-
-    if(cashTotal) cashTotal.textContent = secureMoney(cash);
-
-    const transferTotal = document.getElementById("transferTotal");
-
-    if(transferTotal) transferTotal.textContent = secureMoney(transfer);
-
-    updateReportMonthUI();
-
-    updateBubble();
-
-    drawIncomeChart();
-
+const transactions=getReportTransactions();
+const filtered=currentFilter==="all"?transactions.filter(item=>methodMatchesFilter(item.method,currentFilter));
+const todayParts=persianPartsFromDate(new Date());
+const todayKey=todayParts?${todayParts.year}/${String(todayParts.month).padStart(2,"0")}/${String(todayParts.day).padStart(2,"0")}:"";
+const todayTransactions=(Array.isArray(allTransactions)?allTransactions:[]).filter(item=>{
+const p=getPersianDateParts(item?.date);
+return p && ${p.year}/${String(p.month).padStart(2,"0")}/${String(p.day).padStart(2,"0")}===todayKey;
+});
+let total=0,pos=0,cash=0,transfer=0;
+transactions.forEach(item=>{const amount=Number(item.amount||0);total+=amount;if(isPosMethod(item.method))pos+=amount;if(isRegularCashMethod(item.method))cash+=amount;if(isTransferMethod(item.method))transfer+=amount;});
+const dailyTotal=todayTransactions.reduce((sum,item)=>sum+Number(item.amount||0),0);
+const totalIncome=document.getElementById("totalIncome");if(totalIncome)totalIncome.textContent=secureMoney(dailyTotal);
+const transactionCount=document.getElementById("transactionCount");if(transactionCount)transactionCount.textContent=moneyHidden?"••••••"(filtered.length);
+const posTotal=document.getElementById("posTotal");if(posTotal)posTotal.textContent=secureMoney(pos);
+const cashTotal=document.getElementById("cashTotal");if(cashTotal)cashTotal.textContent=secureMoney(cash);
+const transferTotal=document.getElementById("transferTotal");if(transferTotal)transferTotal.textContent=secureMoney(transfer);
+updateReportMonthUI();updateBubble();drawIncomeChart();
 }
 
 /* =====================================================
@@ -5829,37 +5146,10 @@ function updateStats(){
 ===================================================== */
 
 function updateBubble(){
-
-    /* «درآمد کل» فقط جمع درآمدهای ماه انتخاب‌شده است؛ از روز اول تا آخر همان ماه. */
-
-    const monthTransactions = typeof getSelectedReportTransactions === "function"
-
-        ? getSelectedReportTransactions("all")
-
-        : [];
-
-    const total = Array.isArray(monthTransactions)
-
-        ? monthTransactions.reduce((sum,item)=>sum + Number(item.amount || 0), 0)
-
-        : 0;
-
-    const bubble = document.getElementById("bubbleIncome");
-
-    if(bubble) bubble.textContent = secureMoney(total);
-
-    const totalBubble = document.getElementById("totalBubbleIncome");
-
-    if(totalBubble) totalBubble.textContent = secureMoney(total);
-
-    const labels = document.querySelectorAll(".bubbleLabel");
-
-    labels.forEach(label => {
-
-        if(label.id === "") label.textContent = "درآمد کل";
-
-    });
-
+const total=getReportTransactions().reduce((sum,item)=>sum+Number(item.amount||0),0);
+const bubble=document.getElementById("bubbleIncome");if(bubble)bubble.textContent=secureMoney(total);
+const totalBubble=document.getElementById("totalBubbleIncome");if(totalBubble)totalBubble.textContent=secureMoney(total);
+const label=document.querySelector(".bubbleLabel");if(label)label.textContent=selectedReportMonthKey===currentPersianMonthKey()?"درآمد ماه جاری":"درآمد ماه انتخاب‌شده";
 }
 
 /* =====================================================
@@ -6160,13 +5450,15 @@ if(cashWithdrawalAmountInput){
 
 function getFilteredTransactions(){
 
+    const monthTransactions=getReportTransactions({applyReset});
+
     let transactions =
 
         currentFilter === "all"
 
-        ? [...allTransactions]
+        ? [...monthTransactions]
 
-        : allTransactions.filter(
+        : monthTransactions.filter(
 
             item =>
 
@@ -7024,9 +6316,9 @@ function safeCssEscape(value){
 
     if(window.CSS && typeof window.CSS.escape==="function") return window.CSS.escape(String(value));
 
-    return String(value).replace(/[^a-zA-Z0-9\_-]/g,function(ch){
+    return String(value).replace(/[^a-zA-Z0-9_-]/g,function(ch){
 
-        return "\\\\" + ch;
+        return "\\" + ch;
 
     });
 
@@ -7596,7 +6888,7 @@ function renderNotes(){
 
                     data-note-action="done"
 
-                    data-note-id="${escapeHTML(String(note.cloudId||note.id||""))}"
+                    data-note-id="${escapeHTML(String(note.id||""))}"
 
                 >✓ انجام شد</button>
 
@@ -7608,7 +6900,7 @@ function renderNotes(){
 
                     data-note-action="pin"
 
-                    data-note-id="${escapeHTML(String(note.cloudId||note.id||""))}"
+                    data-note-id="${escapeHTML(String(note.id||""))}"
 
                 >${note.pinned?"📌 برداشتن پین":"📌 پین"}</button>
 
@@ -7620,7 +6912,7 @@ function renderNotes(){
 
                     data-note-action="edit"
 
-                    data-note-id="${escapeHTML(String(note.cloudId||note.id||""))}"
+                    data-note-id="${escapeHTML(String(note.id||""))}"
 
                 >✏️ ویرایش</button>
 
@@ -7632,7 +6924,7 @@ function renderNotes(){
 
                     data-note-action="delete"
 
-                    data-note-id="${escapeHTML(String(note.cloudId||note.id||""))}"
+                    data-note-id="${escapeHTML(String(note.id||""))}"
 
                 >🗑 حذف</button>
 
@@ -7722,34 +7014,6 @@ window.openDeleteNoteModal=openDeleteNoteModal;
 
 window.confirmDeleteNote=confirmDeleteNote;
 
-(function setupNoteAddButton(){
-
-    function bind(){
-
-        const button=document.getElementById("noteAddButton");
-
-        if(!button || button.dataset.noteAddWired==="1")return;
-
-        button.dataset.noteAddWired="1";
-
-        button.addEventListener("click",function(event){
-
-            event.preventDefault();
-
-            event.stopPropagation();
-
-            addNote();
-
-        });
-
-    }
-
-    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",bind);
-
-    else bind();
-
-})();
-
 window.editNote=editNote;
 
 window.submitNoteEdit=submitNoteEdit;
@@ -7782,61 +7046,151 @@ function drawIncomeChart(){
 
     if(!chartBars)return;
 
-    /* نمودار دقیقاً از اول تا اول ماه شمسی انتخاب‌شده محاسبه می‌شود. */
-
-    const selectedMonthObj = getSelectedReportMonth();
-
-    const monthKey = selectedMonthObj ? selectedMonthObj.key : getCurrentJalaliMonth().key;
-
-    const monthTransactions = getSelectedReportTransactions("all");
-
     const normalizeDigits=value=>String(value??"")
 
         .replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d))
 
         .replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
 
+    const persianDateKeyFromDate=date=>{
+
+        if(!(date instanceof Date) || Number.isNaN(date.getTime()))return "";
+
+        const parts=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{
+
+            year:"numeric",
+
+            month:"2-digit",
+
+            day:"2-digit"
+
+        }).formatToParts(date);
+
+        const get=type=>parts.find(x=>x.type===type)?.value||"";
+
+        return `${get("year")}/${get("month")}/${get("day")}`;
+
+    };
+
+    const parseIncomeDate=value=>{
+
+        const raw=normalizeDigits(String(value??"").trim());
+
+        if(!raw)return {key:"",label:""};
+
+        /* تاریخ شمسی مثل ۱۴۰۵/۰۶/۱۸ */
+
+        const faMatch=raw.match(/^(13\d{2}|14\d{2}|15\d{2})[\/.-](\d{1,2})[\/.-](\d{1,2})/);
+
+        if(faMatch){
+
+            const key=`${faMatch[1]}/${String(faMatch[2]).padStart(2,"0")}/${String(faMatch[3]).padStart(2,"0")}`;
+
+            return {key,label:key};
+
+        }
+
+        /* تاریخ میلادی یا timestamp مثل 2026-09-07T09:59:10.741Z */
+
+        const parsed=new Date(raw);
+
+        if(!Number.isNaN(parsed.getTime())){
+
+            const key=persianDateKeyFromDate(parsed);
+
+            return {key,label:key};
+
+        }
+
+        /* fallback برای رشته‌های تاریخ میلادی ساده */
+
+        const g=raw.match(/^(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})/);
+
+        if(g){
+
+            const parsedLocal=new Date(Number(g[1]),Number(g[2])-1,Number(g[3]));
+
+            const key=persianDateKeyFromDate(parsedLocal);
+
+            return {key,label:key};
+
+        }
+
+        return {key:raw,label:raw};
+
+    };
+
+    const todayKey=persianDateKeyFromDate(new Date());
+
     const dailyMap={};
 
     const displayMap={};
 
-    monthTransactions.forEach(item=>{
+    allTransactions.forEach(item=>{
 
-        const parsed=parseJalaliMonthFromDate(item?.date);
+        const parsed=parseIncomeDate(item.date);
 
-        if(!parsed || parsed.monthKey!==monthKey)return;
-
-        const dayKey=parsed.dayKey;
+        if(!parsed.key)return;
 
         const amount=Number(item.amount||0);
 
-        dailyMap[dayKey]=(dailyMap[dayKey]||0)+amount;
+        dailyMap[parsed.key]=(dailyMap[parsed.key]||0)+amount;
 
-        displayMap[dayKey]=parsed.dayLabel || dayKey;
+        displayMap[parsed.key]=parsed.label;
 
     });
 
-    const monthMatch=String(monthKey).match(/^(\d{4})-(\d{1,2})$/);
+    /* روز جاری همیشه آخر نمودار است؛ حتی اگر هنوز تراکنشی نداشته باشد. */
 
-    let daysInMonth=31;
+    dailyMap[todayKey]=dailyMap[todayKey]||0;
 
-    if(monthMatch){
+    displayMap[todayKey]=todayKey;
 
-        const y=Number(monthMatch[1]), m=Number(monthMatch[2]);
+    const keys=Object.keys(dailyMap);
 
-        daysInMonth = m<=6 ? 31 : (m<=11 ? 30 : ((y%4===3)?30:29));
+    const parseKey=key=>{
 
-    }
+        const m=String(key).match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})$/);
 
-    const entries=[];
+        if(!m)return null;
 
-    for(let day=1;day<=daysInMonth;day++){
+        return [Number(m[1]),Number(m[2]),Number(m[3])];
 
-        const dayKey=`${monthKey}/${String(day).padStart(2,"0")}`;
+    };
 
-        entries.push([dayKey,dailyMap[dayKey]||0,displayMap[dayKey]||String(day).padStart(2,"0")]);
+    keys.sort((a,b)=>{
 
-    }
+        const pa=parseKey(a),pb=parseKey(b);
+
+        if(pa&&pb)return pa[0]-pb[0]||pa[1]-pb[1]||pa[2]-pb[2];
+
+        return a.localeCompare(b);
+
+    });
+
+    const recentKeys=keys.slice(-30);
+
+    if(!recentKeys.includes(todayKey))recentKeys.push(todayKey);
+
+    recentKeys.sort((a,b)=>{
+
+        const pa=parseKey(a),pb=parseKey(b);
+
+        if(pa&&pb)return pa[0]-pb[0]||pa[1]-pb[1]||pa[2]-pb[2];
+
+        return a.localeCompare(b);
+
+    });
+
+    const entries=recentKeys.map(key=>[
+
+        key,
+
+        dailyMap[key]||0,
+
+        displayMap[key]||key
+
+    ]);
 
     const maxValue=Math.max(...entries.map(x=>x[1]),1);
 
@@ -7847,6 +7201,8 @@ function drawIncomeChart(){
         const item=document.createElement("div");
 
         item.className="chartBarItem";
+
+        if(key===todayKey)item.classList.add("currentDay");
 
         const valueBox=document.createElement("div");
 
@@ -7860,7 +7216,7 @@ function drawIncomeChart(){
 
         bar.style.height=Math.max(5,(value/maxValue)*235)+"px";
 
-        bar.title=money(value);
+        bar.title=(key===todayKey?"امروز • ":"")+money(value);
 
         const label=document.createElement("div");
 
@@ -7876,23 +7232,25 @@ function drawIncomeChart(){
 
     const chartTotal=entries.reduce((sum,x)=>sum+x[1],0);
 
-    const activeDays=entries.filter(x=>x[1]>0);
+    const todayTotal=dailyMap[todayKey]||0;
 
-    const average=activeDays.length ? chartTotal/activeDays.length : 0;
+    const previousEntries=entries.filter(x=>x[0]!==todayKey);
 
-    if(chartSummary){
+    const previousAverage=previousEntries.length
 
-        chartSummary.innerHTML=`
+        ? previousEntries.reduce((sum,x)=>sum+x[1],0)/previousEntries.length
 
-            <div class="chartSummaryItem">درآمد این ماه <strong>${secureMoney(chartTotal)}</strong></div>
+        : 0;
 
-            <div class="chartSummaryItem">روزهای دارای درآمد <strong>${faNumber(activeDays.length)}</strong></div>
+    chartSummary.innerHTML=`
 
-            <div class="chartSummaryItem">میانگین روزهای دارای درآمد <strong>${secureMoney(average)}</strong></div>
+        <div class="chartSummaryItem">۳۰ روز اخیر <strong>${secureMoney(chartTotal)}</strong></div>
 
-        `;
+        <div class="chartSummaryItem">امروز <strong>${secureMoney(todayTotal)}</strong></div>
 
-    }
+        <div class="chartSummaryItem">میانگین روزهای قبل <strong>${secureMoney(previousAverage)}</strong></div>
+
+    `;
 
 }
 
@@ -8036,7 +7394,7 @@ function showDate(){
 
         const reportDate=document.getElementById("reportDate");
 
-        if(reportDate)reportDate.textContent="آخرین بروزرسانی: "+now.toLocaleDateString("fa-IR")+" • "+time;
+        if(reportDate)reportDate.textContent=monthKeyLabel(selectedReportMonthKey || currentPersianMonthKey())+" • بروزرسانی "+time;
 
     };
 
@@ -8428,79 +7786,75 @@ async function loadMessages(){
 
         let loaded=false;
 
-        let lastError=null;
-
         try{
 
-            const response=await fetch(API_URL+"?action=getMessages&_="+Date.now(),{method:"GET",cache:"no-store"});
+            const response=await fetch(
+
+                API_URL+"?action=getMessages&_="+Date.now(),
+
+                {
+
+                    method:"GET",
+
+                    cache:"no-store"
+
+                }
+
+            );
 
             if(!response.ok)throw new Error("HTTP "+response.status);
 
             const data=await response.json();
 
-            if(data.status==="success"||data.status==="ok"){
+            if(data.status!=="success" && data.status!=="ok"){
 
-                allMessages=Array.isArray(data.messages)?data.messages:[];
-
-                loaded=true;
-
-            }else{
-
-                throw new Error(data.message||"خطا در دریافت پیام‌ها");
+                throw new Error(data.message||"Messages endpoint failed");
 
             }
 
+            allMessages=Array.isArray(data.messages)?data.messages:[];
+
+            loaded=true;
+
         }catch(error){
 
-            lastError=error;
-
-            console.warn("Messages endpoint failed:",error);
+            console.warn("Direct Messages read failed:",error);
 
         }
 
-        if(!loaded){
+        if(!loaded || !allMessages.length){
 
             try{
 
-                const data=await getCloudData();
+                const fallback=await getCloudData();
 
-                if(Array.isArray(data.messages)){
+                if(Array.isArray(fallback.messages)){
 
-                    allMessages=data.messages;
+                    allMessages=fallback.messages;
 
                     loaded=true;
-
-                }else{
-
-                    throw new Error("داده پیام‌ها از سرور دریافت نشد");
 
                 }
 
             }catch(error){
 
-                lastError=error;
-
-                console.warn("Messages getData failed:",error);
+                console.warn("Messages getData fallback failed:",error);
 
             }
 
         }
 
-        if(!loaded){
+        if(!loaded)allMessages=[];
 
-            console.warn("Messages could not be loaded:",lastError);
+        renderMiniChat();
 
-            allMessages=[];
+        renderChatMessages();
 
-        }
+        renderTransactions();
 
-        try{renderMiniChat();}catch(e){console.warn("renderMiniChat failed:",e);}
+        checkPaymentRequests();
 
-        try{renderChatMessages();}catch(e){console.warn("renderChatMessages failed:",e);}
-
-        try{checkPaymentRequests();}catch(e){console.warn("checkPaymentRequests failed:",e);}
-
-        try{updateChatBadge();}catch(e){console.warn("updateChatBadge failed:",e);}
+        updateChatBadge();
 
         return allMessages;
 
@@ -8548,47 +7902,15 @@ function renderChatMessages(){
 
 async function openChat(){
 
-    const overlay=document.getElementById("chatOverlay");
+    document.getElementById("chatOverlay")?.classList.add("open");
 
-    if(!overlay)return;
+    await loadMessages();
 
-    overlay.classList.add("open");
+    const incoming=allMessages.filter(m=>String(m.sender||"").trim()!=="خانم دهقان"&&!m.read);
 
-    const status=document.getElementById("chatStatus");
+    for(const m of incoming){ try{await cloudPost({action:"markMessageRead",id:m.id,status:"خوانده شد"});m.read=true;}catch(e){} }
 
-    if(status)status.textContent="در حال دریافت پیام‌ها…";
-
-    try{
-
-        await loadMessages();
-
-        const incoming=allMessages.filter(m=>String(m.sender||"").trim()!=="خانم دهقان"&&!m.read);
-
-        for(const m of incoming){
-
-            try{
-
-                await cloudPost({action:"markMessageRead",id:m.id,status:"خوانده شد"});
-
-                m.read=true;
-
-            }catch(e){console.warn("markMessageRead failed:",e);}
-
-        }
-
-        if(status)status.textContent=allMessages.length?"پیام‌ها آماده است":"هنوز پیامی ثبت نشده است";
-
-        updateChatBadge();
-
-    }catch(error){
-
-        console.error("openChat failed:",error);
-
-        if(status)status.textContent="خطا در دریافت پیام‌ها";
-
-        renderChatMessages();
-
-    }
+    updateChatBadge();
 
 }
 
@@ -8610,73 +7932,25 @@ function chatKeydown(e){
 
 async function sendChatMessage(){
 
-    const input=document.getElementById("chatInput");
+    const input=document.getElementById("chatInput"); const text=input?.value.trim(); if(!text)return;
 
-    const button=document.getElementById("chatSendButton");
-
-    const text=input?.value.trim();
-
-    if(!text)return false;
-
-    if(button)button.disabled=true;
-
-    try{
-
-        await cloudPost({action:"addMessage",sender:"خانم دهقان",text:text,message:text,status:"خوانده نشده",payment:"پرداخت نشده"});
-
-        if(input)input.value="";
-
-        await loadMessages();
-
-        showToast("✉️ پیام ارسال شد.");
-
-        return true;
-
-    }catch(e){
-
-        console.error("sendChatMessage failed:",e);
-
-        showToast("⚠️ ارسال پیام انجام نشد.");
-
-        return false;
-
-    }finally{
-
-        if(button)button.disabled=false;
-
-    }
+    try{await cloudPost({action:"addMessage",sender:"خانم دهقان",text:text,message:text,status:"خوانده نشده",payment:"پرداخت نشده"});input.value="";await loadMessages();showToast("✉️ پیام ارسال شد.");}catch(e){console.error(e);showToast("⚠️ ارسال پیام انجام نشد.")}
 
 }
 
 function parsePaymentMessage(m){
 
-    const text=String(m?.text||m?.message||"");
+    const text=String(m.text||"");
 
-    const clean=value=>String(value??"").replace(/[*_`]/g,"").trim();
+    const tx=(text.match(/\[TX:([^\]]+)\]/i)||[])[1]||"";
 
-    const tx=(text.match(/\[TX:([^\]]+)\]/i)||[])[1]||String(m?.transactionId||m?.txId||m?.transaction?.id||"");
+    const customer=(text.match(/مشتری\s*:\s*([^|\n]+)/i)||[])[1]?.trim()||"-";
 
-    const pick=(patterns)=>{
+    const service=(text.match(/خدمت\s*:\s*([^|\n]+)/i)||text.match(/درخواست پرداخت\s*:\s*([^|]+)/i)||[])[1]?.trim()||"-";
 
-        for(const re of patterns){
+    const amount=(text.match(/مبلغ\s*:\s*([^|\n]+)/i)||text.match(/مبلغ\s+([^|\n]+)/i)||[])[1]?.trim()||"-";
 
-            const hit=text.match(re);
-
-            if(hit?.[1])return clean(hit[1]);
-
-        }
-
-        return "-";
-
-    };
-
-    const customer=pick([/مشتری\s*[:：]\s*([^|\n]+)/i,/نام مشتری\s*[:：]\s*([^|\n]+)/i])!=="-" ? pick([/مشتری\s*[:：]\s*([^|\n]+)/i,/نام مشتری\s*[:：]\s*([^|\n]+)/i]) : clean(m?.customer||m?.transaction?.customer||"-");
-
-    const service=pick([/خدمت\s*[:：]\s*([^|\n]+)/i,/سرویس\s*[:：]\s*([^|\n]+)/i,/درخواست پرداخت\s*[:：]\s*([^|\n]+)/i])!=="-" ? pick([/خدمت\s*[:：]\s*([^|\n]+)/i,/سرویس\s*[:：]\s*([^|\n]+)/i,/درخواست پرداخت\s*[:：]\s*([^|\n]+)/i]) : clean(m?.service||m?.transaction?.service||"-");
-
-    const amount=pick([/مبلغ\s*[:：]\s*([^|\n]+)/i,/مبلغ\s+([^|\n]+)/i,/amount\s*[:=]\s*([^|\n]+)/i])!=="-" ? pick([/مبلغ\s*[:：]\s*([^|\n]+)/i,/مبلغ\s+([^|\n]+)/i,/amount\s*[:=]\s*([^|\n]+)/i]) : clean(m?.amount||m?.transaction?.amount||"-");
-
-    return {tx:clean(tx),customer,service,amount};
+    return {tx,customer,service,amount};
 
 }
 
@@ -8886,7 +8160,7 @@ function checkPaymentRequests(){
 
         const txMarker=/\[TX:[^\]]+\]/i.test(text);
 
-        const paymentRequest=/درخواست\s*[:：-]?\s*(پرداخت|واریز)|پرداخت\s*[:：-]?\s*(درخواست|جدید)/i.test(text);
+        const paymentRequest=/درخواست\s*پرداخت|درخواست\s*واریز/i.test(text);
 
         return sender!=="خانم دهقان" &&
 
@@ -9003,9 +8277,8 @@ document.addEventListener("touchstart",unlockPaymentAudio,{passive:true});
    START
 
 ===================================================== */
-
-applySavedJanaTheme();
-
+selectedReportMonthKey=currentPersianMonthKey();
+loadTheme();
 updateReportMonthUI();
 
 loadNotes();
