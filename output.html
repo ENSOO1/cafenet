@@ -5453,7 +5453,7 @@ function toggleJanaTheme(){
 
 function updateStats(){
     const transactions = getSelectedReportTransactions(currentFilter);
-    const todayKey = getCurrentJalaliMonth ? (function(){ const now=new Date(); const parts=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(now); const g=t=>parts.find(x=>x.type===t)?.value||""; return `${g("year")}/${g("month")}/${g("day")}`; })() : "";
+    const todayKey = getCurrentJalaliMonth ? (function(){ const now=new Date(); const parts=new Intl.DateTimeFormat("en-US-u-ca-persian",{year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(now); const g=t=>parts.find(x=>x.type===t)?.value||""; return `${g("year")}-${g("month")}/${g("day")}`; })() : "";
     const dailyTransactions = transactions.filter(item=>{ const p=parseJalaliMonthFromDate(item?.date); return p && p.dayKey===todayKey; });
     let totalIncome = 0;
     let pos = 0;
