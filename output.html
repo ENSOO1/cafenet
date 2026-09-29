@@ -8410,7 +8410,7 @@ function renderMiniChat(){
 
         const unread=!m.read && String(m.sender||"").trim()!=="خانم دهقان";
 
-        const text=String(m.text||"").replace(/[TX:[^\]]+\]/g,"").replace(/\s+/g," ").trim();
+        const text=String(m.text||"").replace(/\[TX:[^\]]+\]/g,"").replace(/\s+/g," ").trim();
 
         return `<button type="button" class="miniChatItem ${unread?"unread":""}" onclick="openChat()">${unread?"🔵 ":""}${escapeHTML(text||"پیام")}</button>`;
 
@@ -8654,7 +8654,7 @@ function parsePaymentMessage(m){
 
     const clean=value=>String(value??"").replace(/[*_`]/g,"").trim();
 
-    const tx=(text.match(/[TX:([^\]]+)\]/i)||[])[1]||String(m?.transactionId||m?.txId||m?.transaction?.id||"");
+    const tx=(text.match(/\[TX:([^\]]+)\]/i)||[])[1]||String(m?.transactionId||m?.txId||m?.transaction?.id||"");
 
     const pick=(patterns)=>{
 
@@ -8884,7 +8884,7 @@ function checkPaymentRequests(){
 
         const text=String(m?.text||"");
 
-        const txMarker=/[TX:[^\]]+\]/i.test(text);
+        const txMarker=/\[TX:[^\]]+\]/i.test(text);
 
         const paymentRequest=/درخواست\s*[:：-]?\s*(پرداخت|واریز)|پرداخت\s*[:：-]?\s*(درخواست|جدید)/i.test(text);
 
