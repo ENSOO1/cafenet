@@ -4518,6 +4518,86 @@ body.janaLightTheme .liveDateTime{
   @keyframes janaJumpPulse{0%,100%{box-shadow:0 12px 30px rgba(61,77,190,.30),0 0 0 0 rgba(125,105,255,.20),inset 0 1px rgba(255,255,255,.35)}50%{box-shadow:0 14px 34px rgba(61,77,190,.36),0 0 0 7px rgba(125,105,255,.07),inset 0 1px rgba(255,255,255,.35)}}
 }
 
+
+/* JANA MOBILE — transaction feed with its own vertical scroll */
+@media(max-width:700px){
+  #transactions .tableWrap{
+    display:block!important;
+    width:100%!important;
+    max-height:min(62dvh,590px)!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+    scrollbar-width:thin!important;
+    scrollbar-color:rgba(133,112,255,.72) rgba(255,255,255,.045)!important;
+    padding:5px 3px 12px!important;
+    border-radius:17px!important;
+    background:rgba(8,16,34,.13)!important;
+  }
+  #transactions .tableWrap table,
+  #transactions .tableWrap tbody{
+    display:block!important;width:100%!important;min-width:0!important;
+  }
+  #transactions .tableWrap thead{display:none!important}
+  #transactions .tableWrap tbody tr{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:0 10px!important;
+    margin:0 0 11px!important;
+    padding:10px 11px!important;
+    border:1px solid rgba(151,164,255,.17)!important;
+    border-radius:17px!important;
+    background:linear-gradient(145deg,rgba(35,49,83,.46),rgba(13,23,45,.42))!important;
+    box-shadow:0 8px 22px rgba(0,0,0,.12),inset 0 1px rgba(255,255,255,.055)!important;
+  }
+  #transactions .tableWrap tbody tr:last-child{margin-bottom:2px!important}
+  #transactions .tableWrap tbody td{
+    display:flex!important;flex-direction:column!important;
+    justify-content:center!important;align-items:flex-start!important;
+    min-width:0!important;padding:8px 5px!important;
+    border:0!important;border-bottom:1px solid rgba(160,175,220,.09)!important;
+    font-size:11px!important;line-height:1.7!important;
+    overflow-wrap:anywhere!important;text-align:right!important;
+  }
+  #transactions .tableWrap tbody td::before{
+    display:block!important;margin-bottom:3px!important;
+    color:#91a6c7!important;font-size:9px!important;
+    font-weight:800!important;letter-spacing:.02em!important;
+  }
+  #transactions .tableWrap tbody td:nth-child(1)::before{content:"تاریخ"}
+  #transactions .tableWrap tbody td:nth-child(2)::before{content:"ساعت"}
+  #transactions .tableWrap tbody td:nth-child(3)::before{content:"مشتری"}
+  #transactions .tableWrap tbody td:nth-child(4)::before{content:"خدمت"}
+  #transactions .tableWrap tbody td:nth-child(5)::before{content:"مبلغ"}
+  #transactions .tableWrap tbody td:nth-child(6)::before{content:"روش پرداخت"}
+  #transactions .tableWrap tbody td:nth-child(7)::before{content:"وضعیت پرداخت"}
+  #transactions .tableWrap tbody td:nth-child(8)::before{content:"توضیحات"}
+  #transactions .tableWrap tbody td:nth-child(5){
+    color:#75d9b1!important;font-weight:900!important;font-size:13px!important;
+  }
+  #transactions .tableWrap tbody td:nth-child(3),
+  #transactions .tableWrap tbody td:nth-child(4),
+  #transactions .tableWrap tbody td:nth-child(8){grid-column:1/-1!important}
+  #transactions .tableWrap tbody td:nth-child(8){border-bottom:0!important}
+  #transactions .tableWrap tbody tr td[colspan="8"]{grid-column:1/-1!important}
+  #transactions .tableWrap tbody tr td[colspan="8"]::before{display:none!important}
+  #transactions .tableWrap::-webkit-scrollbar{width:5px}
+  #transactions .tableWrap::-webkit-scrollbar-thumb{
+    background:linear-gradient(180deg,#9a82ff,#43c8e4);border-radius:20px
+  }
+  #transactions .panelTitle{position:relative}
+  #transactions .panelTitle::after{
+    content:"برای دیدن تراکنش‌های بعدی، داخل این قاب اسکرول کن  ↓";
+    display:block;width:100%;margin-top:5px;
+    color:#8ea4c4;font-size:9px;font-weight:700;text-align:center;
+  }
+}
+@media(max-width:390px){
+  #transactions .tableWrap{max-height:58dvh!important}
+  #transactions .tableWrap tbody tr{padding:8px!important;gap:0 7px!important}
+}
+
 </style>
 
 </head>
