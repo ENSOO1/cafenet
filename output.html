@@ -4276,6 +4276,56 @@ body.janaLightTheme .mobileNav{background:rgba(249,251,255,.91)!important}
   .container::before,.container::after,.header::after,.incomeBubble::after{animation:none!important}
 }
 
+
+
+/* Month navigation controls: grouped inside one calendar glass frame */
+.monthlyReportNavigator{
+  width:max-content!important;max-width:100%;margin:0 auto 22px!important;
+  padding:10px 12px!important;gap:12px!important;min-height:0!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  border:1px solid rgba(145,165,255,.23)!important;border-radius:23px!important;
+  background:linear-gradient(135deg,rgba(34,43,82,.78),rgba(14,24,48,.72))!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.12)!important;
+  backdrop-filter:blur(24px) saturate(155%)!important;-webkit-backdrop-filter:blur(24px) saturate(155%)!important;
+}
+.monthlyReportNavigator .monthNavButton{
+  position:static!important;inset:auto!important;top:auto!important;right:auto!important;left:auto!important;
+  transform:none!important;flex:0 0 44px!important;width:44px!important;height:44px!important;
+  display:grid!important;place-items:center!important;border-radius:15px!important;
+  border:1px solid rgba(147,163,255,.27)!important;
+  background:linear-gradient(145deg,rgba(119,101,235,.24),rgba(49,154,208,.18))!important;
+  color:#dceaff!important;font-size:19px!important;
+  box-shadow:0 8px 20px rgba(0,0,0,.20),inset 0 1px rgba(255,255,255,.15)!important;
+}
+.monthlyReportNavigator .monthNavButton:hover:not(:disabled){transform:translateY(-2px) scale(1.05)!important;border-color:rgba(91,207,255,.55)!important}
+.monthlyReportNavigator .monthNavButton:active{transform:scale(.94)!important}
+.monthlyReportNavigator .monthNavCenter{
+  min-width:260px!important;padding:9px 18px!important;border:0!important;border-radius:15px!important;
+  background:rgba(255,255,255,.045)!important;box-shadow:inset 0 1px rgba(255,255,255,.08)!important;
+}
+body.janaLightTheme .monthlyReportNavigator{
+  background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(235,242,255,.91))!important;
+  border-color:rgba(90,110,165,.2)!important;box-shadow:0 16px 40px rgba(55,75,125,.13),inset 0 1px #fff!important
+}
+body.janaLightTheme .monthlyReportNavigator .monthNavButton{
+  color:#51439b!important;background:linear-gradient(145deg,rgba(137,119,235,.15),rgba(55,164,210,.12))!important;
+  border-color:rgba(112,105,190,.22)!important
+}
+body.janaLightTheme .monthlyReportNavigator .monthNavCenter{background:rgba(106,126,190,.055)!important}
+@media(max-width:700px){
+  .monthlyReportNavigator{width:100%!important;gap:7px!important;padding:8px!important;border-radius:19px!important;margin-bottom:16px!important}
+  .monthlyReportNavigator .monthNavButton{flex-basis:40px!important;width:40px!important;height:40px!important;border-radius:13px!important;font-size:17px!important}
+  .monthlyReportNavigator .monthNavCenter{min-width:0!important;flex:1 1 auto!important;padding:7px 5px!important}
+  .monthlyReportNavigator .monthNavTitle{font-size:13px!important}
+  .monthlyReportNavigator .monthNavSub{font-size:9px!important}
+  .monthlyReportNavigator .monthResetButton{min-height:32px!important;margin-top:6px!important;padding:6px 9px!important;font-size:9px!important}
+}
+@media(max-width:360px){
+  .monthlyReportNavigator{gap:5px!important;padding:6px!important}
+  .monthlyReportNavigator .monthNavButton{flex-basis:36px!important;width:36px!important;height:36px!important}
+  .monthlyReportNavigator .monthNavTitle{font-size:12px!important}
+}
+
 </style>
 
 </head>
