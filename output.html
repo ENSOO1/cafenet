@@ -3909,200 +3909,316 @@ body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,2
 #chartBars::-webkit-scrollbar-track{background:rgba(120,120,140,.10);border-radius:99px;}
 
 
-/* =====================================================
-   JANA PREMIUM MOBILE / GLASS APP EXPERIENCE
-   Visual-only enhancement: report calculations and data flow stay intact.
-===================================================== */
+
+/* ==========================================================
+   JANA REPORT — COMPLETE VISUAL REDESIGN
+   Presentation layer only. Existing report IDs and JS logic
+   are intentionally retained.
+========================================================== */
 :root{
-    color-scheme:dark;
-    --jana-blue:#38bdf8;
-    --jana-violet:#9b7bff;
-    --jana-glass:rgba(255,255,255,.075);
+ --jr-bg:#080b16;--jr-surface:#111729;--jr-card:#151d32;--jr-card2:#10182b;
+ --jr-line:rgba(163,177,255,.12);--jr-text:#f2f5ff;--jr-muted:#8f9bb8;
+ --jr-blue:#42c8f5;--jr-purple:#9b7cff;--jr-green:#45d6a0;
+ --jr-shadow:0 22px 60px rgba(0,0,0,.28);
 }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:95px}
 body{
-    background:
-      radial-gradient(ellipse at 12% 12%,rgba(124,92,255,.17),transparent 34%),
-      radial-gradient(ellipse at 88% 18%,rgba(0,160,255,.14),transparent 32%),
-      radial-gradient(ellipse at 50% 100%,rgba(88,65,190,.12),transparent 42%),
-      #050711;
-    background-attachment:fixed;
+ color:var(--jr-text);font-family:Tahoma,Arial,sans-serif;
+ background:
+  radial-gradient(ellipse at 80% 0%,rgba(88,75,190,.19),transparent 34%),
+  radial-gradient(ellipse at 10% 30%,rgba(24,145,210,.10),transparent 30%),
+  linear-gradient(145deg,#080b16 0%,#0b1020 48%,#080b16 100%);
+ background-attachment:fixed;overflow-x:hidden
 }
-body::before{background:#7958ff;opacity:.18}
-body::after{background:#008cff;opacity:.16}
-.container{width:min(1320px,94%);padding-top:38px}
-.stat,.panel,.monthNavCenter,.incomeHubOption,.note,.chatWindow,.paymentCard{
-    border-color:rgba(154,174,255,.14);
-    box-shadow:0 22px 65px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.09);
+body::before,body::after{opacity:.10;filter:blur(90px)}
+/* Desktop navigation rail */
+.janaSideRail{
+ position:fixed;z-index:8000;right:22px;top:22px;bottom:22px;width:238px;
+ display:flex;flex-direction:column;padding:22px 16px;border-radius:27px;
+ background:linear-gradient(165deg,rgba(24,32,57,.91),rgba(12,18,34,.88));
+ border:1px solid rgba(159,174,255,.14);
+ box-shadow:var(--jr-shadow),inset 0 1px rgba(255,255,255,.07);
+ backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px)
 }
-.stat{background:linear-gradient(145deg,rgba(255,255,255,.095),rgba(90,105,180,.035))}
-.stat:hover,.panel:hover{border-color:rgba(139,117,255,.32)}
-.stat strong,.bubbleAmount{background:linear-gradient(100deg,#65d5ff,#a58bff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.panel{background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(70,85,150,.025))}
-.incomeBubble::before{background:conic-gradient(from 0deg,transparent 0deg,#8b5cf6 70deg,#38bdf8 130deg,transparent 190deg,transparent 360deg);filter:drop-shadow(0 0 9px #8b5cf6) drop-shadow(0 0 18px rgba(56,189,248,.7))}
-.themeToggleButton,#themeToggleButton{border-color:rgba(167,139,250,.34)!important;box-shadow:0 12px 35px rgba(0,0,0,.32),0 0 24px rgba(124,92,255,.13)!important}
-.notifyPermissionBtn{
-    min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:9px;
-    padding:0 16px;border-radius:15px;border:1px solid rgba(139,117,255,.32);
-    background:linear-gradient(135deg,rgba(124,92,255,.18),rgba(0,160,255,.12));
-    color:#c8c5ff;font:700 12px Tahoma,Arial,sans-serif;cursor:pointer;
-    box-shadow:0 12px 30px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.1);
-    transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+.janaBrand{display:flex;align-items:center;gap:12px;padding:6px 7px 24px;border-bottom:1px solid var(--jr-line)}
+.janaBrandMark{
+ width:48px;height:48px;display:grid;place-items:center;border-radius:16px;font-size:23px;
+ color:#fff;background:linear-gradient(140deg,#7658e9,#279edb);
+ box-shadow:0 9px 25px rgba(100,90,230,.32)
 }
-.notifyPermissionBtn:hover{transform:translateY(-3px);border-color:rgba(56,189,248,.55);box-shadow:0 15px 36px rgba(64,91,210,.2)}
-.notifyPermissionBtn:active{transform:scale(.97)}
-.notifyPermissionBtn.enabled{border-color:rgba(52,211,153,.4);color:#8df0c5;background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(56,189,248,.1))}
-.notifyPermissionIcon{display:inline-block;font-size:17px;transform-origin:50% 10%;animation:notifyBellSwing 3.8s ease-in-out infinite}
-@keyframes notifyBellSwing{0%,78%,100%{transform:rotate(0)}82%{transform:rotate(17deg)}86%{transform:rotate(-14deg)}90%{transform:rotate(9deg)}94%{transform:rotate(-5deg)}}
-.toast{border-color:rgba(139,117,255,.36);background:linear-gradient(135deg,rgba(13,18,42,.94),rgba(24,17,54,.92));box-shadow:0 18px 48px rgba(0,0,0,.4),0 0 28px rgba(124,92,255,.12)}
-.floatingTop,.floatingChat{background:linear-gradient(145deg,rgba(125,92,255,.22),rgba(0,150,255,.16));border-color:rgba(155,135,255,.28)}
-.floatingTop::after,.floatingChat::after{
-    content:"";position:absolute;inset:-4px;border-radius:inherit;border:1px solid rgba(111,190,255,.22);
-    animation:floatControlOrbit 5s linear infinite;pointer-events:none
+.janaBrandText strong{display:block;font-size:16px;letter-spacing:-.3px}
+.janaBrandText small{display:block;color:#8f9bb8;font-size:10px;margin-top:6px}
+.janaRailCaption{font-size:10px;color:#687795;padding:24px 10px 10px;letter-spacing:1px}
+.janaRailLinks{display:grid;gap:7px}
+.janaRailLinks a{
+ display:flex;align-items:center;gap:12px;padding:13px 12px;border-radius:14px;
+ color:#aab5ce;text-decoration:none;font-size:12px;font-weight:700;
+ transition:.22s ease;border:1px solid transparent
 }
-.floatingChat{animation:floatControl 3.8s ease-in-out infinite}
-@keyframes floatControl{0%,100%{translate:0 0}50%{translate:0 -7px}}
-@keyframes floatControlOrbit{to{transform:rotate(360deg)}}
-.mobileNav a{transition:background .25s ease,color .25s ease,transform .25s ease}
-.mobileNav a.active{background:linear-gradient(135deg,rgba(124,92,255,.22),rgba(0,150,255,.15));box-shadow:inset 0 0 0 1px rgba(160,145,255,.16),0 8px 25px rgba(0,0,0,.16)}
-button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}
-button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid rgba(99,190,255,.8);outline-offset:3px}
-
-/* White / pearl theme refinements */
+.janaRailLinks a span{width:25px;text-align:center;font-size:17px}
+.janaRailLinks a:hover,.janaRailLinks a.active{
+ color:#fff;background:linear-gradient(100deg,rgba(129,99,255,.22),rgba(42,172,229,.10));
+ border-color:rgba(155,139,255,.16);transform:translateX(-3px)
+}
+.janaRailBottom{margin-top:auto;padding:15px 11px;border-radius:17px;background:rgba(255,255,255,.035);border:1px solid var(--jr-line)}
+.janaRailBottom strong{display:block;font-size:11px}
+.janaRailBottom small{display:block;color:var(--jr-muted);font-size:10px;line-height:1.9;margin-top:5px}
+#home.container{width:min(1440px,calc(100% - 330px));max-width:none;margin:0 auto 0 calc(50% - (min(1440px,100% - 330px) / 2) - 0px);padding:38px 0 70px;position:relative}
+.header{
+ display:flex;align-items:center;justify-content:space-between;gap:22px;
+ padding:25px 29px;margin:0 0 20px;border-radius:25px;
+ background:linear-gradient(115deg,rgba(24,34,61,.94),rgba(17,25,45,.78));
+ border:1px solid var(--jr-line);box-shadow:var(--jr-shadow);position:relative;overflow:hidden
+}
+.header::after{content:"";position:absolute;width:310px;height:180px;left:-90px;top:-100px;border-radius:50%;background:rgba(103,91,239,.18);filter:blur(45px);pointer-events:none}
+.title h1{font-size:29px!important;letter-spacing:-1px;margin:0 0 8px;color:#fff}
+.title p{font-size:12px!important;color:#a5b3d2!important;margin:0}
+.liveDateTime{display:inline-flex;margin-top:13px;padding:7px 12px;border-radius:99px;background:rgba(255,255,255,.055);border:1px solid var(--jr-line);font-size:11px!important;color:#aebbd7}
+.headerActions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;z-index:1}
+.headerActions>*{min-height:44px!important;border-radius:13px!important;padding:0 15px!important;font-size:11px!important}
+.printBtn{background:linear-gradient(135deg,#765ce7,#398bdc)!important;border:0!important;color:#fff!important;box-shadow:0 8px 23px rgba(98,89,225,.22)}
+.back,.globalMoneyEye,.notifyPermissionBtn{background:rgba(255,255,255,.055)!important;border:1px solid var(--jr-line)!important;color:#dce5fa!important;text-decoration:none}
+.notifyPermissionBtn{display:inline-flex;align-items:center;gap:8px}
+.themeToggleButton,#themeToggleButton{top:22px!important;right:auto!important;left:24px!important;width:45px!important;height:45px!important;border-radius:14px!important;background:rgba(23,31,54,.9)!important;border:1px solid var(--jr-line)!important;box-shadow:var(--jr-shadow)!important}
+/* Main dashboard cards */
+.monthlyReportNavigator{
+ display:flex;align-items:center;justify-content:center;gap:14px;margin:0 0 20px;padding:14px 18px;
+ border-radius:21px;background:rgba(19,28,49,.76);border:1px solid var(--jr-line);box-shadow:0 12px 34px rgba(0,0,0,.13)
+}
+.monthNavCenter{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
+.monthNavTitle{font-size:17px!important;color:#fff}
+.monthNavSub{font-size:10px!important;color:#8998b7}
+.monthNavButton{position:static!important;transform:none!important;width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.06);border:1px solid var(--jr-line);color:#c9d6f2}
+.monthResetButton{border-radius:10px!important;padding:8px 12px!important}
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px;margin:0 0 20px}
+.stat{
+ min-height:145px!important;padding:21px!important;border-radius:22px!important;
+ background:linear-gradient(145deg,rgba(25,36,64,.96),rgba(17,25,45,.93))!important;
+ border:1px solid var(--jr-line)!important;box-shadow:var(--jr-shadow),inset 0 1px rgba(255,255,255,.06)!important;
+ position:relative;overflow:hidden;transition:transform .25s,border-color .25s
+}
+.stat::after{content:"";position:absolute;width:130px;height:130px;left:-50px;bottom:-70px;border-radius:50%;background:rgba(91,111,255,.10);filter:blur(20px)}
+.stat:hover{transform:translateY(-5px);border-color:rgba(131,133,255,.35)!important}
+.statIcon{top:17px!important;left:18px!important;font-size:23px!important;opacity:.9}
+.stat small{display:block;font-size:11px!important;color:#93a2c2!important;margin-top:22px}
+.stat strong{display:block;font-size:clamp(17px,1.45vw,24px)!important;color:#f4f6ff!important;margin-top:14px!important;overflow-wrap:anywhere}
+.stat:nth-child(1){border-top:2px solid #9b7cff!important}
+.stat:nth-child(2){border-top:2px solid #42c8f5!important}
+.stat:nth-child(3){border-top:2px solid #a78bfa!important}
+.stat:nth-child(4){border-top:2px solid #45d6a0!important}
+.stat:nth-child(5){border-top:2px solid #4b9cff!important}
+.cashCardHint{font-size:10px!important;color:#7eddb8!important}
+.panel{
+ padding:25px!important;margin-bottom:19px!important;border-radius:24px!important;
+ background:linear-gradient(145deg,rgba(20,29,51,.94),rgba(14,21,39,.91))!important;
+ border:1px solid var(--jr-line)!important;box-shadow:var(--jr-shadow)!important;
+}
+.panelTitle{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:17px;margin-bottom:20px;border-bottom:1px solid var(--jr-line)}
+.panelTitle h2{font-size:18px!important;color:#f2f5ff!important;font-weight:800}
+.panelTitle span{font-size:10px!important;color:#8493b3!important}
+.incomeHubPanel{display:grid;grid-template-columns:1fr 1.2fr;align-items:center;gap:12px}
+.incomeHubPanel .panelTitle{grid-column:1/-1}
+.incomeHubBubbleWrap{min-height:250px}
+.incomeBubble{width:220px!important;height:220px!important;background:radial-gradient(circle,rgba(112,89,235,.20),rgba(37,137,206,.08) 55%,transparent 72%)!important;box-shadow:inset 0 0 35px rgba(105,94,240,.10),0 0 55px rgba(76,111,230,.10)!important}
+.incomeBubble::before{background:conic-gradient(#8b70ff,#41c5f2,#8b70ff)!important;opacity:.9}
+.bubbleLabel{font-size:13px!important;color:#aab9d8}
+.bubbleAmount{font-size:23px!important;color:#fff!important}
+.incomeHubOptions{align-content:center}
+.incomeHubOption{
+ min-height:100px!important;border-radius:19px!important;padding:20px!important;
+ background:linear-gradient(120deg,rgba(116,91,233,.17),rgba(41,153,214,.10))!important;
+ border:1px solid rgba(140,135,255,.18)!important;box-shadow:none!important
+}
+.incomeHubOption:hover{transform:translateY(-4px);border-color:rgba(91,190,255,.4)!important}
+.incomeHubOptionIcon{width:54px!important;height:54px!important;border-radius:17px!important;background:linear-gradient(140deg,#745de0,#278fc8)!important;color:white}
+.incomeHubOptionText strong{font-size:14px!important;color:#eef3ff}
+.incomeHubOptionText small{font-size:10px!important;color:#91a0be}
+.realChart{border-radius:18px;background:rgba(5,10,24,.28);padding:12px}
+.chartBar{border-radius:9px 9px 3px 3px!important;background:linear-gradient(180deg,#50c9f2,#7862e9)!important;box-shadow:0 0 18px rgba(93,125,235,.16)}
+.chartBarItem{color:#9eacc9!important}
+.filterArea{gap:14px}
+.filters button{border-radius:12px!important;background:rgba(255,255,255,.045)!important;border:1px solid var(--jr-line)!important;color:#aebbd5!important}
+.filters button.active,.filters button.selected{background:linear-gradient(120deg,rgba(121,91,231,.35),rgba(45,151,212,.22))!important;color:#fff!important;border-color:rgba(139,130,255,.35)!important}
+.searchBox input{background:rgba(5,10,24,.48)!important;border:1px solid var(--jr-line)!important;border-radius:13px!important;color:#fff!important}
+.tableWrap{border-radius:17px;border:1px solid var(--jr-line);overflow:auto}
+table{border-collapse:separate!important;border-spacing:0!important}
+thead th{background:rgba(108,100,220,.14)!important;color:#bfcaf0!important;padding:15px 12px!important;font-size:11px!important}
+tbody tr{background:rgba(255,255,255,.018)!important;transition:background .2s}
+tbody tr:hover{background:rgba(94,115,220,.10)!important}
+td{padding:13px 12px!important;border-bottom:1px solid rgba(160,175,220,.07)!important;color:#c8d2e9!important;font-size:11px!important}
+.notes{gap:13px}
+.note{background:linear-gradient(145deg,rgba(25,36,62,.9),rgba(15,23,42,.9))!important;border:1px solid var(--jr-line)!important;border-radius:19px!important;box-shadow:0 13px 30px rgba(0,0,0,.16)}
+.note p,.noteContent{color:#c6d2eb!important;line-height:1.9}
+.noteForm textarea{background:rgba(5,10,24,.48)!important;border:1px solid var(--jr-line)!important;border-radius:14px!important;color:#fff!important}
+.noteAdd{border-radius:13px!important;background:linear-gradient(135deg,#765ce7,#398bdc)!important}
+.toast{background:rgba(20,26,48,.94)!important;border:1px solid rgba(140,130,255,.3)!important;backdrop-filter:blur(22px);box-shadow:0 20px 60px rgba(0,0,0,.4)!important}
+.floatingTop,.floatingChat{border:1px solid rgba(157,145,255,.3)!important;background:linear-gradient(145deg,#7158dc,#258fcb)!important;box-shadow:0 13px 34px rgba(74,75,190,.3)!important}
+.floatingChat{animation:janaFloat 3.5s ease-in-out infinite}
+@keyframes janaFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.mobileNav{display:none!important}
+/* Pearl white theme */
 body.janaLightTheme{
-    color:#17243a;
-    background:
-      radial-gradient(ellipse at 10% 8%,rgba(139,92,246,.13),transparent 35%),
-      radial-gradient(ellipse at 90% 15%,rgba(14,165,233,.12),transparent 34%),
-      linear-gradient(145deg,#f7f9ff,#edf3fb 55%,#f7f5ff);
-    background-attachment:fixed;
+ color:#1a2944!important;
+ background:radial-gradient(ellipse at 85% 0%,rgba(133,105,240,.12),transparent 34%),linear-gradient(145deg,#f4f7ff,#edf2fb 52%,#f8f6ff)!important;
 }
-body.janaLightTheme::before{opacity:.09}
-body.janaLightTheme::after{opacity:.08}
-body.janaLightTheme .stat,body.janaLightTheme .panel,body.janaLightTheme .monthNavCenter,
-body.janaLightTheme .incomeHubOption,body.janaLightTheme .note{
-    background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(244,247,255,.83));
-    border-color:rgba(88,104,160,.16);
-    box-shadow:0 18px 48px rgba(55,76,125,.10),inset 0 1px 0 #fff;
+body.janaLightTheme .janaSideRail{background:rgba(255,255,255,.88);border-color:rgba(94,111,160,.14);box-shadow:0 20px 60px rgba(51,68,115,.12)}
+body.janaLightTheme .janaBrandText strong{color:#203454}
+body.janaLightTheme .janaRailLinks a{color:#62718f}
+body.janaLightTheme .janaRailLinks a:hover,body.janaLightTheme .janaRailLinks a.active{color:#5546a9;background:rgba(119,95,225,.10)}
+body.janaLightTheme .janaRailBottom{background:#f4f6fc}
+body.janaLightTheme .janaRailBottom strong{color:#2b3c5b}
+body.janaLightTheme .header,body.janaLightTheme .monthlyReportNavigator{background:rgba(255,255,255,.86);border-color:rgba(92,110,160,.14);box-shadow:0 18px 48px rgba(52,72,120,.09)}
+body.janaLightTheme .title h1,body.janaLightTheme .panelTitle h2,body.janaLightTheme .monthNavTitle{color:#203454!important}
+body.janaLightTheme .title p,body.janaLightTheme .liveDateTime,body.janaLightTheme .panelTitle span,body.janaLightTheme .monthNavSub{color:#687997!important}
+body.janaLightTheme .liveDateTime{background:#f3f5fc;border-color:#e4e9f4}
+body.janaLightTheme .stat,body.janaLightTheme .panel{background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(246,248,255,.94))!important;border-color:rgba(93,111,160,.14)!important;box-shadow:0 17px 45px rgba(57,75,120,.09)!important}
+body.janaLightTheme .stat small{color:#71809c!important}
+body.janaLightTheme .stat strong{color:#253a5c!important}
+body.janaLightTheme .incomeBubble{background:radial-gradient(circle,rgba(119,95,225,.13),rgba(37,137,206,.05) 55%,transparent 72%)!important}
+body.janaLightTheme .bubbleAmount{color:#3e438e!important}
+body.janaLightTheme .incomeHubOption{background:linear-gradient(120deg,rgba(119,95,225,.08),rgba(41,153,214,.07))!important}
+body.janaLightTheme .incomeHubOptionText strong{color:#2c3e60}
+body.janaLightTheme .incomeHubOptionText small{color:#71809c}
+body.janaLightTheme .filters button{color:#61718e!important}
+body.janaLightTheme .searchBox input,body.janaLightTheme .noteForm textarea{background:#f7f9ff!important;color:#263a5a!important;border-color:#dce4f2!important}
+body.janaLightTheme .tableWrap{border-color:#e1e7f2}
+body.janaLightTheme thead th{background:#eef0fc!important;color:#4f548c!important}
+body.janaLightTheme tbody tr{background:rgba(255,255,255,.7)!important}
+body.janaLightTheme tbody tr:hover{background:#f0f2ff!important}
+body.janaLightTheme td{color:#405575!important;border-bottom-color:#e9edf5!important}
+body.janaLightTheme .note{background:linear-gradient(145deg,#fff,#f5f7ff)!important}
+body.janaLightTheme .note p,body.janaLightTheme .noteContent{color:#405575!important}
+body.janaLightTheme .back,body.janaLightTheme .globalMoneyEye,body.janaLightTheme .notifyPermissionBtn{background:#f5f7ff!important;color:#4c5682!important;border-color:#e0e5f1!important}
+body.janaLightTheme .toast{background:rgba(255,255,255,.96)!important;color:#253a5c!important}
+body.janaLightTheme .chatWindow,body.janaLightTheme .paymentCard,body.janaLightTheme .cashWithdrawalCard{background:#fff!important;color:#263a5a!important}
+body.janaLightTheme .chatHeader h3,body.janaLightTheme .paymentTitle,body.janaLightTheme .cashWithdrawalTitle{color:#263a5a!important}
+body.janaLightTheme .chatMsg,body.janaLightTheme .paymentInfoRow,body.janaLightTheme .cashHistoryItem{background:#f2f5fc!important;color:#344a6c!important}
+/* Mobile app layout */
+@media(max-width:1100px){
+ .janaSideRail{width:205px;right:12px;top:12px;bottom:12px}
+ #home.container{width:calc(100% - 245px);margin:0 0 0 auto;padding:25px 15px 60px}
+ .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
-body.janaLightTheme .stat strong,body.janaLightTheme .bubbleAmount{
-    background:linear-gradient(100deg,#087dbb,#7651d5);-webkit-background-clip:text;background-clip:text;color:transparent
+@media(max-width:760px){
+ html{scroll-padding-top:82px}
+ body{font-size:16px;padding-bottom:calc(105px + env(safe-area-inset-bottom))}
+ .janaSideRail{display:none}
+ #home.container{width:100%;margin:0;padding:74px 12px calc(120px + env(safe-area-inset-bottom))}
+ .header{display:flex;flex-direction:column;align-items:stretch;padding:20px 17px;margin-bottom:13px;border-radius:22px;gap:16px}
+ .title h1{font-size:27px!important}
+ .title p{font-size:13px!important}
+ .liveDateTime{font-size:11px!important;line-height:1.8}
+ .headerActions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+ .headerActions>*{min-height:49px!important;width:100%;font-size:12px!important;padding:8px!important;justify-content:center}
+ .headerActions .notifyPermissionBtn{grid-column:1/-1}
+ #themeToggleButton{left:12px!important;top:12px!important;width:46px!important;height:46px!important}
+ .monthlyReportNavigator{gap:7px;padding:10px 8px;border-radius:17px;margin-bottom:13px}
+ .monthNavCenter{min-width:0;flex:1}
+ .monthNavTitle{font-size:14px!important}
+ .monthNavSub{font-size:9px!important}
+ .monthNavButton{width:38px;height:38px;flex:0 0 38px}
+ .monthResetButton{font-size:10px!important;min-height:36px}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:13px}
+ .stat{min-height:126px!important;padding:17px 14px!important;border-radius:19px!important}
+ .stat small{font-size:11px!important;line-height:1.7;margin-top:22px}
+ .stat strong{font-size:clamp(17px,4.6vw,22px)!important;margin-top:12px!important}
+ .statIcon{font-size:21px!important;top:13px!important;left:13px!important}
+ .panel{padding:19px 14px!important;border-radius:21px!important;margin-bottom:13px!important}
+ .panelTitle{margin-bottom:15px;padding-bottom:13px}
+ .panelTitle h2{font-size:17px!important}
+ .panelTitle span{font-size:9px!important}
+ .incomeHubPanel{display:flex;flex-direction:column;align-items:stretch}
+ .incomeHubBubbleWrap{min-height:230px}
+ .incomeBubble{width:min(210px,66vw)!important;height:min(210px,66vw)!important}
+ .bubbleAmount{font-size:21px!important}
+ .incomeHubOption{min-height:85px!important;padding:15px!important}
+ .incomeHubOptionText strong{font-size:14px!important}
+ .incomeHubOptionText small{font-size:10px!important}
+ .realChart{padding:5px;border-radius:14px}
+ .chartBars{height:240px!important}
+ .filterArea{display:flex;flex-direction:column;align-items:stretch;gap:11px}
+ .filters{width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:5px}
+ .filters button{flex:none;min-height:43px;font-size:11px!important}
+ .searchBox{width:100%;min-width:0}
+ .searchBox input{min-height:49px;font-size:14px!important}
+ .tableWrap{overflow:visible;max-height:none;border:0}
+ table,tbody,tr,td{display:block;width:100%}
+ table thead{display:none}
+ tbody tr{padding:14px!important;margin:0 0 12px!important;border:1px solid var(--jr-line)!important;border-radius:17px!important;background:rgba(255,255,255,.035)!important}
+ td{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:8px 0!important;font-size:12px!important;line-height:1.8;border-bottom:1px solid rgba(160,175,220,.07)!important}
+ td:last-child{border-bottom:0!important}
+ td::before{font-size:11px!important;color:#8999b9;flex:0 0 auto}
+ body.janaLightTheme tbody tr{background:#fff!important}
+ body.janaLightTheme td{border-bottom-color:#edf0f6!important}
+ .notes{grid-template-columns:1fr;gap:10px}
+ .note{padding:16px!important;border-radius:17px!important}
+ .note,.note p,.noteContent{font-size:13px!important;line-height:1.9}
+ .note button,.noteActions button,.cashWithdrawalActions button{min-height:44px;font-size:12px}
+ .mobileNav{
+  display:flex!important;position:fixed;z-index:9500;left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom));
+  justify-content:space-around;align-items:center;gap:4px;padding:8px 6px;
+  border-radius:22px;border:1px solid rgba(158,169,240,.2);
+  background:rgba(13,19,39,.88);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);
+  box-shadow:0 16px 48px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.08)
+ }
+ .mobileNav a{flex:1;min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:15px;font-size:10px}
+ .mobileNav a span{font-size:21px}
+ body.janaLightTheme .mobileNav{background:rgba(255,255,255,.92);border-color:#e2e7f2;box-shadow:0 -9px 35px rgba(50,65,110,.12)}
+ body.janaLightTheme .mobileNav a{color:#667695}
+ body.janaLightTheme .mobileNav a.active{color:#5749ae;background:#f0efff}
+ .floatingTop,.floatingChat{width:47px;height:47px;bottom:calc(83px + env(safe-area-inset-bottom));font-size:20px}
+ .floatingTop{left:11px}.floatingChat{right:11px}
+ .chatOverlay,.paymentOverlay{padding:8px}
+ .chatWindow{width:100%;height:min(84dvh,780px);border-radius:22px}
+ .chatHeader{padding:16px}
+ .chatHeader h3,.paymentTitle{font-size:18px}
+ .chatMessages{padding:12px}
+ .chatMsg{max-width:92%;font-size:13px;line-height:1.9;padding:12px}
+ .chatComposer{padding:10px;gap:8px}
+ .chatComposer textarea{font-size:15px;min-height:50px}
+ .chatSend{width:78px;min-height:50px}
+ .paymentCard{width:100%;padding:19px 14px;border-radius:22px}
+ .paymentInfoRow{padding:12px}
+ .paymentActions{flex-direction:column}
+ .paymentActions button{min-height:48px;font-size:13px}
+ .cashWithdrawalCard{width:100%;max-height:88dvh;padding:21px 15px}
+ .cashWithdrawalTitle{font-size:18px}
+ .cashAmountInputWrap input,.cashWithdrawalForm textarea{font-size:15px;min-height:50px}
+ .toast{width:calc(100% - 28px);font-size:13px;line-height:1.8;padding:14px 16px}
 }
-body.janaLightTheme .title p,body.janaLightTheme .stat small,body.janaLightTheme .panelTitle span,
-body.janaLightTheme .monthNavSub,body.janaLightTheme .cashCardHint{color:#63748e}
-body.janaLightTheme .panelTitle h2,body.janaLightTheme .title h1{color:#172b48}
-body.janaLightTheme .notifyPermissionBtn{background:linear-gradient(135deg,rgba(124,92,255,.10),rgba(0,150,220,.08));color:#5741a5;border-color:rgba(124,92,255,.24)}
-body.janaLightTheme .floatingTop,body.janaLightTheme .floatingChat{background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(229,237,255,.9));color:#5545a9;border-color:rgba(124,92,255,.2);box-shadow:0 14px 36px rgba(70,80,130,.18)}
-body.janaLightTheme .toast{background:linear-gradient(135deg,rgba(255,255,255,.97),rgba(240,243,255,.97));color:#263650;border-color:rgba(124,92,255,.24)}
-body.janaLightTheme .chatWindow,body.janaLightTheme .paymentCard,body.janaLightTheme .cashWithdrawalCard{
-    background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(239,244,255,.97));
-    border-color:rgba(92,108,160,.2);box-shadow:0 30px 90px rgba(43,56,100,.22)
-}
-body.janaLightTheme .chatHeader h3,body.janaLightTheme .paymentTitle,body.janaLightTheme .cashWithdrawalTitle{color:#1d3150}
-body.janaLightTheme .chatMsg,body.janaLightTheme .paymentInfoRow,body.janaLightTheme .cashHistoryItem{background:rgba(226,234,248,.58);border-color:rgba(90,110,155,.13)}
-body.janaLightTheme .chatMsg,body.janaLightTheme .paymentInfoRow span:last-child{color:#263c59}
-body.janaLightTheme .chatComposer textarea,body.janaLightTheme .cashAmountInputWrap,body.janaLightTheme .cashWithdrawalForm textarea{
-    color:#20344f;background:rgba(255,255,255,.88);border-color:rgba(90,110,155,.2)
-}
-body.janaLightTheme .chatClose,body.janaLightTheme .paymentClose,body.janaLightTheme .cashWithdrawalClose{
-    color:#50627d;background:rgba(224,232,246,.75);border-color:rgba(90,110,155,.2)
-}
-body.janaLightTheme .mobileNav{background:rgba(248,250,255,.88);border-color:rgba(100,115,165,.16);box-shadow:0 -12px 40px rgba(50,65,110,.12)}
-body.janaLightTheme .mobileNav a{color:#5d6e8c}
-body.janaLightTheme .mobileNav a.active{color:#5544ad}
-body.janaLightTheme tbody tr{background:rgba(255,255,255,.78);border-color:rgba(100,115,165,.17)}
-body.janaLightTheme td{color:#344b68}
-
-/* App-like phone layout: larger text, generous spacing and touch targets */
-@media(max-width:700px){
-    html{scroll-padding-top:76px}
-    body{font-size:16px;padding-bottom:calc(112px + env(safe-area-inset-bottom))}
-    .container{width:calc(100% - 22px);padding:78px 0 26px}
-    .header{align-items:stretch;flex-direction:column;gap:16px;margin-bottom:18px}
-    .title h1{font-size:29px;line-height:1.4;margin-bottom:5px}
-    .title p{font-size:14px}
-    .liveDateTime{font-size:12px!important;margin-top:8px}
-    .headerActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .headerActions .printBtn,.headerActions .back,.headerActions .globalMoneyEye,.headerActions .notifyPermissionBtn{
-        min-height:51px;width:100%;font-size:13px;padding:10px;border-radius:16px;justify-content:center
-    }
-    .headerActions .notifyPermissionBtn{grid-column:1/-1;font-size:14px}
-    .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-bottom:16px}
-    .stat{min-height:128px;padding:18px 15px;border-radius:21px}
-    .stat small{font-size:12px;line-height:1.7}
-    .stat strong{font-size:clamp(17px,4.6vw,22px);margin-top:16px;overflow-wrap:anywhere}
-    .statIcon{font-size:23px;left:14px;top:13px}
-    .panel{padding:19px 16px;border-radius:23px;margin-bottom:16px}
-    .panelTitle{align-items:flex-start;gap:10px;margin-bottom:16px}
-    .panelTitle h2{font-size:19px;line-height:1.6}
-    .panelTitle span{font-size:11px}
-    .incomeBubble{width:min(245px,72vw);height:min(245px,72vw)}
-    .bubbleLabel{font-size:14px}
-    .bubbleAmount{font-size:22px}
-    .bubbleIcon{font-size:35px}
-    .incomeHubOption{min-height:86px;padding:17px;border-radius:20px}
-    .incomeHubOptionText strong{font-size:15px}
-    .incomeHubOptionText small{font-size:11px}
-    .filters button{min-height:44px;font-size:12px;padding:10px 15px}
-    .searchBox input{min-height:49px;font-size:14px}
-    .tableWrap{max-height:none;overflow:visible}
-    tbody tr{padding:16px;margin-bottom:13px;border-radius:19px}
-    td{font-size:13px;line-height:1.8;padding:8px 0;gap:12px}
-    td::before{font-size:12px}
-    .notes{grid-template-columns:1fr;gap:12px}
-    .note{padding:17px;border-radius:19px}
-    .note,.note p,.noteContent{font-size:14px;line-height:1.9}
-    .note button,.noteActions button,.cashWithdrawalActions button{min-height:46px;font-size:13px}
-    .mobileNav{
-        display:flex;position:fixed;left:10px;right:10px;bottom:calc(9px + env(safe-area-inset-bottom));
-        z-index:9000;justify-content:space-around;align-items:center;gap:4px;padding:9px 7px;
-        border:1px solid rgba(165,175,255,.2);border-radius:23px;
-        background:rgba(9,13,31,.84);backdrop-filter:blur(24px) saturate(160%);
-        -webkit-backdrop-filter:blur(24px) saturate(160%);
-        box-shadow:0 18px 55px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.09)
-    }
-    .mobileNav a{flex:1;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:16px;font-size:11px}
-    .mobileNav a span{font-size:21px}
-    .floatingTop,.floatingChat{width:49px;height:49px;bottom:calc(88px + env(safe-area-inset-bottom));font-size:21px}
-    .floatingTop{left:12px}.floatingChat{right:12px}
-    #themeToggleButton{top:12px!important;right:12px!important;width:49px!important;height:49px!important;border-radius:16px!important}
-    .monthNavButton{position:static;transform:none;width:43px;height:43px;flex:0 0 43px}
-    .monthNavButton:hover:not(:disabled){transform:scale(1.04)}
-    .monthlyReportNavigator{display:flex;gap:7px;justify-content:space-between;min-height:0;margin:0 0 16px}
-    .monthNavCenter{min-width:0;flex:1;padding:10px 7px;border-radius:17px}
-    .monthNavTitle{font-size:14px}
-    .monthNavSub{font-size:10px}
-    .monthResetButton{font-size:10px;min-height:38px}
-    .chatOverlay,.paymentOverlay{padding:9px}
-    .chatWindow{width:100%;height:min(82dvh,760px);border-radius:23px}
-    .chatHeader{padding:17px}
-    .chatHeader h3,.paymentTitle{font-size:19px}
-    .chatMessages{padding:14px}
-    .chatMsg{max-width:90%;font-size:14px;line-height:1.9;padding:13px}
-    .chatMeta{font-size:10px;flex-wrap:wrap}
-    .chatComposer{padding:12px;gap:8px}
-    .chatComposer textarea{font-size:15px;min-height:52px;padding:13px}
-    .chatSend{width:82px;min-height:52px;font-size:14px}
-    .paymentCard{width:100%;padding:20px 16px;border-radius:23px}
-    .paymentInfoRow{padding:13px 12px}
-    .paymentInfoRow span:first-child{font-size:12px}
-    .paymentInfoRow span:last-child{font-size:14px}
-    .paymentActions{flex-direction:column}
-    .paymentActions button{min-height:49px;font-size:14px}
-    .cashWithdrawalCard{width:100%;max-height:88dvh;padding:23px 17px}
-    .cashWithdrawalTitle{font-size:19px}
-    .cashWithdrawalForm label{font-size:13px}
-    .cashAmountInputWrap input,.cashWithdrawalForm textarea{font-size:15px;min-height:52px}
-    .toast{width:calc(100% - 30px);max-width:440px;font-size:14px;line-height:1.8;padding:15px 17px}
-}
-@media(max-width:380px){
-    .stats{grid-template-columns:1fr}
-    .stat{min-height:116px}
-    .headerActions{grid-template-columns:1fr 1fr}
-    .monthNavTitle{font-size:12px}
+@media(max-width:390px){
+ .stats{grid-template-columns:1fr 1fr}
+ .stat{min-height:116px!important}
+ .headerActions>*{font-size:11px!important}
+ .monthNavTitle{font-size:12px!important}
 }
 @media(prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
 }
+
+
+.janaWelcomeStrip{
+ position:relative;display:flex;align-items:center;justify-content:space-between;min-height:148px;
+ padding:23px 30px;margin:0 0 19px;overflow:hidden;border-radius:24px;
+ background:linear-gradient(110deg,rgba(95,75,190,.26),rgba(21,118,174,.16) 58%,rgba(22,31,55,.7));
+ border:1px solid rgba(149,140,255,.18);box-shadow:0 20px 50px rgba(0,0,0,.16)
+}
+.janaWelcomeCopy{position:relative;z-index:2}
+.janaWelcomeCopy>span{font-size:9px;letter-spacing:2px;color:#a99aff;font-weight:800}
+.janaWelcomeCopy h2{font-size:22px;margin:10px 0 7px;color:#f5f6ff}
+.janaWelcomeCopy p{font-size:11px;color:#aab6d2;margin:0}
+.janaWelcomeOrb{position:absolute;left:7%;top:50%;width:125px;height:125px;transform:translateY(-50%);border-radius:50%;border:1px solid rgba(161,145,255,.28);box-shadow:0 0 40px rgba(110,91,235,.18),inset 0 0 30px rgba(53,174,227,.10)}
+.janaWelcomeOrb::before,.janaWelcomeOrb::after,.janaWelcomeOrb i,.janaWelcomeOrb b,.janaWelcomeOrb em{content:"";position:absolute;display:block;border-radius:50%;border:1px solid rgba(99,194,246,.34);inset:12px;animation:janaOrbSpin 10s linear infinite}
+.janaWelcomeOrb::after{inset:25px;border-color:rgba(165,130,255,.48);animation-direction:reverse;animation-duration:7s}
+.janaWelcomeOrb i{inset:42px;background:linear-gradient(135deg,#8a6df1,#37b9e8);box-shadow:0 0 28px rgba(109,113,242,.5);border:0}
+.janaWelcomeOrb b{inset:3px;border-style:dashed;animation-duration:18s}
+.janaWelcomeOrb em{inset:19px;border-color:rgba(255,255,255,.22);animation-duration:13s}
+@keyframes janaOrbSpin{to{transform:rotate(360deg)}}
+body.janaLightTheme .janaWelcomeStrip{background:linear-gradient(110deg,rgba(128,103,229,.12),rgba(38,151,205,.09),rgba(255,255,255,.7));border-color:rgba(119,110,190,.16)}
+body.janaLightTheme .janaWelcomeCopy h2{color:#25385a}
+body.janaLightTheme .janaWelcomeCopy p{color:#687997}
+@media(max-width:760px){.janaWelcomeStrip{min-height:128px;padding:20px 18px;border-radius:20px;margin-bottom:13px}.janaWelcomeCopy>span{font-size:8px}.janaWelcomeCopy h2{font-size:19px}.janaWelcomeCopy p{font-size:10px;max-width:75%}.janaWelcomeOrb{left:-22px;width:110px;height:110px;opacity:.75}}
 
 </style>
 
@@ -4110,6 +4226,23 @@ body.janaLightTheme td{color:#344b68}
 
 <body>
 <button type="button" class="themeToggleButton" id="themeToggleButton" onclick="toggleJanaTheme()" aria-label="تغییر حالت روشن و تاریک" title="تغییر حالت روشن و تاریک">☀️</button>
+
+
+<aside class="janaSideRail" aria-label="ناوبری گزارش">
+ <div class="janaBrand">
+  <div class="janaBrandMark">J</div>
+  <div class="janaBrandText"><strong>JANA PANEL</strong><small>مدیریت و گزارش مالی</small></div>
+ </div>
+ <div class="janaRailCaption">منوی اصلی</div>
+ <nav class="janaRailLinks">
+  <a href="#home" class="active" onclick="setNav(this)"><span>⌂</span> نمای کلی</a>
+  <a href="#income" onclick="setNav(this)"><span>◈</span> آمار مالی</a>
+  <a href="#incomeHub" onclick="setNav(this)"><span>▥</span> درآمد و نمودار</a>
+  <a href="#transactions" onclick="setNav(this)"><span>▤</span> تراکنش‌ها</a>
+  <a href="#notes" onclick="setNav(this)"><span>✎</span> یادداشت‌ها</a>
+ </nav>
+ <div class="janaRailBottom"><strong>گزارش زنده کافی‌نت جانا</strong><small>اطلاعات با اتصال به سامانه همگام‌سازی می‌شود.</small></div>
+</aside>
 
 <div class="mouseGlow" id="mouseGlow"></div>
 
@@ -4154,6 +4287,11 @@ body.janaLightTheme td{color:#344b68}
 </div>
 
 </header>
+
+<section class="janaWelcomeStrip" aria-label="خوش آمدید">
+ <div class="janaWelcomeCopy"><span>JANA FINANCE DASHBOARD</span><h2>داشبورد مدیریت مالی</h2><p>نمایی شفاف از عملکرد، درآمد و تراکنش‌های کافی‌نت جانا</p></div>
+ <div class="janaWelcomeOrb"><i></i><b></b><em></em></div>
+</section>
 
 <div class="monthlyReportNavigator" id="monthlyReportNavigator">
     <button type="button" class="monthNavButton monthNavPrev" id="monthPrevButton" onclick="changeReportMonth(-1)" aria-label="ماه قبل">◀</button>
