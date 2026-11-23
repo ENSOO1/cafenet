@@ -4326,6 +4326,49 @@ body.janaLightTheme .monthlyReportNavigator .monthNavCenter{background:rgba(106,
   .monthlyReportNavigator .monthNavTitle{font-size:12px!important}
 }
 
+
+
+/* JANA / LARGE GLASS DATE & CLOCK */
+.title p{
+  display:inline-flex!important;align-items:center;justify-content:center;
+  margin:9px 0 13px!important;padding:9px 17px!important;
+  border:1px solid rgba(150,174,255,.20)!important;border-radius:16px!important;
+  background:linear-gradient(135deg,rgba(116,135,255,.13),rgba(65,190,220,.09))!important;
+  color:var(--j-text,#eaf0ff)!important;font-size:17px!important;font-weight:850!important;
+  letter-spacing:.035em!important;box-shadow:0 10px 28px rgba(0,0,0,.13),inset 0 1px rgba(255,255,255,.12)!important;
+  backdrop-filter:blur(18px) saturate(150%)!important;-webkit-backdrop-filter:blur(18px) saturate(150%)!important;
+}
+.liveDateTime{
+  display:flex!important;width:fit-content;max-width:100%;
+  align-items:center;justify-content:center;flex-wrap:wrap;gap:9px!important;
+  margin-top:2px!important;padding:13px 20px!important;border-radius:19px!important;
+  border:1px solid rgba(111,194,255,.30)!important;
+  background:linear-gradient(125deg,rgba(61,111,205,.20),rgba(90,73,170,.17),rgba(24,160,176,.13))!important;
+  color:#e4f3ff!important;font-size:clamp(16px,1.45vw,21px)!important;
+  font-weight:900!important;line-height:1.8!important;letter-spacing:.025em!important;
+  font-variant-numeric:tabular-nums;
+  text-shadow:0 2px 12px rgba(64,154,255,.24);
+  box-shadow:0 14px 34px rgba(0,0,0,.20),0 0 24px rgba(75,154,255,.10),inset 0 1px rgba(255,255,255,.17)!important;
+  backdrop-filter:blur(22px) saturate(165%)!important;-webkit-backdrop-filter:blur(22px) saturate(165%)!important;
+}
+body.janaLightTheme .title p{
+  color:#34456f!important;background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(226,237,255,.78))!important;
+  border-color:rgba(92,119,190,.20)!important;box-shadow:0 9px 24px rgba(62,87,145,.10),inset 0 1px #fff!important;
+}
+body.janaLightTheme .liveDateTime{
+  color:#263e70!important;
+  background:linear-gradient(125deg,rgba(255,255,255,.94),rgba(222,235,255,.88),rgba(226,248,250,.85))!important;
+  border-color:rgba(91,127,195,.25)!important;text-shadow:none;
+  box-shadow:0 13px 30px rgba(62,87,145,.13),inset 0 1px #fff!important;
+}
+@media(max-width:700px){
+  .title p{font-size:15px!important;padding:8px 13px!important;margin:8px 0 11px!important}
+  .liveDateTime{width:100%;font-size:clamp(14px,4vw,18px)!important;padding:12px 10px!important;gap:7px!important;border-radius:16px!important}
+}
+@media(max-width:380px){
+  .liveDateTime{font-size:13px!important;padding:10px 7px!important;letter-spacing:0!important}
+}
+
 </style>
 
 </head>
