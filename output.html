@@ -4473,6 +4473,32 @@ body.janaLightTheme .liveDateTime{
   .liveDateTime{letter-spacing:0!important;font-weight:800!important}
 }
 
+
+/* JANA — distinctive Persian numeral face inspired by the reference */
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@700;800;900&display=swap');
+.liveDateTime{
+  font-family:"Vazirmatn","IRANSansX","Dana",Tahoma,sans-serif!important;
+  font-size:clamp(20px,1.8vw,25px)!important;
+  font-weight:900!important;
+  font-variant-numeric:normal!important;
+  font-feature-settings:"ss01" 1,"kern" 1!important;
+  letter-spacing:.045em!important;
+  line-height:1.9!important;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:geometricPrecision;
+}
+.liveDateTime{
+  color:#e7d8ff!important;
+  text-shadow:0 2px 0 rgba(66,30,117,.42),0 0 10px rgba(177,123,255,.36),0 0 24px rgba(128,88,220,.20)!important;
+}
+body.janaLightTheme .liveDateTime{
+  color:#6840a8!important;
+  text-shadow:0 1px 0 rgba(255,255,255,.85),0 2px 10px rgba(107,70,166,.20)!important;
+}
+@media(max-width:700px){
+  .liveDateTime{font-size:clamp(18px,5vw,22px)!important;letter-spacing:.025em!important}
+}
+
 </style>
 
 </head>
