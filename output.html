@@ -6,7 +6,10 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#080b18">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <title>خروجی گزارش | کافی‌نت جانا</title>
 
@@ -3904,6 +3907,203 @@ body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,2
 #chartBars::-webkit-scrollbar{height:7px;}
 #chartBars::-webkit-scrollbar-thumb{border-radius:99px;background:rgba(120,120,140,.55);}
 #chartBars::-webkit-scrollbar-track{background:rgba(120,120,140,.10);border-radius:99px;}
+
+
+/* =====================================================
+   JANA PREMIUM MOBILE / GLASS APP EXPERIENCE
+   Visual-only enhancement: report calculations and data flow stay intact.
+===================================================== */
+:root{
+    color-scheme:dark;
+    --jana-blue:#38bdf8;
+    --jana-violet:#9b7bff;
+    --jana-glass:rgba(255,255,255,.075);
+}
+body{
+    background:
+      radial-gradient(ellipse at 12% 12%,rgba(124,92,255,.17),transparent 34%),
+      radial-gradient(ellipse at 88% 18%,rgba(0,160,255,.14),transparent 32%),
+      radial-gradient(ellipse at 50% 100%,rgba(88,65,190,.12),transparent 42%),
+      #050711;
+    background-attachment:fixed;
+}
+body::before{background:#7958ff;opacity:.18}
+body::after{background:#008cff;opacity:.16}
+.container{width:min(1320px,94%);padding-top:38px}
+.stat,.panel,.monthNavCenter,.incomeHubOption,.note,.chatWindow,.paymentCard{
+    border-color:rgba(154,174,255,.14);
+    box-shadow:0 22px 65px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.09);
+}
+.stat{background:linear-gradient(145deg,rgba(255,255,255,.095),rgba(90,105,180,.035))}
+.stat:hover,.panel:hover{border-color:rgba(139,117,255,.32)}
+.stat strong,.bubbleAmount{background:linear-gradient(100deg,#65d5ff,#a58bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.panel{background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(70,85,150,.025))}
+.incomeBubble::before{background:conic-gradient(from 0deg,transparent 0deg,#8b5cf6 70deg,#38bdf8 130deg,transparent 190deg,transparent 360deg);filter:drop-shadow(0 0 9px #8b5cf6) drop-shadow(0 0 18px rgba(56,189,248,.7))}
+.themeToggleButton,#themeToggleButton{border-color:rgba(167,139,250,.34)!important;box-shadow:0 12px 35px rgba(0,0,0,.32),0 0 24px rgba(124,92,255,.13)!important}
+.notifyPermissionBtn{
+    min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    padding:0 16px;border-radius:15px;border:1px solid rgba(139,117,255,.32);
+    background:linear-gradient(135deg,rgba(124,92,255,.18),rgba(0,160,255,.12));
+    color:#c8c5ff;font:700 12px Tahoma,Arial,sans-serif;cursor:pointer;
+    box-shadow:0 12px 30px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.1);
+    transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+}
+.notifyPermissionBtn:hover{transform:translateY(-3px);border-color:rgba(56,189,248,.55);box-shadow:0 15px 36px rgba(64,91,210,.2)}
+.notifyPermissionBtn:active{transform:scale(.97)}
+.notifyPermissionBtn.enabled{border-color:rgba(52,211,153,.4);color:#8df0c5;background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(56,189,248,.1))}
+.notifyPermissionIcon{display:inline-block;font-size:17px;transform-origin:50% 10%;animation:notifyBellSwing 3.8s ease-in-out infinite}
+@keyframes notifyBellSwing{0%,78%,100%{transform:rotate(0)}82%{transform:rotate(17deg)}86%{transform:rotate(-14deg)}90%{transform:rotate(9deg)}94%{transform:rotate(-5deg)}}
+.toast{border-color:rgba(139,117,255,.36);background:linear-gradient(135deg,rgba(13,18,42,.94),rgba(24,17,54,.92));box-shadow:0 18px 48px rgba(0,0,0,.4),0 0 28px rgba(124,92,255,.12)}
+.floatingTop,.floatingChat{background:linear-gradient(145deg,rgba(125,92,255,.22),rgba(0,150,255,.16));border-color:rgba(155,135,255,.28)}
+.floatingTop::after,.floatingChat::after{
+    content:"";position:absolute;inset:-4px;border-radius:inherit;border:1px solid rgba(111,190,255,.22);
+    animation:floatControlOrbit 5s linear infinite;pointer-events:none
+}
+.floatingChat{animation:floatControl 3.8s ease-in-out infinite}
+@keyframes floatControl{0%,100%{translate:0 0}50%{translate:0 -7px}}
+@keyframes floatControlOrbit{to{transform:rotate(360deg)}}
+.mobileNav a{transition:background .25s ease,color .25s ease,transform .25s ease}
+.mobileNav a.active{background:linear-gradient(135deg,rgba(124,92,255,.22),rgba(0,150,255,.15));box-shadow:inset 0 0 0 1px rgba(160,145,255,.16),0 8px 25px rgba(0,0,0,.16)}
+button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid rgba(99,190,255,.8);outline-offset:3px}
+
+/* White / pearl theme refinements */
+body.janaLightTheme{
+    color:#17243a;
+    background:
+      radial-gradient(ellipse at 10% 8%,rgba(139,92,246,.13),transparent 35%),
+      radial-gradient(ellipse at 90% 15%,rgba(14,165,233,.12),transparent 34%),
+      linear-gradient(145deg,#f7f9ff,#edf3fb 55%,#f7f5ff);
+    background-attachment:fixed;
+}
+body.janaLightTheme::before{opacity:.09}
+body.janaLightTheme::after{opacity:.08}
+body.janaLightTheme .stat,body.janaLightTheme .panel,body.janaLightTheme .monthNavCenter,
+body.janaLightTheme .incomeHubOption,body.janaLightTheme .note{
+    background:linear-gradient(145deg,rgba(255,255,255,.94),rgba(244,247,255,.83));
+    border-color:rgba(88,104,160,.16);
+    box-shadow:0 18px 48px rgba(55,76,125,.10),inset 0 1px 0 #fff;
+}
+body.janaLightTheme .stat strong,body.janaLightTheme .bubbleAmount{
+    background:linear-gradient(100deg,#087dbb,#7651d5);-webkit-background-clip:text;background-clip:text;color:transparent
+}
+body.janaLightTheme .title p,body.janaLightTheme .stat small,body.janaLightTheme .panelTitle span,
+body.janaLightTheme .monthNavSub,body.janaLightTheme .cashCardHint{color:#63748e}
+body.janaLightTheme .panelTitle h2,body.janaLightTheme .title h1{color:#172b48}
+body.janaLightTheme .notifyPermissionBtn{background:linear-gradient(135deg,rgba(124,92,255,.10),rgba(0,150,220,.08));color:#5741a5;border-color:rgba(124,92,255,.24)}
+body.janaLightTheme .floatingTop,body.janaLightTheme .floatingChat{background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(229,237,255,.9));color:#5545a9;border-color:rgba(124,92,255,.2);box-shadow:0 14px 36px rgba(70,80,130,.18)}
+body.janaLightTheme .toast{background:linear-gradient(135deg,rgba(255,255,255,.97),rgba(240,243,255,.97));color:#263650;border-color:rgba(124,92,255,.24)}
+body.janaLightTheme .chatWindow,body.janaLightTheme .paymentCard,body.janaLightTheme .cashWithdrawalCard{
+    background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(239,244,255,.97));
+    border-color:rgba(92,108,160,.2);box-shadow:0 30px 90px rgba(43,56,100,.22)
+}
+body.janaLightTheme .chatHeader h3,body.janaLightTheme .paymentTitle,body.janaLightTheme .cashWithdrawalTitle{color:#1d3150}
+body.janaLightTheme .chatMsg,body.janaLightTheme .paymentInfoRow,body.janaLightTheme .cashHistoryItem{background:rgba(226,234,248,.58);border-color:rgba(90,110,155,.13)}
+body.janaLightTheme .chatMsg,body.janaLightTheme .paymentInfoRow span:last-child{color:#263c59}
+body.janaLightTheme .chatComposer textarea,body.janaLightTheme .cashAmountInputWrap,body.janaLightTheme .cashWithdrawalForm textarea{
+    color:#20344f;background:rgba(255,255,255,.88);border-color:rgba(90,110,155,.2)
+}
+body.janaLightTheme .chatClose,body.janaLightTheme .paymentClose,body.janaLightTheme .cashWithdrawalClose{
+    color:#50627d;background:rgba(224,232,246,.75);border-color:rgba(90,110,155,.2)
+}
+body.janaLightTheme .mobileNav{background:rgba(248,250,255,.88);border-color:rgba(100,115,165,.16);box-shadow:0 -12px 40px rgba(50,65,110,.12)}
+body.janaLightTheme .mobileNav a{color:#5d6e8c}
+body.janaLightTheme .mobileNav a.active{color:#5544ad}
+body.janaLightTheme tbody tr{background:rgba(255,255,255,.78);border-color:rgba(100,115,165,.17)}
+body.janaLightTheme td{color:#344b68}
+
+/* App-like phone layout: larger text, generous spacing and touch targets */
+@media(max-width:700px){
+    html{scroll-padding-top:76px}
+    body{font-size:16px;padding-bottom:calc(112px + env(safe-area-inset-bottom))}
+    .container{width:calc(100% - 22px);padding:78px 0 26px}
+    .header{align-items:stretch;flex-direction:column;gap:16px;margin-bottom:18px}
+    .title h1{font-size:29px;line-height:1.4;margin-bottom:5px}
+    .title p{font-size:14px}
+    .liveDateTime{font-size:12px!important;margin-top:8px}
+    .headerActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .headerActions .printBtn,.headerActions .back,.headerActions .globalMoneyEye,.headerActions .notifyPermissionBtn{
+        min-height:51px;width:100%;font-size:13px;padding:10px;border-radius:16px;justify-content:center
+    }
+    .headerActions .notifyPermissionBtn{grid-column:1/-1;font-size:14px}
+    .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-bottom:16px}
+    .stat{min-height:128px;padding:18px 15px;border-radius:21px}
+    .stat small{font-size:12px;line-height:1.7}
+    .stat strong{font-size:clamp(17px,4.6vw,22px);margin-top:16px;overflow-wrap:anywhere}
+    .statIcon{font-size:23px;left:14px;top:13px}
+    .panel{padding:19px 16px;border-radius:23px;margin-bottom:16px}
+    .panelTitle{align-items:flex-start;gap:10px;margin-bottom:16px}
+    .panelTitle h2{font-size:19px;line-height:1.6}
+    .panelTitle span{font-size:11px}
+    .incomeBubble{width:min(245px,72vw);height:min(245px,72vw)}
+    .bubbleLabel{font-size:14px}
+    .bubbleAmount{font-size:22px}
+    .bubbleIcon{font-size:35px}
+    .incomeHubOption{min-height:86px;padding:17px;border-radius:20px}
+    .incomeHubOptionText strong{font-size:15px}
+    .incomeHubOptionText small{font-size:11px}
+    .filters button{min-height:44px;font-size:12px;padding:10px 15px}
+    .searchBox input{min-height:49px;font-size:14px}
+    .tableWrap{max-height:none;overflow:visible}
+    tbody tr{padding:16px;margin-bottom:13px;border-radius:19px}
+    td{font-size:13px;line-height:1.8;padding:8px 0;gap:12px}
+    td::before{font-size:12px}
+    .notes{grid-template-columns:1fr;gap:12px}
+    .note{padding:17px;border-radius:19px}
+    .note,.note p,.noteContent{font-size:14px;line-height:1.9}
+    .note button,.noteActions button,.cashWithdrawalActions button{min-height:46px;font-size:13px}
+    .mobileNav{
+        display:flex;position:fixed;left:10px;right:10px;bottom:calc(9px + env(safe-area-inset-bottom));
+        z-index:9000;justify-content:space-around;align-items:center;gap:4px;padding:9px 7px;
+        border:1px solid rgba(165,175,255,.2);border-radius:23px;
+        background:rgba(9,13,31,.84);backdrop-filter:blur(24px) saturate(160%);
+        -webkit-backdrop-filter:blur(24px) saturate(160%);
+        box-shadow:0 18px 55px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.09)
+    }
+    .mobileNav a{flex:1;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:16px;font-size:11px}
+    .mobileNav a span{font-size:21px}
+    .floatingTop,.floatingChat{width:49px;height:49px;bottom:calc(88px + env(safe-area-inset-bottom));font-size:21px}
+    .floatingTop{left:12px}.floatingChat{right:12px}
+    #themeToggleButton{top:12px!important;right:12px!important;width:49px!important;height:49px!important;border-radius:16px!important}
+    .monthNavButton{position:static;transform:none;width:43px;height:43px;flex:0 0 43px}
+    .monthNavButton:hover:not(:disabled){transform:scale(1.04)}
+    .monthlyReportNavigator{display:flex;gap:7px;justify-content:space-between;min-height:0;margin:0 0 16px}
+    .monthNavCenter{min-width:0;flex:1;padding:10px 7px;border-radius:17px}
+    .monthNavTitle{font-size:14px}
+    .monthNavSub{font-size:10px}
+    .monthResetButton{font-size:10px;min-height:38px}
+    .chatOverlay,.paymentOverlay{padding:9px}
+    .chatWindow{width:100%;height:min(82dvh,760px);border-radius:23px}
+    .chatHeader{padding:17px}
+    .chatHeader h3,.paymentTitle{font-size:19px}
+    .chatMessages{padding:14px}
+    .chatMsg{max-width:90%;font-size:14px;line-height:1.9;padding:13px}
+    .chatMeta{font-size:10px;flex-wrap:wrap}
+    .chatComposer{padding:12px;gap:8px}
+    .chatComposer textarea{font-size:15px;min-height:52px;padding:13px}
+    .chatSend{width:82px;min-height:52px;font-size:14px}
+    .paymentCard{width:100%;padding:20px 16px;border-radius:23px}
+    .paymentInfoRow{padding:13px 12px}
+    .paymentInfoRow span:first-child{font-size:12px}
+    .paymentInfoRow span:last-child{font-size:14px}
+    .paymentActions{flex-direction:column}
+    .paymentActions button{min-height:49px;font-size:14px}
+    .cashWithdrawalCard{width:100%;max-height:88dvh;padding:23px 17px}
+    .cashWithdrawalTitle{font-size:19px}
+    .cashWithdrawalForm label{font-size:13px}
+    .cashAmountInputWrap input,.cashWithdrawalForm textarea{font-size:15px;min-height:52px}
+    .toast{width:calc(100% - 30px);max-width:440px;font-size:14px;line-height:1.8;padding:15px 17px}
+}
+@media(max-width:380px){
+    .stats{grid-template-columns:1fr}
+    .stat{min-height:116px}
+    .headerActions{grid-template-columns:1fr 1fr}
+    .monthNavTitle{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
+
 </style>
 
 </head>
@@ -3934,6 +4134,12 @@ body.janaLightTheme .monthNavButton:hover:not(:disabled){background:rgba(0,140,2
     <button class="printBtn" onclick="window.print()">
 
         🖨 چاپ گزارش
+
+    </button>
+
+    <button class="notifyPermissionBtn" id="notifyPermissionBtn" type="button" onclick="enableTransactionNotifications()" aria-label="فعال‌سازی اعلان تراکنش‌های جدید">
+
+        <span class="notifyPermissionIcon">🔔</span><span id="notifyPermissionText">فعال‌سازی اعلان گوشی</span>
 
     </button>
 
@@ -4588,6 +4794,8 @@ const API_URL =
 ===================================================== */
 
 let allTransactions = [];
+let janaTransactionNotificationBaselineReady = false;
+const JANA_TX_NOTIFICATION_KEY = "jana_output_notification_tx_keys_v1";
 
 let currentFilter = "all";
 
@@ -4971,6 +5179,80 @@ async function getCloudData(){
 
 ===================================================== */
 
+
+/* =====================================================
+   NEW TRANSACTION PHONE NOTIFICATIONS
+   Permission is requested only after the user taps the button.
+===================================================== */
+function updateTransactionNotificationButton(){
+    const button=document.getElementById("notifyPermissionBtn");
+    const label=document.getElementById("notifyPermissionText");
+    if(!button||!label)return;
+    const supported=("Notification" in window);
+    const granted=supported && Notification.permission==="granted";
+    button.classList.toggle("enabled",granted);
+    button.disabled=!supported;
+    label.textContent=!supported?"اعلان در این مرورگر پشتیبانی نمی‌شود":granted?"اعلان گوشی فعال است":Notification.permission==="denied"?"اجازه اعلان مسدود است":"فعال‌سازی اعلان گوشی";
+}
+async function enableTransactionNotifications(){
+    if(!("Notification" in window)){
+        showToast("⚠️ این مرورگر از اعلان گوشی پشتیبانی نمی‌کند.");
+        updateTransactionNotificationButton();
+        return;
+    }
+    if(!window.isSecureContext){
+        showToast("برای اعلان گوشی، صفحه باید با HTTPS باز شود.");
+        return;
+    }
+    try{
+        const permission=Notification.permission==="default"
+            ? await Notification.requestPermission()
+            : Notification.permission;
+        updateTransactionNotificationButton();
+        if(permission==="granted"){
+            showToast("🔔 اعلان تراکنش‌های جدید فعال شد.");
+            try{
+                new Notification("کافی‌نت جانا",{body:"اعلان تراکنش‌های جدید با موفقیت فعال شد.",tag:"jana-notification-ready"});
+            }catch(e){}
+        }else if(permission==="denied"){
+            showToast("اجازه اعلان از تنظیمات مرورگر مسدود شده است.");
+        }else{
+            showToast("برای فعال‌سازی اعلان، اجازه نمایش اعلان را تأیید کنید.");
+        }
+    }catch(error){
+        console.warn("Notification permission error:",error);
+        showToast("فعال‌سازی اعلان در این دستگاه انجام نشد.");
+    }
+}
+function notifyNewTransactions(items){
+    if(!Array.isArray(items)||!items.length)return;
+    const latest=items[items.length-1];
+    const count=items.length;
+    const amount=items.reduce((sum,item)=>sum+Number(String(item?.amount||0).replace(/[,،٬\s]/g,"")||0),0);
+    const customer=String(latest?.customer||"مشتری جدید").trim();
+    const body=count===1
+        ? `مشتری: ${customer} • مبلغ: ${Number(String(latest?.amount||0).replace(/[,،٬\s]/g,"")||0).toLocaleString("fa-IR")} تومان`
+        : `${count.toLocaleString("fa-IR")} تراکنش جدید ثبت شد • جمع: ${amount.toLocaleString("fa-IR")} تومان`;
+    showToast(count===1?"🔔 تراکنش جدید ثبت شد.":`🔔 ${count.toLocaleString("fa-IR")} تراکنش جدید ثبت شد.`);
+    if("Notification" in window && Notification.permission==="granted"){
+        try{
+            const notice=new Notification("تراکنش جدید | کافی‌نت جانا",{
+                body,
+                tag:"jana-transaction-"+String(latest?.id||latest?.cloudId||Date.now()),
+                renotify:false,
+                silent:false
+            });
+            notice.onclick=()=>{
+                try{window.focus();document.getElementById("transactions")?.scrollIntoView({behavior:"smooth",block:"start"});}catch(e){}
+                notice.close();
+            };
+        }catch(error){console.warn("Phone notification could not be displayed:",error);}
+    }
+    if(document.visibilityState==="visible" && typeof playPaymentSound==="function"){
+        try{playPaymentSound();}catch(e){}
+    }
+}
+
 async function loadCloudData(showMessage=true){
 
     if(showMessage){
@@ -5002,6 +5284,28 @@ async function loadCloudData(showMessage=true){
             ? data.transactions
 
             : [];
+
+        /* فقط تراکنش‌هایی را اعلان کن که بعد از آخرین همگام‌سازی دیده شده‌اند.
+           اولین بار صرفاً فهرست پایه ذخیره می‌شود تا اعلان اشتباه برای سوابق قدیمی نرود. */
+        try{
+            const currentKeys=cloudTransactions.map(getTransactionStableKey);
+            const savedRaw=localStorage.getItem(JANA_TX_NOTIFICATION_KEY);
+            const savedKeys=savedRaw?JSON.parse(savedRaw):null;
+            if(Array.isArray(savedKeys)){
+                const previous=new Set(savedKeys);
+                const newlyAdded=cloudTransactions.filter(item=>
+                    !previous.has(getTransactionStableKey(item)) &&
+                    !isWithdrawalMethod(item?.method)
+                );
+                if(newlyAdded.length)notifyNewTransactions(newlyAdded);
+                janaTransactionNotificationBaselineReady=true;
+            }else{
+                janaTransactionNotificationBaselineReady=true;
+            }
+            localStorage.setItem(JANA_TX_NOTIFICATION_KEY,JSON.stringify(currentKeys.slice(-700)));
+        }catch(notificationError){
+            console.warn("Transaction notification tracking failed:",notificationError);
+        }
 
         /* برداشت‌های ثبت‌شده در رفرش‌های پس‌زمینه گم نشوند. */
 
@@ -8487,6 +8791,7 @@ document.addEventListener("touchstart",unlockPaymentAudio,{passive:true});
 ===================================================== */
 
 applySavedJanaTheme();
+updateTransactionNotificationButton();
 updateReportMonthUI();
 
 loadNotes();
