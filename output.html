@@ -4220,6 +4220,84 @@ body.janaLightTheme .janaWelcomeCopy h2{color:#25385a}
 body.janaLightTheme .janaWelcomeCopy p{color:#687997}
 @media(max-width:760px){.janaWelcomeStrip{min-height:128px;padding:20px 18px;border-radius:20px;margin-bottom:13px}.janaWelcomeCopy>span{font-size:8px}.janaWelcomeCopy h2{font-size:19px}.janaWelcomeCopy p{font-size:10px;max-width:75%}.janaWelcomeOrb{left:-22px;width:110px;height:110px;opacity:.75}}
 
+
+/* ==========================================================
+   JANA DESKTOP REPORT LAYOUT — FIXED FULL-WIDTH GRID
+   Final layout override: prevents the report from sitting
+   underneath the right navigation rail or shrinking to a corner.
+========================================================== */
+@media (min-width:1101px){
+  body{min-width:980px}
+  .janaSideRail{
+    right:22px!important;left:auto!important;top:22px!important;bottom:22px!important;
+    width:248px!important;min-width:248px!important;padding:24px 17px!important;
+  }
+  #home.container{
+    display:block!important;position:relative!important;
+    width:auto!important;max-width:none!important;
+    margin:0 300px 0 28px!important;
+    padding:30px 0 76px!important;
+  }
+  .header{width:100%;min-height:118px;padding:25px 30px!important;margin:0 0 20px!important}
+  .janaWelcomeStrip{width:100%;min-height:154px;margin-bottom:20px!important}
+  .monthlyReportNavigator{width:100%;min-height:88px}
+  .stats{width:100%;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:15px!important}
+  .stat{min-width:0;min-height:148px!important;padding:22px 19px!important}
+  .stat strong{font-size:clamp(17px,1.35vw,24px)!important;white-space:normal}
+  .panel{width:100%;margin-bottom:20px!important;padding:27px!important}
+  .incomeHubPanel{grid-template-columns:minmax(280px,.85fr) minmax(360px,1.15fr)!important}
+  .incomeHubPanel .panelTitle{grid-column:1/-1}
+  .incomeHubBubbleWrap{min-height:270px}
+  .incomeBubble{width:235px!important;height:235px!important}
+  .filterArea{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .filters{display:flex;flex-wrap:wrap;gap:8px}
+  .searchBox{min-width:260px;max-width:360px;flex:1}
+  .tableWrap{width:100%;max-width:100%;overflow-x:auto}
+  .tableWrap table{width:100%;min-width:850px}
+  .janaWelcomeOrb{left:8%}
+  .mobileNav{display:none!important}
+}
+@media (min-width:761px) and (max-width:1100px){
+  .janaSideRail{
+    right:12px!important;left:auto!important;top:12px!important;bottom:12px!important;
+    width:190px!important;min-width:190px!important;padding:18px 12px!important;
+  }
+  #home.container{
+    width:auto!important;max-width:none!important;
+    margin:0 220px 0 16px!important;padding:22px 0 65px!important;
+  }
+  .header{padding:20px!important;align-items:flex-start}
+  .headerActions{max-width:55%;justify-content:flex-end}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .incomeHubPanel{grid-template-columns:1fr 1fr}
+  .panel{padding:21px!important}
+}
+@media (max-width:760px){
+  .janaSideRail{display:none!important}
+  #home.container{
+    display:block!important;width:auto!important;max-width:none!important;
+    margin:0!important;padding:16px 13px 112px!important;
+  }
+  .header{width:100%;display:flex;flex-direction:column;align-items:stretch;padding:19px!important}
+  .headerActions{display:flex;justify-content:flex-start}
+  .janaWelcomeStrip{width:100%}
+  .stats{width:100%}
+  .panel{width:100%}
+}
+/* Cleaner report typography and consistent controls */
+.header,.janaWelcomeStrip,.monthlyReportNavigator,.stats,.panel{isolation:isolate}
+.panelTitle h2{letter-spacing:-.35px}
+.filters button,.monthNavButton,.monthResetButton,.headerActions button,.headerActions a{font-family:Tahoma,Arial,sans-serif}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
+ outline:2px solid #8d7cff!important;outline-offset:3px!important
+}
+@media(min-width:1101px) and (max-width:1350px){
+ .header{gap:12px;padding:20px!important}
+ .headerActions>*{padding:0 11px!important;font-size:10px!important}
+ .stats{gap:10px!important}
+ .stat{padding:18px 14px!important}
+}
+
 </style>
 
 </head>
